@@ -1,0 +1,68 @@
+section.blackBackground{
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+}
+
+
+section.blackBackground article.choseLessonParams{
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -60%);
+    width: 860px;
+    height: 400px;
+    background-color: white;
+    display: flex;
+}
+
+section.blackBackground article.choseLessonParams .illustrationContainer{
+    background-color: #E3F8FD;
+    flex: 0 0 40%;
+    margin-right:1.5rem;
+
+
+    display: flex;
+    align-items: center;
+}
+
+section.blackBackground article.choseLessonParams .illustrationContainer img{
+    width: 100%;
+    vertical-align: middle;
+}
+
+section.blackBackground article.choseLessonParams .lessonParams{
+    flex: 1;
+}
+
+section.blackBackground article.choseLessonParams .lessonParams button{
+    width: 1.2rem;
+    height: 1.2rem;
+    background:none;
+    border:none;
+    float:right;
+    position: relative;
+    top:0.4rem;
+    right: 0.4rem;
+}
+
+section.blackBackground article.choseLessonParams .lessonParams button:hover{
+    cursor: pointer;
+}
+
+
+section.blackBackground article.choseLessonParams .lessonParams button img{
+    width: 100%;
+}
+
+section.blackBackground article.choseLessonParams .lessonParams h2{
+    font-size: 1.2rem;
+    margin-top: 2rem;
+}
+
+section.blackBackground article.choseLessonParams .lessonParams p{
+    font-size: 0.9rem;
+    margin-right: 1rem;
+}

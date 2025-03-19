@@ -1,0 +1,78 @@
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import {createBrowserRouter,RouterProvider,redirect} from "react-router-dom";
+
+import Root from './routeComponents/root/root.jsx'
+import ErrorPage from './routeComponents/root/errorElement.jsx'
+
+import Index from "./routeComponents/index/index.jsx"
+import {reviewsLoader} from "./reusableComponents/reviews/reviews.jsx"
+
+const router= createBrowserRouter([
+  {
+    path: "/",
+    element: <Root/>,
+    children:[
+      {
+        errorElement:<ErrorPage/>,
+        children:[
+          {
+            index:true,
+            element:<Index/>,
+            loader: reviewsLoader
+            
+          }
+        ]
+      }
+    ]
+  }
+])
+
+// const router = createBrowserRouter([
+//   {
+//     path: "/",
+//     element: <Root/>,
+//     errorElement: <ErrorPage />,
+//     loader: rootLoader,
+//     action:createContact,
+//     children:[
+//       {
+//         errorElement:<ErrorPage/>,
+//         children:[
+          
+//           { index: true, element: <Index /> ,errorElement:<ErrorPage/>},
+//           {path: "contacts/:contactId",
+//           element: <Contact/>,
+//           action:updateFav,
+//           loader:contactLoader,
+
+//           },
+//           {
+//             path: "contacts/:contactId/edit",
+//             element: <EditContact />,
+//             loader: contactLoader,
+//             action: editAction,
+
+     
+//           },
+//           {
+//             path: "contacts/:contactId/destroy",
+//             action:async ({params})=>{
+//               throw new Error("oh dang!");
+//               await destroyContact(params.contactId);
+//               return redirect('/')},
+//             errorElement: <div>Oops! There was an error!!!!.</div>,
+//           },
+//         ]
+//       }
+
+      
+//     ]
+//   },
+  
+// ]);
+
+
+createRoot(document.getElementById('root')).render(
+  <RouterProvider router={router} />
+)
