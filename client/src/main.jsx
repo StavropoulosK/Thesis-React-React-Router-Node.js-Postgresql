@@ -8,6 +8,9 @@ import ErrorPage from './routeComponents/root/errorElement.jsx'
 import Index from "./routeComponents/index/index.jsx"
 import {reviewsLoader} from "./reusableComponents/reviews/reviews.jsx"
 
+
+
+
 const router= createBrowserRouter([
   {
     path: "/",
@@ -74,5 +77,8 @@ const router= createBrowserRouter([
 
 
 createRoot(document.getElementById('root')).render(
-  <RouterProvider router={router} />
+  <StrictMode>
+
+      <RouterProvider router={router} />
+  </StrictMode>
 )

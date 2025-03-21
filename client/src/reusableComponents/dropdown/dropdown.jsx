@@ -1,24 +1,45 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./dropdown.css"; // Import the CSS file
 
-export default function Dropdown() {
+import useCloseOnOutsideClick from "../../hooks/closeOnClickOutside.jsx"
+
+export default function Dropdown({options,text,icon}) {
+  const [selected, setSelected] = useState('');
   const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useCloseOnOutsideClick(dropdownRef, () => setIsOpen(false));
+
+
 
   return (
-    <div className="dropdown">
-      {/* Button to toggle dropdown */}
-      <button onClick={() => setIsOpen(!isOpen)} className="dropdown-button">
-        Open Dropdown
-      </button>
+    <div className="dropdown" ref={dropdownRef}>
+        <button onClick={() => setIsOpen(!isOpen)} className="dropdown-button" type="button">
+          <img src={icon} />
+          {selected||text}
+        </button>
 
-      {/* Dropdown Menu */}
-      {isOpen && (
-        <ul className="dropdown-menu">
-          <li>Option 1</li>
-          <li>Option 2</li>
-          <li>Option 3</li>
-        </ul>
-      )}
+        {/* Dropdown Menu */}
+        {isOpen && (
+            <ul className="dropdown-menu" >
+              {options.map((el,index)=>
+                <li key={index} onClick={()=>
+                {
+                  setIsOpen(false)
+                  setSelected(el)}
+                }>
+                  {el}
+                </li>)
+              } 
+            </ul>
+        )}
+
+        <input
+          type="hidden"
+          name="selectedOption"
+          value={selected}
+          readOnly
+        />
     </div>
   );
 }

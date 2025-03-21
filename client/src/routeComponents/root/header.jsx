@@ -1,12 +1,12 @@
 import {Link} from "react-router-dom"
 
 import "./header.css"
-import Dropdown from "../../reusableComponents/dropdown/dropdown.jsx"
 
 
 
-export default function Header(){
+export default function Header({onReservationClick}){
 
+    console.log('header exe')
 
 
     return(
@@ -20,7 +20,7 @@ export default function Header(){
 
 
                     <div className="nav-right">
-                        <button> Κράτηση</button>
+                        <button onClick={onReservationClick}> Κράτηση</button>
                         <Link to={'/'}> Είσοδος</Link>
                         <Link to={'/'}> Εγγραφή Προπονητή</Link>
                         <button>asdasd</button>

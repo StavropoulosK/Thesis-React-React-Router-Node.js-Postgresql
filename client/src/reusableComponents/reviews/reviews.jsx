@@ -3,24 +3,40 @@ import "./reviews.css"
 
 
 import {useLoaderData } from 'react-router-dom'
-import {memo} from "react"
+import {memo,Suspense} from "react"
+import { Await } from "react-router";
+
+
+// references   
+
+// 1 Suspense
+// https://reactrouter.com/how-to/suspense
+// seo
+
+// 2 Render Optimization
+// https://www.youtube.com/watch?v=7sgBhmLjVws
+// https://overreacted.io/before-you-memo/
+// https://kentcdodds.com/blog/optimize-react-re-renders
+
 
 export async function reviewsLoader(){
-    try {
 
-        const response = await fetch('/api/reviews');
-        
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        return data
+    console.log('loader executing')
 
 
-    } catch (error) {
-        throw error
-      }
+    return  {reviewDataPromise: fetch('/api/reviews')
+                                    .then(response => {
+                                        if (!response.ok) {
+                                            throw new Error(`HTTP error! Status: ${response.status}`);
+                                        }
+                                        return response.json(); 
+                                    })
+                                    .catch(error => {
+                                        console.error('Error fetching reviews:', error);
+                                        throw error;
+                                    })
+    }
+
 }
 
 function Star({type}){
@@ -72,7 +88,11 @@ function Review({stars,name,date,sport,resort,review,image,lessonHours,instructo
 
 export default function Reviews({}){
 
-    const reviewData= useLoaderData()
+    // const reviewData= useLoaderData()
+
+    const {reviewDataPromise}= useLoaderData()
+
+    console.log('reviews executing')
 
 
     return(
@@ -81,20 +101,32 @@ export default function Reviews({}){
                 <h2>Κριτικές Χρηστών</h2>
 
                 <div className="reviewsFlex">
-                    {reviewData.map((data, index) => (
-                        <Review
-                            key={index+data.name}
-                            stars={data.stars}
-                            name={data.name}
-                            date={data.date}
-                            sport={data.sport}
-                            resort={data.resort}
-                            review={data.review}
-                            image={data.image}
-                            lessonHours={data.lessonHours}
-                            instructorName={data.instructorName}
-                        />
-                    ))}   
+                    <Suspense fallback={<div className="loading-dots">Loading reviews <span className="loading-dots--dot"></span><span className="loading-dots--dot"></span><span className="loading-dots--dot"></span></div>}>
+                        <Await resolve={reviewDataPromise}>
+                            {reviewData=>{
+
+                                return reviewData.map((data, index) => (
+                                    <Review
+                                        key={index+data.name}
+                                        stars={data.stars}
+                                        name={data.name}
+                                        date={data.date}
+                                        sport={data.sport}
+                                        resort={data.resort}
+                                        review={data.review}
+                                        image={data.image}
+                                        lessonHours={data.lessonHours}
+                                        instructorName={data.instructorName}
+                                    />
+                                    ))
+                                }
+
+                            }
+                            
+                        </Await>
+
+                    </Suspense>
+
                 </div>
 
             </section>

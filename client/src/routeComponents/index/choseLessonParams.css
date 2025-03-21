@@ -16,6 +16,7 @@ section.blackBackground article.choseLessonParams{
     height: 400px;
     background-color: white;
     display: flex;
+    /* padding-right:2rem; */
 }
 
 section.blackBackground article.choseLessonParams .illustrationContainer{
@@ -37,7 +38,7 @@ section.blackBackground article.choseLessonParams .lessonParams{
     flex: 1;
 }
 
-section.blackBackground article.choseLessonParams .lessonParams button{
+section.blackBackground article.choseLessonParams .lessonParams button.close{
     width: 1.2rem;
     height: 1.2rem;
     background:none;
@@ -53,7 +54,7 @@ section.blackBackground article.choseLessonParams .lessonParams button:hover{
 }
 
 
-section.blackBackground article.choseLessonParams .lessonParams button img{
+section.blackBackground article.choseLessonParams .lessonParams button.close img{
     width: 100%;
 }
 
@@ -66,3 +67,9 @@ section.blackBackground article.choseLessonParams .lessonParams p{
     font-size: 0.9rem;
     margin-right: 1rem;
 }
+
+section.blackBackground article.choseLessonParams .lessonParams form .dropdown:last-child img{
+    width:1.5rem;
+    scale:0.8;
+}
+

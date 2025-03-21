@@ -43,7 +43,7 @@ app.get('/',(req,res)=>{
 
 })
 
-app.get('/api/reviews', async (req, res) => {
+app.get('/api/reviews', (req, res) => {
     const reviews = [
         {
           stars: 3,
@@ -91,6 +91,7 @@ app.get('/api/reviews', async (req, res) => {
         }
       ];
 
+      // await new Promise(resolve => setTimeout(resolve, 12000));
 
     res.json(reviews);
   });

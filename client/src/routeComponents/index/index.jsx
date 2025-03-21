@@ -3,11 +3,9 @@ import "./index.css"
 
 
 import Reviews from "../../reusableComponents/reviews/reviews.jsx"
-import Dropdown from "../../reusableComponents/dropdown/dropdown.jsx"
 import ChoseLessonParams from "./choseLessonParams.jsx"
+import { useOutletContext } from "react-router-dom";
 
-
-import  { useState } from 'react';
 
 
 function Sport({nameEnglish,nameGreek}){
@@ -40,9 +38,13 @@ function Sport({nameEnglish,nameGreek}){
 
 export default function Index(){
 
+    const { isChooseLessonParamsOpen, onReservationClick } = useOutletContext();
+
+    console.log('22 ',isChooseLessonParamsOpen)
+
     return(
         <> 
-            {true && <ChoseLessonParams/>}
+            {isChooseLessonParamsOpen && <ChoseLessonParams onReservationClick={onReservationClick}/>}
 
 
             <section className="topPortion">
@@ -53,10 +55,12 @@ export default function Index(){
 
                 <div className="textContainer">
                     <p>Κάντε κράτηση με τους καλύτερους προπονητές σε όλη την Ελλάδα</p>
-                    <button>Κράτηση</button>
+                    <button onClick={onReservationClick}>Κράτηση</button>
 
                 </div>
             </section>
+
+            {/* <BottomPage /> */}
 
             <section className="sports">
                 <h2>Ανακαλύψτε χειμερινά αθλήματα</h2>
@@ -70,6 +74,27 @@ export default function Index(){
 
             <Reviews />
 
+        </>
+    )
+}
+
+
+function BottomPage(){
+
+    return (
+        <>
+
+            <section className="sports">
+                <h2>Ανακαλύψτε χειμερινά αθλήματα</h2>
+                <div className="allSportsContainer">
+                    <Sport nameEnglish={'Ski'} nameGreek={'Χιονοδρομία'}/>
+                    <Sport nameEnglish={'Snowboard'} nameGreek={'Χιονοσανίδα'}/>
+                    <Sport nameEnglish={'Sit ski'} nameGreek={'Καθιστή χιονοδρομία'}/>
+                </div>
+
+            </section>
+
+            <Reviews />
         </>
     )
 }
