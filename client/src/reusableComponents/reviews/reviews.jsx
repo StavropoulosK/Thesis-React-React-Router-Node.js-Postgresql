@@ -3,7 +3,7 @@ import "./reviews.css"
 
 
 import {useLoaderData } from 'react-router-dom'
-import {memo,Suspense} from "react"
+import {memo,Suspense,useEffect} from "react"
 import { Await } from "react-router";
 
 
@@ -21,7 +21,6 @@ import { Await } from "react-router";
 
 export async function reviewsLoader(){
 
-    console.log('loader executing')
 
 
     return  {reviewDataPromise: fetch('/api/reviews')
@@ -86,13 +85,11 @@ function Review({stars,name,date,sport,resort,review,image,lessonHours,instructo
 }
 
 
-export default function Reviews({}){
+const Reviews= memo(()=>{
 
-    // const reviewData= useLoaderData()
 
     const {reviewDataPromise}= useLoaderData()
 
-    console.log('reviews executing')
 
 
     return(
@@ -132,6 +129,7 @@ export default function Reviews({}){
             </section>
         </>
     )
-}
+})
 
+export default Reviews
 

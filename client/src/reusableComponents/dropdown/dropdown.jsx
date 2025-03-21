@@ -1,10 +1,10 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import "./dropdown.css"; // Import the CSS file
 
 import useCloseOnOutsideClick from "../../hooks/closeOnClickOutside.jsx"
 
-export default function Dropdown({options,text,icon}) {
-  const [selected, setSelected] = useState('');
+export default function Dropdown({options,text,icon,selectedSport}) {
+  const [selected, setSelected] = useState(selectedSport||'');
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -36,7 +36,7 @@ export default function Dropdown({options,text,icon}) {
 
         <input
           type="hidden"
-          name="selectedOption"
+          name={text}
           value={selected}
           readOnly
         />

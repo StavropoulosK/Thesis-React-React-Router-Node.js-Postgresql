@@ -5,8 +5,17 @@ import  { useState } from 'react';
 
 
 function Logger1() {
+
+  const [isCollapsed,setIsCollapsed]=useState(false)
+
 	console.log(`label_1 rendered`)
-	return <p>Logger</p> // what is returned here is irrelevant...
+	return (
+    <>
+
+      <p>Logger</p> // what is returned here is irrelevant...
+      <button onClick={()=>setIsCollapsed(!isCollapsed)}> {isCollapsed?'show':'hide'}</button>
+    </>
+  )
 }
 
 function Logger2() {
@@ -17,14 +26,14 @@ function Logger2() {
 export default function App() {
 
   const [isCollapsed,setIsCollapsed]=useState(false)
-  console.log('running')
+  console.log('parent running')
 
 	return (
 		<div className="container">
       
-      <button onClick={()=>setIsCollapsed(!isCollapsed)}> {isCollapsed?'show':'hide'}</button>
+      {/* <button onClick={()=>setIsCollapsed(!isCollapsed)}> {isCollapsed?'show':'hide'}</button> */}
 
-      {!isCollapsed && <Logger1/>}
+      {true && <Logger1/>}
 
     </div>
 	)

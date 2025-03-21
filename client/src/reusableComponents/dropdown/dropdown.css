@@ -34,7 +34,7 @@
 }
 
 
-.dropdown ul.dropdown-menu{
+.dropdown .dropdown-menu{
   max-height: 200px; /* Set the desired max height */
   overflow-y: auto;
   width: 100%;
@@ -48,9 +48,6 @@
   padding:0;
 }
 
-.dropdown ul.dropdown-menu li:first-child{
-  /* padding-top:0.5rem; */
-}
 
 .dropdown ul.dropdown-menu li{
   padding-top:0.4rem;

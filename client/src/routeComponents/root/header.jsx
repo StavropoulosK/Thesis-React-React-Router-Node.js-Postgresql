@@ -1,12 +1,15 @@
-import {Link} from "react-router-dom"
+import {Link } from "react-router-dom"
+import {memo} from "react"
 
 import "./header.css"
 
+// const Header= memo (({onReservationClick,onLogoClickDuringSettingReservationParams,urlPath})=>{
 
 
-export default function Header({onReservationClick}){
+const Header= memo (({setIsChooseLessonParamsOpen,urlPath})=>{
 
-    console.log('header exe')
+        
+    console.log('header exe ',urlPath)
 
 
     return(
@@ -14,13 +17,13 @@ export default function Header({onReservationClick}){
             <header>
                 <nav>
                     <div className="nav-left">
-                        <Link to={'/'} className="logo"> Easy Snow</Link>
+                        <Link to={'/'} className="logo" onClick={urlPath==="/"?()=>setIsChooseLessonParamsOpen(false):null}> Easy Snow</Link>
 
                     </div>
 
 
                     <div className="nav-right">
-                        <button onClick={onReservationClick}> Κράτηση</button>
+                        <button onClick={()=>setIsChooseLessonParamsOpen(true)}> Κράτηση</button>
                         <Link to={'/'}> Είσοδος</Link>
                         <Link to={'/'}> Εγγραφή Προπονητή</Link>
                         <button>asdasd</button>
@@ -35,4 +38,6 @@ export default function Header({onReservationClick}){
             
         </>
     )
-}
+})
+
+export default Header

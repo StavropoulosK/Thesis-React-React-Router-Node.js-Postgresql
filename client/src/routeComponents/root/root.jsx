@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom"
+import { Outlet,useLocation } from "react-router-dom"
 
 import { useState} from "react";
 
@@ -12,17 +12,28 @@ import Footer from "./footer.jsx"
 
 export default function Root(){
 
-    const [isChooseLessonParamsOpen,setIsChooseLessonParamsOpen]=useState(false)
+    const [isChooseLessonParamsOpen,setIsChooseLessonParamsOpen]=useState(true)
 
-    console.log('11 ',isChooseLessonParamsOpen)
+    const location = (useLocation()).pathname; 
+
+    // const handleReservationClick = useCallback(() => {
+    //     setIsChooseLessonParamsOpen(true);
+    //   }, []);
+    
+    //   const handleLogoClickDuringSettingReservationParams = useCallback(() => {
+    //     setIsChooseLessonParamsOpen(false);
+    //   }, []);
+
 
     return (
         <>
-            <Header onReservationClick={()=>setIsChooseLessonParamsOpen(!isChooseLessonParamsOpen)}/>
+            {/* <Header onReservationClick={handleReservationClick} onLogoClickDuringSettingReservationParams={handleLogoClickDuringSettingReservationParams} urlPath={location}/> */}
+            <Header setIsChooseLessonParamsOpen={setIsChooseLessonParamsOpen} urlPath={location}/>
+
             <main id='mainContent'>
                 <Outlet context={{ 
                             isChooseLessonParamsOpen, 
-                            onReservationClick: () => setIsChooseLessonParamsOpen(!isChooseLessonParamsOpen) 
+                            onReservationClick: () => setIsChooseLessonParamsOpen(!isChooseLessonParamsOpen),
                             }} 
                 />
             </main>

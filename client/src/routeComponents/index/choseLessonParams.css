@@ -13,7 +13,7 @@ section.blackBackground article.choseLessonParams{
     left: 50%;
     transform: translate(-50%, -60%);
     width: 860px;
-    height: 400px;
+    height: 450px;
     background-color: white;
     display: flex;
     /* padding-right:2rem; */
@@ -73,3 +73,10 @@ section.blackBackground article.choseLessonParams .lessonParams form .dropdown:l
     scale:0.8;
 }
 
+.calendar{
+    background-color: red;
+}
+
+.calendar .calendarMenu{
+    height: 400px;
+}
