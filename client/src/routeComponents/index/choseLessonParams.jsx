@@ -12,7 +12,6 @@ import Dropdown from "./../../reusableComponents/dropdown/dropdown.jsx"
 
 export default function ChoseLessonParams({onReservationClick,selectedSport,cancelSelectedSport}){
 
-    console.log('asdasasd')
 
     return(
         <>
@@ -55,7 +54,7 @@ export default function ChoseLessonParams({onReservationClick,selectedSport,canc
 
 
 function CalendarContainer(){
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(true);
     const dropdownRef = useRef(null);
 
     useCloseOnOutsideClick(dropdownRef, () => setIsOpen(false));
@@ -69,18 +68,17 @@ function CalendarContainer(){
                     {"Ημερομηνίες"}
                 </button>
 
-                {isOpen && <Calendar/>}
+                {isOpen && <Calendar onclose={()=>setIsOpen(false)}/>}
             </div>
         </>
     )
 }
 
 
-function Calendar() {
+function Calendar({onclose}) {
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const today = new Date();
 
-    console.log('aa ',today)
 
     const prevMonth = () => {
         // Prevent going to months before the current month
@@ -131,38 +129,49 @@ function Calendar() {
   
     const daysCurrentMonth = getDaysInMonth(currentMonth.getFullYear(), currentMonth.getMonth());
     const daysNextMonth = getDaysInMonth(currentMonth.getFullYear(), currentMonth.getMonth() + 1);
-  
+    
+    // console.log('aa ',today.getMonth(),today.getFullYear(),currentMonth.getMonth(),currentMonth.getFullYear(),currentMonth.getFullYear() === today.getFullYear() + 1 &&currentMonth.getMonth() === today.getMonth())
+
     return (
       <>
         <div className="dropdown-menu calendarMenu">
           <div className="calendar-header">
-            <button
-                onClick={prevMonth}
-                className="calendar-btn"
-                type="button"
-                disabled={
-                    currentMonth.getFullYear() === today.getFullYear() &&
-                    currentMonth.getMonth() === today.getMonth()
-                }
-            >
-                ◀
-            </button>
-            <button
-                onClick={nextMonth}
-                className="calendar-btn"
-                type="button"
-                disabled={
-                    currentMonth.getFullYear() === today.getFullYear() &&
-                    currentMonth.getMonth() === today.getMonth() + 12
-                }
-            >
-                ▶
-            </button>
+              <button type="button" className="closeCalendar" onClick={onclose}>
+                <img src="icons/startPage/close.png"/>
+
+              
+              </button>
+
           </div>
   
           <div className="calendar-grid-container">
-            <CalendarGrid currentMonth={currentMonth} days={daysCurrentMonth} />
-            <CalendarGrid currentMonth={new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1)} days={daysNextMonth} />
+            <CalendarGrid currentMonth={currentMonth} days={daysCurrentMonth} position={'left'}>
+              <button
+                  onClick={prevMonth}
+                  className="calendar-btn"
+                  type="button"
+                  disabled={
+                      currentMonth.getFullYear() === today.getFullYear() &&
+                      currentMonth.getMonth() === today.getMonth()
+                  }
+              >
+                  ◀
+              </button>
+            </CalendarGrid>
+            <CalendarGrid currentMonth={new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1)} days={daysNextMonth} position={'right'}>
+              <button
+                  onClick={nextMonth}
+                  className="calendar-btn"
+                  type="button"
+                  disabled={
+                      currentMonth.getFullYear() === today.getFullYear() + 1 &&
+                      currentMonth.getMonth() === today.getMonth()
+                  }
+              >
+                  ▶
+              </button>
+            </CalendarGrid>
+
           </div>
         </div>
       </>
@@ -170,30 +179,49 @@ function Calendar() {
   }
 
 
-  function CalendarGrid({ currentMonth, days }) {
+  function CalendarGrid({ currentMonth, days,children,position }) {
+    const today = new Date();
+
     return (
       <div className="calendar-grid-wrapper">
-        
-        <h4 className="calendar-title">
-           {currentMonth.toLocaleString("el-GR", { month: "long", year: "numeric" })}
-         </h4>
+        <div className="calendarTop">
+          {position=='left'?children:null}
+          <h4 className="calendar-title">
+            {currentMonth.toLocaleString("el-GR", { month: "long", year: "numeric" })}
+          </h4>
+          {position=='right'?children:null}
+
+        </div>
+
         <div className="calendar-days">
-          {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => (
+          {["Δευ", "Τρ", "Τετ", "Πεμ", "Παρ", "Σαβ", "Κυρ"].map((day) => (
             <div key={day} className="calendar-day-label">
               {day}
             </div>
           ))}
         </div>
+
         <div className="calendar-grid">
-          {days.map((day, index) => (
-            <div
-              key={index}
-              className={`calendar-day ${day.getMonth() !== currentMonth.getMonth() ? "calendar-day-outside" : ""}`}
-            >
-              {day.getDate()}
-            </div>
-          ))}
+          {days.map((day, index) => {
+            const isOutsideMonth = day.getMonth() !== currentMonth.getMonth();
+            const isBeforeToday =
+              day.getFullYear() === today.getFullYear() &&
+              day.getMonth() === today.getMonth() &&
+              day.getDate() < today.getDate();
+
+            return (
+              <div
+                key={index}
+                className={`calendar-day ${
+                  isOutsideMonth ? "calendar-day-outside" : ""
+                } ${isBeforeToday ? "calendar-day-before" : ""}`}
+              >
+                {day.getDate()}
+              </div>
+            );
+          })}
         </div>
+
       </div>
     );
   }

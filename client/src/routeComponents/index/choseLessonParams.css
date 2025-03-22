@@ -1,6 +1,6 @@
 section.blackBackground{
     background-color: rgba(0, 0, 0, 0.4);
-    z-index: 1;
+    z-index: 4;
     width: 100%;
     height: 100%;
     position: fixed;
@@ -13,7 +13,7 @@ section.blackBackground article.choseLessonParams{
     left: 50%;
     transform: translate(-50%, -60%);
     width: 860px;
-    height: 450px;
+    height: 470px;
     background-color: white;
     display: flex;
     /* padding-right:2rem; */
@@ -32,6 +32,7 @@ section.blackBackground article.choseLessonParams .illustrationContainer{
 section.blackBackground article.choseLessonParams .illustrationContainer img{
     width: 100%;
     vertical-align: middle;
+    height: fit-content;
 }
 
 section.blackBackground article.choseLessonParams .lessonParams{
@@ -73,10 +74,3 @@ section.blackBackground article.choseLessonParams .lessonParams form .dropdown:l
     scale:0.8;
 }
 
-.calendar{
-    background-color: red;
-}
-
-.calendar .calendarMenu{
-    height: 400px;
-}
