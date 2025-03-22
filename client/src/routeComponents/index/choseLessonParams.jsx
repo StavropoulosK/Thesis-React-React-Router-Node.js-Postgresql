@@ -76,63 +76,124 @@ function CalendarContainer(){
 }
 
 
-function Calendar(){
+function Calendar() {
     const [currentMonth, setCurrentMonth] = useState(new Date());
+    const today = new Date();
+
+    console.log('aa ',today)
 
     const prevMonth = () => {
-        setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1));
-    };
-
-    const nextMonth = () => {
-        setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1));
-    };
-
-    const getDaysInMonth = (year, month) => {
-        const firstDay = new Date(year, month, 1);
-        const lastDay = new Date(year, month + 1, 0);
-        const startDay = new Date(firstDay);
-        const dayOffset = (firstDay.getDay() + 6) % 7; // Offset for Monday start
-        startDay.setDate(firstDay.getDate() - dayOffset);
-        const endDay = new Date(lastDay);
-        const endOffset = (6 - ((lastDay.getDay() + 6) % 7));
-        endDay.setDate(lastDay.getDate() + endOffset);
-
-        let days = [];
-        let currentDate = new Date(startDay);
-
-        while (currentDate <= endDay) {
-            days.push(new Date(currentDate));
-            currentDate.setDate(currentDate.getDate() + 1);
+        // Prevent going to months before the current month
+        if (
+          currentMonth.getFullYear() > today.getFullYear() ||
+          (currentMonth.getFullYear() === today.getFullYear() && currentMonth.getMonth() > today.getMonth())
+        ) {
+          setCurrentMonth(
+            new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1)
+          );
         }
-        return days;
-    };
+      };
+    
+      const nextMonth = () => {
+        // Prevent going more than 12 months ahead
+        const maxDate = new Date(today.getFullYear(), today.getMonth() + 12, 1);
 
-    const days = getDaysInMonth(currentMonth.getFullYear(), currentMonth.getMonth());
-
-    return(
-        <>
-            <div className="dropdown-menu calendarMenu">
-                <div className="calendar-header">
-                    <button onClick={prevMonth} className="calendar-btn" type="button">◀</button>
-                    <h4 className="calendar-title">{currentMonth.toLocaleString('el-GR', { month: 'long', year: 'numeric' })}</h4>
-                    <button onClick={nextMonth} className="calendar-btn" type="button">▶</button>
-                </div>
-                <div className="calendar-days">
-                    {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => (
-                    <div key={day} className="calendar-day-label">{day}</div>
-                    ))}
-                </div>
-                <div className="calendar-grid">
-                    {days.map((day, index) => (
-                    <div key={index} className={`calendar-day ${day.getMonth() !== currentMonth.getMonth() ? "calendar-day-outside" : ""}`}>
-                        {day.getDate()}
-                    </div>
-                    ))}
-                </div>
-            </div>
-        
-        </>
-    )
-}
+        if (
+          currentMonth.getFullYear() < maxDate.getFullYear() ||
+          (currentMonth.getFullYear() === maxDate.getFullYear() && currentMonth.getMonth() < maxDate.getMonth())
+        ) {
+          setCurrentMonth(
+            new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1)
+          );
+        }
+      };
 
   
+    const getDaysInMonth = (year, month) => {
+      const firstDay = new Date(year, month, 1);
+      const lastDay = new Date(year, month + 1, 0);
+      const startDay = new Date(firstDay);
+      const dayOffset = (firstDay.getDay() + 6) % 7; // Offset for Monday start
+      startDay.setDate(firstDay.getDate() - dayOffset);
+      const endDay = new Date(lastDay);
+      const endOffset = (6 - ((lastDay.getDay() + 6) % 7));
+      endDay.setDate(lastDay.getDate() + endOffset);
+  
+      let days = [];
+      let currentDate = new Date(startDay);
+  
+      while (currentDate <= endDay) {
+        days.push(new Date(currentDate));
+        currentDate.setDate(currentDate.getDate() + 1);
+      }
+      return days;
+    };
+  
+    const daysCurrentMonth = getDaysInMonth(currentMonth.getFullYear(), currentMonth.getMonth());
+    const daysNextMonth = getDaysInMonth(currentMonth.getFullYear(), currentMonth.getMonth() + 1);
+  
+    return (
+      <>
+        <div className="dropdown-menu calendarMenu">
+          <div className="calendar-header">
+            <button
+                onClick={prevMonth}
+                className="calendar-btn"
+                type="button"
+                disabled={
+                    currentMonth.getFullYear() === today.getFullYear() &&
+                    currentMonth.getMonth() === today.getMonth()
+                }
+            >
+                ◀
+            </button>
+            <button
+                onClick={nextMonth}
+                className="calendar-btn"
+                type="button"
+                disabled={
+                    currentMonth.getFullYear() === today.getFullYear() &&
+                    currentMonth.getMonth() === today.getMonth() + 12
+                }
+            >
+                ▶
+            </button>
+          </div>
+  
+          <div className="calendar-grid-container">
+            <CalendarGrid currentMonth={currentMonth} days={daysCurrentMonth} />
+            <CalendarGrid currentMonth={new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1)} days={daysNextMonth} />
+          </div>
+        </div>
+      </>
+    );
+  }
+
+
+  function CalendarGrid({ currentMonth, days }) {
+    return (
+      <div className="calendar-grid-wrapper">
+        
+        <h4 className="calendar-title">
+           {currentMonth.toLocaleString("el-GR", { month: "long", year: "numeric" })}
+         </h4>
+        <div className="calendar-days">
+          {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => (
+            <div key={day} className="calendar-day-label">
+              {day}
+            </div>
+          ))}
+        </div>
+        <div className="calendar-grid">
+          {days.map((day, index) => (
+            <div
+              key={index}
+              className={`calendar-day ${day.getMonth() !== currentMonth.getMonth() ? "calendar-day-outside" : ""}`}
+            >
+              {day.getDate()}
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }

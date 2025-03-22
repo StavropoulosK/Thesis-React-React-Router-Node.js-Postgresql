@@ -2,11 +2,14 @@
     /* width: 320px; */
   }
   
+/* //----------// */
+
   .calendar-header {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    background-color: red;
   }
   
   .calendar-btn {
@@ -15,11 +18,26 @@
     cursor: pointer;
     background: none;
     border: none;
+
   }
+
   
-  .calendar-title {
-    font-size: 1rem;
-    font-weight: 600;
+.calendar-title {
+  text-align: center;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+  .calendar-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .calendar-grid-container {
+    display: flex;
+    justify-content: space-between;
+    /* gap: 1rem; */
   }
   
   .calendar-days {
@@ -28,6 +46,11 @@
     text-align: center;
     color: gray;
     font-size: 0.9rem;
+  }
+
+  .calendar-grid-wrapper {
+    width: 48%;
+   
   }
   
   .calendar-day-label {
