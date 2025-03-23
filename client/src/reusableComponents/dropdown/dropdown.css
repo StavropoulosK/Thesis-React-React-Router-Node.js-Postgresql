@@ -1,6 +1,6 @@
 .dropdown{
   margin-bottom:1rem;
-  margin-right:2rem ;
+  margin-right:1.8rem ;
   position: relative;
   /* width: 100%; */
 }
@@ -35,7 +35,7 @@
 
 
 .dropdown .dropdown-menu{
-  max-height: 200px; /* Set the desired max height */
+  max-height: 210px; /* Set the desired max height */
   overflow-y: auto;
   width: 100%;
   position: absolute;

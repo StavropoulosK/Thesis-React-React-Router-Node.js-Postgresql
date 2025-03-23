@@ -6,6 +6,10 @@ import Root from './routeComponents/root/root.jsx'
 import ErrorPage from './routeComponents/root/errorElement.jsx'
 
 import Index from "./routeComponents/index/index.jsx"
+import BookLesson from "./routeComponents/bookLesson/bookLesson.jsx"
+import {bookLessonLoader} from "./routeComponents/bookLesson/bookLesson.jsx"
+
+
 import {reviewsLoader} from "./reusableComponents/reviews/reviews.jsx"
 
 
@@ -23,6 +27,11 @@ const router= createBrowserRouter([
             element:<Index/>,
             loader: reviewsLoader
             
+          },
+          {
+            path:"bookLesson/resort/:resort/dates/:dates/sport/:sport/members/:members",
+            element:<BookLesson/>,
+            loader:bookLessonLoader
           }
         ]
       }

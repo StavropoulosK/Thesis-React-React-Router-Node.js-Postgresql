@@ -14,7 +14,7 @@ export default function Dropdown({options,text,icon,selectedSport}) {
 
   return (
     <div className="dropdown" ref={dropdownRef}>
-        <button onClick={() => setIsOpen(!isOpen)} className="dropdown-button" type="button">
+        <button onMouseDown={() => setIsOpen(!isOpen)} className="dropdown-button" type="button">
           <img src={icon} />
           {selected||text}
         </button>

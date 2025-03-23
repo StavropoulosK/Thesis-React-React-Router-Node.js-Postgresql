@@ -9,7 +9,6 @@ import "./header.css"
 const Header= memo (({setIsChooseLessonParamsOpen,urlPath})=>{
 
         
-    console.log('header exe ',urlPath)
 
 
     return(

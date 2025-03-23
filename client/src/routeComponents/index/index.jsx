@@ -3,10 +3,9 @@ import "./index.css"
 
 
 import Reviews from "../../reusableComponents/reviews/reviews.jsx"
-import ChoseLessonParams from "./choseLessonParams.jsx"
 import { useOutletContext } from "react-router-dom";
-import { useState} from "react";
 
+import {memo} from "react"
 
 
 function Sport({nameEnglish,nameGreek,onSelectSport,onReservationClick}){
@@ -39,16 +38,14 @@ function Sport({nameEnglish,nameGreek,onSelectSport,onReservationClick}){
 
 
 
-export default function Index(){
+const Index=memo(()=>{
 
-    const { isChooseLessonParamsOpen, onReservationClick } = useOutletContext();
+    const {  onReservationClick,setSelectedSport } = useOutletContext();
 
-    const [selectedSport,setSelectedSport]=useState("")
 
 
     return(
         <> 
-            {isChooseLessonParamsOpen && <ChoseLessonParams onReservationClick={onReservationClick} selectedSport={selectedSport} cancelSelectedSport={()=>setSelectedSport("")}/>}
 
 
             <section className="topPortion">
@@ -80,5 +77,7 @@ export default function Index(){
 
         </>
     )
-}
+})
+
+export default Index
 

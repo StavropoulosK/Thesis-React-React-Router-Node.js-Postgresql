@@ -3,7 +3,7 @@ import "./reviews.css"
 
 
 import {useLoaderData } from 'react-router-dom'
-import {memo,Suspense,useEffect} from "react"
+import {memo,Suspense} from "react"
 import { Await } from "react-router";
 
 
@@ -20,7 +20,6 @@ import { Await } from "react-router";
 
 
 export async function reviewsLoader(){
-
 
 
     return  {reviewDataPromise: fetch('/api/reviews')

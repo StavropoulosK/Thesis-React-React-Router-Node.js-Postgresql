@@ -12,7 +12,6 @@ import Dropdown from "./../../reusableComponents/dropdown/dropdown.jsx"
 
 export default function ChoseLessonParams({onReservationClick,selectedSport,cancelSelectedSport}){
 
-
     return(
         <>
         <section className="blackBackground">
@@ -35,13 +34,18 @@ export default function ChoseLessonParams({onReservationClick,selectedSport,canc
                             Παρακαλούμε επιλέξτε  χιονοδρομικό κέντρο,  ημερομηνίες,  άθλημα και πόσα άτομα θα συμμετέχετε  για να δείτε τα διαθέσιμα μαθήματα
                         </p>
 
-                        <Form action="/" method="get">
-                            <Dropdown options={["Ανηλίου", "Βασιλίτσας", "Βελουχίου", "Ελατοχωρίου", "Καϊμακτσαλάν", "Καλαβρύτων", "Μαινάλου", "Παρνασσού", "Πηλίου", "Πισοδερίου", "Φαλακρού", "3-5 Πηγάδια"]} text={"Χιονοδρομικό Κέντρο"} icon={"../../../public/icons/lessonParams/pinIcon.png"}/>
+                        {/* <Form action="/" method="get" id="lessonParamsForm">
+                            <Dropdown options={["Ανηλίου", "Βασιλίτσας", "Βελουχίου", "Ελατοχωρίου", "Καϊμακτσαλάν", "Καλαβρύτων", "Μαινάλου", "Παρνασσού", "Πηλίου", "Πισοδερίου", "Φαλακρού", "3-5 Πηγάδια"]} text={"Χιονοδρομικό Κέντρο"} icon={"../../../icons/lessonParams/pinIcon.png"}/>
                             <CalendarContainer/>
-                            <Dropdown options={["Χιονοδρομία","Χιονοσανίδα","Καθιστή χιονοδρομία"]} text={"Δραστηριότητα"} icon={"../../../public/icons/lessonParams/ski.png"} selectedSport={selectedSport}/>
-                            <Dropdown options={['1 άτομο','2 άτομα','3 άτομα','4 άτομα','5 άτομα','6 άτομα']} text={"Πλήθος ατόμων"} icon={"../../../public/icons/lessonParams/numberOfParticipants.png"}/>
+                            <Dropdown options={["Χιονοδρομία","Χιονοσανίδα","Καθιστή χιονοδρομία"]} text={"Δραστηριότητα"} icon={"../../../icons/lessonParams/ski.png"} selectedSport={selectedSport}/>
+                            <Dropdown options={['1 άτομο','2 άτομα','3 άτομα','4 άτομα','5 άτομα','6 άτομα']} text={"Πλήθος ατόμων"} icon={"../../../icons/lessonParams/numberOfParticipants.png"}/>
+                            <button type="submit" className="finishLessonParams">
+                                Επόμενο
+                            </button>
 
-                        </Form>
+                        </Form> */}
+                        <LessonParamsForm selectedSport={selectedSport}/>
+
 
                     </article>
 
@@ -53,31 +57,73 @@ export default function ChoseLessonParams({onReservationClick,selectedSport,canc
 }
 
 
+function LessonParamsForm({selectedSport}){
+
+
+  return(
+    <>
+      <Form action="/" method="get" id="lessonParamsForm">
+          <Dropdown options={["Ανηλίου", "Βασιλίτσας", "Βελουχίου", "Ελατοχωρίου", "Καϊμακτσαλάν", "Καλαβρύτων", "Μαινάλου", "Παρνασσού", "Πηλίου", "Πισοδερίου", "Φαλακρού", "3-5 Πηγάδια"]} text={"Χιονοδρομικό Κέντρο"} icon={"../../../icons/lessonParams/pinIcon.png"}/>
+          <CalendarContainer/>
+          <Dropdown options={["Χιονοδρομία","Χιονοσανίδα","Καθιστή χιονοδρομία"]} text={"Δραστηριότητα"} icon={"../../../icons/lessonParams/ski.png"} selectedSport={selectedSport}/>
+          <Dropdown options={['1 άτομο','2 άτομα','3 άτομα','4 άτομα','5 άτομα','6 άτομα']} text={"Πλήθος ατόμων"} icon={"../../../icons/lessonParams/numberOfParticipants.png"}/>
+          <button type="submit" className="finishLessonParams">
+              Επόμενο
+          </button>
+
+      </Form>
+    </>
+  )
+}
+
+
 function CalendarContainer(){
     const [isOpen, setIsOpen] = useState(true);
     const dropdownRef = useRef(null);
 
+    const [arrivalDate, setArrivalDate] = useState(null);
+    const [departureDate, setDepartureDate] = useState(null);
+
     useCloseOnOutsideClick(dropdownRef, () => setIsOpen(false));
+
+    const formatDate = (date) => {
+      if (!date) return "";
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const year = date.getFullYear();
+      return `${day}/${month}/${year}`;
+    };
 
 
     return(
         <>
             <div className="dropdown calendar" ref={dropdownRef}>
                 <button onClick={() => setIsOpen(!isOpen)} className="dropdown-button" type="button">
-                    <img src={"../../../public/icons/lessonParams/calendar.png"} />
-                    {"Ημερομηνίες"}
+                    <img src={"../../../icons/lessonParams/calendar.png"} />
+                    {(arrivalDate&&departureDate)?`${formatDate(arrivalDate)} - ${formatDate(departureDate)}`:"Ημερομηνία"}
                 </button>
 
-                {isOpen && <Calendar onclose={()=>setIsOpen(false)}/>}
+                {isOpen && <Calendar onclose={()=>setIsOpen(false)} arrivalDate={arrivalDate} setArrivalDate={setArrivalDate} departureDate={departureDate} setDepartureDate={setDepartureDate}/>}
+                <input
+                  type="hidden"
+                  name="arrivalDate"
+                  value={arrivalDate ? formatDate(arrivalDate) : ""}
+                />
+                <input
+                  type="hidden"
+                  name="departureDate"
+                  value={departureDate ? formatDate(departureDate) : ""}
+                />
             </div>
         </>
     )
 }
 
 
-function Calendar({onclose}) {
+function Calendar({onclose,arrivalDate,setArrivalDate,departureDate,setDepartureDate}) {
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const today = new Date();
+
 
 
     const prevMonth = () => {
@@ -126,9 +172,35 @@ function Calendar({onclose}) {
       }
       return days;
     };
+
+    const handleDateClick = (date) => {
+      // console.log('date ',date,arrivalDate,departureDate,!arrivalDate,arrivalDate.toDateString() !== date.toDateString())
+      if (!arrivalDate || (arrivalDate && departureDate && arrivalDate.toDateString() !== departureDate.toDateString())) {
+        setArrivalDate(date);
+        setDepartureDate(date);
+      } else if (date > arrivalDate) {
+
+        setDepartureDate(date);
+      } else if(date < arrivalDate) {
+
+        const arrivalDateTemp = arrivalDate
+        setArrivalDate(date);
+        setDepartureDate(arrivalDateTemp)
+      }
+    };
+  
+    const isSelected = (day) => {
+      return (
+        (arrivalDate && day.toDateString() === arrivalDate.toDateString()) ||
+        (departureDate && day.toDateString() === departureDate.toDateString()) ||
+        (arrivalDate && departureDate && day > arrivalDate && day < departureDate)
+      );
+    };
+
   
     const daysCurrentMonth = getDaysInMonth(currentMonth.getFullYear(), currentMonth.getMonth());
     const daysNextMonth = getDaysInMonth(currentMonth.getFullYear(), currentMonth.getMonth() + 1);
+
     
     // console.log('aa ',today.getMonth(),today.getFullYear(),currentMonth.getMonth(),currentMonth.getFullYear(),currentMonth.getFullYear() === today.getFullYear() + 1 &&currentMonth.getMonth() === today.getMonth())
 
@@ -145,7 +217,7 @@ function Calendar({onclose}) {
           </div>
   
           <div className="calendar-grid-container">
-            <CalendarGrid currentMonth={currentMonth} days={daysCurrentMonth} position={'left'}>
+            <CalendarGrid currentMonth={currentMonth} days={daysCurrentMonth} position={'left'} onDateClick={handleDateClick} isSelected={isSelected}>
               <button
                   onClick={prevMonth}
                   className="calendar-btn"
@@ -158,7 +230,7 @@ function Calendar({onclose}) {
                   ◀
               </button>
             </CalendarGrid>
-            <CalendarGrid currentMonth={new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1)} days={daysNextMonth} position={'right'}>
+            <CalendarGrid currentMonth={new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1)} days={daysNextMonth} position={'right'}  onDateClick={handleDateClick} isSelected={isSelected}>
               <button
                   onClick={nextMonth}
                   className="calendar-btn"
@@ -171,7 +243,16 @@ function Calendar({onclose}) {
                   ▶
               </button>
             </CalendarGrid>
+              
+          </div>
 
+          <div className="bottom">
+            <button type="button" onClick={()=>{setDepartureDate(null);setArrivalDate(null)}}>
+              Εκκαθάριση
+            </button>
+            <button type="button" onClick={onclose}>
+              Οκ
+            </button>
           </div>
         </div>
       </>
@@ -179,7 +260,7 @@ function Calendar({onclose}) {
   }
 
 
-  function CalendarGrid({ currentMonth, days,children,position }) {
+  function CalendarGrid({ currentMonth, days,children,position,onDateClick,isSelected }) {
     const today = new Date();
 
     return (
@@ -212,9 +293,12 @@ function Calendar({onclose}) {
             return (
               <div
                 key={index}
-                className={`calendar-day ${
-                  isOutsideMonth ? "calendar-day-outside" : ""
-                } ${isBeforeToday ? "calendar-day-before" : ""}`}
+                onClick={(!isOutsideMonth&&!isBeforeToday)?()=>onDateClick(day):null}
+                className={`calendar-day 
+                  ${isOutsideMonth ? "calendar-day-outside" : ""}
+                  ${isBeforeToday ? "calendar-day-before" : ""}
+                  ${isSelected(day) ? "calendar-day-selected" : ""} 
+                 `}
               >
                 {day.getDate()}
               </div>
