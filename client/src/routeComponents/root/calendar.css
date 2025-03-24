@@ -186,3 +186,10 @@
   border-radius: 0.3rem; 
   cursor: pointer;
  }
+
+ #lessonParamsForm button.disableSubmit{
+    background-color: rgba(17, 179, 187, 0.4);
+    cursor:default;
+
+ }
+ 

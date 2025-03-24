@@ -2,7 +2,7 @@ import "./choseLessonParams.css"
 import "./calendar.css"
 
 
-import { Form } from "react-router-dom";
+import { Form,useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
 
 
@@ -44,7 +44,7 @@ export default function ChoseLessonParams({onReservationClick,selectedSport,canc
                             </button>
 
                         </Form> */}
-                        <LessonParamsForm selectedSport={selectedSport}/>
+                        <LessonParamsForm selectedSport={selectedSport} onReservationClick={onReservationClick}/>
 
 
                     </article>
@@ -57,17 +57,58 @@ export default function ChoseLessonParams({onReservationClick,selectedSport,canc
 }
 
 
-function LessonParamsForm({selectedSport}){
+function LessonParamsForm({selectedSport,onReservationClick}){
+
+  const [arrivalDate, setArrivalDate] = useState(null);
+  const [departureDate, setDepartureDate] = useState(null);
+
+  const [selectedNumberOfParticipants,setSelectedNumberOfParticipants]=useState('')
+  const [selectedActivity,setSelectedActivity]=useState(selectedSport||'')
+  const [selectedResort,setSelectedResort]=useState('')
+
+  const navigate = useNavigate(); // For programmatic navigation
+
+
+  const formatDate = (date) => {
+    if (!date) return "";
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`; // Using hyphen format
+  };
+
+  const constructURL = () => {
+    const dates = `${formatDate(arrivalDate)}and${formatDate(departureDate)}`;
+    return `/bookLesson/resort/${selectedResort}/dates/${dates}/sport/${selectedActivity}/members/${selectedNumberOfParticipants}`;
+  };
+
+  function handleSubmit(ev){
+      ev.preventDefault()
+      if(checkAllFieldsSelected()){
+        const formURL = constructURL();
+        navigate(formURL);
+      }
+     
+  }
+
+  function checkAllFieldsSelected(){
+    if (!arrivalDate || !departureDate || !selectedResort || !selectedActivity || !selectedNumberOfParticipants) {
+      return false
+    }
+    else{
+      return true
+    }
+  }
 
 
   return(
     <>
-      <Form action="/" method="get" id="lessonParamsForm">
-          <Dropdown options={["Ανηλίου", "Βασιλίτσας", "Βελουχίου", "Ελατοχωρίου", "Καϊμακτσαλάν", "Καλαβρύτων", "Μαινάλου", "Παρνασσού", "Πηλίου", "Πισοδερίου", "Φαλακρού", "3-5 Πηγάδια"]} text={"Χιονοδρομικό Κέντρο"} icon={"../../../icons/lessonParams/pinIcon.png"}/>
-          <CalendarContainer/>
-          <Dropdown options={["Χιονοδρομία","Χιονοσανίδα","Καθιστή χιονοδρομία"]} text={"Δραστηριότητα"} icon={"../../../icons/lessonParams/ski.png"} selectedSport={selectedSport}/>
-          <Dropdown options={['1 άτομο','2 άτομα','3 άτομα','4 άτομα','5 άτομα','6 άτομα']} text={"Πλήθος ατόμων"} icon={"../../../icons/lessonParams/numberOfParticipants.png"}/>
-          <button type="submit" className="finishLessonParams">
+      <Form method="get" id="lessonParamsForm">
+          <Dropdown selected={selectedResort} setSelected={setSelectedResort} options={["Ανηλίου", "Βασιλίτσας", "Βελουχίου", "Ελατοχωρίου", "Καϊμακτσαλάν", "Καλαβρύτων", "Μαινάλου", "Παρνασσού", "Πηλίου", "Πισοδερίου", "Φαλακρού", "3-5 Πηγάδια"]} text={"Χιονοδρομικό Κέντρο"} icon={"../../../icons/lessonParams/pinIcon.png"}/>
+          <CalendarContainer arrivalDate={arrivalDate} setArrivalDate={setArrivalDate} departureDate={departureDate} setDepartureDate={setDepartureDate}/>
+          <Dropdown selected={selectedActivity} setSelected={setSelectedActivity} options={["Χιονοδρομία","Χιονοσανίδα","Καθιστή χιονοδρομία"]} text={"Δραστηριότητα"} icon={"../../../icons/lessonParams/ski.png"} selectedSport={selectedSport}/>
+          <Dropdown selected={selectedNumberOfParticipants} setSelected={setSelectedNumberOfParticipants} options={['1 άτομο','2 άτομα','3 άτομα','4 άτομα','5 άτομα','6 άτομα']} text={"Πλήθος ατόμων"} icon={"../../../icons/lessonParams/numberOfParticipants.png"}/>
+          <button type="submit" className={`finishLessonParams ${!checkAllFieldsSelected() ? 'disableSubmit' : ''}`} onClick={(ev)=>{onReservationClick();handleSubmit(ev)}}>
               Επόμενο
           </button>
 
@@ -77,12 +118,10 @@ function LessonParamsForm({selectedSport}){
 }
 
 
-function CalendarContainer(){
-    const [isOpen, setIsOpen] = useState(true);
+function CalendarContainer({arrivalDate,setArrivalDate,departureDate,setDepartureDate}){
+    const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
 
-    const [arrivalDate, setArrivalDate] = useState(null);
-    const [departureDate, setDepartureDate] = useState(null);
 
     useCloseOnOutsideClick(dropdownRef, () => setIsOpen(false));
 

@@ -16,7 +16,7 @@ export default function Root(){
 
     // epilogi sport apo index allagi selidas kai meta kratisi apo header => thimate to sport
 
-    const [isChooseLessonParamsOpen,setIsChooseLessonParamsOpen]=useState(true)
+    const [isChooseLessonParamsOpen,setIsChooseLessonParamsOpen]=useState(false)
     const [selectedSport,setSelectedSport]=useState("")
 
     const location = (useLocation()).pathname; 

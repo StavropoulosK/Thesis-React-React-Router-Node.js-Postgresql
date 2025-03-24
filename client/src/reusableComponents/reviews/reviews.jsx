@@ -9,14 +9,20 @@ import { Await } from "react-router";
 
 // references   
 
-// 1 Suspense
+// react. oti exei gini render, an den alaksi den ksanaginetai render
+
+// 1 Suspense + React router await        kanei render to component kai ta data otan katebastoun
 // https://reactrouter.com/how-to/suspense
 // seo
 
-// 2 Render Optimization
+// 2 Render Optimization   (Loading Asynchronous Data)  
 // https://www.youtube.com/watch?v=7sgBhmLjVws
 // https://overreacted.io/before-you-memo/
 // https://kentcdodds.com/blog/optimize-react-re-renders
+
+
+// 3 Lazy loading   (loading asynchronous components)    katebazi to component otan einai na gini render gia proti fora
+// https://www.youtube.com/watch?v=JU6sl_yyZqs&t=125s
 
 
 export async function reviewsLoader(){

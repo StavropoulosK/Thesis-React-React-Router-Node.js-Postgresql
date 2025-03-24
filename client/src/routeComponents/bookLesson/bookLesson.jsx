@@ -2,7 +2,7 @@ import "./bookLesson.css"
 
 export function bookLessonLoader({request,params}){
 
-    console.log(params)
+    console.log('params ',params)
     return null
 }
 

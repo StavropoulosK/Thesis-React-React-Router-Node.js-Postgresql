@@ -1,6 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import {createBrowserRouter,RouterProvider,redirect} from "react-router-dom";
+import {createBrowserRouter,RouterProvider} from "react-router-dom";
 
 import Root from './routeComponents/root/root.jsx'
 import ErrorPage from './routeComponents/root/errorElement.jsx'
