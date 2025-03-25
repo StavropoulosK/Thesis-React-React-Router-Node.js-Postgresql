@@ -1,5 +1,6 @@
 import "./bookLesson.css"
 
+
 export function bookLessonLoader({request,params}){
 
     console.log('params ',params)
@@ -8,7 +9,6 @@ export function bookLessonLoader({request,params}){
 
 
 export default function BookLesson(){
-
 
     return(
         <>

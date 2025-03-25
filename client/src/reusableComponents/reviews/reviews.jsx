@@ -9,21 +9,26 @@ import { Await } from "react-router";
 
 // references   
 
-// react. oti exei gini render, an den alaksi den ksanaginetai render
+// 0 react. oti exei gini render, an den alaksi den ksanaginetai render
 
-// 1 Suspense + React router await        kanei render to component kai ta data otan katebastoun
+// 1 Suspense + React router await (Loading Asynchronous Data)          kanei render to component kai ta data otan katebastoun
 // https://reactrouter.com/how-to/suspense
 // seo
 
-// 2 Render Optimization   (Loading Asynchronous Data)  
+// 2 Render Optimization   
 // https://www.youtube.com/watch?v=7sgBhmLjVws
 // https://overreacted.io/before-you-memo/
 // https://kentcdodds.com/blog/optimize-react-re-renders
 
 
-// 3 Lazy loading   (loading asynchronous components)    katebazi to component otan einai na gini render gia proti fora
+// 3 Lazy loading   (loading asynchronous components)    katebazi to component otan einai na gini render gia proti fora, elatoni to xrono arxikis fortosis
 // https://www.youtube.com/watch?v=JU6sl_yyZqs&t=125s
 
+// 4 vite
+// https://medium.com/sessionstack-blog/how-javascript-works-a-deep-dive-into-vite-965bdd8ffb42#:~:text=Vite%20is%20a%20JavaScript%20build,your%20code%20locally%20during%20development
+// https://medium.com/@iboroinyang01/bundle-up-vite-or-webpack-c260915e0ff7#:~:text=its%20remarkable%20speed.-,Vite.,and%20deployment%20times%20are%20accelerated.
+
+// 5 server side rendering (normal handle-bars) client side rendering
 
 export async function reviewsLoader(){
 

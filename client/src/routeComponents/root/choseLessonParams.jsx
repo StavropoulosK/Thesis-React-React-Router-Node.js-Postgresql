@@ -108,7 +108,14 @@ function LessonParamsForm({selectedSport,onReservationClick}){
           <CalendarContainer arrivalDate={arrivalDate} setArrivalDate={setArrivalDate} departureDate={departureDate} setDepartureDate={setDepartureDate}/>
           <Dropdown selected={selectedActivity} setSelected={setSelectedActivity} options={["Χιονοδρομία","Χιονοσανίδα","Καθιστή χιονοδρομία"]} text={"Δραστηριότητα"} icon={"../../../icons/lessonParams/ski.png"} selectedSport={selectedSport}/>
           <Dropdown selected={selectedNumberOfParticipants} setSelected={setSelectedNumberOfParticipants} options={['1 άτομο','2 άτομα','3 άτομα','4 άτομα','5 άτομα','6 άτομα']} text={"Πλήθος ατόμων"} icon={"../../../icons/lessonParams/numberOfParticipants.png"}/>
-          <button type="submit" className={`finishLessonParams ${!checkAllFieldsSelected() ? 'disableSubmit' : ''}`} onClick={(ev)=>{onReservationClick();handleSubmit(ev)}}>
+          <button type="submit" className={`finishLessonParams ${!checkAllFieldsSelected() ? 'disableSubmit' : ''}`} 
+            onClick={(ev)=>{
+                      if(checkAllFieldsSelected()){
+                          onReservationClick();
+                          handleSubmit(ev)}
+                        }
+                      }
+          >
               Επόμενο
           </button>
 
