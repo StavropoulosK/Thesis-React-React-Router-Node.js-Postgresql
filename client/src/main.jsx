@@ -1,17 +1,20 @@
-import { StrictMode } from 'react'
+import { StrictMode, lazy } from 'react'
 import { createRoot } from 'react-dom/client'
 import {createBrowserRouter,RouterProvider} from "react-router-dom";
 
 import Root from './routeComponents/root/root.jsx'
 import ErrorPage from './routeComponents/root/errorElement.jsx'
 
-import Index from "./routeComponents/index/index.jsx"
+// import Index from "./routeComponents/index/index.jsx"
 import BookLesson from "./routeComponents/bookLesson/bookLesson.jsx"
 import {bookLessonLoader} from "./routeComponents/bookLesson/bookLesson.jsx"
 
 
 import {reviewsLoader} from "./reusableComponents/reviews/reviews.jsx"
 
+import './i18n.js'
+
+const Index= lazy(()=>import("./routeComponents/index/index.jsx"))
 
 
 const router= createBrowserRouter([
@@ -85,7 +88,7 @@ const router= createBrowserRouter([
 
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+ <StrictMode>
 
       <RouterProvider router={router} />
   </StrictMode>

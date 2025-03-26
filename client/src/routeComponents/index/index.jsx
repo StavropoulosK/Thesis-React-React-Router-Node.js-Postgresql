@@ -7,8 +7,11 @@ import { useOutletContext } from "react-router-dom";
 
 import {memo} from "react"
 
+import { useTranslation } from "react-i18next";
 
-function Sport({nameEnglish,nameGreek,onSelectSport,onReservationClick}){
+
+function Sport({sport,onSelectSport,onReservationClick}){
+    const {t} = useTranslation("index")
 
 
     return(
@@ -19,14 +22,14 @@ function Sport({nameEnglish,nameGreek,onSelectSport,onReservationClick}){
                 }}>
             <button className="selectSport">
                     <img 
-                        src={`/images/startPage/${nameEnglish}.jpg`} 
-                        alt={`${nameEnglish} sport`}
+                        src={`/images/startPage/${sport}.jpg`} 
+                        alt={`${sport} sport`}
                         className="sportImg"
 
                     />
                 </button>
                 <button className="selectSportDown">
-                    <span>{true?nameGreek:''}</span>
+                    <span>{t(sport)}</span>
                 </button>
 
             </div>
@@ -40,6 +43,8 @@ function Sport({nameEnglish,nameGreek,onSelectSport,onReservationClick}){
 
 const Index=memo(()=>{
 
+    const {t} = useTranslation("index")
+
     const {  onReservationClick,setSelectedSport } = useOutletContext();
 
 
@@ -51,24 +56,25 @@ const Index=memo(()=>{
             <section className="topPortion">
                 <div className="imgContainer">
                     <img id="startImg" src="/images/startPage/initial_page2.jpg" alt="people enjoying their time on the ski resort" />
-                    <span className="welcomeText">Ζήστε αξέχαστες εμπειρίες</span>
+                    {/* <span className="welcomeText">Ζήστε αξέχαστες εμπειρίες</span> */}
+                    <span className="welcomeText">{t("startMessage")}</span>
+
                 </div>
 
                 <div className="textContainer">
-                    <p>Κάντε κράτηση με τους καλύτερους προπονητές σε όλη την Ελλάδα</p>
-                    <button onClick={onReservationClick}>Κράτηση</button>
+                    <p>{t("bookMsg")}</p>
+                    <button onClick={onReservationClick}>{t("Book")}</button>
 
                 </div>
             </section>
 
-             {/* --------------------    To selected sport einai sta ellinika */}
 
             <section className="sports">
-                <h2>Ανακαλύψτε χειμερινά αθλήματα</h2>
+                <h2>{t("Winter sports")}</h2>
                 <div className="allSportsContainer">
-                    <Sport nameEnglish={'Ski'} nameGreek={'Χιονοδρομία'} onSelectSport={()=>setSelectedSport("Χιονοδρομία")} onReservationClick={onReservationClick} />
-                    <Sport nameEnglish={'Snowboard'} nameGreek={'Χιονοσανίδα'} onSelectSport={()=>setSelectedSport("Χιονοσανίδα")} onReservationClick={onReservationClick} />
-                    <Sport nameEnglish={'Sit ski'} nameGreek={'Καθιστή χιονοδρομία'} onSelectSport={()=>setSelectedSport("Καθιστή χιονοδρομία")} onReservationClick={onReservationClick} />
+                    <Sport sport={'Ski'} onSelectSport={()=>setSelectedSport("Ski")} onReservationClick={onReservationClick} />
+                    <Sport sport={'Snowboard'} onSelectSport={()=>setSelectedSport("Snowboard")} onReservationClick={onReservationClick} />
+                    <Sport sport={'Sit ski'} onSelectSport={()=>setSelectedSport("Sit ski")} onReservationClick={onReservationClick} />
                 </div>
 
             </section>

@@ -1,6 +1,6 @@
 import { Outlet,useLocation } from "react-router-dom"
 
-import { useState,useCallback,useMemo } from "react";
+import { useState,useCallback,useMemo,Suspense } from "react";
 
 
 import "./root.css"
@@ -34,6 +34,7 @@ export default function Root(){
 
     return (
         <>
+        {/* <Suspense fallback={<div>...</div>}> */}
             <Header setIsChooseLessonParamsOpen={setIsChooseLessonParamsOpen} urlPath={location}/>
 
             <main id='mainContent'>
@@ -43,6 +44,10 @@ export default function Root(){
                 />
             </main>
             <Footer/>
+        {/* </Suspense> */}
+
         </>
     )
 }
+
+// /https://tariqul-islam-rony.medium.com/internationalization-localization-with-react-js-65d6f6badd56

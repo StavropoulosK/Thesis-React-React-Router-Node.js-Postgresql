@@ -3,20 +3,24 @@ import "./dropdown.css"; // Import the CSS file
 
 import useCloseOnOutsideClick from "../../hooks/closeOnClickOutside.jsx"
 
-export default function Dropdown({options,text,icon,selected,setSelected}) {
+import { useTranslation } from "react-i18next";
+
+
+export default function Dropdown({namespace,options,text,icon,selected,setSelected}) {
   // const [selected, setSelected] = useState(selectedSport||'');
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
+  const {t} = useTranslation(namespace)
+
+
   useCloseOnOutsideClick(dropdownRef, () => setIsOpen(false));
-
-
 
   return (
     <div className="dropdown" ref={dropdownRef}>
         <button onMouseDown={() => setIsOpen(!isOpen)} className="dropdown-button" type="button">
           <img src={icon} />
-          {selected||text}
+          {t(selected||text)}
         </button>
 
         {/* Dropdown Menu */}
@@ -28,18 +32,18 @@ export default function Dropdown({options,text,icon,selected,setSelected}) {
                   setIsOpen(false)
                   setSelected(el)}
                 }>
-                  {el}
+                  {t(el)}
                 </li>)
               } 
             </ul>
         )}
 
-        <input
+        {/* <input
           type="hidden"
           name={text}
           value={selected}
           readOnly
-        />
+        /> */}
     </div>
   );
 }

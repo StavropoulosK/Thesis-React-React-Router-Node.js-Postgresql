@@ -9,8 +9,14 @@ import { useState, useRef } from "react";
 import useCloseOnOutsideClick from "./../../hooks/closeOnClickOutside.jsx"
 import Dropdown from "./../../reusableComponents/dropdown/dropdown.jsx"
 
+import { useTranslation } from "react-i18next";
+
+
 
 export default function ChoseLessonParams({onReservationClick,selectedSport,cancelSelectedSport}){
+
+    const {t} = useTranslation("choseLessonParams")
+
 
     return(
         <>
@@ -28,22 +34,12 @@ export default function ChoseLessonParams({onReservationClick,selectedSport,canc
                             <img src="icons/startPage/close.png"/>
                         </button>
                         <h2>
-                            Ξεκίνηστε και εσείς να κατεβαίνετε το βουνό
+                            {t("header")}
                         </h2>
                         <p>
-                            Παρακαλούμε επιλέξτε  χιονοδρομικό κέντρο,  ημερομηνίες,  άθλημα και πόσα άτομα θα συμμετέχετε  για να δείτε τα διαθέσιμα μαθήματα
+                          {t("message")}
                         </p>
 
-                        {/* <Form action="/" method="get" id="lessonParamsForm">
-                            <Dropdown options={["Ανηλίου", "Βασιλίτσας", "Βελουχίου", "Ελατοχωρίου", "Καϊμακτσαλάν", "Καλαβρύτων", "Μαινάλου", "Παρνασσού", "Πηλίου", "Πισοδερίου", "Φαλακρού", "3-5 Πηγάδια"]} text={"Χιονοδρομικό Κέντρο"} icon={"../../../icons/lessonParams/pinIcon.png"}/>
-                            <CalendarContainer/>
-                            <Dropdown options={["Χιονοδρομία","Χιονοσανίδα","Καθιστή χιονοδρομία"]} text={"Δραστηριότητα"} icon={"../../../icons/lessonParams/ski.png"} selectedSport={selectedSport}/>
-                            <Dropdown options={['1 άτομο','2 άτομα','3 άτομα','4 άτομα','5 άτομα','6 άτομα']} text={"Πλήθος ατόμων"} icon={"../../../icons/lessonParams/numberOfParticipants.png"}/>
-                            <button type="submit" className="finishLessonParams">
-                                Επόμενο
-                            </button>
-
-                        </Form> */}
                         <LessonParamsForm selectedSport={selectedSport} onReservationClick={onReservationClick}/>
 
 
@@ -58,6 +54,7 @@ export default function ChoseLessonParams({onReservationClick,selectedSport,canc
 
 
 function LessonParamsForm({selectedSport,onReservationClick}){
+  const {t} = useTranslation("choseLessonParams")
 
   const [arrivalDate, setArrivalDate] = useState(null);
   const [departureDate, setDepartureDate] = useState(null);
@@ -77,17 +74,17 @@ function LessonParamsForm({selectedSport,onReservationClick}){
     return `${day}-${month}-${year}`; // Using hyphen format
   };
 
+  const partNumber=selectedNumberOfParticipants.split(" ")[0]
+
   const constructURL = () => {
     const dates = `${formatDate(arrivalDate)}and${formatDate(departureDate)}`;
-    return `/bookLesson/resort/${selectedResort}/dates/${dates}/sport/${selectedActivity}/members/${selectedNumberOfParticipants}`;
+    return `/bookLesson/resort/${selectedResort}/dates/${dates}/sport/${selectedActivity}/members/${partNumber}`;
   };
 
   function handleSubmit(ev){
-      ev.preventDefault()
-      if(checkAllFieldsSelected()){
-        const formURL = constructURL();
-        navigate(formURL);
-      }
+      const formURL = constructURL();
+      navigate(formURL);
+      
      
   }
 
@@ -104,19 +101,20 @@ function LessonParamsForm({selectedSport,onReservationClick}){
   return(
     <>
       <Form method="get" id="lessonParamsForm">
-          <Dropdown selected={selectedResort} setSelected={setSelectedResort} options={["Ανηλίου", "Βασιλίτσας", "Βελουχίου", "Ελατοχωρίου", "Καϊμακτσαλάν", "Καλαβρύτων", "Μαινάλου", "Παρνασσού", "Πηλίου", "Πισοδερίου", "Φαλακρού", "3-5 Πηγάδια"]} text={"Χιονοδρομικό Κέντρο"} icon={"../../../icons/lessonParams/pinIcon.png"}/>
-          <CalendarContainer arrivalDate={arrivalDate} setArrivalDate={setArrivalDate} departureDate={departureDate} setDepartureDate={setDepartureDate}/>
-          <Dropdown selected={selectedActivity} setSelected={setSelectedActivity} options={["Χιονοδρομία","Χιονοσανίδα","Καθιστή χιονοδρομία"]} text={"Δραστηριότητα"} icon={"../../../icons/lessonParams/ski.png"} selectedSport={selectedSport}/>
-          <Dropdown selected={selectedNumberOfParticipants} setSelected={setSelectedNumberOfParticipants} options={['1 άτομο','2 άτομα','3 άτομα','4 άτομα','5 άτομα','6 άτομα']} text={"Πλήθος ατόμων"} icon={"../../../icons/lessonParams/numberOfParticipants.png"}/>
+          <Dropdown namespace={"choseLessonParams"} selected={selectedResort} setSelected={setSelectedResort} options={["Aniliou", "Vasilitsas", "Velouhiou", "Elatochoriou", "Kaimaktsalan", "Kalavryton", "Mainalou", "Parnassou", "Piliou", "Pisoderiou", "Falakrou", "3-5 Pigadia"]} text={"Resort"} icon={"../../../icons/lessonParams/pinIcon.png"}/>
+          <CalendarContainer namespace={"choseLessonParams"} arrivalDate={arrivalDate} setArrivalDate={setArrivalDate} departureDate={departureDate} setDepartureDate={setDepartureDate}/>
+          <Dropdown namespace={"choseLessonParams"} selected={selectedActivity} setSelected={setSelectedActivity} options={["Ski","Snowboard","Sit ski"]} text={"Sport"} icon={"../../../icons/lessonParams/ski.png"} selectedSport={selectedSport}/>
+          <Dropdown namespace={"choseLessonParams"} selected={selectedNumberOfParticipants} setSelected={setSelectedNumberOfParticipants} options={["1 member","2 members","3 members","4 members","5 members","6 members"]} text={"Participant number"} icon={"../../../icons/lessonParams/numberOfParticipants.png"}/>
           <button type="submit" className={`finishLessonParams ${!checkAllFieldsSelected() ? 'disableSubmit' : ''}`} 
             onClick={(ev)=>{
+                      ev.preventDefault()
                       if(checkAllFieldsSelected()){
                           onReservationClick();
                           handleSubmit(ev)}
                         }
                       }
           >
-              Επόμενο
+              {t("next")}
           </button>
 
       </Form>
@@ -128,6 +126,9 @@ function LessonParamsForm({selectedSport,onReservationClick}){
 function CalendarContainer({arrivalDate,setArrivalDate,departureDate,setDepartureDate}){
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
+
+    const {t} = useTranslation("choseLessonParams")
+
 
 
     useCloseOnOutsideClick(dropdownRef, () => setIsOpen(false));
@@ -146,7 +147,7 @@ function CalendarContainer({arrivalDate,setArrivalDate,departureDate,setDepartur
             <div className="dropdown calendar" ref={dropdownRef}>
                 <button onClick={() => setIsOpen(!isOpen)} className="dropdown-button" type="button">
                     <img src={"../../../icons/lessonParams/calendar.png"} />
-                    {(arrivalDate&&departureDate)?`${formatDate(arrivalDate)} - ${formatDate(departureDate)}`:"Ημερομηνία"}
+                    {(arrivalDate&&departureDate)?`${formatDate(arrivalDate)} - ${formatDate(departureDate)}`:t("Date")}
                 </button>
 
                 {isOpen && <Calendar onclose={()=>setIsOpen(false)} arrivalDate={arrivalDate} setArrivalDate={setArrivalDate} departureDate={departureDate} setDepartureDate={setDepartureDate}/>}
@@ -169,6 +170,7 @@ function CalendarContainer({arrivalDate,setArrivalDate,departureDate,setDepartur
 function Calendar({onclose,arrivalDate,setArrivalDate,departureDate,setDepartureDate}) {
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const today = new Date();
+    const {t} = useTranslation("choseLessonParams")
 
 
 
@@ -294,7 +296,7 @@ function Calendar({onclose,arrivalDate,setArrivalDate,departureDate,setDeparture
 
           <div className="bottom">
             <button type="button" onClick={()=>{setDepartureDate(null);setArrivalDate(null)}}>
-              Εκκαθάριση
+              {t("clear")}
             </button>
             <button type="button" onClick={onclose}>
               Οκ
@@ -308,20 +310,23 @@ function Calendar({onclose,arrivalDate,setArrivalDate,departureDate,setDeparture
 
   function CalendarGrid({ currentMonth, days,children,position,onDateClick,isSelected }) {
     const today = new Date();
+    const {t, i18n} = useTranslation("choseLessonParams")
+
+    const currentLanguage = i18n.language;
 
     return (
       <div className="calendar-grid-wrapper">
         <div className="calendarTop">
           {position=='left'?children:null}
           <h4 className="calendar-title">
-            {currentMonth.toLocaleString("el-GR", { month: "long", year: "numeric" })}
+            {currentMonth.toLocaleString(currentLanguage, { month: "long", year: "numeric" })}
           </h4>
           {position=='right'?children:null}
 
         </div>
 
         <div className="calendar-days">
-          {["Δευ", "Τρ", "Τετ", "Πεμ", "Παρ", "Σαβ", "Κυρ"].map((day) => (
+          {[t("Monday"), t("Tuesday"), t("Wednesday"), t("Thursday"), t("Friday"), t("Saturday"),t("Sunday")].map((day) => (
             <div key={day} className="calendar-day-label">
               {day}
             </div>

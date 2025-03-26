@@ -37,11 +37,6 @@ app.use(express.urlencoded({extended:false}))
 // }))
 
 
-app.get('/',(req,res)=>{
-
-    res.sendFile('index.html',{root:distPath});
-
-})
 
 app.get('/api/reviews', (req, res) => {
     const reviews = [
@@ -50,10 +45,10 @@ app.get('/api/reviews', (req, res) => {
           name: "Μαρία Α.",
           date: "24/12/2024",
           sport: "Ski",
-          resort: "Παρνασσός",
+          resort: "Parnassos",
           review: "Πολύ καλός προπονητής και πέρασα ευχάριστα και διασκεδαστικά μαζί του.",
           image: "img",
-          lessonHours: 4,
+          lessonHours: 1,
           instructorName: "Γιάννης Μ."
         },
         {
@@ -61,10 +56,10 @@ app.get('/api/reviews', (req, res) => {
           name: "Μαρία Α.",
           date: "24/12/2024",
           sport: "Ski",
-          resort: "Παρνασσός",
+          resort: "Parnassos",
           review: "Πολύ καλός προπονητής και πέρασα ευχάριστα και διασκεδαστικά μαζί του.",
           image: "img",
-          lessonHours: 4,
+          lessonHours: 0.5,
           instructorName: "Γιάννης Μ."
         },
         {
@@ -72,7 +67,7 @@ app.get('/api/reviews', (req, res) => {
           name: "Μαρία Α.",
           date: "24/12/2024",
           sport: "Ski",
-          resort: "Παρνασσός",
+          resort: "Parnassos",
           review: "Πολύ καλός προπονητής και πέρασα ευχάριστα και διασκεδαστικά μαζί του.",
           image: "img",
           lessonHours: 4,
@@ -83,7 +78,7 @@ app.get('/api/reviews', (req, res) => {
           name: "Μαρία Α.",
           date: "24/12/2024",
           sport: "Ski",
-          resort: "Παρνασσός",
+          resort: "Parnassos",
           review: "Πολύ καλός προπονητής και πέρασα ευχάριστα και διασκεδαστικά μαζί του.",
           image: "img",
           lessonHours: 4,
@@ -95,6 +90,20 @@ app.get('/api/reviews', (req, res) => {
 
     res.json(reviews);
   });
+
+app.get('*',(req,res)=>{
+
+    // xrisimopoioume client side routing. 
+    const staticFileRegex = /\.(js|css|png|jpg|jpeg|gif|ico|json|woff|woff2|ttf|eot|svg)$/i;
+    
+    if (staticFileRegex.test(req.url)) {
+      console.log('returnn')
+      return; // Let static file handling take care of it
+    }
+  
+      res.sendFile('index.html',{root:distPath});
+  
+  })
 
 app.listen(PORT,()=>{
     console.log(`server listening on http://localhost:${PORT}`)
