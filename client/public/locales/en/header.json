@@ -1,7 +1,12 @@
 {
     "Book":"Book",
     "Login":"Login",
-    "Instructor signup":"Instructor signup"
+    "Instructor signup":"Instructor signup",
+    "Profile":"Profile",
+    "Logout":"Logout",
+    "Lessons":"Lessons",
+    "Schedule":"Schedule",
+    "Statistics":"Statistics"
 
 }
 

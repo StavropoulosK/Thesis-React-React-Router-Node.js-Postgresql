@@ -2,7 +2,10 @@ import { StrictMode, lazy } from 'react'
 import { createRoot } from 'react-dom/client'
 import {createBrowserRouter,RouterProvider} from "react-router-dom";
 
+import {rootLoader} from './routeComponents/root/root.jsx'
+
 import Root from './routeComponents/root/root.jsx'
+
 import ErrorPage from './routeComponents/root/errorElement.jsx'
 
 // import Index from "./routeComponents/index/index.jsx"
@@ -21,6 +24,8 @@ const router= createBrowserRouter([
   {
     path: "/",
     element: <Root/>,
+    loader: rootLoader,
+    shouldRevalidate: () => true,
     children:[
       {
         errorElement:<ErrorPage/>,
@@ -33,6 +38,11 @@ const router= createBrowserRouter([
           },
           {
             path:"bookLesson/resort/:resort/dates/:dates/sport/:sport/members/:members",
+            element:<BookLesson/>,
+            loader:bookLessonLoader
+          },
+          {
+            path:"login",
             element:<BookLesson/>,
             loader:bookLessonLoader
           }

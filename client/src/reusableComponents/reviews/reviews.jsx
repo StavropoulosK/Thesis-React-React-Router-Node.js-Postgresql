@@ -37,8 +37,13 @@ import { useTranslation } from "react-i18next";
 
 // 7 internationalization, ta arxia fortonoun otan xriazontai apo to stixio kai gia kathe glosa ksexorista
 // https://www.i18next.com/how-to/add-or-load-translations
+// https://tariqul-islam-rony.medium.com/internationalization-localization-with-react-js-65d6f6badd56
 
 // 8 vite config.
+
+// 9 restfull αρχιτεκτονικη
+
+// 10 sessions, expire logout
 
 
 
@@ -120,7 +125,6 @@ const Reviews= memo(()=>{
     const {reviewDataPromise}= useLoaderData()
 
     const {t} = useTranslation("reviews")
-
 
     return(
         <>  

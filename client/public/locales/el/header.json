@@ -1,7 +1,11 @@
 {
     "Book":"Κράτηση",
     "Login":"Είσοδος",
-    "Instructor signup":"Εγγραφή Προπονητή"
-
+    "Instructor signup":"Εγγραφή Προπονητή",
+    "Profile":"Προφίλ",
+    "Logout":"Αποσύνδεση",
+    "Lessons":"Μαθήματα",
+    "Schedule":"Πρόγραμμα",
+    "Statistics":"Στατιστικά"
 }
 

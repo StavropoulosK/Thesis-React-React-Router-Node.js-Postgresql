@@ -3,6 +3,8 @@ import path from 'path'
 import { fileURLToPath } from "url"
 import { dirname } from "path"
 import session from "express-session"
+import 'dotenv/config'
+
 
 
 const __filename=fileURLToPath(import.meta.url)
@@ -25,17 +27,20 @@ app.use(express.static(distPath))
 
 app.use(express.urlencoded({extended:false}))
 
-// app.use(session({
-//     name:'cookieSid',
-//     secret:"hidemycat",
-//     resave:false,
-//     saveUninitialized:false,
-//     cookie:{
-//         maxAge:20*60*1000,
-//         sameSite:true
-//     }
-// }))
+app.use(session({
+    name:'cookieSid',
+    secret: process.env.SESSION_SECRET || "PynOjAuHetAuWawtinAytVunar", // κλειδί για κρυπτογράφηση του cookie
+    resave:false,
+    saveUninitialized:false,
+    cookie:{
+        maxAge:20*60*1000,      // 20 min
+        sameSite:true
+    }
+}))
 
+app.get('/api/getLoginStatus', (req, res) => {
+    return res.json({ status: 'user' });
+})
 
 
 app.get('/api/reviews', (req, res) => {
