@@ -11,8 +11,8 @@ import Footer from "./footer.jsx"
 
 import ChoseLessonParams from "./choseLessonParams.jsx"
 
-export const rootLoader = async ({request}) => {                // ta prostateymena loaders kai actions tha elegxoun an iparxei session, an den iparxei pernoun to trexon url, kanoun redirect sto /login bazontas
-                                                                // sto navigation state to trexon url kai meta to login se ksana epanaferi stin selida pou isoun. Episis patontas piso den metaferesai ksana sto login (afairesi apo to istoriko)
+export const rootLoader = async ({request}) => {                
+    
     console.log('!!!!!!!!!! loader')
     const fullUrl = request.url;
     
@@ -23,26 +23,26 @@ export const rootLoader = async ({request}) => {                // ta prostateym
     const relativeUrl = url.pathname;
 
     let status
-    console.log('Request URL:', relativeUrl);
+    // console.log('Request URL:', relativeUrl);
 
     try {
-      const response = await fetch('/api/getLoginStatus'); // Replace with your actual API
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-      const data = await response.json();
-      status= data.status
 
-      console.log('data ',data,status)
-        
+        const response = await fetch('/api/getLoginStatus')
+        if (!response.ok) {
+            throw new Error(`Error connecting to server`);
+        }
+
+        const data = await response.json();
+        status= data.status
+            
+        console.log('status ',status)
 
     }
     catch (error) {
-        console.error('Error fetching reviews:', error);
+        console.error('Error connecting to server', error);
         throw error;
     }
 
-    // return Math.random()
     return status
   };
 

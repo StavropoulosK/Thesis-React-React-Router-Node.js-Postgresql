@@ -1,6 +1,8 @@
 header{
-    background-color: #246265;
+    /* background-color: #246265; */
     margin:0;
+    background-color: rgba(36, 98, 101, 1); /* 80% opacity */
+
     padding:0;
 
     position: fixed;
@@ -120,14 +122,16 @@ div.profileDropdown{
 
 }
 
+
+
+
 .dropdownLink {
     display: flex;
-
+    align-items: center; 
     width: 100%;
 }
 
 .dropdownLink  img{
-    /* background-color: red; */
     margin-right:0.2rem;
     margin-left:0.1rem;
     height: 1.25rem;

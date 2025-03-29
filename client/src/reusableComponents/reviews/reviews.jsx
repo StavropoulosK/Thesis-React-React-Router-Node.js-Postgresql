@@ -26,7 +26,7 @@ import { useTranslation } from "react-i18next";
 // 3 Lazy loading   (loading asynchronous components)    katebazi to component otan einai na gini render gia proti fora, elatoni to xrono arxikis fortosis
 // https://www.youtube.com/watch?v=JU6sl_yyZqs&t=125s
 
-// 4 vite
+// 4 vite , vite graph
 // https://medium.com/sessionstack-blog/how-javascript-works-a-deep-dive-into-vite-965bdd8ffb42#:~:text=Vite%20is%20a%20JavaScript%20build,your%20code%20locally%20during%20development
 // https://medium.com/@iboroinyang01/bundle-up-vite-or-webpack-c260915e0ff7#:~:text=its%20remarkable%20speed.-,Vite.,and%20deployment%20times%20are%20accelerated.
 
@@ -43,10 +43,15 @@ import { useTranslation } from "react-i18next";
 
 // 9 restfull αρχιτεκτονικη
 
-// 10 sessions, expire logout
+//  10 sessions, expire logout
+//  https://stackblitz.com/github/remix-run/react-router/tree/main/examples/auth-router-provider?file=src%2FApp.tsx
+//  https://stackoverflow.com/questions/77133906/react-router-run-a-parent-route-loader-function-each-time-one-if-its-sub-route
+//  https://remix.run/docs/en/1.19.3/pages/faq#how-can-i-have-a-parent-route-loader-validate-the-user-and-protect-all-child-routes
+//  https://github.com/remix-run/react-router/issues/9188#issuecomment-1248180434
 
-
-
+// 11 Xoris login otan pas na kanis prosbassi se protected route se kanei redirect sto login
+// Meta to login se kanei redirect sto protected route kai to koumpi piso den se pigeni sto login
+// https://stackblitz.com/github/remix-run/react-router/tree/main/examples/auth-router-provider?file=README.md
 
 
 export async function reviewsLoader(){
@@ -55,7 +60,7 @@ export async function reviewsLoader(){
     return  {reviewDataPromise: fetch('/api/reviews')
                                     .then(response => {
                                         if (!response.ok) {
-                                            throw new Error(`HTTP error! Status: ${response.status}`);
+                                            throw new Error(`An error happened! Status: ${response.status}`);
                                         }
                                         return response.json(); 
                                     })

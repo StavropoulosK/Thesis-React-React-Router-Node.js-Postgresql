@@ -25,7 +25,7 @@ app.use(express.static(distPath))
 
 
 
-app.use(express.urlencoded({extended:false}))
+app.use(express.json())
 
 app.use(session({
     name:'cookieSid',
@@ -34,14 +34,46 @@ app.use(session({
     saveUninitialized:false,
     cookie:{
         maxAge:20*60*1000,      // 20 min
-        sameSite:true
+        sameSite:true,
+        secure:false
     }
 }))
 
 app.get('/api/getLoginStatus', (req, res) => {
-    return res.json({ status: 'user' });
+
+  if(req.session?.loggedinState){
+    return res.json({ status: req.session.loggedinState });
+
+  }
+  else{
+    return res.json({ status: null });
+  }
 })
 
+app.post("/api/loginUser", (req, res) => {
+
+    const { email, password } = req.body; // Access request body
+
+    if (email === "123" && password === "123") {
+      req.session.loggedinState = "instructor";
+      res.json({ userExists: true });
+    } else {
+      res.json({ userExists: false  });
+    }
+});
+
+
+app.post("/api/logoutUser", (req,res)=>{
+  if (req.session) {
+      req.session.destroy((err) => {
+        if (err) {
+            console.error("Error destroying session:", err);
+            return res.status(500).end();
+        }
+        res.status(200).end();
+      });
+  } 
+})
 
 app.get('/api/reviews', (req, res) => {
     const reviews = [

@@ -1,4 +1,4 @@
-import {Link } from "react-router-dom"
+import {Link,useNavigate  } from "react-router-dom"
 import {memo,useState,useRef} from "react"
 
 import useCloseOnOutsideClick from "../../hooks/closeOnClickOutside.jsx"
@@ -15,25 +15,20 @@ import profileImgHolder from '../../assets/icons/profile.svg';
 import logout from '../../assets/icons/logout.svg';
 
 
-
-
 const Header= memo (({setIsChooseLessonParamsOpen,loginStatus})=>{
     const {t, i18n } = useTranslation("header");
     const currentLanguage = i18n.language;
 
     const handleLanguageChange = () => {
         if(currentLanguage=='en'){
-            i18n.changeLanguage('el'); // Change language dynamically
+            i18n.changeLanguage('el'); 
 
         }
         else if(currentLanguage=='el'){
-            i18n.changeLanguage('en'); // Change language dynamically
+            i18n.changeLanguage('en'); 
 
         }
       };
-
-
-        console.log('aa header',loginStatus)
 
 
     return(
@@ -41,7 +36,6 @@ const Header= memo (({setIsChooseLessonParamsOpen,loginStatus})=>{
             <header>
                 <nav>
                     <div className="nav-left">
-                        {/* <Link to={'/'} className="logo" onClick={urlPath==="/"?()=>setIsChooseLessonParamsOpen(false):null}> Easy Snow</Link> */}
                         <Link to={'/'} className="logo" onClick={()=>setIsChooseLessonParamsOpen(false)}> Easy Snow</Link>
 
                     </div>
@@ -49,9 +43,11 @@ const Header= memo (({setIsChooseLessonParamsOpen,loginStatus})=>{
 
                     <div className="nav-right">
                         <button onClick={()=>setIsChooseLessonParamsOpen(true)}> {t("Book")}</button>
-                        {!loginStatus&&<Link to={'/Login'} onClick={()=>setIsChooseLessonParamsOpen(false)}> {t("Login")}</Link>}
-                        {!loginStatus &&<Link to={'/'}> {t("Instructor signup")}</Link>}
-                        {loginStatus=='user' &&<Link to={'/'}> {t("Lessons")}</Link>}
+                        {!loginStatus&&<Link to={'/login'} onClick={()=>setIsChooseLessonParamsOpen(false)}> {t("Login")}</Link>}
+                        {!loginStatus &&<Link to={'/protected'}> {t("Instructor signup")}</Link>}
+                        {/* {true &&<Link to={'/protected'}> {t("Instructor signup")}</Link>} */}
+
+                        {loginStatus=='student' &&<Link to={'/'}> {t("Lessons")}</Link>}
 
                         {loginStatus=="instructor" &&<Link to={'/'}> {t("Schedule")}</Link>}
                         {loginStatus=="instructor" &&<Link to={'/'}> {t("Lessons")}</Link>}
@@ -81,11 +77,12 @@ const Header= memo (({setIsChooseLessonParamsOpen,loginStatus})=>{
 
 function Profile({loginStatus   }){
 
-    const [showProfile,setShowProfile]= useState(true)
+    const [showProfile,setShowProfile]= useState(false)
 
     const profile = useRef(null);
 
     useCloseOnOutsideClick(profile, ()=>setShowProfile(false));
+
 
 
 
@@ -115,8 +112,6 @@ function ProfileDropdown({loginStatus}){
         <>
             <div className="profileDropdown" >
                 <ProfileDropdownCom/>
-                {/* {loginStatus=='user' && <UserDropdown/>}
-                {loginStatus=='instructor' && <InstructorDropdown/>} */}
 
             </div>
         </>
@@ -127,6 +122,26 @@ function ProfileDropdownCom(){
 
     const {t} = useTranslation("header");
 
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+        try {
+            const response = await fetch("/api/logoutUser", { method: "POST" });
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            // On success, navigate to "/login" and pass current URL
+            // navigate("/login", { state: { from: location.pathname } });
+
+        } catch (error) {
+            console.error("Error logging out:", error);
+                                                            // ean den litourgisei i aposindesi apla fortoni i idia selida
+            return
+        }
+        navigate("/")
+        return 
+    };
+
 
     return(
         <>
@@ -136,10 +151,15 @@ function ProfileDropdownCom(){
                     {t("Profile")}
             </Link> 
 
-            <Link to='/Logout' className="dropdownLink">
-                    <img src={logout}></img>
-                    {t("Logout")}
-            </Link> 
+            {/* <Form method="post" className="dropdownLink"> */}
+                    {/* <img src={logout}></img> */}
+                    <button onClick={handleLogout} className="dropdownLink">
+                        <img src={logout} alt="Logout" />
+                        {t("Logout")}
+                    </button>
+
+            {/* </Form> */}
+
         </>
     )
 }
