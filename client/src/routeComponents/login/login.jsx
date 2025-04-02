@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useRef  } from "react";
 import { Link, Form,useActionData,redirect,useNavigation,useLocation  } from "react-router-dom";
 
 
@@ -15,7 +15,7 @@ export async function loginAction({request}){
     const formData= await request.formData()
 
     const email= formData.get("email")
-    const password= formData.get("password")
+    const password= formData.get("password")    
 
     try {
         const response = await fetch("/api/loginUser", {
@@ -27,9 +27,10 @@ export async function loginAction({request}){
         });
   
         if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);          //  2) memo sto root. 3) na bebeotho gia ta locals
+            throw new Error(`HTTP error! Status: ${response.status}`);    
         }                                                                       
         const success = (await response.json()).userExists
+
 
         if(!success){
             return {wrongCredentials:true}
@@ -101,9 +102,14 @@ export default function Login(){
 
 function LoginForm() {
 
+    console.log('################## ',process.env.NODE_ENV);
+
+
     const {t } = useTranslation("login");
 
     const navigation=useNavigation()
+
+    const timeoutRef = useRef(null);
 
     
     const [formData, setFormData] = useState({
@@ -133,6 +139,16 @@ function LoginForm() {
 
         if (hasErrors) {
             e.preventDefault();
+
+            if (timeoutRef.current) {
+                clearTimeout(timeoutRef.current);
+              }
+        
+              // Set a new timeout and store its ID
+              timeoutRef.current = setTimeout(() => {
+                setErrors({ email: false, password: false });
+                timeoutRef.current = null; // Reset ref
+              }, 1000);
         }
     };
 
@@ -175,7 +191,7 @@ function LoginForm() {
             </button>
 
             <div className="container">
-                <Link to='/Signup' className="dropdownLink">
+                <Link to='/signupSelect' className="dropdownLink">
                     {t("freeSignup")}
                 </Link> 
 

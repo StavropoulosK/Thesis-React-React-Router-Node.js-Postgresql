@@ -8,21 +8,31 @@ section.loginSignup{
 
 .loginSignup .imageContainer{
     margin-top:3rem;
-    max-width: 35vw;
+    max-width:500px;
     /* height: 700px; */
     position: relative;
     display: block;
+    flex:1;
+    min-width: 300px;
 
 }
 
-section.loginSignup img{
+section.loginSignup .imageContainer img{
     height: 730px;
-    width:500px;
-
+    width: 100%;
     object-fit: cover;
-    object-position: bottom !important; /* Shifts the zoom to the top */
+    object-position: bottom ; /* Shifts the zoom to the top */
 
     display: block;
+}
+
+.loginSignup svg{
+    position:absolute;
+    bottom:10px;
+    left:10px;
+    width:1rem;
+    height:1rem;
+    margin-right: 1rem;
 }
 
 .loginSignup .imageText{
@@ -53,5 +63,7 @@ section.loginSignup img{
     display: flex;
     justify-content: center; /* Vertical center */
     align-items: center; /* Horizontal center */
-        
+    min-width: 500px;
+    flex:1;
 }
+

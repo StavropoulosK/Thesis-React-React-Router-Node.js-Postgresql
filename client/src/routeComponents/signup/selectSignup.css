@@ -1,0 +1,58 @@
+
+.selectSignupContainer{
+    display: flex;
+    flex-direction: column;
+    /* border:2px solid black; */
+    width: 500px;
+    height: 380px;
+    position: relative;
+    bottom:2rem;
+    right:5rem;
+    align-items: center;
+    /* background-color: red; */
+
+}
+
+
+
+.loginSignup h3.selectSignup{
+    color:#085256;
+    font-size: 2rem;
+    margin-bottom:3.5rem;
+    width: 100%;;
+    text-align: center;
+
+}
+.loginSignup span{
+    font-size: 0.8rem;
+    font-weight: 300;
+}
+.selectSignupContainer h4{
+    color: rgba(0,0,0,0.8);
+    font-size: 1.2em;
+    margin-top:0;
+}
+
+.selectSignupContainer a:first-of-type{
+    background-color: rgba(17, 179, 187,0.8);
+    margin-top:1.7rem;
+    margin-bottom:1.1rem;
+    color:white
+}
+
+.selectSignupContainer a:last-of-type{
+    background-color: white;
+    
+    color:rgba(17, 179, 187,0.8);
+    border:1px solid rgba(17, 179, 187,0.8);
+
+}
+
+.selectSignupContainer a{
+    text-decoration: none;
+    color:white;
+    width: 400px;
+    padding:0.5rem;
+    text-align: center;
+    border-radius: 2.5rem;
+}

@@ -1,0 +1,32 @@
+{
+    "choseAccount":"Επιλέξτε τον λογαριασμό σας",
+    "student":"Θέλετε να μάθετε; Εγγραφείτε σαν πελάτης!",
+    "instructor":" Θέλετε να διδάξετε; Εγγραφείτε σαν προπονητής!",
+    "student account":"Λογαριασμός χιονοδρόμου",
+    "instructor account":"Λογαριασμός προπονητή",
+
+    "Sign up failed":"Η εγγραφή απέτυχε",
+    "Required field":"Υποχρεωτικό πεδίο",
+    "Please enter a valid email adress":"Παρακαλούμε εισάγετε μία έγκυρη διεύθυνση",
+    "Email is already used":"Η ηλεκτρονική διεύθυνση χρησιμοποιείται ήδη",
+    "Password must contain at least 8 characters":"Ο κωδικός πρέπει να έχει τουλάχιστον 8 χαρακτήρες",
+    "Password must contain at least 1 number":"Ο κωδικός πρέπει να έχει τουλάχιστον 1  αριθμό",
+    "Password must contain at least 1 letter":"Ο κωδικός πρέπει να έχει τουλάχιστον 1  γράμμα",
+    "Passwords do not match":"Οι κωδικοί δεν ταιριάζουν",
+    "Please enter a valid phone number":"Παρακαλούμε εισάγετε ένα έγκυρο κινητό τηλέφωνο",
+    "firstName":"Όνομα",
+    "lastName":"Επώνυμο",
+    "email address":"Διεύθυνση email",
+    "password":"Κωδικός",
+    "passwordInfo":"Για λόγους ασφαλείας, ο κωδικός πρέπει να έχει:",
+    "passwordRule1":"τουλάχιστον 8 χαρακτήρες με συνδυασμό αλφαριθμητικών και αριθμών",
+    "passwordRule2":"τουλάχιστον 1 αλφαριθμητικό",
+    "passwordRule3":"τουλάχιστον 1 αριθμό",
+    "Confirm password":"Επιβεβαίωση κωδικού",
+    "Phone number":" Κινητό",
+    "Create Account":"Εγγραφή"
+
+
+
+
+}

@@ -15,13 +15,20 @@ const PORT= process.env.PORT || 3000
 const distPath= path.join (__dirname,'../client/dist')
 // const tempPath= path.join(__dirname,'../client')
 
-// const publicPath= path.join (__dirname,'./src')
-// app.use(express.static(publicPath))
+const publicPath= path.join (__dirname,'./client/public')
+
+// const localesPath = path.join(__dirname, "../client/dist/locales"); // Ensure locales are inside dist!
+
+// Serve translation files correctly
 
 
 const app=express()
 
+app.use(express.static(publicPath))
 app.use(express.static(distPath))
+
+
+// app.use(express.static(localesPath));
 
 
 
@@ -73,6 +80,14 @@ app.post("/api/logoutUser", (req,res)=>{
         res.status(200).end();
       });
   } 
+})
+
+app.post('/api/checkEmailIsUsed',async (req,res)=>{
+      const { userEmail } = req.body; 
+      let result= await checkEmailIsUsed(userEmail)
+
+      res.json({ emailAlreadyUsed: result  });
+
 })
 
 app.get('/api/reviews', (req, res) => {
@@ -128,13 +143,31 @@ app.get('/api/reviews', (req, res) => {
     res.json(reviews);
   });
 
+app.post('/api/signupUser', async(req,res)=>{
+  console.log('asassas')
+  const { firstName,lastName,email,password,passwordCheck,countryPhoneCode,phoneNumber,accountType} = req.body; 
+
+  const isValid= await validateSignUpInputs(firstName,lastName,email,password,passwordCheck,countryPhoneCode,phoneNumber,accountType)
+  
+  if(isValid){
+    req.session.loggedinState = "instructor";
+    res.json({ signUpSuccess: true  });
+
+  }
+  else{
+    res.json({ signUpSuccess: false  });
+
+  }
+})
+
 app.get('*',(req,res)=>{
 
     // xrisimopoioume client side routing. 
     const staticFileRegex = /\.(js|css|png|jpg|jpeg|gif|ico|json|woff|woff2|ttf|eot|svg)$/i;
-    
+    console.log('asassas')
+
     if (staticFileRegex.test(req.url)) {
-      console.log('returnn')
+      console.log("### ",req.url)
       return; // Let static file handling take care of it
     }
   
@@ -145,3 +178,102 @@ app.get('*',(req,res)=>{
 app.listen(PORT,()=>{
     console.log(`server listening on http://localhost:${PORT}`)
 })
+
+
+
+
+
+
+
+
+
+
+
+async function validateSignUpInputs(firstName,lastName,email,password,passwordCheck,countryPhoneCode,phoneNumber,accountType){
+
+  if(accountType!="user" && accountType!="instructor"){
+    return false
+  }
+
+
+  if(!countryPhoneCode){
+    return false
+  }
+  if(!firstName){
+    return false
+  }
+
+
+  if(!lastName){
+    return false
+  }
+
+
+  if(!email){
+    return false
+  }
+  else if(!validateEmailExpression(email)){
+    return false
+  }
+  else if((await checkEmailIsUsed(email))){
+    return false
+
+  }
+
+
+  if(!password){
+    return false
+  }
+  else if(password.length<8){
+    return false
+
+  }
+  else if(!(/\d/.test(password))){
+    return false
+
+  }
+  else if(!(/\p{L}/u.test(password))){
+    return false
+  }
+
+  if(!passwordCheck){
+    return false
+
+  }
+  else if(passwordCheck!=password){
+    return false
+  }
+
+  if(!phoneNumber){
+    return false
+  }      
+  else if(phoneNumber.length!=10 || (/\p{L}/u.test(phoneNumber))){
+    return false
+  }
+  
+  return true
+
+}
+
+
+const validateEmailExpression = (email) => {
+  // regex expression https://stackoverflow.com/questions/46155/how-can-i-validate-an-email-address-in-javascript
+
+  return String(email)
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+};
+
+async function checkEmailIsUsed(userEmail){
+  await new Promise(resolve => setTimeout(resolve, 2000));
+
+
+  if(userEmail=="12@gmail.com"){
+    return true
+  }
+  else{
+    return false
+  }
+}

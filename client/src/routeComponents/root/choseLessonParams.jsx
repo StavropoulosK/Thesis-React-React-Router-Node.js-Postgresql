@@ -31,7 +31,7 @@ export default function ChoseLessonParams({onReservationClick,selectedSport,canc
                             onReservationClick()
                             cancelSelectedSport()
                         }}>
-                            <img src="icons/startPage/close.png"/>
+                            <img src="/icons/startPage/close.png"/>
                         </button>
                         <h2>
                             {t("header")}
@@ -146,7 +146,7 @@ function CalendarContainer({arrivalDate,setArrivalDate,departureDate,setDepartur
         <>
             <div className="dropdown calendar" ref={dropdownRef}>
                 <button onClick={() => setIsOpen(!isOpen)} className="dropdown-button" type="button">
-                    <img src={"../../../icons/lessonParams/calendar.png"} />
+                    <img src={"/icons/lessonParams/calendar.png"} />
                     {(arrivalDate&&departureDate)?`${formatDate(arrivalDate)} - ${formatDate(departureDate)}`:t("Date")}
                 </button>
 
@@ -257,7 +257,7 @@ function Calendar({onclose,arrivalDate,setArrivalDate,departureDate,setDeparture
         <div className="dropdown-menu calendarMenu">
           <div className="calendar-header">
               <button type="button" className="closeCalendar" onClick={onclose}>
-                <img src="icons/startPage/close.png"/>
+                <img src="/icons/startPage/close.png"/>
 
               
               </button>

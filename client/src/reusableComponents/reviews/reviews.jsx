@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 
 // 0 react. oti exei gini render, an den alaksi den ksanaginetai render
 
-// 1 Suspense + React router await (Loading Asynchronous Data)          kanei render to component kai ta data otan katebastoun
+// 1 Suspense + React router await (Loading Asynchronous Data)          kanei render to component kai ta data otan katebastoun          a
 // https://reactrouter.com/how-to/suspense
 // seo
 
@@ -23,7 +23,7 @@ import { useTranslation } from "react-i18next";
 // https://kentcdodds.com/blog/optimize-react-re-renders
 
 
-// 3 Lazy loading   (loading asynchronous components)    katebazi to component otan einai na gini render gia proti fora, elatoni to xrono arxikis fortosis
+// 3 Lazy loading   (loading asynchronous components)    katebazi to component otan einai na gini render gia proti fora, elatoni to xrono arxikis fortosis          b
 // https://www.youtube.com/watch?v=JU6sl_yyZqs&t=125s
 
 // 4 vite , vite graph
@@ -35,7 +35,7 @@ import { useTranslation } from "react-i18next";
 // 6 dynamic import vs static vs public 
 // https://vite.dev/guide/features
 
-// 7 internationalization, ta arxia fortonoun otan xriazontai apo to stixio kai gia kathe glosa ksexorista
+// 7 internationalization, ta arxia fortonoun otan xriazontai apo to stixio kai gia kathe glosa ksexorista          c
 // https://www.i18next.com/how-to/add-or-load-translations
 // https://tariqul-islam-rony.medium.com/internationalization-localization-with-react-js-65d6f6badd56
 
@@ -43,13 +43,13 @@ import { useTranslation } from "react-i18next";
 
 // 9 restfull αρχιτεκτονικη
 
-//  10 sessions, expire logout
+//  10 sessions, expire logout                      d
 //  https://stackblitz.com/github/remix-run/react-router/tree/main/examples/auth-router-provider?file=src%2FApp.tsx
 //  https://stackoverflow.com/questions/77133906/react-router-run-a-parent-route-loader-function-each-time-one-if-its-sub-route
 //  https://remix.run/docs/en/1.19.3/pages/faq#how-can-i-have-a-parent-route-loader-validate-the-user-and-protect-all-child-routes
 //  https://github.com/remix-run/react-router/issues/9188#issuecomment-1248180434
 
-// 11 Xoris login otan pas na kanis prosbassi se protected route se kanei redirect sto login
+// 11 Xoris login otan pas na kanis prosbassi se protected route se kanei redirect sto login                e
 // Meta to login se kanei redirect sto protected route kai to koumpi piso den se pigeni sto login
 // https://stackblitz.com/github/remix-run/react-router/tree/main/examples/auth-router-provider?file=README.md
 

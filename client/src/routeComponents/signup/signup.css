@@ -1,0 +1,250 @@
+.signup{
+    display: flex;
+    flex-direction: column;
+    /* border:2px solid black; */
+    width: 450px;
+    height: 380px;
+    position: relative;
+    bottom:2rem;
+    right:5rem;
+    align-items: center;
+
+}
+
+.loginSignup .signup h3{
+    color:#085256;
+    font-size: 2rem;
+    margin-bottom:3.5rem;
+    width: 100%;;
+    text-align: center;
+}
+
+
+.signup form{
+  /* background-color: blue; */
+  margin-left:40px;
+  margin-right:40px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+}
+
+.signup .half{
+  display: flex;
+}
+
+form > div {
+  margin-bottom:0.4rem;
+}
+
+
+.signup .half > *:not(:last-child) {
+  margin-right: 1rem; /* Adds spacing only to the right of each child except the last one */
+}
+
+.signup .full{
+  box-sizing: border-box;
+  width:100%;
+
+}
+
+.signup .errorContainer {
+  position: relative;
+
+}
+
+.signup .password .container{
+  position: relative;
+}
+
+.signup .full input{
+  width:100%;
+  box-sizing: border-box;
+
+}
+
+
+.signup .phone{
+  display: flex;
+}
+
+.signup .phone .errorContainer{
+  width: 100%;
+}
+
+.signup div.errorContainer p.error{
+  margin:0;
+  font-size: 0.9rem;
+  margin-top:0.1rem;
+  position: absolute;
+  top:2.5rem;
+  left:0.5rem;
+  width: 100%;
+  
+}
+
+.signup p.result{
+  font-size: 1rem;
+  margin: 0 auto;
+  margin-top:1rem;
+
+}
+
+.signup .phone .second {
+  flex-grow: 1; /* Allows .second to take remaining space */
+  display: flex; /* Ensures the input follows flex rules */
+  width: 100%;
+}
+
+.signup .phone .second input{
+  flex-grow:1;
+  width: 100%;
+  box-sizing: border-box;
+
+}
+
+.signup input {
+  padding: 0.7rem 0.5rem;
+  border: 1px solid black;
+  border-radius: 0.6rem;
+  box-sizing: border-box;
+  padding-left:2rem ;
+  width: 100%;
+}
+
+
+.signup input:focus{
+  outline: none;
+}
+
+.signup label{
+  position: relative;
+  height: fit-content;
+  display: inline-block;
+  margin-top:0;
+}
+
+.signup .full label{
+  width: 100% ;
+}
+
+.signup .errorElement{
+  width: fit-content;
+  margin: 0 auto;
+  margin-top:1rem;
+  color: red;
+  padding-left:1rem;
+  min-height:2rem;
+}
+
+
+
+.signup .phone label.first{
+  display: flex;
+  box-sizing: border-box;
+  height:auto;
+}
+
+.signup .phone .dropdown{
+  height: 100%;
+  margin-bottom:0 ;
+  box-sizing: border-box;
+}
+
+.signup .phone .dropdown .dropdown-button{
+  cursor: pointer;
+  height: 100%;
+}
+
+.signup .phone .dropdown {
+  margin: right 1rem;;
+}
+
+ .signup button.submit{
+  background-color: rgba(17, 179, 187, 0.8);
+  color: white;
+  padding: 0.7rem 1rem;
+  border-radius: 1.5rem;
+  border:none;
+  cursor: pointer;
+}
+
+ .snowglobe{
+  display: block;
+  height: 4rem ;
+  right:-9rem;
+  top:-1.5rem;
+  width: 4rem ;
+  object-fit: cover;
+  position: absolute;
+  display: block;
+}
+
+.signup .container .password{
+  padding-right:1.8rem;
+}
+
+.password  .container.passwordCheck{
+  margin-right:0 !important;
+}
+
+.password  .container{
+  flex:1 
+}
+
+.signup .infoBtn{
+  position: absolute;
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 50%;
+  border: none;
+  right:0.5rem;
+  bottom:12px;
+  background-color: rgba(133, 130, 130,0.2);
+  padding:0rem;
+  cursor:pointer
+}
+
+.signup .passwordInfo{
+  position: absolute !important;
+  display: inline-block;
+  bottom:2.2rem;
+  background-color: rgb(91, 90, 90);
+  color:white;
+  z-index: 2;
+  border:1px solid rgb(0, 0, 0);
+  right:-6.5rem;
+  width: 14rem;
+  font-size: 0.9rem;
+  display: none;
+  padding:0.2rem 0.3rem;
+  padding-left:0.4rem;
+}
+
+.signup .passwordInfo ul{
+  padding-left:0.8rem;
+}
+
+.signup .passwordInfo li{
+  font-size: 0.8rem;
+
+}
+
+.infoBtn:hover + .passwordInfo {
+  display: block;
+}
+
+/* color: rgb(198, 19, 48); */
+
+.signup .error{
+  color: rgb(198, 19, 48);
+
+  /* color: rgb(225, 20, 54); */
+}
+
+
+.signup button.submit.pending{
+  background-color: rgba(17, 179, 187, 0.5);
+
+}

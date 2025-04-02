@@ -42,7 +42,11 @@ const Header= memo (({setIsChooseLessonParamsOpen,loginStatus})=>{
 
 
                     <div className="nav-right">
-                        <button onClick={()=>setIsChooseLessonParamsOpen(true)}> {t("Book")}</button>
+                        <button onClick={()=>{
+                            console.log("click !!! ")
+                            setIsChooseLessonParamsOpen(true)}}
+                            
+                        > {t("Book")}</button>
                         {!loginStatus&&<Link to={'/login'} onClick={()=>setIsChooseLessonParamsOpen(false)}> {t("Login")}</Link>}
                         {!loginStatus &&<Link to={'/protected'}> {t("Instructor signup")}</Link>}
                         {/* {true &&<Link to={'/protected'}> {t("Instructor signup")}</Link>} */}

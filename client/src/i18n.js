@@ -25,7 +25,7 @@ i18n
   .use(HttpBackend)         //HttpBackend
   .use(initReactI18next) // For React integration
   .init({
-    debug:true,
+    // debug:true,
     lng:"el",
     fallbackLng:'el',
     partialBundledLanguages: true,
@@ -48,7 +48,7 @@ i18n
   //   }
   // },
   backend: {
-    loadPath: '/locales/{{lng}}/{{ns}}.json', // Path pattern for loading translations
+    loadPath: '/locales/{{lng}}/{{ns}}.json', 
   },
   react: {
     // useSuspense: false 

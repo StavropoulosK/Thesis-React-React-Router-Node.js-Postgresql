@@ -10,13 +10,17 @@ import Root from './routeComponents/root/root.jsx'
 
 import ErrorPage from './routeComponents/root/errorElement.jsx'
 
-// import Index from "./routeComponents/index/index.jsx"
+import Index from "./routeComponents/index/index.jsx"
 import BookLesson from "./routeComponents/bookLesson/bookLesson.jsx"
 import {bookLessonLoader} from "./routeComponents/bookLesson/bookLesson.jsx"
 
 import Login from "./routeComponents/login/login.jsx"
 import {loginAction} from "./routeComponents/login/login.jsx"
 
+import SelectSignup from "./routeComponents/signup/selectSignup.jsx"
+
+import Signup from "./routeComponents/signup/signup.jsx"
+import {signupAction} from "./routeComponents/signup/signup.jsx"
 
 
 import {reviewsLoader} from "./reusableComponents/reviews/reviews.jsx"
@@ -29,7 +33,7 @@ import './i18n.js'
 
 
 
-const Index= lazy(()=>import("./routeComponents/index/index.jsx"))
+// const Index= lazy(()=>import("./routeComponents/index/index.jsx"))
 
 
 // loaders gia routes pou einai accessible mono gia mi logged in kai elegxos me redirect.
@@ -61,6 +65,15 @@ const router= createBrowserRouter([
             path:"login",
             element:<Login/>,
             action:loginAction
+          },
+          {
+            path:"signupSelect",
+            element:<SelectSignup/>,
+          },
+          {
+            path:"signup/:account",
+            element:<Signup/>,
+            action:signupAction
           },
           {
             path:"protected",

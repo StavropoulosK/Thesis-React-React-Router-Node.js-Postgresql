@@ -12,8 +12,8 @@ import Footer from "./footer.jsx"
 import ChoseLessonParams from "./choseLessonParams.jsx"
 
 export const rootLoader = async ({request}) => {                
-    
-    console.log('!!!!!!!!!! loader')
+
+    console.log('root loader')
     const fullUrl = request.url;
     
     // Create a URL object to easily extract the pathname
@@ -58,9 +58,9 @@ export default function Root(){
 
     const loginStatus= useLoaderData()
 
-    console.log('root ',loginStatus)
+    // console.log('root ',loginStatus)
 
-
+    // console.log('root')
     const [isChooseLessonParamsOpen,setIsChooseLessonParamsOpen]=useState(false)
     const [selectedSport,setSelectedSport]=useState("")
 
