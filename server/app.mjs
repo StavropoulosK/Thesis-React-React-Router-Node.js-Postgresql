@@ -15,7 +15,8 @@ const PORT= process.env.PORT || 3000
 const distPath= path.join (__dirname,'../client/dist')
 // const tempPath= path.join(__dirname,'../client')
 
-const publicPath= path.join (__dirname,'./client/public')
+const publicPath= path.join (__dirname,'./public')
+
 
 // const localesPath = path.join(__dirname, "../client/dist/locales"); // Ensure locales are inside dist!
 
@@ -24,7 +25,7 @@ const publicPath= path.join (__dirname,'./client/public')
 
 const app=express()
 
-app.use(express.static(publicPath))
+// app.use(express.static(publicPath))
 app.use(express.static(distPath))
 
 
@@ -168,7 +169,8 @@ app.get('*',(req,res)=>{
 
     if (staticFileRegex.test(req.url)) {
       console.log("### ",req.url)
-      return; // Let static file handling take care of it
+      res.status(404).send("File not found or invalid route!");
+      return
     }
   
       res.sendFile('index.html',{root:distPath});
