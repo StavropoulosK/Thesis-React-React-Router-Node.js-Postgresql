@@ -1,0 +1,30 @@
+{
+    "choseAccount":"Select your account",
+    "student":"Do you want to learn; Signup as student!",
+    "instructor":"Do you want to teach; Signup as instructor!",
+    "student account":"Student account",
+    "instructor account":"Instructor account",
+
+    "Sign up failed":"Sign up failed",
+    "Required field":"Required field",
+    "Please enter a valid email adress":"Please enter a valid email adress",
+    "Email is already used":"Email address is already used",
+    "Password must contain at least 8 characters":"Password must contain at least 8 characters",
+    "Password must contain at least 1 number":"Password must contain at least 1 number",
+    "Password must contain at least 1 letter":"Password must contain at least 1 letter",
+    "Passwords do not match":"Passwords do not match",
+    "Please enter a valid phone number":"Please enter a valid phone number",
+    "firstName":"First name",
+    "lastName":"Last name",
+    "email address":"Email address",
+    "password":"Password",
+    "passwordInfo":"For security reasons, password must contain:",
+    "passwordRule1":"at least 8 characters (letters and digits)",
+    "passwordRule2":"at least 1 letter",
+    "passwordRule3":"at least 1 number",
+    "Confirm password":"Confirm password",
+    "Phone number":" Phone number",
+    "Create Account":"Create account"
+
+
+}

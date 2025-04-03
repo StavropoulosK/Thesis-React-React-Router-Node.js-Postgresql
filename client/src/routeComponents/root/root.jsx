@@ -13,17 +13,7 @@ import ChoseLessonParams from "./choseLessonParams.jsx"
 
 export const rootLoader = async ({request}) => {                
 
-    console.log('root loader')
-    const fullUrl = request.url;
-    
-    // Create a URL object to easily extract the pathname
-    const url = new URL(fullUrl);
-
-    // Extract the relative part (pathname)
-    const relativeUrl = url.pathname;
-
     let status
-    // console.log('Request URL:', relativeUrl);
 
     try {
 
@@ -35,8 +25,6 @@ export const rootLoader = async ({request}) => {
         const data = await response.json();
         status= data.status
             
-        console.log('status ',status)
-
     }
     catch (error) {
         console.error('Error connecting to server', error);
@@ -47,20 +35,13 @@ export const rootLoader = async ({request}) => {
   };
 
 
-  //  https://stackoverflow.com/questions/77133906/react-router-run-a-parent-route-loader-function-each-time-one-if-its-sub-route
-  //  https://remix.run/docs/en/1.19.3/pages/faq#how-can-i-have-a-parent-route-loader-validate-the-user-and-protect-all-child-routes
-  //  https://github.com/remix-run/react-router/issues/9188#issuecomment-1248180434
-
-
 export default function Root(){
 
     // epilogi sport apo index allagi selidas kai meta kratisi apo header => thimate to sport
 
     const loginStatus= useLoaderData()
 
-    // console.log('root ',loginStatus)
 
-    // console.log('root')
     const [isChooseLessonParamsOpen,setIsChooseLessonParamsOpen]=useState(false)
     const [selectedSport,setSelectedSport]=useState("")
 

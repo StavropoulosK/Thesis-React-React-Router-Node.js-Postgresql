@@ -1,0 +1,21 @@
+{
+    "Title":"User reviews",
+    "Ski":"Ski",
+    "Snowboard":"Snowboard",
+    "Sit ski":"Sit ski",
+
+    "Anilio": "Anilio",
+    "Vasilitsa": "Vasilitsa",
+    "Velouhio": "Velouhio",
+    "Elatochori": "Elatochori",
+    "Kaimaktsalan": "Kaimaktsalan",
+    "Kalavryta": "Kalavryta",
+    "Mainalos": "Mainalos",
+    "Parnassos": "Parnassos",
+    "Pilio": "Pilio",
+    "Pisoderi": "Pisoderi",
+    "Falakrou": "Falakrou",
+    "3-5 Pigadia": "3-5 Pigadia",
+    "review info":"{{studentName}} had {{lessonHours}} hour lesson with "
+
+}

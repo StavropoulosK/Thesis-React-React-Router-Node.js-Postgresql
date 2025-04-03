@@ -13,7 +13,6 @@ import snowglobe from "../../assets/illustrations/snowGlobe.svg"
 
 
 // validation for email (valid expression, already used), password (valid password, same password in both fields), phoneNumber
-// build,session
 
 const validateEmailExpression = (email) => {
   // regex expression https://stackoverflow.com/questions/46155/how-can-i-validate-an-email-address-in-javascript

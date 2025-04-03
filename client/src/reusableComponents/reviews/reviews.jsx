@@ -34,6 +34,7 @@ import { useTranslation } from "react-i18next";
 
 // 6 dynamic import vs static vs public 
 // https://vite.dev/guide/features
+// https://vite.dev/guide/assets#the-public-directory
 
 // 7 internationalization, ta arxia fortonoun otan xriazontai apo to stixio kai gia kathe glosa ksexorista          c
 // https://www.i18next.com/how-to/add-or-load-translations
