@@ -1,6 +1,8 @@
 
 import "./index.css"
 
+// import initialImg from "/src/assets/images/startPage/initial_page.jpg"
+
 
 import Reviews from "../../reusableComponents/reviews/reviews.jsx"
 import { useOutletContext } from "react-router-dom";
@@ -55,8 +57,9 @@ const Index=memo(()=>{
 
             <section className="topPortion">
                 <div className="imgContainer">
-                    <img id="startImg" src="/images/startPage/initial_page2.jpg" alt="people enjoying their time on the ski resort" />
-                    {/* <span className="welcomeText">Ζήστε αξέχαστες εμπειρίες</span> */}
+                    <img id="startImg" src="/images/startPage/initial_page.jpg" alt="people enjoying their time on the ski resort" />
+                    {/* <img id="startImg" src={initialImg} /> */}
+
                     <span className="welcomeText">{t("startMessage")}</span>
 
                 </div>

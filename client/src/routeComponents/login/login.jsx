@@ -102,8 +102,6 @@ export default function Login(){
 
 function LoginForm() {
 
-    console.log('################## ',process.env.NODE_ENV);
-
 
     const {t } = useTranslation("login");
 

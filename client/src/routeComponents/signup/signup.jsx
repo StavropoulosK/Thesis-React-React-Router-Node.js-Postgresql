@@ -364,6 +364,8 @@ export default function Signup(){
 
     let {firstNameError, lastNameError,emailError, passwordError,passwordCheckError,phoneNumberError,errorMsg} = (!formSubmitting)? useActionData() || {} : {}
 
+    console.log('asa## ',useActionData())
+
     // console.log('aaaa ',firstNameError, lastNameError,emailError, passwordError,passwordCheckError,phoneNumberError)
 
     const showPasswordCheckError= (showActionError.passwordCheck && (!(passwordCheckError=="Required field") )  ||  (showActionError.password && !(passwordError=="Required field"))) || errors.password

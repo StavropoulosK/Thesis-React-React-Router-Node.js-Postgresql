@@ -17,8 +17,6 @@ const distPath= path.join (__dirname,'../client/dist')
 const publicPath= path.join (__dirname,'./public')
 
 
-// const localesPath = path.join(__dirname, "../client/dist/locales"); // Ensure locales are inside dist!
-
 
 
 const app=express()
@@ -26,8 +24,6 @@ const app=express()
 // app.use(express.static(publicPath))
 app.use(express.static(distPath))     // ta public files topothetountai kata to build sto distpath kai serbirontai apo eki.
 
-
-// app.use(express.static(localesPath));
 
 
 
@@ -39,9 +35,7 @@ app.use(session({
     resave:false,
     saveUninitialized:false,
     cookie:{
-        // maxAge:20*60*1000,      // 20 min
-        maxAge:0.5*60*1000,      // 20 min
-
+        maxAge:20*60*1000,      // 20 min
         sameSite:true,
         secure:false,
     }

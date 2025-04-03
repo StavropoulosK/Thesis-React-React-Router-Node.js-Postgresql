@@ -25,16 +25,18 @@ import { useTranslation } from "react-i18next";
 
 // 3 Lazy loading   (loading asynchronous components)    katebazi to component otan einai na gini render gia proti fora, elatoni to xrono arxikis fortosis          b
 // https://www.youtube.com/watch?v=JU6sl_yyZqs&t=125s
+// https://reactrouter.com/6.30.0/route/lazy
 
 // 4 vite , vite graph
 // https://medium.com/sessionstack-blog/how-javascript-works-a-deep-dive-into-vite-965bdd8ffb42#:~:text=Vite%20is%20a%20JavaScript%20build,your%20code%20locally%20during%20development
 // https://medium.com/@iboroinyang01/bundle-up-vite-or-webpack-c260915e0ff7#:~:text=its%20remarkable%20speed.-,Vite.,and%20deployment%20times%20are%20accelerated.
+// https://vite.dev/guide/assets#the-public-directory
 
 // 5 server side rendering (normal handle-bars) client side rendering
 
 // 6 dynamic import vs static vs public 
 // https://vite.dev/guide/features
-// https://vite.dev/guide/assets#the-public-directory
+
 
 // 7 internationalization, ta arxia fortonoun otan xriazontai apo to stixio kai gia kathe glosa ksexorista          c
 // https://www.i18next.com/how-to/add-or-load-translations

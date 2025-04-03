@@ -21,6 +21,6 @@ export default defineConfig({
       },
     },
   },
-  // publicDir: path.resolve(__dirname, '../server/public'),        // mporoume na to apenergopoiisoume kai na baloume to public sto client. sto dev serbirontai automata kai sto build antigrafontai sto dist folder pou einai public ston server
+  // publicDir: path.resolve(__dirname, '../server/public'),        // mporoume na to apenergopoiisoume kai na baloume to public sto client folder. sto dev serbirontai automata kai sto build antigrafontai sto dist folder pou einai public ston server
 
 });
