@@ -1,0 +1,103 @@
+.topBar {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 30px 0;
+    padding-top:7rem;
+  }
+  
+  .line-wrapper {
+    position: relative;
+    width: 90%;
+    height: 10px;
+
+  }
+
+  .topBar img{
+    width: 1.6rem;
+  }
+
+  .remaining-line{
+    position: absolute;
+    top: 0;
+    height: 10px;
+    border-radius: 5px;
+    z-index: 0;
+    border: 1px solid black;
+  }
+
+  /* Blue progress line */
+  .progress-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 10px;
+
+    background-color: rgba(17, 179, 187, 0.8);
+    border-radius: 5px;
+    z-index: 1;
+  }
+  
+  .circle {
+    position: absolute;
+    width: 2.6rem;
+    height: 2.6rem;
+    background-color: white;
+    border-radius: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .circle-blue {
+    border: 1px solid rgba(17, 179, 187, 0.8);
+  }
+  
+  .circle-black {
+    border: 1px solid black;
+  }
+  
+  .circle-small {
+    position: absolute;
+    width: 11px;
+    height: 11px;
+    background-color: #41c2c9;
+    border-radius: 50%;
+    top: 0px;
+    right: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  
+  .tick {
+    color: white;
+    font-size: 10px;
+    position: relative;
+  }
+  
+
+  .topBar svg.border{
+    border: 2px solid black;
+    border-radius: 20%;
+
+  }
+
+  .circle-text {
+    margin-top: 0.5rem; /* Add space between the circle and the text */
+    font-size: 12px;
+    text-align: center;
+    color: #333; /* Or any color you prefer */
+  }
+
+  .text {
+    position: absolute;
+    z-index: 1;
+    top: 2rem;  
+    transform: translateX(-50%); 
+    font-size: 14px;
+  }

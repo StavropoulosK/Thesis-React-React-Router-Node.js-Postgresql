@@ -8,8 +8,9 @@ import { useTranslation } from "react-i18next";
 import { useState,useRef } from "react";
 import Dropdown from "./../../reusableComponents/dropdown/dropdown.jsx"
 
-import globe from "../../assets/icons/login_signup/globe.svg"
-import snowglobe from "../../assets/illustrations/snowGlobe.svg"
+import globe from "/icons/loginSignup/globe.svg"
+// import snowglobe from "../../assets/illustrations/snowGlobe.svg"
+import snowglobe from "/illustrations/snowGlobe.svg"
 
 
 // validation for email (valid expression, already used), password (valid password, same password in both fields), phoneNumber
@@ -65,7 +66,6 @@ const checkEmailIsUsed= async(email)=>{
 export async function signupAction({request,params}){
     const formData= await request.formData()
     const {firstName,lastName,email,password,passwordCheck,countryPhoneCode,phoneNumber}= Object.fromEntries(formData)
-
     
     const accountType= params.account
     
@@ -560,7 +560,7 @@ export function Signup(){
 
 
 
-                        <button type="submit" className={`submit ${(navigation.state === "submitting" || navigation.state === "loading")?"pending":""   } `}>
+                        <button type="submit" className={`submit ${(navigation.state === "submitting")?"pending":""   } `}>
                             {t("Create Account")}
                         </button>
 

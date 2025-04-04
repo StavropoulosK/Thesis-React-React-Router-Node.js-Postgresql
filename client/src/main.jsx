@@ -63,8 +63,9 @@ const router= createBrowserRouter([
             // loader: reviewsLoader
             
           },
-          {
-            path:"bookLesson/resort/:resort/dates/:dates/sport/:sport/members/:members",
+          {  
+            path: "bookLesson",
+            // path:"bookLesson/resort/:resort/sport/:sport/from/:from/to/:to/members/:members",
             async lazy(){
               const {BookLesson,bookLessonLoader}= await import("./routeComponents/bookLesson/bookLesson.jsx")
               return {element:<BookLesson/>, loader:bookLessonLoader}
@@ -120,15 +121,6 @@ const router= createBrowserRouter([
 
 
 
-createRoot(document.getElementById('root')).render(
- <StrictMode>
-
-      <RouterProvider router={router} />
-  </StrictMode>
-)
-
-
-
 
 
 
@@ -179,3 +171,11 @@ createRoot(document.getElementById('root')).render(
 //     ]
 //   }
 // ])
+
+
+createRoot(document.getElementById('root')).render(
+ <StrictMode>
+
+      <RouterProvider router={router} />
+  </StrictMode>
+)

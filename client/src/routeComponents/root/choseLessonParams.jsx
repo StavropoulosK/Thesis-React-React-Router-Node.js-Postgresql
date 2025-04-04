@@ -77,8 +77,12 @@ function LessonParamsForm({selectedSport,onReservationClick}){
   const partNumber=selectedNumberOfParticipants.split(" ")[0]
 
   const constructURL = () => {
+    console.log('#### ',formatDate(arrivalDate))
     const dates = `${formatDate(arrivalDate)}and${formatDate(departureDate)}`;
-    return `/bookLesson/resort/${selectedResort}/dates/${dates}/sport/${selectedActivity}/members/${partNumber}`;
+    // return `/bookLesson/resort/${selectedResort}/sport/${selectedActivity}/from/${formatDate(arrivalDate)}/to/${formatDate(departureDate)}/members/${partNumber}`;
+    return `/bookLesson?resort=${selectedResort}&sport=${selectedActivity}&from=${formatDate(arrivalDate)}&to=${formatDate(departureDate)}&members=${partNumber}`;
+
+
   };
 
   function handleSubmit(ev){
@@ -101,10 +105,10 @@ function LessonParamsForm({selectedSport,onReservationClick}){
   return(
     <>
       <Form method="get" id="lessonParamsForm">
-          <Dropdown namespace={"choseLessonParams"} selected={selectedResort} setSelected={setSelectedResort} options={["Aniliou", "Vasilitsas", "Velouhiou", "Elatochoriou", "Kaimaktsalan", "Kalavryton", "Mainalou", "Parnassou", "Piliou", "Pisoderiou", "Falakrou", "3-5 Pigadia"]} text={"Resort"} icon={"../../../icons/lessonParams/pinIcon.png"}/>
+          <Dropdown namespace={"choseLessonParams"} selected={selectedResort} setSelected={setSelectedResort} options={["Aniliou", "Vasilitsas", "Velouhiou", "Elatochoriou", "Kaimaktsalan", "Kalavryton", "Mainalou", "Parnassou", "Piliou", "Pisoderiou", "Falakrou", "3-5 Pigadia"]} text={"Resort"} icon={"/icons/lessonParams/pinIcon.png"}/>
           <CalendarContainer namespace={"choseLessonParams"} arrivalDate={arrivalDate} setArrivalDate={setArrivalDate} departureDate={departureDate} setDepartureDate={setDepartureDate}/>
-          <Dropdown namespace={"choseLessonParams"} selected={selectedActivity} setSelected={setSelectedActivity} options={["Ski","Snowboard","Sit ski"]} text={"Sport"} icon={"../../../icons/lessonParams/ski.png"} selectedSport={selectedSport}/>
-          <Dropdown namespace={"choseLessonParams"} selected={selectedNumberOfParticipants} setSelected={setSelectedNumberOfParticipants} options={["1 member","2 members","3 members","4 members","5 members","6 members"]} text={"Participant number"} icon={"../../../icons/lessonParams/numberOfParticipants.png"}/>
+          <Dropdown namespace={"choseLessonParams"} selected={selectedActivity} setSelected={setSelectedActivity} options={["Ski","Snowboard","Sit ski"]} text={"Sport"} icon={"/icons/lessonParams/ski.png"} selectedSport={selectedSport}/>
+          <Dropdown namespace={"choseLessonParams"} selected={selectedNumberOfParticipants} setSelected={setSelectedNumberOfParticipants} options={["1 member","2 members","3 members","4 members","5 members","6 members"]} text={"Participant number"} icon={"/icons/lessonParams/numberOfParticipants.png"}/>
           <button type="submit" className={`finishLessonParams ${!checkAllFieldsSelected() ? 'disableSubmit' : ''}`} 
             onClick={(ev)=>{
                       ev.preventDefault()

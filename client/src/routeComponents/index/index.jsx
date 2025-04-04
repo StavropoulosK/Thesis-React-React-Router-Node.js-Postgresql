@@ -1,7 +1,6 @@
 
 import "./index.css"
 
-// import initialImg from "/src/assets/images/startPage/initial_page.jpg"
 
 
 import {Reviews} from "../../reusableComponents/reviews/reviews.jsx"
@@ -10,6 +9,8 @@ import { useOutletContext } from "react-router-dom";
 import {memo} from "react"
 
 import { useTranslation } from "react-i18next";
+
+// import initialImg from "/src/assets/images/start_page/initial_page.jpg"
 
 
 function Sport({sport,onSelectSport,onReservationClick}){

@@ -9,10 +9,15 @@ import "./header.css"
 
 import { useTranslation } from "react-i18next";
 
-import grFlag from '../../assets/icons/header/greekFlag.svg';
-import enFlag from '../../assets/icons/header/englishFlag.svg';
-import profileImgHolder from '../../assets/icons/header/profile.svg';
-import logout from '../../assets/icons/header/logout.svg';
+// import grFlag from '/icons/header/greekFlag.svg';
+// import enFlag from '/icons/header/englishFlag.svg';
+// import profileImgHolder from '/icons/header/profile.svg';
+// import logout from '/icons/header/logout.svg';
+
+import grFlag from '/src/assets/icons/header/greekFlag.svg'
+import enFlag from '/src/assets/icons/header/englishFlag.svg';
+import profileImgHolder from '/src/assets/icons/header/profile.svg';
+import logout from '/src/assets/icons/header/logout.svg';
 
 
 const Header= memo (({setIsChooseLessonParamsOpen,loginStatus})=>{
