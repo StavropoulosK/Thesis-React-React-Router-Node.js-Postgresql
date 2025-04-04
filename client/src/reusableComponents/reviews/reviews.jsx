@@ -127,7 +127,7 @@ function Review({stars,name,date,sport,resort,review,image,lessonHours,instructo
 }
 
 
-const Reviews= memo(()=>{
+export const Reviews= memo(()=>{
 
 
     const {reviewDataPromise}= useLoaderData()
@@ -172,6 +172,4 @@ const Reviews= memo(()=>{
         </>
     )
 })
-
-export default Reviews
 

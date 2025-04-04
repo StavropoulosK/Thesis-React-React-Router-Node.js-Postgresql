@@ -6,7 +6,7 @@ import "./selectSignup.css"
 import { useTranslation } from "react-i18next";
 
 
-export default function SelectSignup(){
+export function SelectSignup(){
     const {t } = useTranslation("signup");
 
     return(

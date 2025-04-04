@@ -2,47 +2,46 @@ import { StrictMode, lazy } from 'react'
 import { createRoot } from 'react-dom/client'
 import {createBrowserRouter,RouterProvider} from "react-router-dom";
 
-import {rootLoader} from './routeComponents/root/root.jsx'
-
-import Root from './routeComponents/root/root.jsx'
-// import {logoutUser} from './routeComponents/root/header.jsx'
-
-
 import ErrorPage from './routeComponents/root/errorElement.jsx'
 
-import Index from "./routeComponents/index/index.jsx"
-import BookLesson from "./routeComponents/bookLesson/bookLesson.jsx"
-import {bookLessonLoader} from "./routeComponents/bookLesson/bookLesson.jsx"
-
-import Login from "./routeComponents/login/login.jsx"
-import {loginAction} from "./routeComponents/login/login.jsx"
-
-import SelectSignup from "./routeComponents/signup/selectSignup.jsx"
-
-import Signup from "./routeComponents/signup/signup.jsx"
-import {signupAction} from "./routeComponents/signup/signup.jsx"
 
 
-import {reviewsLoader} from "./reusableComponents/reviews/reviews.jsx"
 
-import Protected from "./routeComponents/protected/protected.jsx"
-import {protectedLoader} from "./routeComponents/protected/protected.jsx"
+// import {rootLoader} from './routeComponents/root/root.jsx'
+
+// import {Root} from './routeComponents/root/root.jsx'                                                          
+
+
+// import {Index} from "./routeComponents/index/index.jsx"                                                      
+// import {BookLesson} from "./routeComponents/bookLesson/bookLesson.jsx"                                         
+// import {bookLessonLoader} from "./routeComponents/bookLesson/bookLesson.jsx"
+
+// import {Login} from "./routeComponents/login/login.jsx"                                                  
+// import {loginAction} from "./routeComponents/login/login.jsx"
+
+// import {SelectSignup} from "./routeComponents/signup/selectSignup.jsx"                                         
+
+// import {Signup} from "./routeComponents/signup/signup.jsx"                                                       
+// import {signupAction} from "./routeComponents/signup/signup.jsx"
+
+
+// import {reviewsLoader} from "./reusableComponents/reviews/reviews.jsx"
+
+// import {Protected} from "./routeComponents/protected/protected.jsx"                                           
+// import {protectedLoader} from "./routeComponents/protected/protected.jsx"
 
 
 import './i18n.js'
 
-
-
-// const Index= lazy(()=>import("./routeComponents/index/index.jsx"))
-
-
-// loaders gia routes pou einai accessible mono gia mi logged in kai elegxos me redirect.
-
 const router= createBrowserRouter([
   {
     path: "/",
-    element: <Root/>,
-    loader: rootLoader,
+    async lazy(){
+      const {Root,rootLoader}= await import("./routeComponents/root/root.jsx")
+      return {element: <Root/>, loader:rootLoader}
+    },
+    // element: <Root/>,
+    // loader: rootLoader,
     shouldRevalidate: () => true,
     errorElement:<ErrorPage/>,
 
@@ -52,33 +51,66 @@ const router= createBrowserRouter([
         children:[
           {
             index:true,
-            element:<Index/>,
-            loader: reviewsLoader
+            async lazy(){
+              const [{ Index }, { reviewsLoader }] = await Promise.all([
+                import("./routeComponents/index/index.jsx"),
+                import("./reusableComponents/reviews/reviews.jsx"),
+            ]);
+            
+              return {element:<Index/>, loader:reviewsLoader}
+            }
+            // element:<Index/>,
+            // loader: reviewsLoader
             
           },
           {
             path:"bookLesson/resort/:resort/dates/:dates/sport/:sport/members/:members",
-            element:<BookLesson/>,
-            loader:bookLessonLoader
+            async lazy(){
+              const {BookLesson,bookLessonLoader}= await import("./routeComponents/bookLesson/bookLesson.jsx")
+              return {element:<BookLesson/>, loader:bookLessonLoader}
+
+            }
+            // element:<BookLesson/>,
+            // loader:bookLessonLoader
           },
           {
             path:"login",
-            element:<Login/>,
-            action:loginAction
+            async lazy(){
+              const {Login,loginAction}= await import("./routeComponents/login/login.jsx")
+              return {element:<Login/>, action:loginAction}
+
+            }
+            // element:<Login/>,
+            // action:loginAction
           },
           {
             path:"signupSelect",
-            element:<SelectSignup/>,
+            async lazy(){
+              const {SelectSignup}= await import("./routeComponents/signup/selectSignup.jsx")
+              return {element:<SelectSignup/>}
+
+            }
+            // element:<SelectSignup/>,
           },
           {
             path:"signup/:account",
-            element:<Signup/>,
-            action:signupAction
+            async lazy(){
+              const {Signup,signupAction}= await import("./routeComponents/signup/signup.jsx")
+              return {element:<Signup/>,action:signupAction}
+
+            }
+            // element:<Signup/>,
+            // action:signupAction
           },
           {
             path:"protected",
-            element:<Protected/>,
-            loader:protectedLoader
+            async lazy(){
+              const {Protected,protectedLoader}= await import("./routeComponents/protected/protected.jsx")
+              return {element:<Protected/>,loader:protectedLoader}
+
+            }
+            // element:<Protected/>,
+            // loader:protectedLoader
           }
         ]
       }
@@ -86,49 +118,6 @@ const router= createBrowserRouter([
   }
 ])
 
-// const router = createBrowserRouter([
-//   {
-//     path: "/",
-//     element: <Root/>,
-//     errorElement: <ErrorPage />,
-//     loader: rootLoader,
-//     action:createContact,
-//     children:[
-//       {
-//         errorElement:<ErrorPage/>,
-//         children:[
-          
-//           { index: true, element: <Index /> ,errorElement:<ErrorPage/>},
-//           {path: "contacts/:contactId",
-//           element: <Contact/>,
-//           action:updateFav,
-//           loader:contactLoader,
-
-//           },
-//           {
-//             path: "contacts/:contactId/edit",
-//             element: <EditContact />,
-//             loader: contactLoader,
-//             action: editAction,
-
-     
-//           },
-//           {
-//             path: "contacts/:contactId/destroy",
-//             action:async ({params})=>{
-//               throw new Error("oh dang!");
-//               await destroyContact(params.contactId);
-//               return redirect('/')},
-//             errorElement: <div>Oops! There was an error!!!!.</div>,
-//           },
-//         ]
-//       }
-
-      
-//     ]
-//   },
-  
-// ]);
 
 
 createRoot(document.getElementById('root')).render(
@@ -137,3 +126,56 @@ createRoot(document.getElementById('root')).render(
       <RouterProvider router={router} />
   </StrictMode>
 )
+
+
+
+
+
+
+// const router= createBrowserRouter([
+//   {
+//     path: "/",
+//     element: <Root/>,
+//     loader: rootLoader,
+//     shouldRevalidate: () => true,
+//     errorElement:<ErrorPage/>,
+
+//     children:[
+//       {
+//         errorElement:<ErrorPage/>,
+//         children:[
+//           {
+//             index:true,
+//             element:<Index/>,
+//             loader: reviewsLoader
+            
+//           },
+//           {
+//             path:"bookLesson/resort/:resort/dates/:dates/sport/:sport/members/:members",
+//             element:<BookLesson/>,
+//             loader:bookLessonLoader
+//           },
+//           {
+//             path:"login",
+//             element:<Login/>,
+//             action:loginAction
+//           },
+//           {
+//             path:"signupSelect",
+//             element:<SelectSignup/>,
+//           },
+//           {
+//             path:"signup/:account",
+//             element:<Signup/>,
+//             action:signupAction
+//           },
+//           {
+//             path:"protected",
+//             element:<Protected/>,
+//             loader:protectedLoader
+//           }
+//         ]
+//       }
+//     ]
+//   }
+// ])

@@ -32,7 +32,7 @@ export async function protectedLoader({request,params}){            // ta prosta
   };
 
 
-  export default function Protected(){
+  export function Protected(){
 
     return(<>
         <br></br>

@@ -35,7 +35,7 @@ export const rootLoader = async ({request}) => {
   };
 
 
-export default function Root(){
+export function Root(){
 
     // epilogi sport apo index allagi selidas kai meta kratisi apo header => thimate to sport
 

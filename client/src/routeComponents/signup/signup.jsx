@@ -200,7 +200,7 @@ const countryPhoneNumbers = ["+01", "+30", "+31", "+32", "+33", "+34", "+35", "+
 "+95", "+96", "+97", "+98", "+99"]
 
 
-export default function Signup(){
+export function Signup(){
     const {t} = useTranslation("signup");
 
     const navigation = useNavigation();
@@ -363,8 +363,6 @@ export default function Signup(){
     const formSubmitting= navigation.state =="submitting" || navigation.state =="loading"
 
     let {firstNameError, lastNameError,emailError, passwordError,passwordCheckError,phoneNumberError,errorMsg} = (!formSubmitting)? useActionData() || {} : {}
-
-    console.log('asa## ',useActionData())
 
     // console.log('aaaa ',firstNameError, lastNameError,emailError, passwordError,passwordCheckError,phoneNumberError)
 

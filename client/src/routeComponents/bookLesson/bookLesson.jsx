@@ -9,7 +9,7 @@ export function bookLessonLoader({request,params}){
 }
 
 
-export default function BookLesson(){
+export function BookLesson(){
     const { t } = useTranslation("bookLesson");
 
 

@@ -50,7 +50,7 @@ export async function loginAction({request}){
 
 
 
-export default function Login(){
+export function Login(){
     const {t } = useTranslation("login");
 
 

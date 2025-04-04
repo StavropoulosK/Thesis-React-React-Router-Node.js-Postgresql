@@ -4,7 +4,7 @@ import "./index.css"
 // import initialImg from "/src/assets/images/startPage/initial_page.jpg"
 
 
-import Reviews from "../../reusableComponents/reviews/reviews.jsx"
+import {Reviews} from "../../reusableComponents/reviews/reviews.jsx"
 import { useOutletContext } from "react-router-dom";
 
 import {memo} from "react"
@@ -43,7 +43,7 @@ function Sport({sport,onSelectSport,onReservationClick}){
 
 
 
-const Index=memo(()=>{
+export const Index=memo(()=>{
 
     const {t} = useTranslation("index")
 
@@ -87,6 +87,4 @@ const Index=memo(()=>{
         </>
     )
 })
-
-export default Index
 
