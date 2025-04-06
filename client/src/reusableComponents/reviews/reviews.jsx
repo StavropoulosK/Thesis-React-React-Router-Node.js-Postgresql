@@ -2,8 +2,8 @@ import "./reviews.css"
 
 
 
-import {useLoaderData } from 'react-router-dom'
-import {memo,Suspense} from "react"
+import {useLoaderData,useFetcher } from 'react-router-dom'
+import {useState,memo,Suspense,useEffect,useRef } from "react"
 import { Await } from "react-router";
 
 import { useTranslation } from "react-i18next";
@@ -13,7 +13,8 @@ import { useTranslation } from "react-i18next";
 
 // 0 react. oti exei gini render, an den alaksi den ksanaginetai render
 
-// 1 Suspense + React router await (Loading Asynchronous Data)          kanei render to component kai ta data otan katebastoun          a
+// 1 Suspense + React router await (Loading Asynchronous Data)        kanei render to component kai ta data otan katebastoun          a
+// + Suspense mono ti proti fora gia na min argi na fortosi to component. meta den dixni suspense  
 // https://reactrouter.com/how-to/suspense
 // seo
 
@@ -57,21 +58,49 @@ import { useTranslation } from "react-i18next";
 // https://stackblitz.com/github/remix-run/react-router/tree/main/examples/auth-router-provider?file=README.md
 
 
-export async function reviewsLoader(){
+export async function reviewsIndexLoader({request,params}){
 
+    // return  {reviewDataPromise: fetch('/api/reviews')
+    //                                 .then(response => {
+    //                                     if (!response.ok) {
+    //                                         throw new Error(`An error happened! Status: ${response.status}`);
+    //                                     }
+    //                                     return response.json(); 
+    //                                 })
+    //                                 .catch(error => {
+    //                                     console.error('Error fetching reviews:', error);
+    //                                     throw error;
+    //                                 })
+    // }
 
-    return  {reviewDataPromise: fetch('/api/reviews')
-                                    .then(response => {
-                                        if (!response.ok) {
-                                            throw new Error(`An error happened! Status: ${response.status}`);
-                                        }
-                                        return response.json(); 
-                                    })
-                                    .catch(error => {
-                                        console.error('Error fetching reviews:', error);
-                                        throw error;
-                                    })
-    }
+    const url = new URL(request.url);
+
+    const nextPage=url.searchParams.get("nextPage")
+
+    console.log('#########################3 ',nextPage)
+
+    const reviewsPage = nextPage|| 1;
+
+    const reviewDataPromise =  fetch('/api/reviews/index', {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({reviewsPage})
+
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`An error happened! Status: ${response.status}`);
+        }
+        return response.json(); 
+    })
+    .catch(error => {
+        console.error('Error fetching reviews:', error);
+        throw error;
+    })
+
+    return {reviewDataPromise}
 
 }
 
@@ -102,24 +131,27 @@ function Review({stars,name,date,sport,resort,review,image,lessonHours,instructo
     return(
         <>
             <article className="reviewContainer">
-                <p className="starRating">
-                    {fullStarElements}
-                    {emptyStarElements}
-                </p>
 
-                <p className="name"> {name}</p>
 
-                <p className="lessonInfo"> {date} - {t(sport)}, {t(resort)} </p>
+                
+                    <p className="starRating">
+                        {fullStarElements}
+                        {emptyStarElements}
+                    </p>
 
-                <p className="Remarks"> {review} </p>
+                    <p className="name"> {name}</p>
 
-                <div className="bottom">
+                    <p className="lessonInfo"> {date} - {t(sport)}, {t(resort)} </p>
 
-                    <img className="profile" src="/images/startPage/profile.jpg" alt="profile picture" />
+                    <p className="Remarks"> {review} </p>
 
-                    <p className="hourInfo">{t("review info",{studentName:name,lessonHours:lessonHours,timeUnit:timeUnit})}<b>{instructorName}</b></p>
+                    <div className="bottom">
 
-                </div>
+                        <img className="profile" src="/images/startPage/profile.jpg" alt="profile picture" />
+
+                        <p className="hourInfo">{t("review info",{studentName:name,lessonHours:lessonHours,timeUnit:timeUnit})}<b>{instructorName}</b></p>
+
+                    </div>
 
             </article>
         </>
@@ -128,48 +160,191 @@ function Review({stars,name,date,sport,resort,review,image,lessonHours,instructo
 
 
 export const Reviews= memo(()=>{
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const [resolvedData, setResolvedData] = useState(null);
+    const [transition, setTransition] =useState('')
+
+    const totalPages = useRef(0);
 
 
-    const {reviewDataPromise}= useLoaderData()
+    const fetcher = useFetcher();
+
+
+    useEffect(() => {
+        if (fetcher.data?.reviewDataPromise) {
+
+          fetcher.data.reviewDataPromise.then((data) => {
+            setResolvedData(data);
+            if(transition=='left'){
+                if (currentPage === 1) {
+                        setCurrentPage(totalPages.current); // Go to last page if on the first page
+                    }
+                else {
+                        setCurrentPage(currentPage - 1);
+                    }
+            }
+            else if(transition=='right'){
+
+                if (currentPage === totalPages.current) {
+                    setCurrentPage(1); // Go to first page if on the last page
+                } else {
+                    setCurrentPage(currentPage + 1);
+                }
+            }
+            setTransition('')
+
+          });
+        }
+      }, [fetcher.data]);
+
+
+
+    const handleLeftClick = (nextPage) => {
+
+        const currentPath = window.location.pathname; 
+        const currentUrlParams = new URLSearchParams(window.location.search); // URL params (e.g., "?resort=Vasilitsas&sport=Snowboard")
+        currentUrlParams.set("nextPage", nextPage);
+        
+        const actionUrl = `${currentPath}?${currentUrlParams.toString()}`;
+
+        
+        setTransition('left')
+        fetcher.load(actionUrl); 
+
+    }
+        
+    const handleRightClick = (nextPage) => {
+
+
+        const currentPath = window.location.pathname; 
+        const currentUrlParams = new URLSearchParams(window.location.search); // URL params (e.g., "?resort=Vasilitsas&sport=Snowboard")
+
+        currentUrlParams.set("nextPage", nextPage);
+
+      
+        const actionUrl = `${currentPath}?${currentUrlParams.toString()}`;
+
+        setTransition('right')
+
+        fetcher.load(actionUrl); 
+      };
+
+
+
+    const renderDots = (totalPages) => {
+        let dots = [];
+        for (let i = 1; i <= totalPages; i++) {
+          dots.push(
+            <div
+              key={i}
+              className={`dot ${i <= currentPage ? "active" : ""}`}
+            ></div>
+          );
+        }
+        return dots;
+      };
+
+    const loaderData = useLoaderData();
+
+    //   const {reviewDataPromise} = fetcher.data ?? loaderData;
+
+    const reviewDataPromise = resolvedData ?? loaderData.reviewDataPromise;
+
+
 
     const {t} = useTranslation("reviews")
+    
 
     return(
-        <>  
-            <section className="reviews">
-                <h2>{t("Title")}</h2>
+    <>  
+        <Suspense fallback={<Fallback/>}>
+            <Await resolve={reviewDataPromise}>
+                    {reviewData=>{
+                        const maxPages=reviewData.maxPages
+                        totalPages.current=maxPages
+                        if(reviewData.reviews.length==0){
+                            // no reviews
+                            return
+                        }
+                        
+                        return(
+                            <>
+                                <section className="reviews">
+                                    <h2>{t("Title")}</h2>
+                                        <div className="container">
 
-                <div className="reviewsFlex">
-                    <Suspense fallback={<div className="loading-dots">Loading reviews <span className="loading-dots--dot"></span><span className="loading-dots--dot"></span><span className="loading-dots--dot"></span></div>}>
-                        <Await resolve={reviewDataPromise}>
-                            {reviewData=>{
+                                            <div className="reviewsFlex">
+                                                <fetcher.Form method="get">
 
-                                return reviewData.map((data, index) => (
-                                    <Review
-                                        key={index+data.name}
-                                        stars={data.stars}
-                                        name={data.name}
-                                        date={data.date}
-                                        sport={data.sport}
-                                        resort={data.resort}
-                                        review={data.review}
-                                        image={data.image}
-                                        lessonHours={data.lessonHours}
-                                        instructorName={data.instructorName}
-                                    />
-                                    ))
-                                }
 
-                            }
-                            
-                        </Await>
+                                                    <button type="button" onClick={!transition?()=>{const nextPage=currentPage === 1?maxPages:currentPage-1;handleLeftClick(nextPage)}:null} className="changeReview left">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="9" height="18" viewBox="0 0 12 24"><path fill="currentColor" fillRule="evenodd" d="M10.157 12.711L4.5 18.368l-1.414-1.414l4.95-4.95l-4.95-4.95L4.5 5.64l5.657 5.657a1 1 0 0 1 0 1.414"/></svg>
+                                                        
+                                                    </button>
+                                                    
+                                                </fetcher.Form>
 
-                    </Suspense>
+                                                <div className="reviewPanel">
 
-                </div>
 
-            </section>
-        </>
+                                                
+                                                    {(reviewData.reviews).map((data, index) => (
+                                                    <Review
+                                                        key={index+data.name}
+                                                        stars={data.stars}
+                                                        name={data.name}
+                                                        date={data.date}
+                                                        sport={data.sport}
+                                                        resort={data.resort}
+                                                        review={data.review}
+                                                        image={data.image}
+                                                        lessonHours={data.lessonHours}
+                                                        instructorName={data.instructorName}
+                                                    />
+                                                    ))}
+                                                </div>
+
+                                                <fetcher.Form method="get">
+                                                    <button type="button" onClick={!transition?()=>{const nextPage=currentPage === maxPages?1:currentPage + 1;handleRightClick(nextPage)}:null} className="changeReview right">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="9" height="18" viewBox="0 0 12 24"><path fill="currentColor" fillRule="evenodd" d="M10.157 12.711L4.5 18.368l-1.414-1.414l4.95-4.95l-4.95-4.95L4.5 5.64l5.657 5.657a1 1 0 0 1 0 1.414"/></svg>
+                                                    </button>
+
+                                                </fetcher.Form>
+
+                                            </div>
+
+                                            <div className="dots-container">
+                                                {renderDots(maxPages)}
+                                            </div>
+
+                                        </div>
+
+                                </section>
+                            </>
+                        )}
+
+                    }
+
+            </Await>
+
+        </Suspense>     
+
+    </>
     )
 })
 
+
+const Fallback=()=>{
+    const {t} = useTranslation("reviews")
+
+    return(
+
+        <>
+            <section className="reviews">
+                <h2>{t("Title")}</h2>
+                <div className="loading-dots">{t("Loading")}<span className="loading-dots--dot"></span><span className="loading-dots--dot"></span><span className="loading-dots--dot"></span></div>
+            </section>
+        </>
+    )
+}

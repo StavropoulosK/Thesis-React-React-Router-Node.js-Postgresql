@@ -13,7 +13,47 @@ import ChoseLessonParams from "./choseLessonParams.jsx"
 
 export const rootLoader = async ({request}) => {                
 
-    let status
+    let loginStatus
+
+    // the react router fetcher for the reviews of index path does not trigger index loader but the loader of the parent https://reactrouter.com/6.30.0/hooks/use-fetcher
+    // so we check if the path is for index
+    const url = new URL(request.url);
+    const path = url.pathname;
+
+    if(path=="/"){
+        const nextPage=url.searchParams.get("nextPage")
+
+        if(nextPage){
+            // loader is called from fetcher.
+
+            const reviewsPage = nextPage|| 1;
+
+
+    
+            const reviewDataPromise =  fetch('/api/reviews/index', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({reviewsPage})
+        
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`An error happened! Status: ${response.status}`);
+                }
+                return response.json(); 
+            })
+            .catch(error => {
+                console.error('Error fetching reviews:', error);
+                throw error;
+            })
+        
+            return {reviewDataPromise}
+        }
+
+
+    }
 
     try {
 
@@ -23,7 +63,7 @@ export const rootLoader = async ({request}) => {
         }
 
         const data = await response.json();
-        status= data.status
+        loginStatus= data.status
             
     }
     catch (error) {
@@ -31,7 +71,7 @@ export const rootLoader = async ({request}) => {
         throw error;
     }
 
-    return status
+    return {loginStatus}
   };
 
 
@@ -39,7 +79,9 @@ export function Root(){
 
     // epilogi sport apo index allagi selidas kai meta kratisi apo header => thimate to sport
 
-    const loginStatus= useLoaderData()
+    const {loginStatus}= useLoaderData()
+
+
 
 
     const [isChooseLessonParamsOpen,setIsChooseLessonParamsOpen]=useState(false)

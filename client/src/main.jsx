@@ -51,13 +51,14 @@ const router= createBrowserRouter([
         children:[
           {
             index:true,
+            // reviewsLoader acts only as loader for reviews at index path. for the fetcher loading it is triggered the loader of the parent https://reactrouter.com/6.30.0/hooks/use-fetcher
             async lazy(){
-              const [{ Index }, { reviewsLoader }] = await Promise.all([
+              const [{ Index }, { reviewsIndexLoader }] = await Promise.all([              
                 import("./routeComponents/index/index.jsx"),
                 import("./reusableComponents/reviews/reviews.jsx"),
             ]);
             
-              return {element:<Index/>, loader:reviewsLoader}
+              return {element:<Index/>, loader:reviewsIndexLoader}
             }
             // element:<Index/>,
             // loader: reviewsLoader

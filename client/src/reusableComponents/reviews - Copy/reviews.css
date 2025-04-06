@@ -16,24 +16,13 @@ section.reviews h2{
     width: fit-content;
 }
 
-article.reviewContainer *{
-    width: fit-content;
-
-}
-
 article.reviewContainer{
-    max-width:17rem;
-    height:fit-content;
+    width:18rem;
+    height:16rem;
     background-color: white;
     border-radius: 1.4rem;
     padding-left:1rem;
-    padding-right:1rem;
-
 }
-
-article.reviewContainer:not(:last-of-type) {
-    margin-right: 2rem;
-  }
 
 img.star {
     font-size: 2rem;
@@ -60,6 +49,10 @@ img.star {
     margin-bottom:0;
 }
 
+.reviewContainer{
+    margin-bottom:4rem;
+
+}
 
 .reviewContainer p.lessonInfo{
     margin-top:0.5rem;
@@ -72,107 +65,38 @@ img.star {
 }
 
 .reviewContainer  .bottom{
-    height: fit-content !important;
-    width: 100%;
-    margin-bottom:1rem;
-    display: flex;
-
-
+    height: 3rem;
 }
 
 .reviewContainer  .profile{
-    width:3.2rem;
-    height:3.2rem;
+    width:3rem;
+    height:3rem;
     border-radius: 0.5rem;
     margin-top:0;
     padding:0;
-    float:left;
 
 }
 
 .reviewContainer p.hourInfo{
     position: relative;
-    /* top:0.1rem; */
+    top:0.1rem;
     font-size: 0.9rem;
-    max-width:13rem;
-    width: fit-content;
+    width:13rem;
     display: inline-block;
-    margin-left:0.9rem;
+    margin-left:1rem;
     margin-top:0;
     padding:0;
-    margin-bottom:0;
     vertical-align: top;
-}
-
-.reviews .container{
-    margin-bottom:4rem;
-
 }
 
 
 .reviews .reviewsFlex{
     display: flex;
-    gap:0.1rem;
-    justify-content:space-between;
-    align-items: center;
-    height: fit-content;
-
+    gap:2rem;
+    justify-content:center;
 }
 
-.reviews button.changeReview{
-    position: relative;
-    height: 1.8rem;
-    background-color: rgba(17, 179, 187, 0.8);
-    color: white; 
-    border: none;
-    border-radius: 50%; 
-    cursor: pointer;
-    display: flex;
-    justify-content: center;  /* Horizontally centers the content */
-    align-items: center;      /* Vertically centers the content */
-    padding:0.7rem;
-    box-sizing: border-box;
-    margin:1rem;
-}
 
-.reviews button.changeReview:hover{
-    background-color: rgba(17, 179, 187, 1);
-
-}
-
-.changeReview.left svg{
-    left:0.4rem;
-    transform: rotate(180deg);
-}
-
-.changeReview.right svg{
-    right:0.4rem;
-
-}
-
-.reviewPanel{
-    display: flex;
-    width: fit-content;
-}
-
-.dots-container {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 1rem;
-    margin-right:4rem;
-  }
-  
-  .dot {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    margin: 0 5px;
-    background-color: grey; /* Default color for inactive dots */
-  }
-  
-  .dot.active {
-    background-color: white; /* Active dot color */
-  }
 
 
 

@@ -27,7 +27,6 @@ export default function TopBar({ completed }) {
 
 
     const stepPositions = [12.5, 37.5, 62.5, 87.5]; // Circle centers
-    const segmentWidth = 20;
   
     // Determine where the progress line should end
     const progressEnd = stepPositions[completed - 1] 
@@ -43,25 +42,24 @@ export default function TopBar({ completed }) {
           {/* Circles */}
           {stepPositions.map((pos, i) => {
                 return(
-                <>
+                <div key={i}>
                     <Circle i={i} completed={completed} pos={pos} text={"aasdasd"}>
                         {icons[i]}
 
                     </Circle>
                     <span className="text" style={{ left: `${pos}%` }}>{t(text[i])}</span>
-                </>)
+                </div>)
           })}
         </div>
       </div>
     );
   }
 
-  function Circle({i,completed,pos,children,text}){
+  function Circle({i,completed,pos,children}){
     const isCompleted = i < completed-1;
 
     return (
         <div
-          key={i}
           className={`circle ${isCompleted ? "circle-blue" : "circle-black"}`}
           style={{ left: `${pos}%` }}
         >

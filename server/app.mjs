@@ -138,6 +138,194 @@ app.get('/api/reviews', (req, res) => {
     res.json(reviews);
   });
 
+app.post('/api/reviews/:page', async (req, res) => {
+  const reviewsPerPage = 4;
+
+  const page = req.params.page;
+
+  const reviews = [
+    {
+      stars: 3,
+      name: "Μαρία Α.",
+      date: "24/12/2024",
+      sport: "Ski",
+      resort: "Parnassos",
+      review: "Πολύ καλός προπονητής και πέρασα ευχάριστα και διασκεδαστικά μαζί του.",
+      image: "img",
+      lessonHours: 1,
+      instructorName: "Γιάννης Μ."
+    },
+    {
+      stars: 2,
+      name: "Μαρία Α.",
+      date: "24/12/2024",
+      sport: "Ski",
+      resort: "Parnassos",
+      review: "Πολύ καλός προπονητής και πέρασα ευχάριστα και διασκεδαστικά μαζί του.",
+      image: "img",
+      lessonHours: 2,
+      instructorName: "Γιάννης Μ."
+    },
+    {
+      stars: 3,
+      name: "Μαρία Α.",
+      date: "24/12/2024",
+      sport: "Ski",
+      resort: "Parnassos",
+      review: "Πολύ καλός προπονητής και πέρασα ευχάριστα και διασκεδαστικά μαζί του.",
+      image: "img",
+      lessonHours: 3,
+      instructorName: "Γιάννης Μ."
+    },
+    {
+      stars: 5,
+      name: "Μαρία Α.",
+      date: "24/12/2024",
+      sport: "Ski",
+      resort: "Parnassos",
+      review: "Πολύ καλός προπονητής και πέρασα ευχάριστα και διασκεδαστικά μαζί του.",
+      image: "img",
+      lessonHours: 4,
+      instructorName: "Γιάννης Μ."
+    },
+    {
+      stars: 3,
+      name: "Μαρία Α.",
+      date: "24/12/2024",
+      sport: "Ski",
+      resort: "Parnassos",
+      review: "Πολύ καλός προπονητής και πέρασα ευχάριστα και διασκεδαστικά μαζί του.",
+      image: "img",
+      lessonHours: 5,
+      instructorName: "Γιάννης Μ."
+    },
+    {
+      stars: 2,
+      name: "Μαρία Α.",
+      date: "24/12/2024",
+      sport: "Ski",
+      resort: "Parnassos",
+      review: "Πολύ καλός προπονητής και πέρασα ευχάριστα και διασκεδαστικά μαζί του.",
+      image: "img",
+      lessonHours: 6,
+      instructorName: "Γιάννης Μ."
+    },
+    {
+      stars: 3,
+      name: "Μαρία Α.",
+      date: "24/12/2024",
+      sport: "Ski",
+      resort: "Parnassos",
+      review: "Πολύ καλός προπονητής και πέρασα ευχάριστα και διασκεδαστικά μαζί του.",
+      image: "img",
+      lessonHours: 7,
+      instructorName: "Γιάννης Μ."
+    },
+    {
+      stars: 5,
+      name: "Μαρία Α.",
+      date: "24/12/2024",
+      sport: "Ski",
+      resort: "Parnassos",
+      review: "Πολύ καλός προπονητής και πέρασα ευχάριστα και διασκεδαστικά μαζί του.",
+      image: "img",
+      lessonHours: 8,
+      instructorName: "Γιάννης Μ."
+    },
+    {
+      stars: 3,
+      name: "Μαρία Α.",
+      date: "24/12/2024",
+      sport: "Ski",
+      resort: "Parnassos",
+      review: "Πολύ καλός προπονητής και πέρασα ευχάριστα και διασκεδαστικά μαζί του.",
+      image: "img",
+      lessonHours: 9,
+      instructorName: "Γιάννης Μ."
+    },
+    {
+      stars: 2,
+      name: "Μαρία Α.",
+      date: "24/12/2024",
+      sport: "Ski",
+      resort: "Parnassos",
+      review: "Πολύ καλός προπονητής και πέρασα ευχάριστα και διασκεδαστικά μαζί του.",
+      image: "img",
+      lessonHours: 10,
+      instructorName: "Γιάννης Μ."
+    },
+    {
+      stars: 3,
+      name: "Μαρία Α.",
+      date: "24/12/2024",
+      sport: "Ski",
+      resort: "Parnassos",
+      review: "Πολύ καλός προπονητής και πέρασα ευχάριστα και διασκεδαστικά μαζί του.",
+      image: "img",
+      lessonHours: 11,
+      instructorName: "Γιάννης Μ."
+    },
+    {
+      stars: 5,
+      name: "Μαρία Α.",
+      date: "24/12/2024",
+      sport: "Ski",
+      resort: "Parnassos",
+      review: "Πολύ καλός προπονητής και πέρασα ευχάριστα και διασκεδαστικά μαζί του.",
+      image: "img",
+      lessonHours: 12,
+      instructorName: "Γιάννης Μ."
+    }
+  ];
+
+
+  if (page === 'instructor') {
+    res.json(reviews);
+
+  }
+
+  else if(page=='bookLesson'){
+    // epistefei to poli 3 selides
+
+    const { resort,sport,from,to,members,reviewsPage } = req.body; 
+    // console.log('aaa ',resort,sport,from,to,members,page,reviewsPage)
+
+    // await new Promise(resolve => setTimeout(resolve, 4000));
+
+
+    const maxPages=3
+    
+    const startIndex = (reviewsPage - 1) * reviewsPerPage;
+    const endIndex = startIndex + reviewsPerPage;
+
+  
+    res.json({
+      reviews: reviews.slice(startIndex, endIndex),
+      maxPages  
+    });
+  }
+
+  else if(page=='index'){
+    // epistefei to poli 3 selides
+
+    const {reviewsPage } = req.body; 
+
+
+    const maxPages=3
+    
+    const startIndex = (reviewsPage - 1) * reviewsPerPage;
+    const endIndex = startIndex + reviewsPerPage;
+
+  
+    res.json({
+      reviews: reviews.slice(startIndex, endIndex),
+      maxPages  
+    });
+  }
+
+
+})
+
 app.post('/api/signupUser', async(req,res)=>{
   console.log('asassas')
   const { firstName,lastName,email,password,passwordCheck,countryPhoneCode,phoneNumber,accountType} = req.body; 
