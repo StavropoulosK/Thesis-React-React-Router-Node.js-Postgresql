@@ -77,8 +77,6 @@ export async function reviewsIndexLoader({request,params}){
 
     const nextPage=url.searchParams.get("nextPage")
 
-    console.log('#########################3 ',nextPage)
-
     const reviewsPage = nextPage|| 1;
 
     const reviewDataPromise =  fetch('/api/reviews/index', {

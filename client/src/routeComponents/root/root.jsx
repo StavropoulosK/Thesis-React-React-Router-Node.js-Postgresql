@@ -11,7 +11,8 @@ import Footer from "./footer.jsx"
 
 import ChoseLessonParams from "./choseLessonParams.jsx"
 
-export const rootLoader = async ({request}) => {                
+export const rootLoader = async ({request}) => {         
+    
 
     let loginStatus
 
