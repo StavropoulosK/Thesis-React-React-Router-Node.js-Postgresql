@@ -77,8 +77,7 @@ function LessonParamsForm({selectedSport,onReservationClick}){
   const partNumber=selectedNumberOfParticipants.split(" ")[0]
 
   const constructURL = () => {
-    console.log('#### ',formatDate(arrivalDate))
-    const dates = `${formatDate(arrivalDate)}and${formatDate(departureDate)}`;
+    // const dates = `${formatDate(arrivalDate)}and${formatDate(departureDate)}`;
     // return `/bookLesson/resort/${selectedResort}/sport/${selectedActivity}/from/${formatDate(arrivalDate)}/to/${formatDate(departureDate)}/members/${partNumber}`;
     return `/bookLesson?resort=${selectedResort}&sport=${selectedActivity}&from=${formatDate(arrivalDate)}&to=${formatDate(departureDate)}&members=${partNumber}`;
 
@@ -134,7 +133,6 @@ function CalendarContainer({arrivalDate,setArrivalDate,departureDate,setDepartur
     const {t} = useTranslation("choseLessonParams")
 
 
-
     useCloseOnOutsideClick(dropdownRef, () => setIsOpen(false));
 
     const formatDate = (date) => {
@@ -171,7 +169,7 @@ function CalendarContainer({arrivalDate,setArrivalDate,departureDate,setDepartur
 }
 
 
-function Calendar({onclose,arrivalDate,setArrivalDate,departureDate,setDepartureDate}) {
+export function Calendar({onclose,arrivalDate,setArrivalDate,departureDate,setDepartureDate}) {
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const today = new Date();
     const {t} = useTranslation("choseLessonParams")
@@ -312,7 +310,7 @@ function Calendar({onclose,arrivalDate,setArrivalDate,departureDate,setDeparture
   }
 
 
-  function CalendarGrid({ currentMonth, days,children,position,onDateClick,isSelected }) {
+function CalendarGrid({ currentMonth, days,children,position,onDateClick,isSelected }) {
     const today = new Date();
     const {t, i18n} = useTranslation("choseLessonParams")
 

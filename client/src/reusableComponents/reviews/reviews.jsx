@@ -75,7 +75,7 @@ export async function reviewsIndexLoader({request,params}){
 
     const url = new URL(request.url);
 
-    const nextPage=url.searchParams.get("nextPage")
+    const nextPage=url.searchParams.get("nextReviewPage")
 
     const reviewsPage = nextPage|| 1;
 
@@ -195,6 +195,7 @@ export const Reviews= memo(()=>{
           });
         }
       }, [fetcher.data]);
+      
 
 
 
@@ -202,7 +203,7 @@ export const Reviews= memo(()=>{
 
         const currentPath = window.location.pathname; 
         const currentUrlParams = new URLSearchParams(window.location.search); // URL params (e.g., "?resort=Vasilitsas&sport=Snowboard")
-        currentUrlParams.set("nextPage", nextPage);
+        currentUrlParams.set("nextReviewPage", nextPage);
         
         const actionUrl = `${currentPath}?${currentUrlParams.toString()}`;
 
@@ -218,7 +219,7 @@ export const Reviews= memo(()=>{
         const currentPath = window.location.pathname; 
         const currentUrlParams = new URLSearchParams(window.location.search); // URL params (e.g., "?resort=Vasilitsas&sport=Snowboard")
 
-        currentUrlParams.set("nextPage", nextPage);
+        currentUrlParams.set("nextReviewPage", nextPage);
 
       
         const actionUrl = `${currentPath}?${currentUrlParams.toString()}`;
@@ -244,8 +245,6 @@ export const Reviews= memo(()=>{
       };
 
     const loaderData = useLoaderData();
-
-    //   const {reviewDataPromise} = fetcher.data ?? loaderData;
 
     const reviewDataPromise = resolvedData ?? loaderData.reviewDataPromise;
 

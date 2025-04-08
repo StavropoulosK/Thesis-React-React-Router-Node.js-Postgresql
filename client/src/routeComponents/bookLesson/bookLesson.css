@@ -1,0 +1,348 @@
+.lessonContainer{
+    margin:0 auto;
+    /* margin-bottom:80vh; */
+    margin-top:3rem;
+    width: 80%;
+    box-sizing: border-box;
+    border:2px solid black;
+    border-radius: 1rem;
+    padding:1rem 1rem 1rem 2rem;
+    height: 14rem;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    
+
+}
+
+.lessonContainer:first-of-type{
+    margin-top: 2rem;
+}
+
+.lessonContainer > img{
+
+    width: 12rem;
+    height: 100%;
+    border-radius: 0.5rem;;
+}
+
+.lessonContainer .infoContainer{
+    /* background-color: blue; */
+    padding:0.2rem 1rem;
+    width: 100%;
+}
+
+.lessonContainer .infoContainer .top{
+    /* background-color: orange; */
+    height: fit-content;
+    width: 100%;
+    margin-bottom: 1.2rem;
+}
+
+.lessonContainer .infoContainer .top h4{
+    margin-top:0;
+    display: inline;
+    font-size: 1.3rem;
+
+}
+
+.lessonContainer .infoContainer .top h4.groupName{
+    margin-left:5rem;
+    font-size: 1.1rem;
+}
+
+.lessonContainer .infoContainer .top span *{
+    font-size: 0.8rem;
+}
+
+.lessonContainer .infoContainer .top span img{
+    height: 0.9rem;
+    margin-top:0;
+}
+
+
+.lessonContainer .infoContainer .attributes{
+    margin-top:0.3rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    margin-right:0;
+    gap:1rem;
+    width: fit-content;
+}
+
+.lessonContainer .infoContainer .attributes svg{
+    width: 1.2rem;
+    margin-right: 0.3rem;
+
+}
+
+.lessonContainer .infoContainer .attributes svg.typeOfLesson{
+    width: 1.2rem;
+    position: relative;
+    bottom:0.1rem;
+}
+
+.lessonContainer .infoContainer .attributes div{
+    font-size: 0.9rem;
+    width: fit-content;
+    display: block;
+
+    /* background-color: red; */
+    display: flex;
+    justify-content: center;
+}
+
+
+
+.lessonContainer .infoContainer .attributes div svg{
+    height: fit-content;
+    display: inline;
+}
+
+.lessonContainer .infoContainer .description p{
+    margin-top:0.8rem;
+    margin-right: 1rem;
+}
+
+.lessonContainer .right{
+    margin-top: 0.8rem;
+    width: 20rem;
+    padding-top:1rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: flex-start; */
+    align-items: flex-end;
+}
+
+.lessonContainer .right span{
+    display: block !important;
+    margin-top: 0.2rem;
+    font-size: 0.8rem;
+}
+
+.lessonContainer .right button {
+    background-color: rgba(17, 179, 187, 0.8);
+    color: white;
+    padding: 0.7rem 0rem;
+    border-radius: 0.4rem;
+    border:none;
+    cursor: pointer;
+    margin-top:0.8rem;
+    font-size: 0.9rem;
+    width: 11rem;
+  }
+
+  .lessonContainer .right button:first-of-type{
+    margin-top: 0.5rem;
+  }
+
+
+
+   /* menu */
+
+.lessonMenu{
+    width: 80%;
+    height: fit-content;
+    border-radius: 1rem;
+    border:1px solid black;
+    box-sizing: border-box;
+    margin:0 auto;
+    margin-top:4rem;
+    padding:1.5rem;
+
+}
+
+.lessonMenu .top{
+    display: flex;
+    height: fit-content;
+    box-sizing: border-box;
+    margin-bottom:1.5rem;
+}
+
+.lessonMenu .top .dropdown {
+    height: fit-content;
+}
+
+.lessonMenu .top .dropdown:last-of-type{
+    margin-right: 0;
+}
+
+.lessonMenu .top .necessaryFilters{
+    display: flex;
+    width: 100%;
+    height: fit-content;
+}
+
+.lessonMenu .top .necessaryFilters > *{
+    /* width: 15rem; */
+    margin-bottom: 0 !important;
+    flex:1
+}
+
+.lessonMenu .top > h4{
+    margin-top:0;
+    font-size: 1.5rem;
+    margin-right:1.5rem;
+    margin-bottom: 0;
+}
+
+
+.lessonMenu .top button:hover{
+    cursor: pointer;
+}
+
+.lessonMenu .calendar .calendarMenu.dropdown-menu{
+    margin-top:0.8rem;
+    width: fit-content;
+    transform:translateX(-30%);
+}
+
+
+
+.lessonMenu .secondaryFilters{
+    display: flex;
+}
+
+.secondaryFilters .filterContainer {
+    display: flex;
+    flex-direction: column;
+    /* background-color: red; */
+    align-items: center;
+    width: fit-content;
+    margin-right:2.5rem;
+    
+}
+
+.secondaryFilters .filterContainer span{
+    font-size: 0.85 rem;
+    white-space: nowrap;
+
+}
+.secondaryFilters .filterContainer svg{
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.circle {
+    width: 2.8rem;
+    height: 2.8rem;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    border:1px solid black;
+    cursor: pointer;
+    padding: 0;
+}
+
+.circle.selected{
+    border:1px solid rgba(17, 179, 187, 0.8);
+    color:rgba(17, 179, 187, 0.8)
+}
+
+.filterContainer span {
+    margin-top: 6px;
+    font-size: 14px;
+}
+
+
+.lessonMenu .right {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end; /* Pushes .right to the right */
+    align-items: center; /* Optional, aligns items vertically */
+    font-size: 2rem;
+}
+
+.lessonMenu .right .cancelBtn{
+    height: 35.2px;
+}
+
+
+.lessonMenu .right .cancelBtn img{
+    width: 0.5rem;
+    height: 0.5rem;
+    margin-right:0.2rem;
+    position: relative;
+    top:0.05rem;
+}
+
+.lessonMenu .right .dropdown{
+    box-sizing: border-box;
+    height: fit-content;
+    margin:0;
+    margin-left:1rem;
+
+}
+
+.lessonMenu .right .dropdown img{
+    transform: rotate(-90deg);
+}
+
+.lessonMenu .right button{
+    color: black;
+    box-sizing: border-box;
+    padding: 0.5rem 0.2rem;
+    border-radius: 0.4rem;
+    border:none;
+    cursor: pointer;
+    font-size: 0.85rem;
+    background-color: white;
+    border:1px solid black;
+    width: 10rem;
+    display: flex;
+    align-items: center;
+}
+
+
+.lessonMenu .right button.cancelBtn img{
+    height: 0.5rem;
+    margin-left:0.2rem;
+    margin-right:0.5rem;
+}
+
+
+.belowMenu{
+    /* background-color: red !important; */
+    width: 80%;
+    margin:0 auto;
+    font-size: 1.3rem;;
+    /* line-height: 1.9rem;; */
+    margin-top:2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: fit-content;
+}
+
+.belowMenu p{
+    font-size: 1.5rem;
+    margin-top:0.5rem;
+}
+
+.belowMenu label.search{
+    padding: 0rem 0rem;
+    border-radius: 0.4rem;
+    border:none;
+    cursor: pointer;
+    border:1px solid black;
+    background-color: white;
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.belowMenu .search svg{
+    margin-left: 0.2rem;
+}
+
+.belowMenu .search input{
+    border: none;
+    outline: none;
+    margin: 0.5rem;
+    margin-left:0.2rem;
+}

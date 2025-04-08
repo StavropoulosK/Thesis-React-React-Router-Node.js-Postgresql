@@ -22,7 +22,7 @@ export const rootLoader = async ({request}) => {
     const path = url.pathname;
 
     if(path=="/"){
-        const nextPage=url.searchParams.get("nextPage")
+        const nextPage=url.searchParams.get("nextReviewPage")
 
         if(nextPage){
             // loader is called from fetcher.

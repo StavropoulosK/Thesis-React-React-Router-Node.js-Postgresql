@@ -85,58 +85,180 @@ app.post('/api/checkEmailIsUsed',async (req,res)=>{
 
 })
 
-app.get('/api/reviews', (req, res) => {
-    const reviews = [
-        {
-          stars: 3,
-          name: "Μαρία Α.",
-          date: "24/12/2024",
-          sport: "Ski",
-          resort: "Parnassos",
-          review: "Πολύ καλός προπονητής και πέρασα ευχάριστα και διασκεδαστικά μαζί του.",
-          image: "img",
-          lessonHours: 1,
-          instructorName: "Γιάννης Μ."
-        },
-        {
-          stars: 2,
-          name: "Μαρία Α.",
-          date: "24/12/2024",
-          sport: "Ski",
-          resort: "Parnassos",
-          review: "Πολύ καλός προπονητής και πέρασα ευχάριστα και διασκεδαστικά μαζί του.",
-          image: "img",
-          lessonHours: 0.5,
-          instructorName: "Γιάννης Μ."
-        },
-        {
-          stars: 3,
-          name: "Μαρία Α.",
-          date: "24/12/2024",
-          sport: "Ski",
-          resort: "Parnassos",
-          review: "Πολύ καλός προπονητής και πέρασα ευχάριστα και διασκεδαστικά μαζί του.",
-          image: "img",
-          lessonHours: 4,
-          instructorName: "Γιάννης Μ."
-        },
-        {
-          stars: 5,
-          name: "Μαρία Α.",
-          date: "24/12/2024",
-          sport: "Ski",
-          resort: "Parnassos",
-          review: "Πολύ καλός προπονητής και πέρασα ευχάριστα και διασκεδαστικά μαζί του.",
-          image: "img",
-          lessonHours: 4,
-          instructorName: "Γιάννης Μ."
-        }
-      ];
+app.get('/api/bookLesson', async (req, res) => {
 
-      // await new Promise(resolve => setTimeout(resolve, 12000));
+  const resort = req.query.resort;
+  const sport = req.query.sport;
+  const from = req.query.from;
+  const to = req.query.to;
+  const members = req.query.members;   
+  const lessonType = req.query.lessonType;
+  const time = req.query.time;
+  const orderBy = req.query.orderBy;
+  const instructorName = req.query.instructorName;
 
-    res.json(reviews);
+  const pageNumber= req.query.pageNumber
+
+  console.log( resort, sport, from, to, members,lessonType,time,orderBy,instructorName,pageNumber);
+
+  // instructorName, reviewScore, reviewCount, experience, languages [], typeOfLesson, reservedSports, description, image, instructorId, minPricePerDay, minPricePerHour
+  // maxPages
+  
+  const instructorLessons = [
+    {
+      instructorName: "Alice Johnson",
+      reviewScore: "4.8",
+      reviewCount: 120,
+      experience: "12",
+      languages: ["English", "French"],
+      typeOfLesson: "private",
+      description: "Patient and skilled instructor for all levels Patient and skilled instructor for all levels Patient and skilled instructor for all levels Patient and skilled instructor for all levels.",
+      image: "/images/startPage/Ski.jpg",
+      instructorId: "inst_1001",
+      minPricePerDay: "150",
+      minPricePerHour: "35"
+    },
+    {
+      instructorName: "Carlos Rivera",
+      reviewScore: "4.6",
+      reviewCount: 89,
+      experience: "8",
+      languages: ["Spanish", "English"],
+      typeOfLesson: "group",
+      groupName:"Lesson for kids",
+      reservedSports: '2/4',
+      description: "Energetic and great with beginners. Energetic and great with beginners. Energetic and great with beginners. Energetic and great with beginners.",
+      image: "/images/startPage/Ski.jpg",
+      instructorId: "inst_1002",
+      minPricePerDay: "130",
+      minPricePerHour: "30"
+    },
+    {
+      instructorName: "Lena Müller",
+      reviewScore: "5.0",
+      reviewCount: 212,
+      experience: "15",
+      languages: ["German", "English"],
+      typeOfLesson: "private",
+      description: "Top-rated instructor with a personal approach. Top-rated instructor with a personal approach. Top-rated instructor with a personal approach. Top-rated instructor with a personal approach.",
+      image: "/images/startPage/Ski.jpg",
+      instructorId: "inst_1003",
+      minPricePerDay: "180",
+      minPricePerHour: "40"
+    },
+    {
+      instructorName: "Marco Rossi",
+      reviewScore: "4.7",
+      reviewCount: 95,
+      experience: "10",
+      languages: ["Italian", "English"],
+      typeOfLesson: "private",
+      description: "Great with kids and family groups. Great with kids and family groups. Great with kids and family groups. Great with kids and family groups. Great with kids and family groups.",
+      image: "/images/startPage/Ski.jpg",
+      instructorId: "inst_1004",
+      minPricePerDay: "140",
+      minPricePerHour: "32"
+    },
+    {
+      instructorName: "Akira Tanaka",
+      reviewScore: "4.9",
+      reviewCount: 160,
+      experience: "13",
+      languages: ["Japanese", "English"],
+      typeOfLesson: "group",
+      groupName:"Lesson for adults",
+      reservedSports: '3/5',
+      description: "Expert instructor for advanced levels. Expert instructor for advanced levels. Expert instructor for advanced levels. Expert instructor for advanced levels.",
+      image: "/images/startPage/Ski.jpg",
+      instructorId: "inst_1005",
+      minPricePerDay: "200",
+      minPricePerHour: "45"
+    },
+    {
+      instructorName: "Sophia Lee",
+      reviewScore: "4.5",
+      reviewCount: 77,
+      experience: "7",
+      languages: ["Korean", "English"],
+      typeOfLesson: "group",
+      groupName:"Lesson for kids",
+      reservedSports: '2/5',
+      description: "Calm and clear teaching style. Calm and clear teaching style. Calm and clear teaching style. Calm and clear teaching style. Calm and clear teaching style.",
+      image: "/images/startPage/Ski.jpg",
+      instructorId: "inst_1006",
+      minPricePerDay: "120",
+      minPricePerHour: "28"
+    },
+    {
+      instructorName: "Thomas Dupont",
+      reviewScore: "4.4",
+      reviewCount: 60,
+      experience: "5",
+      languages: ["French", "English"],
+      typeOfLesson: "private",
+      description: "Loves nature and cross-country adventures. Loves nature and cross-country adventures. Loves nature and cross-country adventures. Loves nature and cross-country adventures.",
+      image: "/images/startPage/Ski.jpg",
+      instructorId: "inst_1007",
+      minPricePerDay: "110",
+      minPricePerHour: "25"
+    },
+    {
+      instructorName: "Emma Smith",
+      reviewScore: "4.6",
+      reviewCount: 140,
+      experience: "9",
+      languages: ["English"],
+      typeOfLesson: "group",
+      groupName:"Lesson for kids",
+      reservedSports: "4/5",
+      description: "Passionate about helping others improve quickly. Passionate about helping others improve quickly. Passionate about helping others improve quickly. Passionate about helping others improve quickly.",
+      image: "/images/startPage/Ski.jpg",
+      instructorId: "inst_1008",
+      minPricePerDay: "145",
+      minPricePerHour: "34"
+    },
+    {
+      instructorName: "Luis Martínez",
+      reviewScore: "4.3",
+      reviewCount: 55,
+      experience: "6",
+      languages: ["Spanish"],
+      typeOfLesson: "private",
+      description: "Fun and motivating group leader.",
+      image: "/images/startPage/Ski.jpg",
+      instructorId: "inst_1009",
+      minPricePerDay: "125",
+      minPricePerHour: "29"
+    },
+    {
+      instructorName: "Zara Ali",
+      reviewScore: "4.9",
+      reviewCount: 198,
+      experience: "11",
+      languages: ["English", "Urdu"],
+      typeOfLesson: "group",
+      groupName:"Lesson for kids",
+      reservedSports: "4/6",
+      description: "Technical and safety-focused expert.",
+      image: "/images/startPage/Ski.jpg",
+      instructorId: "inst_1010",
+      minPricePerDay: "190",
+      minPricePerHour: "42"
+    },
+  ];
+
+  const lessonsPerPage=4
+    
+  const startIndex = (pageNumber - 1) * lessonsPerPage;
+  const endIndex = startIndex + lessonsPerPage;
+
+
+  res.json({
+    instructorLessons: instructorLessons.slice(startIndex, endIndex),
+    maxPages:4
   });
+
+})
 
 app.post('/api/reviews/:page', async (req, res) => {
   const reviewsPerPage = 4;
@@ -278,6 +400,7 @@ app.post('/api/reviews/:page', async (req, res) => {
     }
   ];
 
+  await new Promise(resolve => setTimeout(resolve, 4000));
 
   if (page === 'instructor') {
     res.json(reviews);
@@ -327,7 +450,7 @@ app.post('/api/reviews/:page', async (req, res) => {
 })
 
 app.post('/api/signupUser', async(req,res)=>{
-  console.log('asassas')
+
   const { firstName,lastName,email,password,passwordCheck,countryPhoneCode,phoneNumber,accountType} = req.body; 
 
   const isValid= await validateSignUpInputs(firstName,lastName,email,password,passwordCheck,countryPhoneCode,phoneNumber,accountType)
@@ -461,3 +584,94 @@ async function checkEmailIsUsed(userEmail){
     return false
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+////
+// https://github.com/Uncover-F/TAS?tab=readme-ov-file
+
+// async function translateText() {
+//   const endpointsUrl = 'https://raw.githubusercontent.com/Uncover-F/TAS/Uncover/.data/endpoints.json';
+  
+//   // Parameters for translation (customize as needed)
+//   const params = {
+//       text: 'Tell me a joke about Cloudflare ell me a joke about Cloudflare ell me a joke about Cloudflare ell me a joke about Cloudflare ell me a joke about Cloudflare ell me a joke about Cloudflare ell me a joke about Cloudflare ell me a joke about Cloudflare ell me a joke about Cloudflare ell me a joke about Cloudflare ell me a joke about Cloudflare ell me a joke about Cloudflare ell me a joke about Cloudflare ell me a joke about Cloudflare ell me a joke about Cloudflare ell me a joke about Cloudflare ell me a joke about Cloudflare ell me a joke about Cloudflare ell me a joke about Cloudflare ell me a joke about Cloudflare ell me a joke about Cloudflare',  // Text to translate
+//       source_lang: 'en',  // Source language code
+//       target_lang: 'fr'   // Target language code
+//   };
+
+//   try {
+//       // Get the list of endpoints
+//       const endpointsResponse = await fetch(endpointsUrl);
+//       if (!endpointsResponse.ok) {
+//           throw new Error(`Error fetching endpoints: ${endpointsResponse.status} - ${endpointsResponse.statusText}`);
+//       }
+//       const endpoints = await endpointsResponse.json();
+
+//       // Try each endpoint until one works
+//       let result = null;
+//       for (const endpoint of endpoints) {
+//           const url = new URL(endpoint);
+//           url.search = new URLSearchParams(params).toString();
+
+//           try {
+//               const response = await fetch(url);
+//               if (response.ok) {
+//                   result = await response.json();
+//                   break;
+//               } else {
+//                   console.error(`Error at ${url}: ${response.status} - ${response.statusText}`);
+//               }
+//           } catch (error) {
+//               console.error(`Request exception at ${url}:`, error);
+//           }
+//       }
+
+//       // Print the result or an error message
+//       if (result !== null) {
+//           console.log(result);
+//       } else {
+//           console.error('All endpoints failed.');
+//       }
+//   } catch (error) {
+//       console.error('Error:', error);
+//   }
+// }
+
+// translateText();
+
+
+

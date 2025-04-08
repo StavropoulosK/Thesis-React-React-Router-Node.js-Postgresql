@@ -1,6 +1,6 @@
 section.blackBackground{
     background-color: rgba(0, 0, 0, 0.4);
-    z-index: 1;
+    z-index: 2;
     width: 100%;
     height: 100%;
     position: fixed;
@@ -13,7 +13,7 @@ section.blackBackground article.choseLessonParams{
     left: 50%;
     transform: translate(-50%, -55%);
     width: 860px;
-    height: 520px;
+    height: 540px;
     background-color: white;
     display: flex;
     /* padding-right:2rem; */
@@ -76,9 +76,31 @@ section.blackBackground article.choseLessonParams .lessonParams form .dropdown:l
 }
 
 .choseLessonParams .dropdown:last-of-type .dropdown-menu{
-    max-height: 150px;
+    max-height: 180px;
 }
 
 #lessonParamsForm .dropdown{
     margin-top:1.3rem;
 }
+
+.lessonParams button.finishLessonParams{
+    position: absolute; /* Position relative to the container */
+    bottom: 4.4rem;          /* Stick to bottom */
+    right: 2rem;    
+    background-color: rgba(17, 179, 187, 0.8);
+    color: white; 
+    font-size: 1.5rem; 
+    padding: 0.1rem 0.4rem; 
+    padding-top:0.05rem;
+    padding-bottom: 0.2rem;;
+    border: none;
+    border-radius: 0.3rem; 
+    cursor: pointer;
+   }
+  
+   #lessonParamsForm button.disableSubmit{
+      background-color: rgba(17, 179, 187, 0.4);
+      cursor:default;
+  
+   }
+   

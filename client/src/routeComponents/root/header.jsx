@@ -1,4 +1,4 @@
-import {Link,useNavigate  } from "react-router-dom"
+import {Link,useNavigate,useLocation  } from "react-router-dom"
 import {memo,useState,useRef} from "react"
 
 import useCloseOnOutsideClick from "../../hooks/closeOnClickOutside.jsx"
@@ -48,7 +48,6 @@ const Header= memo (({setIsChooseLessonParamsOpen,loginStatus})=>{
 
                     <div className="nav-right">
                         <button onClick={()=>{
-                            console.log("click !!! ")
                             setIsChooseLessonParamsOpen(true)}}
                             
                         > {t("Book")}</button>
@@ -130,6 +129,8 @@ function ProfileDropdown({loginStatus}){
 function ProfileDropdownCom(){
 
     const {t} = useTranslation("header");
+    const location = useLocation();
+
 
     const navigate = useNavigate();
 
@@ -147,7 +148,12 @@ function ProfileDropdownCom(){
                                                             // ean den litourgisei i aposindesi apla fortoni i idia selida
             return
         }
-        navigate("/")
+        if (location.pathname === "/") {
+            navigate("/", { replace: true });
+        } else {
+            navigate("/");
+        }
+        
         return 
     };
 

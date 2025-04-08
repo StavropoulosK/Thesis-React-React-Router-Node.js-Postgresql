@@ -2,6 +2,7 @@
   margin-bottom:1rem;
   margin-right:1.8rem ;
   position: relative;
+
   /* width: 100%; */
 }
 
@@ -13,9 +14,34 @@
   background:none;
   border:1px solid black;
   border-radius: 0.5rem;
-  padding:0.4rem 0.5rem;
+  padding:0.5rem 0.5rem;
   font-size: 0.9rem;
 }
+
+.dropdown button.dropdown-button svg{
+  margin-left: auto;
+  height: 0.8rem;
+  width: 0.8rem ;
+  transform: rotate(90deg);
+  transition: transform 0.3s ease;
+  /* background-color: red; */
+
+
+}
+
+.dropdown button.dropdown-button.selected svg{
+  color:rgba(17, 179, 187, 0.8);
+}
+
+.dropdown .dropdown-button.selected{
+  border:1px solid rgba(17, 179, 187, 0.8);
+}
+.dropdown .dropdown-button.selected svg{
+  transition: transform 0.3s ease;
+
+  transform: rotate(-90deg);
+}
+
 
 .dropdown button.dropdown-button img{
   height: 1rem;
@@ -40,7 +66,7 @@
   overflow-y: auto;
   width: 100%;
   position: absolute;
-  margin-top:0.5rem;
+  margin-top:0.8rem;
   z-index: 1;
   list-style-type: none;
   background-color: white;
