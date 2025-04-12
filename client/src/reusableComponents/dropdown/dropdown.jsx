@@ -38,13 +38,6 @@ export default function Dropdown({namespace,options,text,icon,selected,setSelect
               } 
             </ul>
         )}
-
-        {/* <input
-          type="hidden"
-          name={text}
-          value={selected}
-          readOnly
-        /> */}
     </div>
   );
 }

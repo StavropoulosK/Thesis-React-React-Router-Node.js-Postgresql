@@ -51,7 +51,7 @@ const router= createBrowserRouter([
         children:[
           {
             index:true,
-            // reviewsLoader acts only as loader for reviews at index path.  the fetcher loading triggeres the loader of the parent https://reactrouter.com/6.30.0/hooks/use-fetcher
+            // reviewsIndexLoader acts only as loader for reviews at index path.  the fetcher loading when changing the review page triggers the loader of the parent https://reactrouter.com/6.30.0/hooks/use-fetcher
             async lazy(){
               const [{ Index }, { reviewsIndexLoader }] = await Promise.all([              
                 import("./routeComponents/index/index.jsx"),
@@ -66,10 +66,14 @@ const router= createBrowserRouter([
           },
           {  
             path: "bookLesson",
-            // path:"bookLesson/resort/:resort/sport/:sport/from/:from/to/:to/members/:members",
             async lazy(){
               const {BookLesson,bookLessonLoader}= await import("./routeComponents/bookLesson/bookLesson.jsx")
               return {element:<BookLesson/>, loader:bookLessonLoader}
+
+            // path: "bookLesson",
+            // async lazy(){
+            //   const {LessonReviewContainer,LessonReviewLoader,bookLessonLoader,BookLesson}= await import("./routeComponents/bookLesson/bookLesson.jsx")
+            //   return {element:<LessonReviewContainer/>, loader:LessonReviewLoader,children:[{index:true,element:<BookLesson/>,loader:bookLessonLoader}]}
 
             }
             // element:<BookLesson/>,

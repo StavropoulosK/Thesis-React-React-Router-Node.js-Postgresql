@@ -70,6 +70,11 @@
 
   }
 
+  .login .loginForm svg.error-svg{
+    color: rgba(17, 179, 187, 0.8);
+
+  }
+
   .login .loginForm .submit-button {
     background-color: rgba(17, 179, 187, 0.8);
     color: white;

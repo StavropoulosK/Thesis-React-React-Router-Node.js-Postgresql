@@ -85,6 +85,8 @@ app.post('/api/checkEmailIsUsed',async (req,res)=>{
 
 })
 
+
+
 app.get('/api/bookLesson', async (req, res) => {
 
   const resort = req.query.resort;
@@ -99,18 +101,24 @@ app.get('/api/bookLesson', async (req, res) => {
 
   const pageNumber= req.query.pageNumber
 
-  console.log( resort, sport, from, to, members,lessonType,time,orderBy,instructorName,pageNumber);
 
+
+
+
+  // await new Promise(resolve => setTimeout(resolve, 4000 ));
+  
+
+  console.log( resort, sport, from, to, members,lessonType,time,orderBy,instructorName,pageNumber);
   // instructorName, reviewScore, reviewCount, experience, languages [], typeOfLesson, reservedSports, description, image, instructorId, minPricePerDay, minPricePerHour
   // maxPages
   
   const instructorLessons = [
     {
-      instructorName: "Alice Johnson",
+      instructorName: "Alice J.",
       reviewScore: "4.8",
-      reviewCount: 120,
-      experience: "12",
-      languages: ["English", "French"],
+      reviewCount: 1,
+      experience: "1",
+      languages: ["English", "French","Spanish"],
       typeOfLesson: "private",
       description: "Patient and skilled instructor for all levels Patient and skilled instructor for all levels Patient and skilled instructor for all levels Patient and skilled instructor for all levels.",
       image: "/images/startPage/Ski.jpg",
@@ -119,11 +127,11 @@ app.get('/api/bookLesson', async (req, res) => {
       minPricePerHour: "35"
     },
     {
-      instructorName: "Carlos Rivera",
+      instructorName: "Carlos R.",
       reviewScore: "4.6",
-      reviewCount: 89,
+      reviewCount: 2,
       experience: "8",
-      languages: ["Spanish", "English"],
+      languages: ["Spanish"],
       typeOfLesson: "group",
       groupName:"Lesson for kids",
       reservedSports: '2/4',
@@ -134,9 +142,9 @@ app.get('/api/bookLesson', async (req, res) => {
       minPricePerHour: "30"
     },
     {
-      instructorName: "Lena Müller",
+      instructorName: "Lena M.",
       reviewScore: "5.0",
-      reviewCount: 212,
+      reviewCount: 3,
       experience: "15",
       languages: ["German", "English"],
       typeOfLesson: "private",
@@ -147,9 +155,9 @@ app.get('/api/bookLesson', async (req, res) => {
       minPricePerHour: "40"
     },
     {
-      instructorName: "Marco Rossi",
+      instructorName: "Marco R.",
       reviewScore: "4.7",
-      reviewCount: 95,
+      reviewCount: 4,
       experience: "10",
       languages: ["Italian", "English"],
       typeOfLesson: "private",
@@ -160,9 +168,9 @@ app.get('/api/bookLesson', async (req, res) => {
       minPricePerHour: "32"
     },
     {
-      instructorName: "Akira Tanaka",
+      instructorName: "Akira T.",
       reviewScore: "4.9",
-      reviewCount: 160,
+      reviewCount: 5,
       experience: "13",
       languages: ["Japanese", "English"],
       typeOfLesson: "group",
@@ -175,9 +183,9 @@ app.get('/api/bookLesson', async (req, res) => {
       minPricePerHour: "45"
     },
     {
-      instructorName: "Sophia Lee",
+      instructorName: "Sophia L.",
       reviewScore: "4.5",
-      reviewCount: 77,
+      reviewCount: 6,
       experience: "7",
       languages: ["Korean", "English"],
       typeOfLesson: "group",
@@ -190,9 +198,9 @@ app.get('/api/bookLesson', async (req, res) => {
       minPricePerHour: "28"
     },
     {
-      instructorName: "Thomas Dupont",
+      instructorName: "Thomas D.",
       reviewScore: "4.4",
-      reviewCount: 60,
+      reviewCount: 7,
       experience: "5",
       languages: ["French", "English"],
       typeOfLesson: "private",
@@ -203,9 +211,9 @@ app.get('/api/bookLesson', async (req, res) => {
       minPricePerHour: "25"
     },
     {
-      instructorName: "Emma Smith",
+      instructorName: "Emma S.",
       reviewScore: "4.6",
-      reviewCount: 140,
+      reviewCount: 8,
       experience: "9",
       languages: ["English"],
       typeOfLesson: "group",
@@ -218,9 +226,9 @@ app.get('/api/bookLesson', async (req, res) => {
       minPricePerHour: "34"
     },
     {
-      instructorName: "Luis Martínez",
+      instructorName: "Luis M.",
       reviewScore: "4.3",
-      reviewCount: 55,
+      reviewCount: 9,
       experience: "6",
       languages: ["Spanish"],
       typeOfLesson: "private",
@@ -231,9 +239,9 @@ app.get('/api/bookLesson', async (req, res) => {
       minPricePerHour: "29"
     },
     {
-      instructorName: "Zara Ali",
+      instructorName: "Zara A.",
       reviewScore: "4.9",
-      reviewCount: 198,
+      reviewCount: 10,
       experience: "11",
       languages: ["English", "Urdu"],
       typeOfLesson: "group",
@@ -247,23 +255,42 @@ app.get('/api/bookLesson', async (req, res) => {
     },
   ];
 
+  // an den iparxoun mathimata to instructorLessons einai kenos pinakas  kai maxPages=0
+
+
   const lessonsPerPage=4
     
   const startIndex = (pageNumber - 1) * lessonsPerPage;
   const endIndex = startIndex + lessonsPerPage;
 
+  if(lessonType=="private"){
+    const privateInstructors = instructorLessons.filter(
+      (instructor) => instructor.typeOfLesson === "private"
+    );
+    res.json({
+      instructorLessons: privateInstructors.slice(startIndex, endIndex),
 
-  res.json({
-    instructorLessons: instructorLessons.slice(startIndex, endIndex),
-    maxPages:4
-  });
+      maxPages:4
+    });
+  }
 
+
+  else{
+      res.json({
+      instructorLessons: instructorLessons.slice(startIndex, endIndex),
+      maxPages:4
+    });
+  }
+
+
+  
 })
 
 app.post('/api/reviews/:page', async (req, res) => {
   const reviewsPerPage = 4;
 
   const page = req.params.page;
+  // console.log("load reviews")
 
   const reviews = [
     {
@@ -400,7 +427,7 @@ app.post('/api/reviews/:page', async (req, res) => {
     }
   ];
 
-  await new Promise(resolve => setTimeout(resolve, 4000));
+  // await new Promise(resolve => setTimeout(resolve, 8000));
 
   if (page === 'instructor') {
     res.json(reviews);
@@ -470,7 +497,7 @@ app.get('*',(req,res)=>{
 
     // xrisimopoioume client side routing. 
     const staticFileRegex = /\.(js|css|png|jpg|jpeg|gif|ico|json|woff|woff2|ttf|eot|svg)$/i;
-    console.log('asassas')
+    // console.log('asassas')
 
     if (staticFileRegex.test(req.url)) {
       console.log("### ",req.url)

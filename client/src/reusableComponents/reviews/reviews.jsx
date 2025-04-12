@@ -57,6 +57,8 @@ import { useTranslation } from "react-i18next";
 // Meta to login se kanei redirect sto protected route kai to koumpi piso den se pigeni sto login
 // https://stackblitz.com/github/remix-run/react-router/tree/main/examples/auth-router-provider?file=README.md
 
+//12 ginetai automata search  otan o xristis stamatai na pliktrologi            f
+
 
 export async function reviewsIndexLoader({request,params}){
 
@@ -159,8 +161,12 @@ function Review({stars,name,date,sport,resort,review,image,lessonHours,instructo
 
 export const Reviews= memo(()=>{
     const [currentPage, setCurrentPage] = useState(1);
+    const loaderData = useLoaderData();
 
-    const [resolvedData, setResolvedData] = useState(null);
+
+    const [reviewData, setReviewData] = useState(loaderData.reviewDataPromise);
+
+
     const [transition, setTransition] =useState('')
 
     const totalPages = useRef(0);
@@ -173,7 +179,7 @@ export const Reviews= memo(()=>{
         if (fetcher.data?.reviewDataPromise) {
 
           fetcher.data.reviewDataPromise.then((data) => {
-            setResolvedData(data);
+            setReviewData(data);
             if(transition=='left'){
                 if (currentPage === 1) {
                         setCurrentPage(totalPages.current); // Go to last page if on the first page
@@ -196,8 +202,6 @@ export const Reviews= memo(()=>{
         }
       }, [fetcher.data]);
       
-
-
 
     const handleLeftClick = (nextPage) => {
 
@@ -244,10 +248,10 @@ export const Reviews= memo(()=>{
         return dots;
       };
 
-    const loaderData = useLoaderData();
 
-    const reviewDataPromise = resolvedData ?? loaderData.reviewDataPromise;
+    // on first page load it is a promise. for subsequent review pages we wait till it resolves in useEffect
 
+    const reviewDataPromise = reviewData 
 
 
     const {t} = useTranslation("reviews")
@@ -257,10 +261,11 @@ export const Reviews= memo(()=>{
     <>  
         <Suspense fallback={<Fallback/>}>
             <Await resolve={reviewDataPromise}>
-                    {reviewData=>{
-                        const maxPages=reviewData.maxPages
+                    {allReviewData=>{
+                        
+                        const maxPages=allReviewData.maxPages
                         totalPages.current=maxPages
-                        if(reviewData.reviews.length==0){
+                        if(allReviewData.reviews.length==0){
                             // no reviews
                             return
                         }
@@ -286,7 +291,7 @@ export const Reviews= memo(()=>{
 
 
                                                 
-                                                    {(reviewData.reviews).map((data, index) => (
+                                                    {(allReviewData.reviews).map((data, index) => (
                                                     <Review
                                                         key={index+data.name}
                                                         stars={data.stars}

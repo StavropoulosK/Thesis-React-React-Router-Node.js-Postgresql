@@ -83,8 +83,6 @@ export function Root(){
     const {loginStatus}= useLoaderData()
 
 
-
-
     const [isChooseLessonParamsOpen,setIsChooseLessonParamsOpen]=useState(false)
     const [selectedSport,setSelectedSport]=useState("")
 

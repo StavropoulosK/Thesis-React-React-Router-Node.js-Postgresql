@@ -152,7 +152,7 @@ function CalendarContainer({arrivalDate,setArrivalDate,departureDate,setDepartur
                     {(arrivalDate&&departureDate)?`${formatDate(arrivalDate)} - ${formatDate(departureDate)}`:t("Date")}
                 </button>
 
-                {isOpen && <Calendar onclose={()=>setIsOpen(false)} arrivalDate={arrivalDate} setArrivalDate={setArrivalDate} departureDate={departureDate} setDepartureDate={setDepartureDate}/>}
+                {isOpen && <Calendar onclose={()=>setIsOpen(false)} arrivalDate={arrivalDate} setArrivalDate={setArrivalDate} departureDate={departureDate} setDepartureDate={setDepartureDate} onOk={()=>setIsOpen(false)}/>}
                 <input
                   type="hidden"
                   name="arrivalDate"
@@ -169,7 +169,7 @@ function CalendarContainer({arrivalDate,setArrivalDate,departureDate,setDepartur
 }
 
 
-export function Calendar({onclose,arrivalDate,setArrivalDate,departureDate,setDepartureDate}) {
+export function Calendar({onclose,arrivalDate,setArrivalDate,departureDate,setDepartureDate,onOk}) {
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const today = new Date();
     const {t} = useTranslation("choseLessonParams")
@@ -300,7 +300,7 @@ export function Calendar({onclose,arrivalDate,setArrivalDate,departureDate,setDe
             <button type="button" onClick={()=>{setDepartureDate(null);setArrivalDate(null)}}>
               {t("clear")}
             </button>
-            <button type="button" onClick={onclose}>
+            <button type="button" onClick={onOk}>
               Οκ
             </button>
           </div>

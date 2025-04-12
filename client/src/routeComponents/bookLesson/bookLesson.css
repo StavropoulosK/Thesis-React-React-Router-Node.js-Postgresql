@@ -2,7 +2,7 @@
     margin:0 auto;
     /* margin-bottom:80vh; */
     margin-top:3rem;
-    width: 80%;
+    /* width: 80%; */
     box-sizing: border-box;
     border:2px solid black;
     border-radius: 1rem;
@@ -44,6 +44,7 @@
     display: inline;
     font-size: 1.3rem;
 
+
 }
 
 .lessonContainer .infoContainer .top h4.groupName{
@@ -68,6 +69,12 @@
     margin-right:0;
     gap:1rem;
     width: fit-content;
+}
+
+.lessonContainer .infoContainer .attributes span{
+    background-color: red;
+    width: 13rem;
+
 }
 
 .lessonContainer .infoContainer .attributes svg{
@@ -105,7 +112,6 @@
 }
 
 .lessonContainer .right{
-    margin-top: 0.8rem;
     width: 20rem;
     padding-top:1rem;
     height: 100%;
@@ -113,11 +119,12 @@
     flex-direction: column;
     /* justify-content: flex-start; */
     align-items: flex-end;
+
 }
 
 .lessonContainer .right span{
     display: block !important;
-    margin-top: 0.2rem;
+    margin-top: 0.7rem;
     font-size: 0.8rem;
 }
 
@@ -185,6 +192,7 @@
     font-size: 1.5rem;
     margin-right:1.5rem;
     margin-bottom: 0;
+    width: 8rem;
 }
 
 
@@ -198,6 +206,10 @@
     transform:translateX(-30%);
 }
 
+.lessonMenu .dropdown.calendar .dropdown-button.selected{
+    border:1px solid rgba(17, 179, 187, 0.8);
+}
+
 
 
 .lessonMenu .secondaryFilters{
@@ -209,9 +221,9 @@
     flex-direction: column;
     /* background-color: red; */
     align-items: center;
-    width: fit-content;
-    margin-right:2.5rem;
-    
+    width: 10rem;
+    margin-right:0rem;
+
 }
 
 .secondaryFilters .filterContainer span{
@@ -248,6 +260,18 @@
     font-size: 14px;
 }
 
+section.allLessonContainer{
+    width: 80%;
+    margin: 0 auto;
+}
+
+section.allLessonContainer.loading article{
+    opacity: 0.5;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    
+}
+
 
 .lessonMenu .right {
     display: flex;
@@ -258,13 +282,21 @@
 }
 
 .lessonMenu .right .cancelBtn{
-    height: 35.2px;
+    height: 34.4px;
 }
 
+.lessonMenu .right .cancelBtn.clicked{
+    border:1px solid rgba(17, 179, 187, 0.8);
+}
 
-.lessonMenu .right .cancelBtn img{
-    width: 0.5rem;
-    height: 0.5rem;
+.lessonMenu .right .cancelBtn.clicked svg{
+    color:rgba(17, 179, 187, 0.8);
+
+}
+
+.lessonMenu .right .cancelBtn svg{
+    width: 1rem;
+    height: 1rem;
     margin-right:0.2rem;
     position: relative;
     top:0.05rem;
@@ -274,7 +306,7 @@
     box-sizing: border-box;
     height: fit-content;
     margin:0;
-    margin-left:1rem;
+    margin-left:1.8rem;
 
 }
 
@@ -292,9 +324,13 @@
     font-size: 0.85rem;
     background-color: white;
     border:1px solid black;
-    width: 10rem;
+    width: 12rem;
     display: flex;
     align-items: center;
+}
+
+.lessonMenu .right .dropdown button{
+    width: 14.6rem;
 }
 
 
@@ -334,6 +370,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.belowMenu label.search.selected{
+    border:1px solid rgba(17, 179, 187, 0.8);
 }
 
 .belowMenu .search svg{

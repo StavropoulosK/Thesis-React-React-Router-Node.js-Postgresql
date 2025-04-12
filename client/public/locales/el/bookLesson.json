@@ -1,4 +1,40 @@
 {
-    "greeting":"Για σας! {{variableName}}"                
+    "Ski":"Χιονοδρομίας",
+    "Snowboard":"Χιονοσανίδας",
+    "Sit ski":"Καθιστού σκι" ,
+    "lessons_greek":"Μαθήματα",
+    "at_ski_resort":"στο χιονοδρομικό κέντρο",
+    "Search":"Αναζήτηση",
+    "Filters":"Επιλογές",
+    "Private":"Ιδιωτικό",
+    "Group":"Ομαδικό",
+    "Morning":"Πρωί",
+    "Noon":"Μεσημέρι",
+    "All day":"Όλη μέρα",
+    "Clear filters":"Καθάριση φίλτρων",
+    "Best reviews":"Καλύτερες κριτικές",
+    "Price Low to High":"Κόστος (χαμηλό σε υψηλό)",
+    "Price High to Low":"Κόστος (υψηλό σε χαμηλό)",
+    "and":"και",
+    "Greek":"Ελληνικά",
+    "English":"Αγγλικά",
+    "Spanish":"Ισπανικά",
+    "French":"Γαλλικά",
+    "Italin":"Ιταλικά",
+    "German":"Γερμανικά",
+    "I speak":"Μιλάω",
+    "review_one": "κριτική",
+    "review_other": "κριτικές",
+    "experience_one":"χρόνος εμπειρίας",
+    "experience_other":"χρόνια εμπειρίας",
+    "Private lesson":"Ιδιωτικό μάθημα",
+    "Group lesson":"Ομαδικό μάθημα",
+    "hour":"ώρα",
+    "day":"μέρα",
+    "from":"από",
+    "View lessons":"Προβολή μαθημάτων",
+    "View profile":"Προβολή προφίλ"
+
+          
 
 }
