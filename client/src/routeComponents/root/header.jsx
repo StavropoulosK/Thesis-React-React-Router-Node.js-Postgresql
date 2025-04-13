@@ -64,9 +64,10 @@ const Header= memo (({setIsChooseLessonParamsOpen,loginStatus})=>{
             <header>
                 <nav>
                     <div className="nav-left">
-                        <Link to={'/'} preventScrollReset={pathname=="/"?true:false} className="logo" onClick={()=>{
+                        <Link to={'/'} preventScrollReset={pathname=="/"?false:false} className="logo" onClick={()=>{
                                 setIsChooseLessonParamsOpen(false)
                                 if(pathname=="/"){
+                                    return
                                     fastSmoothScrollToTop()
                                 }
                             }}

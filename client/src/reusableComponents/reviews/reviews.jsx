@@ -59,6 +59,9 @@ import { useTranslation } from "react-i18next";
 
 //12 ginetai automata search  otan o xristis stamatai na pliktrologi            f
 
+//13 https://reactrouter.com/6.30.0/components/scroll-restoration 
+// scroll restoration
+
 
 export async function reviewsLoader({request,params}){
     const url = new URL(request.url);
