@@ -22,6 +22,8 @@ const publicPath= path.join (__dirname,'./public')
 const app=express()
 
 // app.use(express.static(publicPath))
+
+
 app.use(express.static(distPath))     // ta public files topothetountai kata to build sto distpath kai serbirontai apo eki.
 
 
@@ -40,6 +42,8 @@ app.use(session({
         secure:false,
     }
 }))
+
+
 
 app.get('/api/getLoginStatus', (req, res) => {
 
@@ -100,9 +104,6 @@ app.get('/api/bookLesson', async (req, res) => {
   const instructorName = req.query.instructorName;
 
   const pageNumber= req.query.pageNumber
-
-
-
 
 
   // await new Promise(resolve => setTimeout(resolve, 4000 ));
@@ -290,7 +291,7 @@ app.post('/api/reviews/:page', async (req, res) => {
   const reviewsPerPage = 4;
 
   const page = req.params.page;
-  // console.log("load reviews")
+
 
   const reviews = [
     {
@@ -427,7 +428,7 @@ app.post('/api/reviews/:page', async (req, res) => {
     }
   ];
 
-  // await new Promise(resolve => setTimeout(resolve, 8000));
+  await new Promise(resolve => setTimeout(resolve, 2000));
 
   if (page === 'instructor') {
     res.json(reviews);
@@ -438,7 +439,6 @@ app.post('/api/reviews/:page', async (req, res) => {
     // epistefei to poli 3 selides
 
     const { resort,sport,from,to,members,reviewsPage } = req.body; 
-    // console.log('aaa ',resort,sport,from,to,members,page,reviewsPage)
 
     // await new Promise(resolve => setTimeout(resolve, 4000));
 
@@ -447,7 +447,6 @@ app.post('/api/reviews/:page', async (req, res) => {
     
     const startIndex = (reviewsPage - 1) * reviewsPerPage;
     const endIndex = startIndex + reviewsPerPage;
-
   
     res.json({
       reviews: reviews.slice(startIndex, endIndex),

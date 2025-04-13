@@ -30,6 +30,8 @@ import ErrorPage from './routeComponents/root/errorElement.jsx'
 // import {Protected} from "./routeComponents/protected/protected.jsx"                                           
 // import {protectedLoader} from "./routeComponents/protected/protected.jsx"
 
+import {reviewsLoader} from "./reusableComponents/reviews/reviews.jsx"
+
 
 import './i18n.js'
 
@@ -42,7 +44,7 @@ const router= createBrowserRouter([
     },
     // element: <Root/>,
     // loader: rootLoader,
-    shouldRevalidate: () => true,
+    shouldRevalidate: () => true,        
     errorElement:<ErrorPage/>,
 
     children:[
@@ -51,14 +53,12 @@ const router= createBrowserRouter([
         children:[
           {
             index:true,
-            // reviewsIndexLoader acts only as loader for reviews at index path.  the fetcher loading when changing the review page triggers the loader of the parent https://reactrouter.com/6.30.0/hooks/use-fetcher
             async lazy(){
-              const [{ Index }, { reviewsIndexLoader }] = await Promise.all([              
-                import("./routeComponents/index/index.jsx"),
-                import("./reusableComponents/reviews/reviews.jsx"),
-            ]);
-            
-              return {element:<Index/>, loader:reviewsIndexLoader}
+              const { Index } = await import("./routeComponents/index/index.jsx")
+          
+              // return {element:<Index/>, loader:reviewsIndexLoader}
+              return {element:<Index/>}
+
             }
             // element:<Index/>,
             // loader: reviewsLoader
@@ -69,11 +69,6 @@ const router= createBrowserRouter([
             async lazy(){
               const {BookLesson,bookLessonLoader}= await import("./routeComponents/bookLesson/bookLesson.jsx")
               return {element:<BookLesson/>, loader:bookLessonLoader}
-
-            // path: "bookLesson",
-            // async lazy(){
-            //   const {LessonReviewContainer,LessonReviewLoader,bookLessonLoader,BookLesson}= await import("./routeComponents/bookLesson/bookLesson.jsx")
-            //   return {element:<LessonReviewContainer/>, loader:LessonReviewLoader,children:[{index:true,element:<BookLesson/>,loader:bookLessonLoader}]}
 
             }
             // element:<BookLesson/>,
@@ -119,6 +114,16 @@ const router= createBrowserRouter([
             // loader:protectedLoader
           }
         ]
+      },
+      {
+        path:"api",
+        children:[
+            {
+              path:"reviews",
+              loader:reviewsLoader
+            }
+        ]
+        
       }
     ]
   }
@@ -182,5 +187,5 @@ createRoot(document.getElementById('root')).render(
  <StrictMode>
 
       <RouterProvider router={router} />
-  </StrictMode>
+ </StrictMode> 
 )

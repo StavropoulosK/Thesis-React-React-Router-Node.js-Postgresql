@@ -24,6 +24,10 @@ const Header= memo (({setIsChooseLessonParamsOpen,loginStatus})=>{
     const {t, i18n } = useTranslation("header");
     const currentLanguage = i18n.language;
 
+
+    const { pathname } = useLocation();
+
+
     const handleLanguageChange = () => {
         if(currentLanguage=='en'){
             i18n.changeLanguage('el'); 
@@ -35,13 +39,40 @@ const Header= memo (({setIsChooseLessonParamsOpen,loginStatus})=>{
         }
       };
 
+    const fastSmoothScrollToTop = () => {
+        const start = window.scrollY;
+        const duration = 50; // 200ms (much faster than default)
+        const startTime = performance.now();
+      
+        const animateScroll = (currentTime) => {
+          const elapsed = currentTime - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          window.scrollTo(0, start * (1 - progress));
+      
+          if (progress < 1) {
+            requestAnimationFrame(animateScroll);
+          }
+        };
+      
+        requestAnimationFrame(animateScroll);
+    };
+
+
 
     return(
         <>
             <header>
                 <nav>
                     <div className="nav-left">
-                        <Link to={'/'} className="logo" onClick={()=>setIsChooseLessonParamsOpen(false)}> Easy Snow</Link>
+                        <Link to={'/'} preventScrollReset={pathname=="/"?true:false} className="logo" onClick={()=>{
+                                setIsChooseLessonParamsOpen(false)
+                                if(pathname=="/"){
+                                    fastSmoothScrollToTop()
+                                }
+                            }}
+                        >
+                            Easy Snow
+                        </Link>
 
                     </div>
 

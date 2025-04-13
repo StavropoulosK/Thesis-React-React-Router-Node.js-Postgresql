@@ -2,7 +2,7 @@ import "./reviews.css"
 
 
 
-import {useFetcher,useLocation } from 'react-router-dom'
+import {useLoaderData,useFetcher } from 'react-router-dom'
 import {useState,memo,Suspense,useEffect,useRef } from "react"
 import { Await } from "react-router";
 
@@ -60,60 +60,33 @@ import { useTranslation } from "react-i18next";
 //12 ginetai automata search  otan o xristis stamatai na pliktrologi            f
 
 
-export async function reviewsLoader({request,params}){
+export async function reviewsIndexLoader({request,params}){
+
+    // return  {reviewDataPromise: fetch('/api/reviews')
+    //                                 .then(response => {
+    //                                     if (!response.ok) {
+    //                                         throw new Error(`An error happened! Status: ${response.status}`);
+    //                                     }
+    //                                     return response.json(); 
+    //                                 })
+    //                                 .catch(error => {
+    //                                     console.error('Error fetching reviews:', error);
+    //                                     throw error;
+    //                                 })
+    // }
+
     const url = new URL(request.url);
 
     const nextPage=url.searchParams.get("nextReviewPage")
-    const currentRoute=url.searchParams.get("currentRoute")
-    
+
     const reviewsPage = nextPage|| 1;
 
-    let reviewParameters
-
-    
-    if(currentRoute=='/'){
-        reviewParameters={reviewsPage}
-    }
-
-
-    else if(currentRoute=='/bookLesson'){
-        let resort,sport,from,to,members
-
-        resort = url.searchParams.get("resort");
-        sport = url.searchParams.get("sport");
-        from = url.searchParams.get("from");
-        to = url.searchParams.get("to");
-        members = url.searchParams.get("members") 
-        reviewParameters={reviewsPage,resort,sport,from,to,members}
-
-    }
-
-    const reviewDataPromise =  createReviewDataPromise(reviewParameters,currentRoute)
-
-    return {reviewDataPromise}
-
-}
-
-function createReviewDataPromise(reviewParameters,currentRoute){
-
-    // reviewParameters is an object with the params that determines which reviews to fetch
-
-    let page;
-
-    if(currentRoute=='/'){
-        page="index"
-    }
-
-    if(currentRoute=="/bookLesson"){
-        page="bookLesson"
-    }
-
-    const reviewDataPromise =  fetch(`/api/reviews/${page}`, {
+    const reviewDataPromise =  fetch('/api/reviews/index', {
         method: 'POST',
         headers: {
         'Content-Type': 'application/json',
         },
-        body: JSON.stringify(reviewParameters)
+        body: JSON.stringify({reviewsPage})
 
     })
     .then(response => {
@@ -127,9 +100,9 @@ function createReviewDataPromise(reviewParameters,currentRoute){
         throw error;
     })
 
-    return reviewDataPromise
-}
+    return {reviewDataPromise}
 
+}
 
 function Star({type}){
 
@@ -186,37 +159,12 @@ function Review({stars,name,date,sport,resort,review,image,lessonHours,instructo
 }
 
 
-
 export const Reviews= memo(()=>{
     const [currentPage, setCurrentPage] = useState(1);
-    const location = useLocation();
-    const currentRoute = location.pathname;
-
-    const [reviewDataPromise,setReviewDataPromise] = useState(new Promise(() => {}));
+    const loaderData = useLoaderData();
 
 
-    useEffect(() => {
-        let reviewParameters
-
-        if(currentRoute=="/"){
-            reviewParameters={reviewsPage:1}
-        }
-        else if(currentRoute=="/bookLesson"){
-            const searchParams = new URLSearchParams(location.search);
-            const resort = searchParams.get("resort");
-            const sport = searchParams.get("sport");
-            const from = searchParams.get("from");
-            const to = searchParams.get("to");
-            const members = searchParams.get("members");
-        
-    
-            reviewParameters={reviewsPage:1,resort,sport,from,to,members}
-
-        }
-
-
-        setReviewDataPromise(createReviewDataPromise(reviewParameters,currentRoute))
-      }, []);
+    const [reviewData, setReviewData] = useState(loaderData.reviewDataPromise);
 
 
     const [transition, setTransition] =useState('')
@@ -226,10 +174,12 @@ export const Reviews= memo(()=>{
 
     const fetcher = useFetcher();
 
+
     useEffect(() => {
         if (fetcher.data?.reviewDataPromise) {
+
           fetcher.data.reviewDataPromise.then((data) => {
-            setReviewDataPromise(data);
+            setReviewData(data);
             if(transition=='left'){
                 if (currentPage === 1) {
                         setCurrentPage(totalPages.current); // Go to last page if on the first page
@@ -254,34 +204,34 @@ export const Reviews= memo(()=>{
       
 
     const handleLeftClick = (nextPage) => {
-        const currentUrlParams = new URLSearchParams(window.location.search); 
+
+        const currentPath = window.location.pathname; 
+        const currentUrlParams = new URLSearchParams(window.location.search); // URL params (e.g., "?resort=Vasilitsas&sport=Snowboard")
         currentUrlParams.set("nextReviewPage", nextPage);
-        currentUrlParams.set("currentRoute", currentRoute);
+        
+        const actionUrl = `${currentPath}?${currentUrlParams.toString()}`;
 
-
-        const actionUrl = `/api/reviews?${currentUrlParams.toString()}`;
-
-        setTransition("left");
+        
+        setTransition('left')
         fetcher.load(actionUrl); 
-  
 
     }
         
     const handleRightClick = (nextPage) => {
 
 
-        const currentUrlParams = new URLSearchParams(window.location.search); 
+        const currentPath = window.location.pathname; 
+        const currentUrlParams = new URLSearchParams(window.location.search); // URL params (e.g., "?resort=Vasilitsas&sport=Snowboard")
+
         currentUrlParams.set("nextReviewPage", nextPage);
-        currentUrlParams.set("currentRoute", currentRoute);
 
-
-        const actionUrl = `/api/reviews?${currentUrlParams.toString()}`;
-
-        fetcher.load(actionUrl);
+      
+        const actionUrl = `${currentPath}?${currentUrlParams.toString()}`;
 
         setTransition('right')
 
-    };
+        fetcher.load(actionUrl); 
+      };
 
 
 
@@ -298,6 +248,12 @@ export const Reviews= memo(()=>{
         return dots;
       };
 
+
+    // on first page load it is a promise. for subsequent review pages we wait till it resolves in useEffect
+
+    const reviewDataPromise = reviewData 
+
+
     const {t} = useTranslation("reviews")
     
 
@@ -306,6 +262,7 @@ export const Reviews= memo(()=>{
         <Suspense fallback={<Fallback/>}>
             <Await resolve={reviewDataPromise}>
                     {allReviewData=>{
+                        
                         const maxPages=allReviewData.maxPages
                         totalPages.current=maxPages
                         if(allReviewData.reviews.length==0){
@@ -320,6 +277,7 @@ export const Reviews= memo(()=>{
                                         <div className="container">
 
                                             <div className="reviewsFlex">
+                                                <fetcher.Form method="get">
 
 
                                                     <button type="button" onClick={!transition?()=>{const nextPage=currentPage === 1?maxPages:currentPage-1;handleLeftClick(nextPage)}:null} className="changeReview left">
@@ -327,6 +285,7 @@ export const Reviews= memo(()=>{
                                                         
                                                     </button>
                                                     
+                                                </fetcher.Form>
 
                                                 <div className="reviewPanel">
 
@@ -348,10 +307,12 @@ export const Reviews= memo(()=>{
                                                     ))}
                                                 </div>
 
+                                                <fetcher.Form method="get">
                                                     <button type="button" onClick={!transition?()=>{const nextPage=currentPage === maxPages?1:currentPage + 1;handleRightClick(nextPage)}:null} className="changeReview right">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="9" height="18" viewBox="0 0 12 24"><path fill="currentColor" fillRule="evenodd" d="M10.157 12.711L4.5 18.368l-1.414-1.414l4.95-4.95l-4.95-4.95L4.5 5.64l5.657 5.657a1 1 0 0 1 0 1.414"/></svg>
                                                     </button>
 
+                                                </fetcher.Form>
 
                                             </div>
 

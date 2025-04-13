@@ -10,7 +10,7 @@ import useCloseOnOutsideClick from "./../../hooks/closeOnClickOutside.jsx"
 
 import TopBar from "../../reusableComponents/topBar/TopBar";
 
-import { Reviews } from "../../reusableComponents/reviews/reviews";
+import { Reviews } from "../../reusableComponents/reviews/reviews.jsx";
 
 import { PageNavigation } from "../../reusableComponents/pageNavigation/pageNavigation";
 
@@ -36,51 +36,12 @@ export async function bookLessonLoader({request,params}) {
 
     const pageNumber= url.searchParams.get("pageNumber") || 1;
 
-    console.log("#### ",members,lessonType,time,orderBy,instructorName,pageNumber)
-
-
-    // loader function may execute to fetch new reviews or to fetch new lessons
+    // console.log("#### ",members,lessonType,time,orderBy,instructorName,pageNumber)
 
 
     if(!resort || !sport || !from || !to || !members){
 
         return redirect("/")
-    }
-
-    const nextReviewPage=url.searchParams.get("nextReviewPage")
-
-    const reviewsPage = nextReviewPage|| 1;
-
-    
-
-    const reviewDataPromise =   fetch('/api/reviews/bookLesson', {
-                                    method: 'POST',
-                                    headers: {
-                                    'Content-Type': 'application/json',
-                                    },
-                                    body: JSON.stringify({resort,sport,from,to,members,reviewsPage})
-                                })
-                                .then(response => {
-                                    if (!response.ok) {
-                                        throw new Error(`An error happened! Status: ${response.status}`);
-                                    }
-                                    return response.json(); 
-                                })
-                                .catch(error => {
-                                    console.error('Error fetching reviews:', error);
-                                    throw error;
-                                })
-
-    
-    //////////////////////////////////////////////////////////////////////////////////////////////////   Na bebeotho oti einai true mono otan alazi to review page
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  exo 2 fetchers. auto na leitourgi mono gia ton ena
-
-    if(nextReviewPage){
-    // reviews fetcher called the loader
-        return {
-            reviewDataPromise,
-        };
-
     }
 
     let lessons
@@ -136,7 +97,6 @@ export async function bookLessonLoader({request,params}) {
 
 
     return {
-        reviewDataPromise,
         lessons,
         params:{
             resort,
@@ -174,8 +134,6 @@ export function BookLesson(){
     }, []);
 
 
-
-
     return(
         <>
             <TopBar completed={2}/>
@@ -199,8 +157,6 @@ export function BookLesson(){
 }
 
 function SearchInput({instructorName,setInstructorName}){
-
-    
     
     const [searchParams, setSearchParams] = useSearchParams();
     
@@ -315,7 +271,6 @@ const Menu= memo( ({resetInstructorName})=>{
     const [searchParams, setSearchParams] = useSearchParams();
 
     const { t } = useTranslation(["bookLesson"]);
-
     
 
     return(
