@@ -110,7 +110,7 @@ app.get('/api/bookLesson', async (req, res) => {
   
 
   console.log( resort, sport, from, to, members,lessonType,time,orderBy,instructorName,pageNumber);
-  // instructorName, reviewScore, reviewCount, experience, languages [], typeOfLesson, reservedSports, description, image, instructorId, minPricePerDay, minPricePerHour
+  // instructorName, reviewScore, reviewCount, experience, languages [], typeOfLesson, reservedSpots, description, image, instructorId, minPricePerDay, minPricePerHour
   // maxPages
   
   const instructorLessons = [
@@ -135,7 +135,7 @@ app.get('/api/bookLesson', async (req, res) => {
       languages: ["Spanish"],
       typeOfLesson: "group",
       groupName:"Lesson for kids",
-      reservedSports: '2/4',
+      reservedSpots: '2/4',
       description: "Energetic and great with beginners. Energetic and great with beginners. Energetic and great with beginners. Energetic and great with beginners.",
       image: "/images/startPage/Ski.jpg",
       instructorId: "inst_1002",
@@ -176,7 +176,7 @@ app.get('/api/bookLesson', async (req, res) => {
       languages: ["Japanese", "English"],
       typeOfLesson: "group",
       groupName:"Lesson for adults",
-      reservedSports: '3/5',
+      reservedSpots: '3/5',
       description: "Expert instructor for advanced levels. Expert instructor for advanced levels. Expert instructor for advanced levels. Expert instructor for advanced levels.",
       image: "/images/startPage/Ski.jpg",
       instructorId: "inst_1005",
@@ -191,7 +191,7 @@ app.get('/api/bookLesson', async (req, res) => {
       languages: ["Korean", "English"],
       typeOfLesson: "group",
       groupName:"Lesson for kids",
-      reservedSports: '2/5',
+      reservedSpots: '2/5',
       description: "Calm and clear teaching style. Calm and clear teaching style. Calm and clear teaching style. Calm and clear teaching style. Calm and clear teaching style.",
       image: "/images/startPage/Ski.jpg",
       instructorId: "inst_1006",
@@ -219,7 +219,7 @@ app.get('/api/bookLesson', async (req, res) => {
       languages: ["English"],
       typeOfLesson: "group",
       groupName:"Lesson for kids",
-      reservedSports: "4/5",
+      reservedSpots: "4/5",
       description: "Passionate about helping others improve quickly. Passionate about helping others improve quickly. Passionate about helping others improve quickly. Passionate about helping others improve quickly.",
       image: "/images/startPage/Ski.jpg",
       instructorId: "inst_1008",
@@ -247,7 +247,7 @@ app.get('/api/bookLesson', async (req, res) => {
       languages: ["English", "Urdu"],
       typeOfLesson: "group",
       groupName:"Lesson for kids",
-      reservedSports: "4/6",
+      reservedSpots: "4/6",
       description: "Technical and safety-focused expert.",
       image: "/images/startPage/Ski.jpg",
       instructorId: "inst_1010",
@@ -428,7 +428,7 @@ app.post('/api/reviews/:page', async (req, res) => {
     }
   ];
 
-  await new Promise(resolve => setTimeout(resolve, 2000));
+  // await new Promise(resolve => setTimeout(resolve, 2000));
 
   if (page === 'instructor') {
     res.json(reviews);

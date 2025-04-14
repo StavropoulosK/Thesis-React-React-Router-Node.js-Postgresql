@@ -564,6 +564,8 @@ function Lesson({instructorLesson}){
 
 
     const languages = instructorLesson.languages;
+
+    console.log("##### ",instructorLesson.instructorId)
     
     let languagesText = "";
 
@@ -615,7 +617,7 @@ function Lesson({instructorLesson}){
                                 {
                                     instructorLesson.typeOfLesson=="private"?
                                     t("Private lesson"):
-                                    `${t("Group lesson")} ${instructorLesson.reservedSports}` 
+                                    `${t("Group lesson")} ${instructorLesson.reservedSpots}` 
 
                                 }
 
