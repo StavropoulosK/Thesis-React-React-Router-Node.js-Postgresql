@@ -9,6 +9,8 @@ import { useState, useRef } from "react";
 import useCloseOnOutsideClick from "./../../hooks/closeOnClickOutside.jsx"
 import Dropdown from "./../../reusableComponents/dropdown/dropdown.jsx"
 
+import BlackBackGround from "../../reusableComponents/blackBackGround/blackBackGround.jsx";
+
 import { useTranslation } from "react-i18next";
 
 
@@ -20,7 +22,8 @@ export default function ChoseLessonParams({onReservationClick,selectedSport,canc
 
     return(
         <>
-        <section className="blackBackground">
+        <BlackBackGround/>
+        <section>
             <article className="choseLessonParams">
                     <article className="illustrationContainer">
                         <img className="illustration" src="/illustrations/snowboarding.png" ></img>

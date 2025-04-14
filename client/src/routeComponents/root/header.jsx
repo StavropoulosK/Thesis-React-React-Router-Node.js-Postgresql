@@ -83,6 +83,7 @@ const Header= memo (({setIsChooseLessonParamsOpen,loginStatus})=>{
                             setIsChooseLessonParamsOpen(true)}}
                             
                         > {t("Book")}</button>
+                         {/*  ###############################################################     na to antigrapso pantou      onClick={()=>setIsChooseLessonParamsOpen(false)}       */}
                         {!loginStatus&&<Link to={'/login'} onClick={()=>setIsChooseLessonParamsOpen(false)}> {t("Login")}</Link>}
                         {!loginStatus &&<Link to={'/protected'}> {t("Instructor signup")}</Link>}
                         {/* {true &&<Link to={'/protected'}> {t("Instructor signup")}</Link>} */}
