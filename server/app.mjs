@@ -44,24 +44,61 @@ app.use(session({
 }))
 
 
-
 app.get('/api/getLoginStatus', (req, res) => {
 
+
   if(req.session?.loggedinState){
-    return res.json({ status: req.session.loggedinState });
+    return res.json({ status: req.session.loggedinState});
 
   }
   else{
-    return res.json({ status: null });
+    return res.json({ status: null});
   }
 })
+
+
+app.get('/api/getHeaderParams', (req, res) => {
+
+  // an einai sindedemenos apothikeuetai sto session, alios einai 0
+  const lessonsInCart=2
+
+  if(req.session?.loggedinState){
+    return res.json({ status: req.session.loggedinState, lessonsInCart});
+
+  }
+  else{
+    return res.json({ status: null, lessonsInCart});
+  }
+})
+
+function authoriseStudent(req,res,next){
+
+  if (req.session.loggedinState!=="student") {
+    return res.status(401).end();
+  } else {
+
+      next();
+    }
+}
+
+
+function authoriseInstructor(req,res,next){
+  console.log(req.session.userID)
+  if (req.session.loggedinState!=="instructor") {
+    return res.status(401).end();
+  } else {
+      next();
+    }
+}
+
 
 app.post("/api/loginUser", (req, res) => {
 
     const { email, password } = req.body; // Access request body
 
     if (email === "123" && password === "123") {
-      req.session.loggedinState = "instructor";
+      // instructor student
+      req.session.loggedinState = "student";
       res.json({ userExists: true });
     } else {
       res.json({ userExists: false  });
@@ -90,6 +127,99 @@ app.post('/api/checkEmailIsUsed',async (req,res)=>{
 })
 
 
+app.post("/api/addLessonToCart",authoriseStudent,async (req,res)=>{
+
+    // await new Promise(resolve => setTimeout(resolve, 2000));
+
+    const { lessonIDs} = req.body;
+
+    return res.status(200).end();
+
+})
+
+app.get("/api/showLessons",async(req,res)=>{
+  const resort = req.query.resort;
+  const sport = req.query.sport;
+  const from = req.query.from;
+  const to = req.query.to;
+  const members = req.query.members;   
+  const instructorId= req.query.instructorId
+
+  // it exists only for group lessons
+  const instructionID=req.query.instructionID
+
+
+  // An einai sto kalathi tou xristi na mi fainetai
+
+  console.log("##### ",resort,sport,from,to,members,instructorId,instructionID)
+
+  // epistrefi mono tis meres pou iparxi kapoio eleuthero. gia autes tis meres epistrefi kai ta piasmena
+
+  // id mathimatos, imerominia, diarki oli mera, kostos, ora enarksis , ora liksis, full
+  // await new Promise(resolve => setTimeout(resolve, 2000));
+
+
+    const lessons = [
+      // 12/05/2024
+      [{teachingID:"15", lessonID: "101", date: "12/05/2024", isAllDay: false, cost: "150", timeStart: "09:00", timeEnd: "17:00",full:true },
+      { teachingID:"15",lessonID: "102", date: "12/05/2024", isAllDay: false, cost: "140", timeStart: "08:00", timeEnd: "16:00",full:false },
+      { teachingID:"15",lessonID: "103", date: "12/05/2024", isAllDay: false, cost: "100", timeStart: "09:00", timeEnd: "10:30",full:false },
+      { teachingID:"15",lessonID: "104", date: "12/05/2024", isAllDay: false, cost: "110", timeStart: "11:00", timeEnd: "12:30",full:false },
+      { teachingID:"15",lessonID: "105", date: "12/05/2024", isAllDay: false, cost: "120", timeStart: "13:00", timeEnd: "14:30",full:false }],
+    
+      // 13/05/2024
+      [{ teachingID:"15",lessonID: "1060", date: "13/05/2024", isAllDay: true, cost: "155", timeStart: "09:00", timeEnd: "17:00",full:false },
+      { teachingID:"15",lessonID: "1061", date: "13/05/2024", isAllDay: false, cost: "155", timeStart: "09:00", timeEnd: "12:00",full:false },
+      { teachingID:"15",lessonID: "1062", date: "13/05/2024", isAllDay: false, cost: "155", timeStart: "12:00", timeEnd: "17:00",full:false }],
+    
+      // 14/05/2024
+      [{ teachingID:"15",lessonID: "111", date: "14/05/2024", isAllDay: false, cost: "160", timeStart: "08:00", timeEnd: "16:00",full:false },
+      { teachingID:"15",lessonID: "112", date: "14/05/2024", isAllDay: false, cost: "150", timeStart: "09:30", timeEnd: "17:30",full:false },
+      { teachingID:"15",lessonID: "113", date: "14/05/2024", isAllDay: false, cost: "100", timeStart: "08:30", timeEnd: "10:00",full:false },
+      { teachingID:"15",lessonID: "114", date: "14/05/2024", isAllDay: false, cost: "110", timeStart: "10:30", timeEnd: "12:00",full:false },
+      { teachingID:"15",lessonID: "115", date: "14/05/2024", isAllDay: false, cost: "120", timeStart: "13:00", timeEnd: "14:30",full:false }],
+    
+      // 15/05/2024
+      [{ teachingID:"15",lessonID: "116", date: "15/05/2024", isAllDay: false, cost: "155", timeStart: "09:00", timeEnd: "17:00",full:false },
+      { teachingID:"15",lessonID: "117", date: "15/05/2024", isAllDay: false, cost: "145", timeStart: "08:00", timeEnd: "16:00",full:false },
+      { teachingID:"15",lessonID: "118", date: "15/05/2024", isAllDay: false, cost: "105", timeStart: "09:30", timeEnd: "11:00",full:true },
+      { teachingID:"15",lessonID: "119", date: "15/05/2024", isAllDay: false, cost: "115", timeStart: "11:30", timeEnd: "13:00",full:false },
+      { teachingID:"15",lessonID: "120", date: "15/05/2024", isAllDay: false, cost: "125", timeStart: "14:00", timeEnd: "15:30",full:true }],
+    
+      // 16/05/2024
+      [{ teachingID:"15",lessonID: "121", date: "16/05/2024", isAllDay: false, cost: "150", timeStart: "08:00", timeEnd: "16:00",full:false },
+      { teachingID:"15",lessonID: "122", date: "16/05/2024", isAllDay: false, cost: "160", timeStart: "09:00", timeEnd: "17:00",full:true },
+      { teachingID:"15",lessonID: "123", date: "16/05/2024", isAllDay: false, cost: "95", timeStart: "10:00", timeEnd: "11:30",full:true },
+      { teachingID:"15",lessonID: "124", date: "16/05/2024", isAllDay: false, cost: "105", timeStart: "12:00", timeEnd: "13:30",full:true },
+      { teachingID:"15",lessonID: "125", date: "16/05/2024", isAllDay: false, cost: "115", timeStart: "14:00", timeEnd: "15:30",full:false }],
+    
+      // 17/05/2024
+      [{ teachingID:"15",lessonID: "126", date: "17/05/2024", isAllDay: true, cost: "140", timeStart: "09:00", timeEnd: "17:00",full:false }],
+     
+    
+      // 18/05/2024
+      [{ teachingID:"15",lessonID: "131", date: "18/05/2024", isAllDay: false, cost: "150", timeStart: "08:00", timeEnd: "16:00",full:false },
+      { teachingID:"15",lessonID: "132", date: "18/05/2024", isAllDay: false, cost: "160", timeStart: "09:00", timeEnd: "17:00",full:false },
+      { teachingID:"15",lessonID: "133", date: "18/05/2024", isAllDay: false, cost: "95", timeStart: "10:00", timeEnd: "11:30",full:false },
+      { teachingID:"15",lessonID: "134", date: "18/05/2024", isAllDay: false, cost: "105", timeStart: "12:00", timeEnd: "13:30",full:false },
+      { teachingID:"15",lessonID: "135", date: "18/05/2024", isAllDay: false, cost: "115", timeStart: "14:00", timeEnd: "15:30",full:false }],
+    
+      // 19/05/2024
+      [{ teachingID:"25",lessonID: "136", date: "19/05/2024", isAllDay: false, cost: "140", timeStart: "09:00", timeEnd: "17:00",full:true },
+      { teachingID:"25",lessonID: "137", date: "19/05/2024", isAllDay: false, cost: "150", timeStart: "08:30", timeEnd: "16:30",full:false },
+      { teachingID:"25",lessonID: "138", date: "19/05/2024", isAllDay: false, cost: "100", timeStart: "09:00", timeEnd: "10:30",full:true },
+      { teachingID:"25",lessonID: "139", date: "19/05/2024", isAllDay: false, cost: "110", timeStart: "11:00", timeEnd: "12:30",full:true },
+      { teachingID:"25",lessonID: "140", date: "19/05/2024", isAllDay: false, cost: "120", timeStart: "13:00", timeEnd: "14:30",full:true }],
+    ];
+
+    const meetingPoints={"25":{location:"Πρώτο σαλέ"},"15":{location:"Δεύτερο σαλέ",text:"text"}}
+    
+
+  res.json({lessons,meetingPoints})
+
+})
+
+
 
 app.get('/api/bookLesson', async (req, res) => {
 
@@ -105,13 +235,14 @@ app.get('/api/bookLesson', async (req, res) => {
 
   const pageNumber= req.query.pageNumber
 
-
-  // await new Promise(resolve => setTimeout(resolve, 4000 ));
   
 
   console.log( resort, sport, from, to, members,lessonType,time,orderBy,instructorName,pageNumber);
-  // instructorName, reviewScore, reviewCount, experience, languages [], typeOfLesson, reservedSpots, description, image, instructorId, minPricePerDay, minPricePerHour
+  // instructorName, reviewScore, reviewCount, experience, languages [], typeOfLesson, description, image, instructorId, minPricePerDay, minPricePerHour
   // maxPages
+
+  // if lesson is group  we send instructor and lesson information (lesson id)
+  // if lesson is private we just send the instructor information
   
   const instructorLessons = [
     {
@@ -134,8 +265,8 @@ app.get('/api/bookLesson', async (req, res) => {
       experience: "8",
       languages: ["Spanish"],
       typeOfLesson: "group",
+      instructionID:"1212",
       groupName:"Lesson for kids",
-      reservedSpots: '2/4',
       description: "Energetic and great with beginners. Energetic and great with beginners. Energetic and great with beginners. Energetic and great with beginners.",
       image: "/images/startPage/Ski.jpg",
       instructorId: "inst_1002",
@@ -174,9 +305,9 @@ app.get('/api/bookLesson', async (req, res) => {
       reviewCount: 5,
       experience: "13",
       languages: ["Japanese", "English"],
+      instructionID:"1213",
       typeOfLesson: "group",
       groupName:"Lesson for adults",
-      reservedSpots: '3/5',
       description: "Expert instructor for advanced levels. Expert instructor for advanced levels. Expert instructor for advanced levels. Expert instructor for advanced levels.",
       image: "/images/startPage/Ski.jpg",
       instructorId: "inst_1005",
@@ -189,9 +320,9 @@ app.get('/api/bookLesson', async (req, res) => {
       reviewCount: 6,
       experience: "7",
       languages: ["Korean", "English"],
+      instructionID:"12121221",
       typeOfLesson: "group",
       groupName:"Lesson for kids",
-      reservedSpots: '2/5',
       description: "Calm and clear teaching style. Calm and clear teaching style. Calm and clear teaching style. Calm and clear teaching style. Calm and clear teaching style.",
       image: "/images/startPage/Ski.jpg",
       instructorId: "inst_1006",
@@ -217,9 +348,9 @@ app.get('/api/bookLesson', async (req, res) => {
       reviewCount: 8,
       experience: "9",
       languages: ["English"],
+      instructionID:"111212",
       typeOfLesson: "group",
       groupName:"Lesson for kids",
-      reservedSpots: "4/5",
       description: "Passionate about helping others improve quickly. Passionate about helping others improve quickly. Passionate about helping others improve quickly. Passionate about helping others improve quickly.",
       image: "/images/startPage/Ski.jpg",
       instructorId: "inst_1008",
@@ -228,7 +359,7 @@ app.get('/api/bookLesson', async (req, res) => {
     },
     {
       instructorName: "Luis M.",
-      reviewScore: "4.3",
+      reviewScore: "4.3", 
       reviewCount: 9,
       experience: "6",
       languages: ["Spanish"],
@@ -245,9 +376,9 @@ app.get('/api/bookLesson', async (req, res) => {
       reviewCount: 10,
       experience: "11",
       languages: ["English", "Urdu"],
+      instructionID:"12121212",
       typeOfLesson: "group",
       groupName:"Lesson for kids",
-      reservedSpots: "4/6",
       description: "Technical and safety-focused expert.",
       image: "/images/startPage/Ski.jpg",
       instructorId: "inst_1010",

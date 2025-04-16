@@ -63,6 +63,17 @@ import { useTranslation } from "react-i18next";
 // scroll restoration
 
 
+// ----------------------
+
+// -FrontEnd
+//    -- react
+//       -- ipo katigories
+
+//    -- react router
+
+// -BackEnd
+
+
 export async function reviewsLoader({request,params}){
     const url = new URL(request.url);
 

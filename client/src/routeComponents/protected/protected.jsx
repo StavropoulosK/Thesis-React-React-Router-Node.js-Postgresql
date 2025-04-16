@@ -17,7 +17,7 @@ export async function protectedLoader({request,params}){            // ta prosta
             
         if(!status){
             let params = new URLSearchParams();
-            params.set("from", new URL(request.url).pathname);
+            params.set("fromPage", new URL(request.url).pathname);
             return redirect("/login?" + params.toString());
 
         }

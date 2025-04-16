@@ -103,6 +103,15 @@ const router= createBrowserRouter([
             // element:<Signup/>,
             // action:signupAction
           },
+          {  
+            path: "overview",
+            async lazy(){
+              const {Overview,overViewLoader}= await import("./routeComponents/overview/overview.jsx")
+              return {element:<Overview/>,loader:overViewLoader}
+
+            }
+
+          },
           {
             path:"protected",
             async lazy(){
@@ -184,8 +193,8 @@ const router= createBrowserRouter([
 
 
 createRoot(document.getElementById('root')).render(
- <StrictMode>
+//  <StrictMode>
 
       <RouterProvider router={router} />
- </StrictMode> 
+//  </StrictMode> 
 )

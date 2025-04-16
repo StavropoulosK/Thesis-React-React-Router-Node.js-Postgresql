@@ -16,14 +16,14 @@ import { useTranslation } from "react-i18next";
 
 import grFlag from '/src/assets/icons/header/greekFlag.svg'
 import enFlag from '/src/assets/icons/header/englishFlag.svg';
-import profileImgHolder from '/src/assets/icons/header/profile.svg';
-import logout from '/src/assets/icons/header/logout.svg';
 
 
-const Header= memo (({setIsChooseLessonParamsOpen,loginStatus})=>{
+
+const Header= memo (({setIsChooseLessonParamsOpen,loginStatus,lessonsInCart})=>{
     const {t, i18n } = useTranslation("header");
     const currentLanguage = i18n.language;
 
+    const navigate = useNavigate();
 
     const { pathname } = useLocation();
 
@@ -58,7 +58,6 @@ const Header= memo (({setIsChooseLessonParamsOpen,loginStatus})=>{
     };
 
 
-
     return(
         <>
             <header>
@@ -90,13 +89,27 @@ const Header= memo (({setIsChooseLessonParamsOpen,loginStatus})=>{
 
                         {loginStatus=='student' &&<Link to={'/'}> {t("Lessons")}</Link>}
 
+                        {loginStatus && <Profile loginStatus={loginStatus}/>}
+
+
+                        {loginStatus=="student" && lessonsInCart!=0 && 
+
+                            <button className="shoppingCart" onClick={()=> navigate("/overview")}>
+
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.3" d="M16.5 21a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3m-8 0a1.5 1.5 0 1 0 0-3a1.5 1.5 0 0 0 0 3M3.71 5.4h15.214c1.378 0 2.373 1.27 1.995 2.548l-1.654 5.6C19.01 14.408 18.196 15 17.27 15H8.112c-.927 0-1.742-.593-1.996-1.452zm0 0L3 3"/></svg>                       
+                                <span className="cart-badge">{lessonsInCart}</span>
+
+
+                            </button>
+                        }
+
                         {loginStatus=="instructor" &&<Link to={'/'}> {t("Schedule")}</Link>}
                         {loginStatus=="instructor" &&<Link to={'/'}> {t("Lessons")}</Link>}
                         {loginStatus=="instructor" &&<Link to={'/'}> {t("Statistics")}</Link>}
 
+    
 
-                        {loginStatus && <Profile loginStatus={loginStatus}/>}
-
+        
                         
                         <button onClick={handleLanguageChange} className="changeLngBtn">
                             <img src={currentLanguage=='el'?enFlag:grFlag} alt="Icon" />
@@ -195,18 +208,18 @@ function ProfileDropdownCom(){
         <>
         
             <Link to='/Profile' className="dropdownLink">
-                <img src={profileImgHolder}></img>
-                    {t("Profile")}
+                {/* <img src={profileImgHolder}></img> */}
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="#fff" d="M12 4a4 4 0 0 1 4 4a4 4 0 0 1-4 4a4 4 0 0 1-4-4a4 4 0 0 1 4-4m0 2a2 2 0 0 0-2 2a2 2 0 0 0 2 2a2 2 0 0 0 2-2a2 2 0 0 0-2-2m0 7c2.67 0 8 1.33 8 4v3H4v-3c0-2.67 5.33-4 8-4m0 1.9c-2.97 0-6.1 1.46-6.1 2.1v1.1h12.2V17c0-.64-3.13-2.1-6.1-2.1"/></svg>
+                {t("Profile")}
             </Link> 
 
-            {/* <Form method="post" className="dropdownLink"> */}
-                    {/* <img src={logout}></img> */}
-                    <button onClick={handleLogout} className="dropdownLink">
-                        <img src={logout} alt="Logout" />
-                        {t("Logout")}
-                    </button>
 
-            {/* </Form> */}
+            <button onClick={handleLogout} className="dropdownLink">
+                {/* <img src={logout} alt="Logout" /> */}
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none" stroke="#fff" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M13.496 21H6.5c-1.105 0-2-1.151-2-2.571V5.57c0-1.419.895-2.57 2-2.57h7M16 15.5l3.5-3.5L16 8.5m-6.5 3.496h10"/></svg>
+                {t("Logout")}
+            </button>
+
 
         </>
     )

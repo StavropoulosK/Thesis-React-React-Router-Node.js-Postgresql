@@ -37,6 +37,8 @@ export async function loginAction({request}){
         }
 
         let redirectTo = formData.get("redirectTo")
+
+        console.log('redireccto ',redirectTo)
         return redirect(redirectTo || "/");
                 
     
@@ -152,7 +154,7 @@ function LoginForm() {
 
     let location = useLocation();
     let params = new URLSearchParams(location.search);
-    let from = params.get("from") || "/";
+    let from = params.get("fromPage") || "/";
 
 
     return (

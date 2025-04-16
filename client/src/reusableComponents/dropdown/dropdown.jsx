@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import "./dropdown.css"; // Import the CSS file
+import "./dropdown.css"; 
 
 import useCloseOnOutsideClick from "../../hooks/closeOnClickOutside.jsx"
 

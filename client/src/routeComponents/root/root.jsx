@@ -14,18 +14,20 @@ import ChoseLessonParams from "./choseLessonParams.jsx"
 export const rootLoader = async ({request}) => {       
 
     
-
     let loginStatus
+
+    let lessonsInCart
 
     try {
 
-        const response = await fetch('/api/getLoginStatus')
+        const response = await fetch('/api/getHeaderParams')
         if (!response.ok) {
             throw new Error(`Error connecting to server`);
         }
 
         const data = await response.json();
         loginStatus= data.status
+        lessonsInCart=data.lessonsInCart
             
     }
     catch (error) {
@@ -33,7 +35,7 @@ export const rootLoader = async ({request}) => {
         throw error;
     }
 
-    return {loginStatus}
+    return {loginStatus,lessonsInCart}
   };
 
 
@@ -41,7 +43,7 @@ export function Root(){
 
     // epilogi sport apo index allagi selidas kai meta kratisi apo header => thimate to sport
 
-    const {loginStatus}= useLoaderData()
+    const {loginStatus,lessonsInCart}= useLoaderData()
 
 
     const [isChooseLessonParamsOpen,setIsChooseLessonParamsOpen]=useState(false)
@@ -73,7 +75,7 @@ export function Root(){
             <ScrollRestoration/>
 
          {/* <Suspense fallback={<div>...</div>}> */}
-            <Header setIsChooseLessonParamsOpen={setIsChooseLessonParamsOpen} loginStatus={loginStatus}/>
+            <Header setIsChooseLessonParamsOpen={setIsChooseLessonParamsOpen} loginStatus={loginStatus} lessonsInCart={lessonsInCart}/>
             {/* <Content contextValue={contextValue} isChooseLessonParamsOpen={isChooseLessonParamsOpen} setIsChooseLessonParamsOpen={setIsChooseLessonParamsOpen} selectedSport={selectedSport} setSelectedSport={setSelectedSport}/> */}
 
             <main id='mainContent'>

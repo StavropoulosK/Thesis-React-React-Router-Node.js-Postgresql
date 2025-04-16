@@ -1,0 +1,26 @@
+section.overview{
+    padding-left:5rem;
+    padding-top:3rem;
+  }
+
+.overview button.back{
+    background-color: rgba(17, 179, 187, 0.8);
+    color: white; 
+    font-size: 1.4rem; 
+    padding: 0.4rem 0.6rem; 
+    border: none;
+    border-radius: 0.5rem; 
+    cursor: pointer;
+    margin-right: 1rem;
+    margin-bottom:2rem;
+    display: flex;
+    align-items: center;
+
+  }
+
+  .overview button.back svg{
+    color:white;
+    transform: rotate(-90deg);
+    margin-right: 0.4rem;
+  }
+

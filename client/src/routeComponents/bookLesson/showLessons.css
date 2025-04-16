@@ -1,0 +1,230 @@
+section.showLessons{
+    position: fixed;
+    z-index: 5;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -55%);
+    width: 860px;
+    height: 540px;
+    background-color: white;
+    border-radius: 5px;
+    padding-left:1.5rem;
+    box-sizing: border-box;
+    max-height: 90vh;
+    overflow: hidden;
+
+
+}
+
+.showLessons  button.hidden {
+  visibility: hidden;
+}
+
+section.showLessons .windowContainer{
+    overflow-y: auto;
+    overflow-x: auto;
+    max-height: 500px;
+    max-width: 860px;
+}
+
+section.showLessons *{
+    box-sizing: border-box;
+}
+
+.showLessons p.message{
+    height: fit-content;
+}
+
+section.showLessons h4{
+    width: 100%;
+    height: fit-content;
+    font-size: 1.3rem;
+    margin-bottom: 0.4rem;
+    padding-top: 0.5rem;
+    margin-top:0;
+}
+
+
+.showLessons button.close{
+    width: 1.2rem;
+    height: 0.8rem;
+    background:none;
+    border:none;
+    cursor: pointer;
+    margin-top:0.4rem;
+    margin-left:auto;
+    display: flex;
+    justify-content: flex-end;
+    margin-right:1rem;
+    margin-bottom:0.5rem;
+
+}
+
+.showLessons button.close img{
+    width: 100%;
+}
+
+
+
+
+.fallBack {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #ccc;
+    border-top-color:rgba(17, 179, 187, 0.8);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  
+  /* Spin animation */
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+
+
+  .showLessons .showLessonsContainer{
+    box-sizing: border-box;
+    padding-right:1rem;
+    /* overflow-x: auto; */
+    min-width: 100%;
+    white-space:nowrap;
+
+  }
+
+  .showLessons .oneDayLessonsContainer{
+    box-sizing: border-box;
+    margin-bottom:0.7rem;
+    width: fit-content;
+    display: flex;
+    padding-top:0.5rem;
+
+  }
+
+.showLessons .dateContainer{
+    width: 8rem;
+}
+
+.showLessons .dateContainer span{
+    display: block;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.showLessons .infoContainer{
+    /* background-color: red; */
+    margin-left:0.5rem ;
+}
+
+/* rgba(17, 179, 187, 0.8); */
+
+.showLessons .infoContainer button.selectBtn{
+    position: relative;
+    box-sizing: border-box;
+    border: 1px solid black;
+    color: black; 
+    padding:0.2rem 0.4rem;
+    cursor: pointer;
+    width: 13rem;
+    font-size: 1.1rem;
+    margin-right:1rem;
+    border-radius: 0.4rem; 
+    background:none;
+    
+
+}
+
+.showLessons .infoContainer button.selectBtn.full{
+    cursor: auto;
+    border:1px solid rgba(0,0,0,0.4);
+    color:rgba(0,0,0,0.4)
+}
+
+.showLessons .infoContainer .selectBtn span{
+    display: block;
+
+}
+
+.showLessons .infoContainer .selectBtn.selected{
+    border:1px solid rgba(17, 179, 187, 0.8);
+}
+
+.showLessons .infoContainer .selectBtn span:first-of-type{
+    margin-bottom: 0.2rem;
+    margin-top:0.2rem;
+    
+}
+
+.showLessons .circle-small {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background-color: #41c2c9;
+    transform: translate(+50%, -50%);
+    border-radius: 50%;
+    top: 0px;
+    right: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .showLessons .circle-small.notVisible{
+    visibility: hidden;
+  }
+  
+
+  .showLessons .selectLevel {
+    margin-top: 2rem;
+    margin-bottom:1rem;
+  }
+
+  .showLessons .selectLevel h4{
+    margin-bottom:1rem;
+  }
+
+
+  .showLessons .selectLevel .dropdown{
+    width: 13rem;
+    margin-left:0;
+  }
+
+  .showLessons .selectLevel.notSelected .dropdown{
+      margin-bottom: 3rem;
+
+  }
+
+  .showLessons .selectLevel .dropdown button{
+    cursor: pointer;
+  }
+
+  .showLessons .bottom button{
+    background-color: rgba(17, 179, 187, 0.8);
+    color: white; 
+    font-size: 1.1rem; 
+    padding: 0.5rem 0.8rem; 
+    border: none;
+    border-radius: 0.3rem; 
+    cursor: pointer;
+    margin-right: 1rem;
+    margin-bottom:2rem;
+
+  }
+
+  .showLessons .bottom button.disabled{
+    background-color: rgba(17, 179, 187, 0.4);
+    cursor:default;
+;
+  }

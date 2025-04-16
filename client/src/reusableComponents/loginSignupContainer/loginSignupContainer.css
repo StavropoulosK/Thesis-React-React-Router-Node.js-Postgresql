@@ -62,10 +62,6 @@ section.loginSignup .imageContainer img{
     margin-top: 0;
 }
 
-#mainContent{
-    min-height: fit-content;
-}
-
 
 .loginSignup .formContainer{
     width: 100%;

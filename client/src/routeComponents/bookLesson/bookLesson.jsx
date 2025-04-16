@@ -14,14 +14,48 @@ import { Reviews } from "../../reusableComponents/reviews/reviews.jsx";
 
 import { PageNavigation } from "../../reusableComponents/pageNavigation/pageNavigation";
 
+import ShowLessons from "./showLessons.jsx";
+
+function updateIfPastDate(dateStr) {
+
+    //checks if a past date has been given from the url
+
+    const [day, month, year] = dateStr.split('-').map(Number);
+    const inputDate = new Date(year, month - 1, day);
+  
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+  
+    if (inputDate < today) {
+      const todayStr = today.toLocaleDateString("en-GB").replaceAll('/', '-') 
+      return todayStr;
+    }
+  
+    return dateStr;
+  }
+
 
 export async function bookLessonLoader({request,params}) {
+
+
     const url = new URL(request.url);
     const resort = url.searchParams.get("resort");
     const sport = url.searchParams.get("sport");
     const from = url.searchParams.get("from");
     const to = url.searchParams.get("to");
     const members = url.searchParams.get("members") 
+
+    const fromCheck= updateIfPastDate(from)
+    const toCheck=updateIfPastDate(to)
+
+    if(from !=fromCheck || to!=toCheck){
+        // dates have been tampered
+
+        url.searchParams.set("from", fromCheck);
+        url.searchParams.set("to", toCheck);
+        return redirect(url.pathname+ url.search);
+
+    }
 
     // private, group or undefined
     const lessonType = url.searchParams.get("lessonType");
@@ -40,7 +74,6 @@ export async function bookLessonLoader({request,params}) {
 
 
     if(!resort || !sport || !from || !to || !members){
-
         return redirect("/")
     }
 
@@ -133,14 +166,18 @@ export function BookLesson(){
         resetSearchRef.current +=1 
     }, []);
 
+    // instructionID is for group lessons
+    const [showLessons,setShowLessons]=useState({instructorId:"",instructorName:"",resort:"",sport:"",from:"",to:"",members:"",instructionID:""})
 
     return(
         <>
-            <TopBar completed={2}/>
+            {showLessons.instructorId && <ShowLessons {...showLessons} onClose={()=>setShowLessons("")}/>}
+
+            <TopBar completed={2}/> 
             <Menu resetInstructorName={resetInstructorName}></Menu>
             <div className="belowMenu">
                 <div className="textContainer">
-                    {t(`bookLesson:lessons_greek`)} {t(`bookLesson:${params.sport}`)} {t(`bookLesson:at_ski_resort`)} <br></br>
+                    {t(`bookLesson:lessons_greek`)} {t(params.sport,{ ns: 'bookLesson' })} {t(`bookLesson:at_ski_resort`)} <br></br>
                     <p><b>{t(`choseLessonParams:${params.resort}`)}</b></p>
                 </div>
                 <SearchInput key={resetSearchRef.current} instructorName={instructorName} setInstructorName={setInstructorName} ></SearchInput>
@@ -149,7 +186,7 @@ export function BookLesson(){
     
             </div>
 
-            <AllLessonContainer/>
+            <AllLessonContainer setShowLessons={setShowLessons}/>
             <Reviews></Reviews>
 
         </>
@@ -213,7 +250,7 @@ function SearchInput({instructorName,setInstructorName}){
 
 }
 
-function AllLessonContainer(){
+function AllLessonContainer({setShowLessons}){
 
     const lessons= (useLoaderData()).lessons.instructorLessons
     const navigation = useNavigation();
@@ -234,7 +271,7 @@ function AllLessonContainer(){
                 {lessons.length==0 && <p style={{fontSize:"1.7rem"}}> Δεν βρέθηκαν μαθήματα με τις συγκεκριμένες επιλογές </p>}
 
                 {lessons.length!=0 && lessons.map( (lesson,index) => {
-                    return <Lesson key={index} instructorLesson={lesson}/>
+                    return <Lesson key={index} instructorLesson={lesson} setShowLessons={setShowLessons}/>
 
                     })
                 }
@@ -558,14 +595,27 @@ function CancelBtn({setTime,setLessonType,resetInstructorName}){
 }
 
 
-function Lesson({instructorLesson}){
+function Lesson({instructorLesson,setShowLessons}){
 
     const { t } = useTranslation(["bookLesson"]);
 
 
     const languages = instructorLesson.languages;
 
-    console.log("##### ",instructorLesson.instructorId)
+    const params= useLoaderData().params
+
+  
+    const members=params.members
+    const sport=params.sport
+    const resort=params.resort
+    const from=params.from
+    const to=params.to
+    const instructorId=instructorLesson.instructorId
+    const instructorName=instructorLesson.instructorName
+
+    // only group lessons have instructionID
+    const instructionID= instructorLesson.instructionID?instructorLesson.instructionID:""
+
     
     let languagesText = "";
 
@@ -617,7 +667,7 @@ function Lesson({instructorLesson}){
                                 {
                                     instructorLesson.typeOfLesson=="private"?
                                     t("Private lesson"):
-                                    `${t("Group lesson")} ${instructorLesson.reservedSpots}` 
+                                    `${t("Group lesson")}` 
 
                                 }
 
@@ -643,7 +693,14 @@ function Lesson({instructorLesson}){
                 <div className="right">
                         <span>{t("from")} <b>{instructorLesson.minPricePerHour}€/{t("hour")} </b></span>
                         <span>{t("from")} <b>{instructorLesson.minPricePerDay}€/{t("day")} </b></span>
-                        <button>{t("View lessons")}</button>
+                        <button onClick={()=>{
+                            setShowLessons(
+                                {resort,sport,from,to,members,instructorId,instructorName,instructionID}
+                            )}
+                        }
+                        >
+                            {t("View lessons")}
+                        </button>
                         <button>{t("View profile")}</button>
 
                 </div>
@@ -667,7 +724,7 @@ function CalendarContainer(){
 
     const arrival = new Date(arrivalYear, arrivalMonth - 1, arrivalDay);
 
-    const [departureDay, departureMonth, departureYear] = params.from.split("-").map(Number);
+    const [departureDay, departureMonth, departureYear] = params.to.split("-").map(Number);
 
     const departure = new Date(departureYear, departureMonth - 1, departureDay);
 
@@ -702,7 +759,6 @@ function CalendarContainer(){
         return `${day}-${month}-${year}`; // Using hyphen format
       };
     
-
 
     return(
         <>
