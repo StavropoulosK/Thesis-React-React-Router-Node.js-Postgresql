@@ -106,8 +106,17 @@ const router= createBrowserRouter([
           {  
             path: "overview",
             async lazy(){
-              const {Overview,overViewLoader}= await import("./routeComponents/overview/overview.jsx")
-              return {element:<Overview/>,loader:overViewLoader}
+              const {Overview,overViewLoader,overviewAction}= await import("./routeComponents/overview/overview.jsx")
+              return {element:<Overview/>,loader:overViewLoader,action:overviewAction}
+
+            }
+
+          },
+          {  
+            path: "payment",
+            async lazy(){
+              const {Payment,paymentLoader,paymentAction}= await import("./routeComponents/payment/payment.jsx")
+              return {element:<Payment/>,loader:paymentLoader,action:paymentAction}
 
             }
 

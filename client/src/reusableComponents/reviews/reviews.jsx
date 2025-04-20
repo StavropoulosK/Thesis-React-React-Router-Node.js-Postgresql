@@ -57,10 +57,13 @@ import { useTranslation } from "react-i18next";
 // Meta to login se kanei redirect sto protected route kai to koumpi piso den se pigeni sto login
 // https://stackblitz.com/github/remix-run/react-router/tree/main/examples/auth-router-provider?file=README.md
 
-//12 ginetai automata search  otan o xristis stamatai na pliktrologi            f
+//12 Polikritiriako menou. Ginetai automata search  otan o xristis stamatai na pliktrologi.       f
 
 //13 https://reactrouter.com/6.30.0/components/scroll-restoration 
 // scroll restoration
+
+// 14 
+// Form Validation: OnBlur (dieukolinsi xristi), onFormSubmit (to mono ipoxreotiko), server (prostasia apo hackers)
 
 
 // ----------------------
@@ -74,7 +77,7 @@ import { useTranslation } from "react-i18next";
 // -BackEnd
 
 
-export async function reviewsLoader({request,params}){
+export function reviewsLoader({request,params}){
     const url = new URL(request.url);
 
     const nextPage=url.searchParams.get("nextReviewPage")

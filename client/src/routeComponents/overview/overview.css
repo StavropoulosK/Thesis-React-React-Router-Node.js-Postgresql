@@ -1,5 +1,4 @@
 section.overview{
-    padding-left:5rem;
     padding-top:3rem;
   }
 
@@ -7,12 +6,12 @@ section.overview{
     background-color: rgba(17, 179, 187, 0.8);
     color: white; 
     font-size: 1.4rem; 
-    padding: 0.4rem 0.6rem; 
+    padding: 0.4rem 0.8rem 0.4rem 0.4rem; 
     border: none;
     border-radius: 0.5rem; 
     cursor: pointer;
-    margin-right: 1rem;
-    margin-bottom:2rem;
+    margin-left: 7.2rem;
+    margin-bottom:2.5rem;
     display: flex;
     align-items: center;
 
@@ -24,3 +23,47 @@ section.overview{
     margin-right: 0.4rem;
   }
 
+  .overview > h4{
+    margin-left:7.2rem;
+    /* width:71%;
+    margin: 0 auto; */
+    font-size: 1.7rem;
+    margin-bottom: 2rem;
+    margin-top: 0rem;
+  }
+
+  .overview .pay{
+    width: 74%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-bottom: 6rem;
+  }
+
+  .overview .pay *{
+    width: 10rem;
+    margin-bottom:0.5rem;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    margin-right: 0.5rem;
+  }
+
+  .overview .pay span{
+    font-size: 1.2rem;
+  }
+
+  .overview .pay a{
+    background-color: rgba(17, 179, 187, 0.8);
+    color: white; 
+    font-size: 1.4rem; 
+    padding: 0.4rem 1.5rem; 
+    border: none;
+    border-radius: 0.5rem; 
+    cursor: pointer;
+    display: flex;
+    text-decoration: none;
+    align-items: center;
+    justify-content: center;
+  }

@@ -4,6 +4,7 @@ import { fileURLToPath } from "url"
 import { dirname } from "path"
 import session from "express-session"
 import 'dotenv/config'
+import { type } from "os"
 
 
 
@@ -43,18 +44,6 @@ app.use(session({
     }
 }))
 
-
-app.get('/api/getLoginStatus', (req, res) => {
-
-
-  if(req.session?.loggedinState){
-    return res.json({ status: req.session.loggedinState});
-
-  }
-  else{
-    return res.json({ status: null});
-  }
-})
 
 
 app.get('/api/getHeaderParams', (req, res) => {
@@ -137,12 +126,217 @@ app.post("/api/addLessonToCart",authoriseStudent,async (req,res)=>{
 
 })
 
+app.post("/api/removeLessonsFromCart",authoriseStudent,async (req,res)=>{
+
+  // await new Promise(resolve => setTimeout(resolve, 2000));
+
+  // lessonIDS is an array
+  const { lessonIDS} = req.body;
+
+
+
+  return res.status(200).end();
+
+})
+
+function isValidPaymentInput(cardHolderName,cardNumber,expirationDate,cvv){
+  let fail
+
+  if (!cardNumber) {
+    fail=true
+  } 
+  else if (cardNumber.length !== 16) {
+
+    fail=true
+  }
+
+
+  if (!cvv) {
+
+    fail=true
+  } 
+  else if (cvv.length !== 3) {
+
+    fail=true
+  } 
+
+
+  if (!expirationDate) {
+
+    fail=true
+
+  } 
+  else if (expirationDate.length !== 5 || !/^\d{2}\/\d{2}$/.test(expirationDate)) {
+
+    fail=true
+  }
+
+  if (!cardHolderName) {
+
+    fail=true
+  }
+
+  if(fail){
+    return false
+  }
+  else{
+    return true
+  }
+
+}
+
+app.post("/api/payLessonsInCart",authoriseStudent, async (req,res)=>{
+    const {  cardHolderName,cardNumber,expirationDate,cvv} = req.body;
+
+    const cardNumberNoSpace= cardNumber.replace(/\s/g, "");
+    
+    // await new Promise(resolve => setTimeout(resolve, 12000));
+
+    const isValid = isValidPaymentInput( cardHolderName,cardNumberNoSpace,expirationDate,cvv)
+
+
+    let message
+
+    if(isValid){
+      message="payment_succeeded"
+    }
+    else{
+
+      message="payment_failed"
+    }
+
+    res.json({message})
+
+})
+
+app.get("/api/getCostOfLessonsInCart",authoriseStudent, async(req,res)=>{
+  
+  res.json({cost:400})
+})
+
+app.get('/api/getLessonsInCart',authoriseStudent,async (req,res)=>{
+
+  // elegxoume an ta mathimata einai akomi eleuthera, alios ta afairoume apo to kalathi
+
+  // ta private lessons katigoriopoiountai me basi ton proponiti (kai to resort,sport)  (mpori na einai poles didaskalies)
+  // ta group lessons katigoriopoiountai me basi tin didaskalia   (mono mia didaskalia)
+
+  const lessons = [
+    {
+        instructorInfo:{
+            instructorName: "Alice J.",
+            reviewScore: "4.8",
+            reviewCount: 12,
+            experience: "6",
+            languages: ["English", "French", "Spanish"],
+            cancelationDays: "5",
+            image: "/images/startPage/Ski.jpg",
+
+        },
+        teachingInfo:{
+            typeOfLesson: "private",
+            resort: "Parnassou",
+            sport: "Ski",
+            groupName: "",           // only for group lessons
+        },
+        participantsInfo:{
+            level: "Beginner",
+            participants: "4",      //  how many participants the person book for 
+        },
+        lessonInfo:
+        [ {
+              // occupancy: "",           // only for group lessons (e.g. 4/6)
+              lessonID: "101",
+              date: "12/05/2024",
+              timeStart: "09:00",
+              timeEnd: "17:00",
+              cost: "150",
+              meetingPoint: { location: "Δεύτερο σαλέ" },
+              isAllDay: false,
+
+
+          },
+          {
+              lessonID: "102",
+              date: "14/05/2024",
+              timeStart: "12:00",
+              timeEnd: "14:00",
+              cost: "150",
+              isAllDay: true,
+
+              meetingPoint: { location: "Δεύτερο σαλέ" }
+            
+          },
+
+
+        ]
+    },
+
+    {
+      instructorInfo:{
+          instructorName: "Michael R.",
+          reviewScore: "3.8",
+          reviewCount: 1,
+          experience: "2",
+          languages: ["English", "French"],
+          cancelationDays: "15",
+          image: "/images/startPage/Ski.jpg",
+
+      },
+      teachingInfo:{
+          typeOfLesson: "group",
+          resort: "Kalavryton",
+          sport: "Snowboard",
+          groupName: "Lessons for kids",           // only for group lessons
+      },
+      participantsInfo:{
+          level: "Beginner",
+          participants: "3",      
+
+
+      },
+      lessonInfo:
+      [ {
+            lessonID: "1011",
+            date: "13/05/2024",
+            timeStart: "12:00",
+            timeEnd: "14:00",
+            cost: "250",
+            meetingPoint: { location: "Δεύτερο σαλέ" },
+            isAllDay: true,
+
+          
+
+        },
+        { 
+            lessonID: "1022",
+            date: "14/05/2024",
+            timeStart: "12:00",
+            timeEnd: "14:00",
+            cost: "260",
+            isAllDay: false,
+            meetingPoint: { location: "Δεύτερο σαλέ" }
+        
+        },
+
+
+      ]
+  },
+  ]
+
+
+  res.json({lessons})
+})
+
 app.get("/api/showLessons",async(req,res)=>{
   const resort = req.query.resort;
   const sport = req.query.sport;
   const from = req.query.from;
   const to = req.query.to;
   const members = req.query.members;   
+
+  const typeOfLesson=req.query.typeOfLesson
+
   const instructorId= req.query.instructorId
 
   // it exists only for group lessons
@@ -151,7 +345,9 @@ app.get("/api/showLessons",async(req,res)=>{
 
   // An einai sto kalathi tou xristi na mi fainetai
 
-  console.log("##### ",resort,sport,from,to,members,instructorId,instructionID)
+  // prepei members <= free spots
+
+  // console.log("##### ",resort,sport,from,to,members,instructorId,instructionID,typeOfLesson)
 
   // epistrefi mono tis meres pou iparxi kapoio eleuthero. gia autes tis meres epistrefi kai ta piasmena
 
@@ -212,14 +408,12 @@ app.get("/api/showLessons",async(req,res)=>{
       { teachingID:"25",lessonID: "140", date: "19/05/2024", isAllDay: false, cost: "120", timeStart: "13:00", timeEnd: "14:30",full:true }],
     ];
 
-    const meetingPoints={"25":{location:"Πρώτο σαλέ"},"15":{location:"Δεύτερο σαλέ",text:"text"}}
+    const meetingPoints={"25":{location:"Πρώτο σαλέ"},"15":{location:"Δεύτερο σαλέ"} }
     
 
   res.json({lessons,meetingPoints})
 
 })
-
-
 
 app.get('/api/bookLesson', async (req, res) => {
 
@@ -241,8 +435,9 @@ app.get('/api/bookLesson', async (req, res) => {
   // instructorName, reviewScore, reviewCount, experience, languages [], typeOfLesson, description, image, instructorId, minPricePerDay, minPricePerHour
   // maxPages
 
-  // if lesson is group  we send instructor and lesson information (lesson id)
-  // if lesson is private we just send the instructor information
+  // if lesson is group  we send instructor and lesson information (instructionID id)    Ta group mathimata aforoun mia didaskalia   
+  // if lesson is private we just send the instructor information                        Ta private mathimata aforoun  poles didaskalies (enan proponiti)
+  // prepei se kathe periptosi members <= free spots
   
   const instructorLessons = [
     {

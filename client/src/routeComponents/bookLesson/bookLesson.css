@@ -1,4 +1,4 @@
-.lessonContainer{
+.allLessonContainer .lessonContainer{
     margin:0 auto;
     /* margin-bottom:80vh; */
     margin-top:3rem;
@@ -15,31 +15,31 @@
 
 }
 
-.lessonContainer:first-of-type{
+.allLessonContainer .lessonContainer:first-of-type{
     margin-top: 2rem;
 }
 
-.lessonContainer > img{
+.allLessonContainer .lessonContainer > img{
 
     width: 12rem;
     height: 100%;
     border-radius: 0.5rem;;
 }
 
-.lessonContainer .infoContainer{
+.allLessonContainer .lessonContainer .infoContainer{
     /* background-color: blue; */
     padding:0.2rem 1rem;
     width: 100%;
 }
 
-.lessonContainer .infoContainer .top{
+.allLessonContainer .lessonContainer .infoContainer .top{
     /* background-color: orange; */
     height: fit-content;
     width: 100%;
     margin-bottom: 1.2rem;
 }
 
-.lessonContainer .infoContainer .top h4{
+.allLessonContainer .lessonContainer .infoContainer .top h4{
     margin-top:0;
     display: inline;
     font-size: 1.3rem;
@@ -47,22 +47,27 @@
 
 }
 
-.lessonContainer .infoContainer .top h4.groupName{
+.allLessonContainer .lessonContainer .infoContainer .top h4.groupName{
     margin-left:5rem;
     font-size: 1.1rem;
 }
 
-.lessonContainer .infoContainer .top span *{
-    font-size: 0.8rem;
+.allLessonContainer .lessonContainer .infoContainer .top span{
+    font-size: 1.1rem ;
 }
 
-.lessonContainer .infoContainer .top span img{
-    height: 0.9rem;
+.allLessonContainer .lessonContainer .infoContainer .top span *{
+    font-size: 1.1rem;
+}
+
+.allLessonContainer .lessonContainer .infoContainer .top span img{
+    height: 1.1rem;
     margin-top:0;
+    margin-right: 0.3rem;
 }
 
 
-.lessonContainer .infoContainer .attributes{
+.allLessonContainer .lessonContainer .infoContainer .attributes{
     margin-top:0.3rem;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -71,24 +76,24 @@
     width: fit-content;
 }
 
-.lessonContainer .infoContainer .attributes span{
+.allLessonContainer .lessonContainer .infoContainer .attributes span{
     width: 13rem;
 
 }
 
-.lessonContainer .infoContainer .attributes svg{
+.allLessonContainer .lessonContainer .infoContainer .attributes svg{
     width: 1.2rem;
     margin-right: 0.3rem;
 
 }
 
-.lessonContainer .infoContainer .attributes svg.typeOfLesson{
+.allLessonContainer .lessonContainer .infoContainer .attributes svg.typeOfLesson{
     width: 1.2rem;
     position: relative;
     bottom:0.1rem;
 }
 
-.lessonContainer .infoContainer .attributes div{
+.allLessonContainer .lessonContainer .infoContainer .attributes div{
     font-size: 0.9rem;
     width: fit-content;
     display: block;
@@ -100,17 +105,17 @@
 
 
 
-.lessonContainer .infoContainer .attributes div svg{
+.allLessonContainer .lessonContainer .infoContainer .attributes div svg{
     height: fit-content;
     display: inline;
 }
 
-.lessonContainer .infoContainer .description p{
+.allLessonContainer .lessonContainer .infoContainer .description p{
     margin-top:0.8rem;
     margin-right: 1rem;
 }
 
-.lessonContainer .right{
+.allLessonContainer .lessonContainer .right{
     width: 20rem;
     padding-top:1rem;
     height: 100%;
@@ -121,13 +126,19 @@
 
 }
 
-.lessonContainer .right span{
+img.star {
+    width: 1rem;
+    margin-left: 0.5rem;
+    margin-bottom: 0;
+  }
+
+  .allLessonContainer .lessonContainer .right span{
     display: block !important;
     margin-top: 0.7rem;
     font-size: 0.8rem;
 }
 
-.lessonContainer .right button {
+.allLessonContainer .lessonContainer .right button {
     background-color: rgba(17, 179, 187, 0.8);
     color: white;
     padding: 0.7rem 0rem;
@@ -139,7 +150,7 @@
     width: 11rem;
   }
 
-  .lessonContainer .right button:first-of-type{
+  .allLessonContainer .lessonContainer .right button:first-of-type{
     margin-top: 0.5rem;
   }
 

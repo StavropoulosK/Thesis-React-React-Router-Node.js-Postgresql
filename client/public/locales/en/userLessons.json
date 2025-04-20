@@ -1,0 +1,57 @@
+{
+    "and":"and",
+    "Greek":"Greek",
+    "English":"English",
+    "French":"French",
+    "Spanish":"Spanish",
+    "Italin":"Italin",
+    "German":"German",
+    "I speak":"I speak",
+    "review_one": "review",
+    "review_other": "reviews",
+
+    "Aniliou": "Anilio",
+    "Vasilitsas": "Vasilitsa",
+    "Velouhiou": "Velouhio",
+    "Elatochoriou": "Elatochori",
+    "Kaimaktsalan": "Kaimaktsalan",
+    "Kalavryton": "Kalavryta",
+    "Mainalou": "Mainalo",
+    "Parnassou": "Parnassos",
+    "Piliou": "Pilio",
+    "Pisoderiou": "Pisoderi",
+    "Falakrou": "Falakrou",
+    "3-5 Pigadia": "3-5 Pigadia",
+
+    
+    "Ski":"Ski",
+    "Snowboard":"Snowboard",
+    "Sit ski":"Sit ski",
+
+    "private":"Private lesson",
+    "group":"Group lesson",
+
+    "experience_one":"year of experience",
+    "experience_other":"years of experience",
+
+    "cancelation_policy":"Cancelation policy is free up to",
+    "before_lesson":"before the lesson",
+
+    "day_one":"day",
+    "day_other":"days",
+
+    "participant_info":"Participant information",
+
+    "Selected lessons":"Selected lessons",
+
+    "Beginner":"Beginner",
+    "Intermediate":"Intermediate",
+    "Advanced":"Advanced",
+
+    "participant_one":"member",
+    "participant_other":"members"
+
+
+
+
+}

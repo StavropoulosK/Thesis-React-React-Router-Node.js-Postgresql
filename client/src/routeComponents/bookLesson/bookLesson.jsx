@@ -167,7 +167,7 @@ export function BookLesson(){
     }, []);
 
     // instructionID is for group lessons
-    const [showLessons,setShowLessons]=useState({instructorId:"",instructorName:"",resort:"",sport:"",from:"",to:"",members:"",instructionID:""})
+    const [showLessons,setShowLessons]=useState({instructorId:"",instructorName:"",resort:"",sport:"",from:"",to:"",members:"",typeOfLesson:"",instructionID:""})
 
     return(
         <>
@@ -604,7 +604,7 @@ function Lesson({instructorLesson,setShowLessons}){
 
     const params= useLoaderData().params
 
-  
+
     const members=params.members
     const sport=params.sport
     const resort=params.resort
@@ -612,6 +612,7 @@ function Lesson({instructorLesson,setShowLessons}){
     const to=params.to
     const instructorId=instructorLesson.instructorId
     const instructorName=instructorLesson.instructorName
+    const typeOfLesson=instructorLesson.typeOfLesson
 
     // only group lessons have instructionID
     const instructionID= instructorLesson.instructionID?instructorLesson.instructionID:""
@@ -695,7 +696,7 @@ function Lesson({instructorLesson,setShowLessons}){
                         <span>{t("from")} <b>{instructorLesson.minPricePerDay}€/{t("day")} </b></span>
                         <button onClick={()=>{
                             setShowLessons(
-                                {resort,sport,from,to,members,instructorId,instructorName,instructionID}
+                                {resort,sport,from,to,members,instructorId,instructorName,instructionID,typeOfLesson}
                             )}
                         }
                         >

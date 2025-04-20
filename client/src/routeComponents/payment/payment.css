@@ -1,0 +1,172 @@
+section.payment{
+    padding-top:3rem;
+  }
+
+
+.payment button.back{
+    background-color: rgba(17, 179, 187, 0.8);
+    color: white; 
+    font-size: 1.4rem; 
+    padding: 0.4rem 0.8rem 0.4rem 0.4rem; 
+    border: none;
+    border-radius: 0.5rem; 
+    cursor: pointer;
+    margin-left: 7.2rem;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+
+  }
+
+  .payment button.back svg{
+    color:white;
+    transform: rotate(-90deg);
+    margin-right: 0.4rem;
+  }
+
+  .payment svg.snowGlobe{
+    width: 5rem;
+    margin-top: 2rem;
+    height: fit-content;
+    display: block;
+    margin-bottom:0rem;
+    margin-left: auto;
+    margin-right: 1rem;
+    position: absolute;
+    right:16rem;
+    top:-4rem;
+  }
+
+  .payment .content{
+    position: relative;
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .payment .notVisible{
+    visibility: hidden;
+  }
+
+
+  .payment .content svg.credit{
+    width: 11rem;
+    margin-left:9rem;
+    margin-right: 6rem;
+    margin-bottom:2rem;
+    height: fit-content;
+    margin-top: 7rem;
+  }
+
+  .payment .cardInfoContainer{
+    display:flex;
+    height: fit-content;
+    /* margin-top:4rem; */
+
+  }
+
+  .payment .paymentInfo{
+    width: fit-content;
+    padding:1rem;
+  }
+
+  .payment .paymentInfo h4{
+    font-size: 1.5rem;
+    margin-left: 0.4rem;
+  }
+
+  .payment .formContainer{
+    border:1px solid black;
+    border-radius: 0.4rem;
+    width: fit-content;
+    padding:1.5rem;
+    padding-right:0.5rem;
+    padding-bottom:0;
+    width: fit-content;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two columns */
+  }
+
+  .payment .formContainer input{
+    padding: 0.7rem 0.2rem;
+    width: 100%;
+    border: 1px solid black;
+    border-radius: 0.6rem;
+    box-sizing: border-box;
+    padding-left:0.7rem;
+  }
+
+  .payment .formContainer input:focus{
+    outline: none;
+
+  }
+
+
+  .payment label{
+    width: 14rem;
+    position: relative;
+    margin-bottom: 2.6rem;
+    margin-right: 1rem;
+    box-sizing: border-box;
+  }
+
+
+  .payment .error{
+    margin:0;
+    box-sizing: border-box;
+    max-width: 15rem;
+    font-size: 0.85rem;
+    margin-left:0.2rem;
+    margin-top:0.2rem;
+    position: absolute;
+    color: rgb(198, 19, 48);
+
+
+
+  }
+
+
+  .payment .bottom{
+    width: fit-content;
+    margin-top: 2rem;
+    margin-left: auto;
+    margin-bottom: 1rem;
+  }
+
+  .payment .bottom span{
+    font-weight: bold;
+    margin: 0 auto;
+    width: fit-content;
+    display: block;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .payment .bottom button{
+    display: block;
+
+    background-color: rgba(17, 179, 187, 0.8);
+    color: white; 
+    font-size: 1.4rem; 
+    padding:0.4rem 1.5rem; 
+    border: none;
+    border-radius: 0.5rem; 
+    cursor: pointer;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+  }
+
+  .payment .bottom button.submitting{
+    background-color: rgba(17, 179, 187, 0.5);
+    cursor: auto;
+
+  }
+
+  .payment .message{
+    width: fit-content;
+    display: block;
+    margin-top: 1rem;
+    margin-left: auto;
+    font-weight: bold;
+
+  }

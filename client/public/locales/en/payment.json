@@ -1,0 +1,32 @@
+{
+    "Payment is made":"Payment is made",
+    "return":"Return",
+    "card Info":"Card information",
+
+    "cardHolderName":"Cardholder name",
+    "cardNumber":"Card number",
+    "expirationDate":"Expiration date",
+
+    
+    "total":"Total",
+    "payment":"Payment",
+
+    "16_Digits":"Card number must contain 16 digits",
+    "required":"Required field",
+
+    "3_digits":"Cvv must contain 3 digits",
+
+    "wrong_input":"Invalid date",
+
+    "payment_failed":"Payment failed",
+
+    "payment_succeeded":"Payment succeeded",
+
+    "cvv":"Cvv"
+
+
+
+
+
+
+}

@@ -14,11 +14,8 @@ import { Await } from "react-router";
 import {useNavigate , useFetcher,useRevalidator,useLocation  } from "react-router-dom"
 
 
-// 1) na apenergopoiountai ta buttons, 2) protected gia overview, 3) fetchHeaderParams, fetchState 4)image
 
-/////////////////////////////////////////////// kalathi sto header, protected gia proponiti/mathiti
-
-async function fetchShowLessons(showLessonsParameters){
+function fetchShowLessons(showLessonsParameters){
 
 
     const queryParams = new URLSearchParams(showLessonsParameters).toString();
@@ -46,14 +43,16 @@ async function fetchShowLessons(showLessonsParameters){
 }
 
 
-export default function ShowLessons({instructorId,instructorName,resort,sport,from,to,members,instructionID,onClose}){
+export default function ShowLessons({instructorId,instructorName,resort,sport,from,to,members,typeOfLesson,instructionID,onClose}){
 
-    // const [lessonsPromise,setShowLessonsPromise]=useState(new Promise(() => {}))
+    const [lessonsPromise,setShowLessonsPromise]=useState(new Promise(() => {}))
 
 
 
-    const showLessonsParameters={resort,sport,from,to,members,instructorId,instructionID}
-    const [lessonsPromise,setShowLessonsPromise]=useState(()=>fetchShowLessons(showLessonsParameters))
+    const showLessonsParameters={resort,sport,from,to,members,instructorId,instructionID,typeOfLesson}
+
+    // setter function must be pure, but here it isnt and therefore it is called multiple times, so we move it to an effect
+    // const [lessonsPromise,setShowLessonsPromise]=useState(()=>fetchShowLessons(showLessonsParameters))
 
     const [pending,setPending]= useState(false)
 
@@ -105,12 +104,10 @@ export default function ShowLessons({instructorId,instructorName,resort,sport,fr
       });
 
 
-    // useEffect(() => {
-    
-    //     const showLessonsParameters={resort,sport,from,to,members,instructorId,instructionID}
+    useEffect(() => {
 
-    //     setShowLessonsPromise(fetchShowLessons(showLessonsParameters))
-    //   }, []);
+        setShowLessonsPromise(fetchShowLessons(showLessonsParameters))
+      }, []);
 
     const addToCart=async ()=>{
         try {

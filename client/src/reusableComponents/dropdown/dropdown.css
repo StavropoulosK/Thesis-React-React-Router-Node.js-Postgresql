@@ -3,7 +3,13 @@
   margin-right:1.8rem ;
   position: relative;
 
+
   /* width: 100%; */
+}
+
+.dropdown:not(.calendar){
+  font-variant-numeric: tabular-nums;
+
 }
 
 .dropdown button.dropdown-button{
