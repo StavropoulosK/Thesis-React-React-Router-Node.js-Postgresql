@@ -1,0 +1,84 @@
+nav.userNav{
+    background-color: #11B3BB;
+    height: 100vh;
+    padding-top:5.5rem;
+
+    width: fit-content;
+    position: fixed;
+    z-index: 2;
+}
+
+nav.userNav a, .userNav .navElement{
+    text-decoration: none;
+    color:white;
+    height: 1.5rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    cursor: pointer;
+    
+}
+
+nav.userNav a span,  .userNav .navElement span{
+    width: 7rem ;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+nav.userNav button.navElement:last-of-type{
+    margin-top: 7rem;
+
+}
+
+.userNav button.navElement{
+    background: none;
+    border:none;
+    box-sizing: content-box;
+    padding: 0;
+}
+
+.userNav button.navElement span{
+    text-align: left;
+
+}
+
+nav.userNav a img, nav.userNav a svg, .userNav .navElement svg{
+    margin-right: 0.2rem;
+    margin-left: 0.5rem;
+    height: 1.4rem;
+}
+
+nav.userNav img{
+    width: 2rem;
+}
+
+
+.userNav a.active{
+    background-color: rgba(12, 55, 57, 0.18);;
+}
+
+
+
+.userNav > * span,
+.userNav > * svg {
+  position: relative;
+  display: inline-block;
+}
+
+.userNav > * span::after,
+.userNav > * svg::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0%;
+  height: 2px;
+  background-color: currentColor;
+  transition: width 0.3s ease;
+}
+
+.userNav > *:hover span::after{
+  width: 100%;
+}
+

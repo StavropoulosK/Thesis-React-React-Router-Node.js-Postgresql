@@ -130,6 +130,23 @@ const router= createBrowserRouter([
             }
             // element:<Protected/>,
             // loader:protectedLoader
+          },
+          {
+            path:"studentMenu",
+            async lazy(){
+              const {StudentMenu}= await import("./routeComponents/studentMenu/studentMenu.jsx")
+              return {element:<StudentMenu/>}
+            },
+            children:[
+              {
+                path:"profile",
+                async lazy(){
+                  const {StudentProfile,studentProfileLoader,studentProfileAction}= await import("./routeComponents/studentProfile/studentProfile.jsx")
+                  return {element:<StudentProfile/>, loader:studentProfileLoader,action:studentProfileAction}
+                },
+
+              }
+            ]
           }
         ]
       },

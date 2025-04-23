@@ -1,0 +1,16 @@
+{
+    "firstName":"First name",
+    "lastName":"Last name",
+    "email":"Email",
+    "phoneNumber":"Phone number",
+    "success":"Change saved",
+    "failure":"Update failed",
+    "required_field":"Required field",
+    "12_digits":"Phone number with country code must be 12 digits",
+    "invalid_format":"Invalid format",
+    "please_try_again":"Update failed. Please try again later",
+    "already_used":"Address is already used"
+
+
+
+}

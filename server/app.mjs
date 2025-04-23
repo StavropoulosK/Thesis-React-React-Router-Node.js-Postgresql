@@ -4,7 +4,6 @@ import { fileURLToPath } from "url"
 import { dirname } from "path"
 import session from "express-session"
 import 'dotenv/config'
-import { type } from "os"
 
 
 
@@ -107,12 +106,31 @@ app.post("/api/logoutUser", (req,res)=>{
   } 
 })
 
+app.get("/api/getStudentProfileParams",authoriseStudent,async (req,res)=>{
+
+
+    res.json({firstName:"alex",lastName:"mic",email:"kostas.striker@gmail.com",phone:"306951232693"})
+})
+
 app.post('/api/checkEmailIsUsed',async (req,res)=>{
       const { userEmail } = req.body; 
       let result= await checkEmailIsUsed(userEmail)
 
       res.json({ emailAlreadyUsed: result  });
 
+})
+
+app.post("/api/updateUserInfo",authoriseStudent, async(req,res)=>{
+  const { firstName, lastName, email, phoneNumber} = req.body;
+  await new Promise(resolve => setTimeout(resolve, 5000));
+
+  console.log("!!! ",firstName, lastName, email, phoneNumber)
+
+
+    //success, failure
+
+
+  return res.json({message:"success"})
 })
 
 
