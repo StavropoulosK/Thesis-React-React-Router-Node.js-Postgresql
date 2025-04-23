@@ -1,4 +1,4 @@
-import "./userLessons.css"
+import "./studentLessonsComponent.css"
 
 import { useTranslation } from "react-i18next";
 import LessonDetails from "../lessonDetails/lessonDetails";

@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import TopBar from "../../reusableComponents/topBar/TopBar";
 import { Link,useLocation,redirect,useNavigate,useLoaderData,useSubmit  } from 'react-router-dom';
 
-import { UserLessons } from "../../reusableComponents/userLessons/userLessons";
+import { UserLessons } from "../../reusableComponents/studentLessonsComponent/studentLessonsComponent";
 
 
 export async function overViewLoader({request,params}){   

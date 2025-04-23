@@ -122,16 +122,6 @@ const router= createBrowserRouter([
 
           },
           {
-            path:"protected",
-            async lazy(){
-              const {Protected,protectedLoader}= await import("./routeComponents/protected/protected.jsx")
-              return {element:<Protected/>,loader:protectedLoader}
-
-            }
-            // element:<Protected/>,
-            // loader:protectedLoader
-          },
-          {
             path:"studentMenu",
             async lazy(){
               const {StudentMenu}= await import("./routeComponents/studentMenu/studentMenu.jsx")
@@ -149,8 +139,8 @@ const router= createBrowserRouter([
               {
                 path:"lessons",
                 async lazy(){
-                  const {StudentProfile,studentProfileLoader,studentProfileAction}= await import("./routeComponents/studentProfile/studentProfile.jsx")
-                  return {element:<StudentProfile/>, loader:studentProfileLoader,action:studentProfileAction}
+                  const {StudentLessons}= await import("./routeComponents/studentLessons/studentLessons.jsx")
+                  return {element:<StudentLessons/>}
                 },
 
               }
@@ -227,8 +217,8 @@ const router= createBrowserRouter([
 
 
 createRoot(document.getElementById('root')).render(
-//  <StrictMode>
+ <StrictMode>
 
       <RouterProvider router={router} />
-//  </StrictMode> 
+ </StrictMode> 
 )

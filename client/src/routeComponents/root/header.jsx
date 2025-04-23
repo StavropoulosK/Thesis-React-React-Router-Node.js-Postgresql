@@ -87,7 +87,7 @@ const Header= memo (({setIsChooseLessonParamsOpen,loginStatus,lessonsInCart})=>{
                         {!loginStatus &&<Link to={'/signup/instructor'}> {t("Instructor signup")}</Link>}
                         {/* {true &&<Link to={'/protected'}> {t("Instructor signup")}</Link>} */}
 
-                        {loginStatus=='student' &&<Link to={'/'}> {t("Lessons")}</Link>}
+                        {loginStatus=='student' &&<Link to={'/studentMenu/lessons'}> {t("Lessons")}</Link>}
 
                         {loginStatus && <Profile loginStatus={loginStatus}/>}
 
