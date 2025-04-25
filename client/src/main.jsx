@@ -32,6 +32,8 @@ import ErrorPage from './routeComponents/root/errorElement.jsx'
 
 import {reviewsLoader} from "./reusableComponents/reviews/reviews.jsx"
 
+import {postEmailRequestAction, postReviewAction} from "./routeComponents/studentLessons/studentLessons.jsx"
+
 
 import './i18n.js'
 
@@ -44,7 +46,7 @@ const router= createBrowserRouter([
     },
     // element: <Root/>,
     // loader: rootLoader,
-    shouldRevalidate: () => true,        
+    shouldRevalidate: () => true,         // it is used to fetch header params. it executes on every load because the session may have expired and thus the profile icon on the header should change.
     errorElement:<ErrorPage/>,
 
     children:[
@@ -139,9 +141,56 @@ const router= createBrowserRouter([
               {
                 path:"lessons",
                 async lazy(){
-                  const {StudentLessons}= await import("./routeComponents/studentLessons/studentLessons.jsx")
-                  return {element:<StudentLessons/>}
+                  const {UpComingStudentLessons,UpComingStudentLessonsLoader,UpComingStudentLessonsAction}= await import("./routeComponents/studentLessons/studentLessons.jsx")
+                  return {element:<UpComingStudentLessons/>,loader:UpComingStudentLessonsLoader,action:UpComingStudentLessonsAction}
                 },
+                shouldRevalidate:({
+                  currentUrl,
+                  nextUrl,
+                  defaultShouldRevalidate,
+                  actionResult,
+                  formMethod,
+                  formAction,
+                  formEncType,
+                  submission
+                })=>{
+                  // console.log(
+                  //   currentUrl,
+                  //   nextUrl,
+                  //   defaultShouldRevalidate,
+                  //   actionResult,
+                  //   formMethod,
+                  //   formAction,
+                  //   formEncType,
+                  //   submission)
+                  
+                  if(formAction=="/api/postEmailRequest" || formAction=="/api/postReview"){
+                    // user is sending an email or posting a review
+                    return false;
+                  }
+
+                  return true
+                },
+                children:[
+                  {
+                    path:"studentLessons",
+                    async lazy(){
+                      const {PreviousLessons,PreviousLessonsLoader} = await import("./routeComponents/studentLessons/studentLessons.jsx")
+                      return {element:<PreviousLessons/>,loader:PreviousLessonsLoader}
+                    },
+                    shouldRevalidate:({formAction,actionResult})=>{
+                      if(formAction=="/api/postEmailRequest"){
+                        // user is sending an email, child does not revalidate.
+                        return false;
+                      }
+
+                      if(actionResult && actionResult.message?.startsWith("cancel")){
+                        //user is cancelling a scheduled lesson
+                        return false
+                      }
+                    }
+                  }
+                ]
 
               }
             ]
@@ -154,6 +203,14 @@ const router= createBrowserRouter([
             {
               path:"reviews",
               loader:reviewsLoader
+            },
+            {
+              path:"postEmailRequest",
+              action:postEmailRequestAction
+            },
+            {
+              path:"postReview",
+              action:postReviewAction
             }
         ]
         

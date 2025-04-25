@@ -197,7 +197,7 @@
 
   .userLessonContainer .bottom .optionsBtnContainer button.optionsBtn{
     background-color: rgba(17, 179, 187, 0.8);
-    width: fit-content;
+    width: 14rem;
     color: white; 
     margin-top:1.5rem;
     font-size: 1.1rem; 
@@ -211,6 +211,15 @@
     align-items: center; 
 
   }
+
+    .userLessonContainer .bottom .optionsBtnContainer button.optionsBtn svg.email,     .userLessonContainer .bottom .optionsBtnContainer button.optionsBtn svg.review{
+      padding-right:0.3rem;
+    }
+
+    .userLessonContainer .bottom .optionsBtnContainer button.optionsBtn svg.review{
+      position: relative;
+      top:0.05rem;
+    }
 
   .userLessonContainer .bottom .optionsBtnContainer button.optionsBtn svg{
     position: relative;

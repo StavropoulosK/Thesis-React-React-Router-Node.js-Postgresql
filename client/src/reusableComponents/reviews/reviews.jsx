@@ -68,6 +68,8 @@ import { useTranslation } from "react-i18next";
 // 15 Optimistic ui
 // https://reactrouter.com/6.30.0/start/tutorial#optimistic-ui
 
+// 16 enimerosi kata tin ipoboli energion ( akirosi mathimatos, ipoboli kritikis, email)
+
 
 // ----------------------
 

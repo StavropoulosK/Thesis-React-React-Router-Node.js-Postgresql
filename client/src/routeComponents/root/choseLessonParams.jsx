@@ -2,8 +2,8 @@ import "./choseLessonParams.css"
 import "./calendar.css"
 
 
-import { Form,useNavigate } from "react-router-dom";
-import { useState, useRef } from "react";
+import { Form,useNavigate, useLocation } from "react-router-dom";
+import { useState, useRef,useEffect } from "react";
 
 
 import useCloseOnOutsideClick from "./../../hooks/closeOnClickOutside.jsx"
@@ -18,6 +18,26 @@ import { useTranslation } from "react-i18next";
 export default function ChoseLessonParams({onReservationClick,selectedSport,cancelSelectedSport}){
 
     const {t} = useTranslation("choseLessonParams")
+
+    const mount=useRef(false)
+
+    const location = useLocation();
+
+
+    // useEffect(() => {
+
+    //   console.log("effect ",mount.current)
+      
+    //   if(mount.current==true){
+    //     onReservationClick()
+
+    //   }
+    //   // This effect will run each time the URL path changes and at first load
+    //   mount.current=true
+
+      
+    // }, [location.pathname]);  // Depend on location.pathname to run on path changes
+    
 
 
     return(

@@ -4,10 +4,10 @@ import './ShowMessageScreen.css'; // Import the CSS file
 import { useTranslation } from "react-i18next";
 
 
-const ShowMessageScreen = ({duration = 2000, fetcher }) => {
+const ShowMessageScreen = ({duration = 2000, fetcher,namespace }) => {
   const {message}=fetcher.data|| ""
 
-  const {t} = useTranslation("studentProfile")
+  const {t} = useTranslation(namespace)
   
   const [show, setShow] = useState(false);
 
@@ -15,7 +15,6 @@ const ShowMessageScreen = ({duration = 2000, fetcher }) => {
     if(!fetcher.data){
       return
     }
-
     setShow(true);
 
     const timer = setTimeout(() => {
@@ -26,7 +25,7 @@ const ShowMessageScreen = ({duration = 2000, fetcher }) => {
 
   return (
 
-      <div className={`messageScreen ${show ? 'show' : ''} ${message === "success" ? "success" : "failure"}`}>
+      <div className={`messageScreen ${show ? 'show' : ''} ${message?.endsWith("success") ? "success" : "failure"}`}>
         {t(message)}
       </div>
 )};

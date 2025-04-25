@@ -300,7 +300,7 @@ export function StudentProfile(){
 
     return(
         <>
-            {<ShowMessageScreen fetcher={fetcher}/>} 
+            {<ShowMessageScreen namespace="studentProfile" fetcher={fetcher}/>} 
             <section className={`studentProfile`}>
 
                 <div className="imageContainer">

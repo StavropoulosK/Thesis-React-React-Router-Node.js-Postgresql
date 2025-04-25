@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import TopBar from "../../reusableComponents/topBar/TopBar";
 import { Link,useLocation,redirect,useNavigate,useLoaderData,useSubmit  } from 'react-router-dom';
 
-import { UserLessons } from "../../reusableComponents/studentLessonsComponent/studentLessonsComponent";
+import { StudentLessonsComponent } from "../../reusableComponents/studentLessonsComponent/studentLessonsComponent";
 
 
 export async function overViewLoader({request,params}){   
@@ -78,9 +78,6 @@ export function Overview(){
     const location = useLocation();
     const { fromPage } = location.state || {};
 
-    console.log("1 ",fromPage)
-
-
     const {lessons}= useLoaderData()
 
     const {t, i18n} = useTranslation("overview")
@@ -91,7 +88,7 @@ export function Overview(){
 
     const submit = useSubmit();
 
-    // const lessonInfo=[{text:"Δευτέρα 05/01/2025 Όλη μέρα (8:00- 15:00)",cost:100, meetingPoint:{location: "Δεύτερο σαλέ" }, lessonID:"16" }   , {text:"Τρίτη 06/01/2025 11:00- 13:00 ",cost:40, meetingPoint:{location: "Πρώτο σαλέ" }, lessonID:"15"}]
+    // const lessonInfo=[{text:"Δευτέρα 05/01/2025 Όλη μέρα (8:00- 15:00)",cost:100, meetingPoint:{location: "Δεύτερο σαλέ" }, lessonID:"16", showCancel:true }   , {text:"Τρίτη 06/01/2025 11:00- 13:00 ",cost:40, meetingPoint:{location: "Πρώτο σαλέ" }, lessonID:"15", showCancel:true}]
 
     // it is an array with elements like lessonInfo
     const lessonInfoContainer=lessons.map((lessonGroup)=>{
@@ -111,7 +108,7 @@ export function Overview(){
 
             const text=dayOfWeek+" "+lesson.date+" "+ (isAllDay?` ${t("all_day")} (`:"") +   `${lesson.timeStart}-${lesson.timeEnd}${isAllDay?")":""}`
             
-            return {text,cost:lesson.cost,meetingPoint:lesson.meetingPoint,lessonID:lesson.lessonID}
+            return {text,cost:lesson.cost,meetingPoint:lesson.meetingPoint,lessonID:lesson.lessonID,showCancel:true}
         })
         
         return arr
@@ -154,7 +151,7 @@ export function Overview(){
 
             <h4>{t("selected_lessons")}</h4>
 
-            <UserLessons namespace={"userLessons"} lessons={lessons} lessonInfoContainer={lessonInfoContainer} textLeft="Selected lessons" onCancel={(lessonID)=>removeFromCart([lessonID]) } extraOptions={extraOptions}></UserLessons>
+            <StudentLessonsComponent namespace={"studentLessonsComponent"} lessons={lessons} lessonInfoContainer={lessonInfoContainer} textLeft="Selected lessons" onCancel={(lessonID)=>removeFromCart([lessonID]) } extraOptions={extraOptions}></StudentLessonsComponent>
             
             <div className="pay">
 

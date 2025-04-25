@@ -1,0 +1,32 @@
+{
+    "ok":"Yes",
+    "close":"No",
+    "cancel_success":"Cancelation succeeded",
+    "cancel_failure":"Cancelation failed",
+    "scheduled_lessons":"Scheduled lessons",
+    "cancel_a_lesson":"Do you want to procede with the cancelation of the lesson?",
+    "no_lessons":"You have no scheduled lessons",
+    "procceed":"Do you want to procede with the cancelation of ",
+    "lesson_one":" lesson",
+    "lesson_other":" lessons",
+    "Communication":"Communication",
+    "email_success":"Email sent",
+    "email_failure":"Email delivery failed",
+
+    "history_lessons":"Lesson history",
+    "no_history":"There are no previous lessons",
+
+        
+    "remove_one":"Cancel lesson",
+
+    "remove_other":"Cancel lessons",
+
+    "review":"Review",
+
+    "review_success":"Review submitted successfully",
+    "review_failure":"Review submition failed"
+
+
+
+
+}

@@ -1,4 +1,35 @@
 section.studentLessons{
     padding: 4rem;
-    background-color: red;
 }
+
+article.upComingLessons > h4, article.previousLessons > h4{
+    font-size: 1.5rem;
+    width: 80%;
+    margin: 2rem auto;
+
+}
+
+article.upComingLessons > p, article.previousLessons > p{
+    font-size: 1.2rem;
+    width: 80%;
+    margin: 2rem auto;
+}
+
+.studentLessons .userLessonContainer{
+    width: 80%;
+    padding-left:4rem;
+    position: relative;
+    left:2rem;
+}
+
+.studentLessons .userLessonContainer .info .left{
+    width: 32rem;
+  }
+
+
+  .studentLessons .pagination{
+    position: relative;
+    left:2rem;
+    width: 80%;
+    margin: 0 auto;
+  }

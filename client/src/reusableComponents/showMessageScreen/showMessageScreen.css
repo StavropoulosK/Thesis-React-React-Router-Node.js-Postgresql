@@ -1,5 +1,5 @@
 .messageScreen {
-    position: absolute;
+    position: fixed;
     bottom: 1rem;
     right: 1rem;
     height: 2rem;
@@ -8,6 +8,7 @@
     color: white;
     display: flex;
     align-items: center;
+    z-index: 20;
     justify-content: center;
     border-radius: 0.5rem;
     font-size: 0.875rem;
@@ -23,7 +24,7 @@
   }
 
   .messageScreen.success{
-    background-color: #6ED7DD;
+    background-color: #11B3BB;
 
   }
 
