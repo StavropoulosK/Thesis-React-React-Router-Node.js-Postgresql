@@ -85,7 +85,6 @@ const Header= memo (({setIsChooseLessonParamsOpen,loginStatus,lessonsInCart})=>{
                          {/*  ###############################################################     na to antigrapso pantou      onClick={()=>setIsChooseLessonParamsOpen(false)}       */}
                         {!loginStatus&&<Link to={'/login'} onClick={()=>setIsChooseLessonParamsOpen(false)}> {t("Login")}</Link>}
                         {!loginStatus &&<Link to={'/signup/instructor'}> {t("Instructor signup")}</Link>}
-                        {/* {true &&<Link to={'/protected'}> {t("Instructor signup")}</Link>} */}
 
                         {loginStatus=='student' &&<Link to={'/studentMenu/lessons'}> {t("Lessons")}</Link>}
 

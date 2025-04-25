@@ -38,8 +38,8 @@ export async function loginAction({request}){
 
         let redirectTo = formData.get("redirectTo")
 
-        console.log('redireccto ',redirectTo)
-        return redirect(redirectTo || "/");
+
+        return redirect(redirectTo || "/studentMenu/profile");
                 
     
     }
@@ -154,7 +154,7 @@ function LoginForm() {
 
     let location = useLocation();
     let params = new URLSearchParams(location.search);
-    let from = params.get("fromPage") || "/";
+    let from = params.get("fromPage")||""
 
 
     return (
