@@ -64,7 +64,6 @@
   /* background-color: aqua; */
   box-sizing: border-box;
   user-select: none;
-
   display: inline-block;
 }
 
@@ -95,6 +94,7 @@
   }
 
 
+
   .calendar-grid-wrapper {
     width: 48.5%;
 
@@ -115,9 +115,8 @@
   
   .calendar-day {
     box-sizing: border-box;
-    padding: 0.3rem;
+    padding: 0.18rem;
     margin:0.15rem;
-    margin-right:0;
     /* user-select: none; */
 
   }
@@ -151,6 +150,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: 0.5rem;
   }
 
   .calendarMenu .bottom button{
@@ -170,4 +170,106 @@
   .calendarMenu .bottom button:last-child{
     border-radius: 0.7rem;
     padding-left:0.3rem;
+  }
+
+  
+  .calendar-day-label.mobile{
+  
+    display: none
+}
+
+
+
+  @media (max-width: 920px) {
+
+    .calendar .calendarMenu.dropdown-menu{
+      padding:0.2rem;
+    }
+
+    .calendar-day {
+      box-sizing: border-box;
+      padding: 0.0rem ;
+      font-size: 0.8rem;
+      margin: 0.1rem !important;
+      /* user-select: none; */
+    }
+
+    .calendar-day span{
+      display: inline-block;
+      box-sizing: border-box;
+      height: 20px;
+      text-align: center; /* center horizontally */
+      padding: 0.1rem;
+      max-width: 1.4rem;
+      width: 100%;
+      height: 100%;
+
+    }
+
+    .calendar-grid .calendar-day-selected:not(.calendar-day-outside):not(.calendar-day-before){
+      border-radius: 50%;
+      background-color: white;
+      color:white;
+    }
+
+    .calendar-grid .calendar-day-selected:not(.calendar-day-outside):not(.calendar-day-before) span{
+      /* display: inline-block; */
+      border-radius: 50%;
+      background-color: rgba(17, 179, 187,0.7);
+      color:white;
+
+      /* min-height: 2rem; */
+    }
+
+    .calendar-days > *{
+      padding: 0.24rem;
+      margin:0.15rem;
+    }
+
+    
+    .calendar-grid-wrapper{
+      min-width: 150px;
+    }
+    
+    .calendar-title {
+      font-size: 0.9rem;
+    }
+
+    .calendar-days{
+      font-size: 0.7rem;
+    }
+
+    .calendar-day-label.mobile{
+      display: inline-block;
+      
+    }
+    
+    .calendar-day-label.desktop{
+  
+        display: none
+  
+    }
+
+    .dropdown {
+      margin-right: 0.5rem !important;
+    }
+
+    .calendarMenu .bottom button{
+      font-size: 1.15rem;
+      margin-bottom: 0.5rem;
+    }
+
+
+  }
+
+  @media (max-width: 400px){
+
+    .calendar-day span{
+      padding: 0.08rem;
+    }
+
+    .calendar .calendarMenu.dropdown-menu{
+      padding:0.1rem;
+    }
+
   }

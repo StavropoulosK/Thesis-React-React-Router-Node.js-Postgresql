@@ -41,13 +41,15 @@ header nav{
 
 .nav-right{
     display:flex; 
-    height: fit-content;
+    height: 2rem;
     align-self: center; 
 }
 
 a.logo{
     display: block;
     height: fit-content;
+    position: relative;
+    bottom:0.05rem;
 }
 
 a.logo::first-letter {
@@ -56,6 +58,7 @@ a.logo::first-letter {
   
 .nav-right * {
     margin-right:2em;
+    font-size: 1.1rem ;
   }
 
 header .nav-right button:hover{
@@ -70,7 +73,6 @@ header .nav-right button:hover{
     height: 2rem;
     position: relative;
     bottom:0.05rem;
-    font-size: 1rem;
     
 }
 
@@ -79,11 +81,12 @@ header .nav-right button:hover{
     width: fit-content;
     cursor: pointer;
     position: relative;
+    top:0.1rem;
 }
 
 .cart-badge {
     position: absolute;
-    top: -4px;
+    top: -3px;
     left: 1rem;
     background-color: rgba(17, 179, 187, 1);
     color: white;
@@ -108,12 +111,13 @@ button.profileBtn{
     cursor: pointer;
     margin-top: 0;
     padding:0;
+    position: relative;
+    top:0.02rem;
 }
 
 button.profileBtn img{
     width: 100%;
     object-fit:cover;
-
 
 }
 
@@ -121,7 +125,7 @@ button.changeLngBtn{
     width: 1.3rem;
     height:fit-content;
     cursor: pointer;
-    top:0.3rem;
+    top:0.35rem;
     margin-top: 0;
     padding:0;
     position: relative;
@@ -146,12 +150,13 @@ div.profileDropdown{
     margin-right: 0rem;
     width: 8rem;
     background-color: rgba(36, 98, 101, 0.9);
-    height:100px;
+    min-height:80px;
     position: absolute;
     z-index: 3;
     /* top: 100%; */
-    top:3rem;
+    top:2.9rem;
     left:-3rem;
+    padding-bottom:0.2rem;
 
 }
 
@@ -170,3 +175,67 @@ div.profileDropdown{
     height: 1.25rem;
 }
 
+
+
+
+
+
+.nav-right .showMobile{
+    display: none;
+}
+
+@media (min-width: 700px) and (max-width: 800px) {
+    .nav-right * {
+        margin-right:1.4rem;
+        font-size: 1rem;
+      }
+  }
+
+@media (max-width: 700px) {
+
+    .cart-badge{
+        width:0.9rem;
+        height: 0.9rem;
+        font-size: 0.85rem !important;
+    }
+
+    div.profileDropdown{
+        top:2.8rem;
+    }
+
+    .nav-right .showMobile{
+        display: flex;
+    }
+
+    .nav-right .optional{
+        display: none;
+    }
+
+    .nav-right svg, .nav-right img{
+        scale:0.9;
+    }
+
+    .nav-right{
+        position: relative;
+        top:0.1rem;
+    }
+
+    .nav-left{
+
+        margin-left:1.5rem;
+        font-size: 1.3rem;
+
+      }
+
+    
+    
+    a.logo::first-letter {
+        font-size: 1.5rem;
+      }
+      
+    .nav-right * {
+        margin-right:1rem;
+        font-size: 1rem;
+      }
+    
+  }

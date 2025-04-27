@@ -1,4 +1,4 @@
-import { useState,useRef  } from "react";
+import { useState,useRef,useEffect  } from "react";
 import { Link, Form,useActionData,redirect,useNavigation,useLocation  } from "react-router-dom";
 
 
@@ -29,17 +29,18 @@ export async function loginAction({request}){
         if (!response.ok) {
             throw new Error(`HTTP error! Status: ${response.status}`);    
         }                                                                       
-        const success = (await response.json()).userExists
+        const {userExists,accountType} = await response.json()
 
-
-        if(!success){
+        if(!userExists){
             return {wrongCredentials:true}
         }
 
         let redirectTo = formData.get("redirectTo")
 
+        const defaultRedirect= accountType=="student"?"/studentMenu/profile" : "/"
 
-        return redirect(redirectTo || "/studentMenu/profile");
+
+        return redirect(redirectTo || defaultRedirect);
                 
     
     }
@@ -110,6 +111,8 @@ function LoginForm() {
     const navigation=useNavigation()
 
     const timeoutRef = useRef(null);
+    const emailRef = useRef(null);
+
 
     
     const [formData, setFormData] = useState({
@@ -157,6 +160,12 @@ function LoginForm() {
     let from = params.get("fromPage")||""
 
 
+    useEffect(() => {
+    //focus email
+        emailRef.current?.focus();
+    }, []);
+
+
     return (
         <Form method="post" replace onSubmit={handleSubmit} className="loginForm">
             <input type="hidden" name="redirectTo" value={from} />
@@ -164,12 +173,15 @@ function LoginForm() {
             <label>
                 <svg xmlns="http://www.w3.org/2000/svg" className={errors.email ? "error-svg" : ""} viewBox="0 0 24 24"><path fill="currentColor" d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2zm-2 0l-8 5l-8-5zm0 12H4V8l8 5l8-5z"/></svg>
                 <input
+                    ref={emailRef}
                     type="text"
                     name="email"
                     placeholder={t("email")}
                     value={formData.email}
                     onChange={handleChange}
                     className={errors.email ? "input-error" : "input"}
+                    autoComplete={formData.email.length!=0?"on":"off"}
+
                 />
             </label>
 

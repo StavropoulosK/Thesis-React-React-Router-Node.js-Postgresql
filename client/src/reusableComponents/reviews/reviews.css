@@ -3,7 +3,7 @@ section.reviews{
     margin:0 auto;
     margin-top:4rem;
     margin-bottom:7rem;
-    height: 28rem;
+    min-height: 28rem;
     width: 95%;
     border-radius: 2.3rem;
     padding-top:0.5rem;
@@ -16,11 +16,6 @@ section.reviews h2{
     width: fit-content;
 }
 
-article.reviewContainer *{
-    width: fit-content;
-
-}
-
 article.reviewContainer{
     max-width:17rem;
     height:fit-content;
@@ -28,7 +23,7 @@ article.reviewContainer{
     border-radius: 1.4rem;
     padding-left:1rem;
     padding-right:1rem;
-
+    margin: 0 auto;
 }
 
 article.reviewContainer:not(:last-of-type) {
@@ -68,6 +63,7 @@ img.star {
 
 .reviewContainer p.remarks{
     font-size: 0.9rem;
+    width: 5rem;
 
 }
 
@@ -75,7 +71,7 @@ img.star {
     height: fit-content !important;
     width: 100%;
     margin-bottom:1rem;
-    display: flex;
+    /* display: flex; */
 
 
 }
@@ -87,6 +83,7 @@ img.star {
     margin-top:0;
     padding:0;
     float:left;
+    margin-right: 1rem;
 
 }
 
@@ -96,12 +93,13 @@ img.star {
     font-size: 0.9rem;
     max-width:13rem;
     width: fit-content;
-    display: inline-block;
-    margin-left:0.9rem;
+    /* display: inline-block; */
+    display: block;
+
+    margin-left:1rem;
     margin-top:0;
     padding:0;
     margin-bottom:0;
-    vertical-align: top;
 }
 
 .reviews .container{
@@ -143,6 +141,7 @@ img.star {
 .changeReview.left svg{
     left:0.4rem;
     transform: rotate(180deg);
+
 }
 
 .changeReview.right svg{
@@ -152,7 +151,8 @@ img.star {
 
 .reviewPanel{
     display: flex;
-    width: fit-content;
+    /* width: fit-content; */
+    max-width: 99vw;
 }
 
 .dots-container {
@@ -160,6 +160,7 @@ img.star {
     justify-content: flex-end;
     margin-top: 1rem;
     margin-right:4rem;
+    padding-bottom: 2rem;
   }
   
   .dot {
@@ -210,4 +211,110 @@ img.star {
 }
 .loading-dots--dot:nth-child(3) {
     animation-delay: 0.6s;
+}
+
+
+
+@media (max-width: 920px) {
+    .reviewPanel{
+        display: grid;
+        grid-template-columns: repeat(2, 0.5fr); 
+        grid-auto-rows: auto;       /* only grow rows as needed */
+        justify-items: center;    
+        align-items: center;    
+        gap:1rem;
+        box-sizing: border-box; 
+        width: 90%;
+        margin: 0 auto;
+        height: fit-content !important;
+        padding:0.2rem;
+    }
+
+    .reviewPanel > :only-child {
+        grid-column: span 2;
+    }
+
+    .reviewPanel .reviewContainer{
+        margin: 0 !important;
+    }
+
+    section.reviews{
+        height: fit-content !important;
+    }
+    
+    .reviewContainer  .profile{
+        margin-right: 0.5rem;
+
+    }
+
+    .reviewContainer p.hourInfo{
+        margin-left: 0rem;
+    }
+
+    section.reviews h2{
+        margin-bottom: 1.5rem;
+        font-size: 1.3rem;
+    }
+
+    .reviews .reviewsFlex{
+        padding-left: 0.5rem;
+        padding-right:0.5rem;
+    }
+
+
+    .reviews button.changeReview {
+        height: fit-content;
+        width: fit-content;
+        margin: 0;
+        padding:0.3rem;
+        
+    }
+
+    .reviews button.changeReview svg{
+        width: 1rem;
+        height: 1rem;
+    }
+
+    .dots-container{
+        padding-bottom: 2rem;
+    }
+
+    .reviewContainer p.name{
+        font-size: 1rem;
+    }
+
+    .reviewContainer p.Remarks, .reviewContainer .bottom{
+        font-size: 0.95rem;
+    }
+
+    .starRating{
+        margin-top: 0.4rem;
+    }
+
+    img.star {
+
+    
+      margin-left: 0.4rem;
+    }
+
+}
+
+
+@media (max-width: 520px) {
+
+    .reviews button.changeReview {
+  
+        padding:0.2rem;
+ 
+    }
+
+    .reviewPanel .reviewContainer{
+        padding:0.68rem;
+    }
+
+    .reviewPanel{
+        display: grid;
+        grid-template-columns: repeat(1, 1fr); 
+        grid-auto-rows: auto;       
+    }
 }

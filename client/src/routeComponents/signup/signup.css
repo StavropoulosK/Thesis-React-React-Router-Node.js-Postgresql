@@ -1,15 +1,4 @@
-.signup{
-    display: flex;
-    flex-direction: column;
-    /* border:2px solid black; */
-    width: 450px;
-    height: 380px;
-    position: relative;
-    bottom:2rem;
-    right:5rem;
-    align-items: center;
 
-}
 
 .loginSignup .signup h3{
     color:#085256;
@@ -32,6 +21,11 @@
 
 .signup .half{
   display: flex;
+  box-sizing: border-box;
+}
+
+.signup .half *{
+  width: 100%;
 }
 
 form > div {
@@ -82,6 +76,11 @@ form > div {
   left:0.5rem;
   width: 100%;
   
+}
+
+.dropdown button.dropdown-button svg{
+  position: relative;
+  left:0.3rem;
 }
 
 .signup p.result{
@@ -247,4 +246,55 @@ form > div {
 .signup button.submit.pending{
   background-color: rgba(17, 179, 187, 0.5);
 
+}
+
+/* @media (max-width:120px){
+
+
+  .signup .formContainer{
+    background-color: red;
+    min-width: none;
+  }
+
+} */
+
+
+@media (max-width:700px){
+  .signup{
+    margin-bottom:7rem;
+    
+  }
+}
+
+
+@media (max-width:1150px){
+
+  .signup input{
+    padding-top:0.6rem;
+    padding-bottom: 0.6rem;
+  }
+
+  .loginSignup svg:not(.dropdown svg) {
+    width:0.9rem;
+    height: 0.9rem;
+  }
+
+  
+
+  .dropdown .dropdown-menu{
+    max-height: 150px !important;
+  }
+  
+  .signup div.errorContainer p.error{
+    font-size: 0.85rem;
+    left:0.1rem
+  }
+
+  .snowglobe{
+    height: 3.5rem ;
+    right:0.7rem;
+    top:0rem;
+    width: 3.5rem ;
+
+  }
 }

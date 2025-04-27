@@ -1,6 +1,6 @@
 import "./studentMenu.css"
 
-import { UserNav } from "../../reusableComponents/userMenu/userNav"
+import { UserNav } from "../userMenu/userNav"
 
 
 

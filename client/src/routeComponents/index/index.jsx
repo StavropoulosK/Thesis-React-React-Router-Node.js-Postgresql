@@ -49,39 +49,42 @@ export const Index=memo(()=>{
     const {  onReservationClick,setSelectedSport } = useOutletContext();
 
 
-
     return(
         <> 
 
+            <section className="index">
 
-            <section className="topPortion">
-                <div className="imgContainer">
-                    <img id="startImg" src="/images/startPage/initial_page.jpg" alt="people enjoying their time on the ski resort" />
-                    {/* <img id="startImg" src={initialImg} /> */}
 
-                    <span className="welcomeText">{t("startMessage")}</span>
 
-                </div>
 
-                <div className="textContainer">
-                    <p>{t("bookMsg")}</p>
-                    <button onClick={onReservationClick}>{t("Book")}</button>
 
-                </div>
+                <section className="topPortion">
+                    <div className="imgContainer">
+                        <img id="startImg" src="/images/startPage/initial_page.jpg" alt="people enjoying their time on the ski resort" />
+                        <span className="welcomeText">{t("startMessage")}</span>
+
+                    </div>
+
+                    <div className="textContainer">
+                        <p>{t("bookMsg")}</p>
+                        <button onClick={onReservationClick}>{t("Book")}</button>
+
+                    </div>
+                </section>
+
+
+                <section className="sports">
+                    <h2>{t("Winter sports")}</h2>
+                    <div className="allSportsContainer">
+                        <Sport sport={'Ski'} onSelectSport={()=>setSelectedSport("Ski")} onReservationClick={onReservationClick} />
+                        <Sport sport={'Snowboard'} onSelectSport={()=>setSelectedSport("Snowboard")} onReservationClick={onReservationClick} />
+                        <Sport sport={'Sit ski'} onSelectSport={()=>setSelectedSport("Sit ski")} onReservationClick={onReservationClick} />
+                    </div>
+
+                </section>
+
+                <Reviews />
             </section>
-
-
-            <section className="sports">
-                <h2>{t("Winter sports")}</h2>
-                <div className="allSportsContainer">
-                    <Sport sport={'Ski'} onSelectSport={()=>setSelectedSport("Ski")} onReservationClick={onReservationClick} />
-                    <Sport sport={'Snowboard'} onSelectSport={()=>setSelectedSport("Snowboard")} onReservationClick={onReservationClick} />
-                    <Sport sport={'Sit ski'} onSelectSport={()=>setSelectedSport("Sit ski")} onReservationClick={onReservationClick} />
-                </div>
-
-            </section>
-
-            <Reviews />
 
         </>
     )

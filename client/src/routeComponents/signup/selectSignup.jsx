@@ -29,7 +29,7 @@ export function SelectSignup(){
                     <span> {t("instructor")}</span>
 
 
-                    <Link to='/signup/user'>
+                    <Link to='/signup/student'>
                         {t("student account")}
                     </Link> 
 

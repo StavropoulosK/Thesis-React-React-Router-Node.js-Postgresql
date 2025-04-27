@@ -44,8 +44,6 @@ const router= createBrowserRouter([
       const {Root,rootLoader}= await import("./routeComponents/root/root.jsx")
       return {element: <Root/>, loader:rootLoader}
     },
-    // element: <Root/>,
-    // loader: rootLoader,
     shouldRevalidate: () => true,         // it is used to fetch header params. it executes on every load because the session may have expired and thus the profile icon on the header should change.
     errorElement:<ErrorPage/>,
 
@@ -58,12 +56,9 @@ const router= createBrowserRouter([
             async lazy(){
               const { Index } = await import("./routeComponents/index/index.jsx")
           
-              // return {element:<Index/>, loader:reviewsIndexLoader}
               return {element:<Index/>}
 
             }
-            // element:<Index/>,
-            // loader: reviewsLoader
             
           },
           {  
@@ -73,8 +68,6 @@ const router= createBrowserRouter([
               return {element:<BookLesson/>, loader:bookLessonLoader}
 
             }
-            // element:<BookLesson/>,
-            // loader:bookLessonLoader
           },
           {
             path:"login",
@@ -83,8 +76,6 @@ const router= createBrowserRouter([
               return {element:<Login/>, action:loginAction}
 
             }
-            // element:<Login/>,
-            // action:loginAction
           },
           {
             path:"signupSelect",
@@ -93,7 +84,6 @@ const router= createBrowserRouter([
               return {element:<SelectSignup/>}
 
             }
-            // element:<SelectSignup/>,
           },
           {
             path:"signup/:account",
@@ -102,8 +92,6 @@ const router= createBrowserRouter([
               return {element:<Signup/>,action:signupAction}
 
             }
-            // element:<Signup/>,
-            // action:signupAction
           },
           {  
             path: "overview",
@@ -126,7 +114,7 @@ const router= createBrowserRouter([
           {
             path:"studentMenu",
             async lazy(){
-              const {StudentMenu}= await import("./routeComponents/studentMenu/studentMenu.jsx")
+              const {StudentMenu}= await import("./reusableComponents/studentMenu/studentMenu.jsx")
               return {element:<StudentMenu/>}
             },
             children:[

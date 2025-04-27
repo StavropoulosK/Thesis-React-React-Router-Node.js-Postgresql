@@ -193,6 +193,8 @@ function Review({stars,name,date,sport,resort,review,image,lessonHours,instructo
                     <p className="lessonInfo"> {date} - {t(sport)}, {t(resort)} </p>
 
                     <p className="Remarks"> {review} </p>
+                    {/* <p className="Remarks"> asdddddddddddddddddddddddddddddasdddddddddddddddddddddddddddddasddddddddddddddddddddddddddddd </p> */}
+
 
                     <div className="bottom">
 

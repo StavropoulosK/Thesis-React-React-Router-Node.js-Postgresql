@@ -1,5 +1,5 @@
 import LoginSignupContainer from "../../reusableComponents/loginSignupContainer/loginSignupContainer.jsx"
-import { Form,useActionData,useNavigation    } from "react-router-dom";
+import { Form,useActionData,useNavigation,redirect    } from "react-router-dom";
 
 import "./signup.css"
 
@@ -79,7 +79,8 @@ export async function signupAction({request,params}){
 
     let errorMsg=""
 
-    if(accountType!="user" && accountType!="instructor"){
+
+    if(accountType!="student" && accountType!="instructor"){
       errorMsg="Sign up failed"
     }
 
@@ -167,7 +168,9 @@ export async function signupAction({request,params}){
 
 
       if(signUpSuccess){
-          return 1     //reload selidas
+          const defaultRedirect= accountType=="student"?"/studentMenu/profile" : "/"
+          return redirect(defaultRedirect);
+
       }
       else{
         errorMsg="Sign up failed"
@@ -261,6 +264,14 @@ export function Signup(){
 
 
         if(name=="phoneNumber"){
+
+          const containsNonDigits = /\D/.test(value);
+
+          if(containsNonDigits){
+            return
+          }
+
+
           if(value.length==11 ){
             return
           }
@@ -411,7 +422,7 @@ export function Signup(){
 
                         <div className="errorContainer">
                             <label>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path fill="currentColor" d="M9.993 10.573a4.5 4.5 0 1 0 0-9a4.5 4.5 0 0 0 0 9M10 0a6 6 0 0 1 3.04 11.174c3.688 1.11 6.458 4.218 6.955 8.078c.047.367-.226.7-.61.745c-.383.045-.733-.215-.78-.582c-.54-4.19-4.169-7.345-8.57-7.345c-4.425 0-8.101 3.161-8.64 7.345c-.047.367-.397.627-.78.582c-.384-.045-.657-.378-.61-.745c.496-3.844 3.281-6.948 6.975-8.068A6 6 0 0 1 10 0"/></svg> 
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M9.993 10.573a4.5 4.5 0 1 0 0-9a4.5 4.5 0 0 0 0 9M10 0a6 6 0 0 1 3.04 11.174c3.688 1.11 6.458 4.218 6.955 8.078c.047.367-.226.7-.61.745c-.383.045-.733-.215-.78-.582c-.54-4.19-4.169-7.345-8.57-7.345c-4.425 0-8.101 3.161-8.64 7.345c-.047.367-.397.627-.78.582c-.384-.045-.657-.378-.61-.745c.496-3.844 3.281-6.948 6.975-8.068A6 6 0 0 1 10 0"/></svg> 
 
 
 
@@ -432,7 +443,7 @@ export function Signup(){
 
                           <label>
                             
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path fill="currentColor" d="M10 8c1.7 0 3.06-1.35 3.06-3S11.7 2 10 2S6.94 3.35 6.94 5S8.3 8 10 8m0 2c-2.8 0-5.06-2.24-5.06-5S7.2 0 10 0s5.06 2.24 5.06 5s-2.26 5-5.06 5m-7 8h14v-1.33c0-1.75-2.31-3.56-7-3.56s-7 1.81-7 3.56zm7-6.89c6.66 0 9 3.33 9 5.56V20H1v-3.33c0-2.23 2.34-5.56 9-5.56"/></svg>                           
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M10 8c1.7 0 3.06-1.35 3.06-3S11.7 2 10 2S6.94 3.35 6.94 5S8.3 8 10 8m0 2c-2.8 0-5.06-2.24-5.06-5S7.2 0 10 0s5.06 2.24 5.06 5s-2.26 5-5.06 5m-7 8h14v-1.33c0-1.75-2.31-3.56-7-3.56s-7 1.81-7 3.56zm7-6.89c6.66 0 9 3.33 9 5.56V20H1v-3.33c0-2.23 2.34-5.56 9-5.56"/></svg>                           
                             <input
                                 type="text"
                                 name="lastName"  

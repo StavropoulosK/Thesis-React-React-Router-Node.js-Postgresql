@@ -68,8 +68,6 @@ export function Root(){
     //     window.scrollTo({ top: 0, behavior: "instant" }); 
     // }, [pathname]);
 
-
-
     return (
         <>
             <ScrollRestoration/>

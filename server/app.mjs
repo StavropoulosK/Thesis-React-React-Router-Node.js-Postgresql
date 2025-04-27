@@ -87,7 +87,11 @@ app.post("/api/loginUser", (req, res) => {
     if (email === "123" && password === "123") {
       // instructor student
       req.session.loggedinState = "student";
-      res.json({ userExists: true });
+      res.json({ userExists: true,accountType:"student" });
+    }
+    else if(email === "12" && password === "12"){
+      req.session.loggedinState = "instructor";
+      res.json({ userExists: true, accountType:"instructor" });
     } else {
       res.json({ userExists: false  });
     }
@@ -1345,7 +1349,7 @@ app.post('/api/reviews/:page', async (req, res) => {
       date: "24/12/2024",
       sport: "Ski",
       resort: "Parnassos",
-      review: "Πολύ καλός προπονητής και πέρασα ευχάριστα και διασκεδαστικά μαζί του.",
+      review: "Πολύ καλός προπονητής και πέρασα ευχάριστα και διασκεδαστικά μαζί του.Πολύ καλός προπονητής και πέρασα ευχάριστα και διασκεδαστικά μαζί του.",
       image: "img",
       lessonHours: 1,
       instructorName: "Γιάννης Μ."
@@ -1513,6 +1517,7 @@ app.post('/api/reviews/:page', async (req, res) => {
   
     res.json({
       reviews: reviews.slice(startIndex, endIndex),
+
       maxPages  
     });
   }
@@ -1525,13 +1530,22 @@ app.post('/api/signupUser', async(req,res)=>{
   const { firstName,lastName,email,password,passwordCheck,countryPhoneCode,phoneNumber,accountType} = req.body; 
 
   const isValid= await validateSignUpInputs(firstName,lastName,email,password,passwordCheck,countryPhoneCode,phoneNumber,accountType)
-  
+
   if(isValid){
-    req.session.loggedinState = "instructor";
+
+    if(accountType=="instructor"){
+      req.session.loggedinState = "instructor";
+
+    }
+    else if(accountType=="student"){
+      req.session.loggedinState = "student";
+
+    }
     res.json({ signUpSuccess: true  });
 
   }
   else{
+    
     res.json({ signUpSuccess: false  });
 
   }
@@ -1569,7 +1583,7 @@ app.listen(PORT,()=>{
 
 async function validateSignUpInputs(firstName,lastName,email,password,passwordCheck,countryPhoneCode,phoneNumber,accountType){
 
-  if(accountType!="user" && accountType!="instructor"){
+  if(accountType!="student" && accountType!="instructor"){
     return false
   }
 

@@ -9,14 +9,14 @@
     outline: none;         
 }
 
-.topPortion .imgContainer {
+section.index .topPortion .imgContainer {
     position: relative; /* Makes the container the reference for absolute positioning */
     width: 70%;
     height:720px;
 }
 
 
-.topPortion span.welcomeText {
+section.index .topPortion span.welcomeText {
     color:#246265;
     font-size: 1.7rem;
     position: absolute;
@@ -27,7 +27,7 @@
 
 }
 
-.topPortion{
+section.index .topPortion{
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -35,7 +35,7 @@
     width: 100%;
 }
 
-.topPortion .textContainer{
+section.index .topPortion .textContainer{
     font-size:1.8rem;
     position: relative;
     bottom:3rem;
@@ -46,12 +46,12 @@
 }
 
 
-.topPortion .textContainer *{
+section.index .topPortion .textContainer *{
     color:#0c3567;
     user-select: none; 
 }
 
-.topPortion .textContainer button{
+section.index .topPortion .textContainer button{
     background-color: rgba(17, 179, 187, 0.8);
     color: white; 
     font-size: 1.7rem; 
@@ -62,19 +62,19 @@
 }
 
 
-section.sports{
+section.index section.sports{
     margin-top:4rem;
     /* background-color: red; */
 }
 
-section.sports h2{
+section.index section.sports h2{
     margin:0 auto;
     width: fit-content;
     margin-bottom:3rem;
     /* color:#0c3567; */
 }
 
-div.sportContainer{
+section.index div.sportContainer{
     width:20rem;
 
     display: flex;
@@ -85,7 +85,7 @@ div.sportContainer{
 
 }
 
-section.sports img.sportImg{
+section.index section.sports img.sportImg{
     width:100%;
     height:15rem;
     object-fit: cover;
@@ -98,13 +98,13 @@ section.sports img.sportImg{
 }
 
 
-section.sports .sportContainer:hover img.sportImg{
+section.index section.sports .sportContainer:hover img.sportImg{
     transform: scale(1.2);
 
 }
 
 
-section.sports button.selectSport{
+section.index section.sports button.selectSport{
     border:none;
     background: none;
     padding:0;
@@ -116,12 +116,12 @@ section.sports button.selectSport{
 
 }
 
-section.sports button:hover{
+section.index section.sports button:hover{
     cursor: pointer;
 }
 
 
-section.sports button.selectSportDown{
+section.index section.sports button.selectSportDown{
     display: block;
     width:100%;
     background: none;
@@ -131,7 +131,7 @@ section.sports button.selectSportDown{
     border-radius: 0.6rem; 
 }
 
-section.sports button.selectSportDown span{
+section.index section.sports button.selectSportDown span{
     border-radius: 0.6rem; 
     margin:0 auto;
     margin-top:0.9rem;
@@ -142,9 +142,146 @@ section.sports button.selectSportDown span{
     font-size: 1.3rem; 
 }
 
-div.allSportsContainer{
+section.index div.allSportsContainer{
     display: flex;
     justify-content: center;
 
 }
 
+
+
+@media (min-width: 700px) and (max-width: 920px) {
+    
+    section.index .topPortion .imgContainer{
+        width: 60%;
+    }
+    
+}
+
+@media (min-width: 920px) and (max-width: 1200px) {
+
+    section.index .topPortion .imgContainer{
+        width: 70%;
+    }
+
+}
+
+
+@media (min-width: 700px) and (max-width: 1200px) {
+
+    section.index .topPortion .imgContainer{
+        height: 550px;
+    }
+
+
+    section.index .topPortion .textContainer{
+        font-size: 1.5rem;
+        width: 14rem;
+        margin-right: 1rem;
+    }
+
+    section.index .topPortion .textContainer button{
+
+        font-size: 1.5rem;
+    }
+
+    section.index .topPortion span.welcomeText {
+        font-size: 1.5rem;
+    }
+}
+
+
+
+
+@media (max-width: 700px) {
+
+    section.index .topPortion{
+        display: flex;
+        flex-direction: column;
+    }
+    section.index .topPortion .imgContainer{
+        width: 100%;
+        height: 400px;
+    }
+
+    #startImg{
+        border-bottom-right-radius: 20px;
+
+    }
+
+
+    section.index .topPortion span.welcomeText {
+        font-size: 1.3rem;
+        top: 90px;  
+        left: 1.7rem; 
+    }
+    
+    section.index .topPortion{  
+        align-items: flex-start;   /* makes items align left horizontally */
+        justify-content: flex-start; /* stacks items from the top */
+    }
+    
+    section.index .topPortion .textContainer{
+        position: static;
+        margin-left: 1rem;
+        width: fit-content;
+        font-size: 1.3rem;
+        margin-top: 1rem;
+        display: flex;
+    }
+
+    section.index .topPortion .textContainer p{
+        max-width: 18rem;
+        margin-right: 1rem;
+
+    }
+
+    section.index .topPortion .textContainer button{
+        font-size: 1.3rem;
+        height: fit-content;
+        align-self: center;
+        margin-right: 1rem;
+    }
+
+    section.index section.sports{
+        margin-top: 2rem;
+    }
+
+    section.index section.sports h2{
+        padding-left: 1rem;
+        font-size: 1.3rem;
+        margin-top: 0;
+    }
+
+    section.index div.allSportsContainer{
+        display: grid;
+        grid-template-columns: repeat(2, 0.5fr); 
+        grid-template-rows: repeat(2, 0.5fr);   
+        justify-items: center;    
+        align-items: center;    
+        gap:1rem;
+        box-sizing: border-box; 
+        width: 90%;
+        margin: 0 auto;
+    
+    }
+
+    section.index div.sportContainer{
+        margin:0;
+        box-sizing: border-box;
+        width: fit-content;
+    }
+
+    section.index div.sportContainer .selectSportDown span{
+        margin-bottom:0.7rem !important;
+        font-size: 1.2rem !important;
+    }
+
+}
+
+
+@media (max-width: 500px) {
+    section.index section.sports img.sportImg{
+        height: 12rem;
+    }
+}

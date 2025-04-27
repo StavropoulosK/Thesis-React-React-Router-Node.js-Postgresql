@@ -352,9 +352,17 @@ function CalendarGrid({ currentMonth, days,children,position,onDateClick,isSelec
 
         <div className="calendar-days">
           {[t("Monday"), t("Tuesday"), t("Wednesday"), t("Thursday"), t("Friday"), t("Saturday"),t("Sunday")].map((day) => (
-            <div key={day} className="calendar-day-label">
-              {day}
+            <div key={day}>
+              <div className="desktop calendar-day-label">
+                {day}
+              </div>
+
+              <div className="mobile calendar-day-label">
+                {day[0]}
+              </div>
+            
             </div>
+            
           ))}
         </div>
 
@@ -376,7 +384,7 @@ function CalendarGrid({ currentMonth, days,children,position,onDateClick,isSelec
                   ${isSelected(day) ? "calendar-day-selected" : ""} 
                  `}
               >
-                {day.getDate()}
+                <span>{day.getDate()}</span>
               </div>
             );
           })}

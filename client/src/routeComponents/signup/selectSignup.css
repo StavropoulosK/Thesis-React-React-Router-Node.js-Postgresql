@@ -1,18 +1,4 @@
 
-.selectSignupContainer{
-    display: flex;
-    flex-direction: column;
-    /* border:2px solid black; */
-    width: 500px;
-    height: 380px;
-    position: relative;
-    bottom:2rem;
-    right:5rem;
-    align-items: center;
-    /* background-color: red; */
-
-}
-
 
 
 .loginSignup h3.selectSignup{
@@ -55,4 +41,24 @@
     padding:0.5rem;
     text-align: center;
     border-radius: 2.5rem;
+}
+
+
+@media (max-width:1000px)   {
+        
+    .selectSignupContainer a{
+        width: 300px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width:500px)   {
+        
+    .selectSignupContainer a{
+        width: 260px;
+    }
+
+    .loginSignup h4{
+        font-size: 1.1rem;
+    }
 }
