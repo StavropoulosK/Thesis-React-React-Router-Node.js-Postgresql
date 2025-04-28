@@ -234,6 +234,10 @@ form > div {
   display: block;
 }
 
+.infoBtn:active + .passwordInfo {
+  display: block;
+}
+
 /* color: rgb(198, 19, 48); */
 
 .signup .error{
