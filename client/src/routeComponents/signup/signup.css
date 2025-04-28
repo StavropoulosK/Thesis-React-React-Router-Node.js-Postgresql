@@ -230,20 +230,12 @@ form > div {
 
 }
 
-.infoBtn:hover + .passwordInfo {
+.infoBtn:hover + .passwordInfo, .infoBtn:active + .passwordInfo {
   display: block;
 }
-
-.infoBtn:active + .passwordInfo {
-  display: block;
-}
-
-/* color: rgb(198, 19, 48); */
 
 .signup .error{
   color: rgb(198, 19, 48);
-
-  /* color: rgb(225, 20, 54); */
 }
 
 
@@ -251,16 +243,6 @@ form > div {
   background-color: rgba(17, 179, 187, 0.5);
 
 }
-
-/* @media (max-width:120px){
-
-
-  .signup .formContainer{
-    background-color: red;
-    min-width: none;
-  }
-
-} */
 
 
 @media (max-width:700px){
