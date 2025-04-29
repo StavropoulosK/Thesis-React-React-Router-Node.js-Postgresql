@@ -177,7 +177,7 @@ export function BookLesson(){
             <Menu resetInstructorName={resetInstructorName}></Menu>
             <div className="belowMenu">
                 <div className="textContainer">
-                    {t(`bookLesson:lessons_greek`)} {t(params.sport,{ ns: 'bookLesson' })} {t(`bookLesson:at_ski_resort`)} <br></br>
+                    {t(`bookLesson:lessons_greek`)} {t(params.sport,{ ns: 'bookLesson' })} {t(`bookLesson:at_ski_resort`)} <br className="desktop"></br>
                     <p><b>{t(`choseLessonParams:${params.resort}`)}</b></p>
                 </div>
                 <SearchInput key={resetSearchRef.current} instructorName={instructorName} setInstructorName={setInstructorName} ></SearchInput>
@@ -220,7 +220,7 @@ function SearchInput({instructorName,setInstructorName}){
                 setSearchParams((prev) => {
                     const params = new URLSearchParams(prev);
                     params.set("instructorName", instructorName);
-                    return params},{ replace: true });
+                    return params},{ replace: true,preventScrollReset:true  });
 
             }
           
@@ -275,14 +275,27 @@ function AllLessonContainer({setShowLessons}){
 
                     })
                 }
-                { maxPages!=0 && <PageNavigation maxPages={maxPages} page={lessonPage} updateURL={(value)=>{
+
+                {/* appears for desktop */}
+                {/* { maxPages!=0 && <PageNavigation maxPages={maxPages} page={lessonPage} updateURL={(value)=>{
                     setSearchParams((prev) => {
                         const params = new URLSearchParams(prev);
                         params.set("pageNumber", value);
-                        return params},{ replace: true });
-                }}/>}
+                        return params},{ replace: true  });
+                }}/>} */}
 
             </section>
+
+            {/* appears for mobile */}
+            { maxPages!=0 && <PageNavigation maxPages={maxPages} page={lessonPage} updateURL={(value)=>{
+                    setSearchParams((prev) => {
+                        const params = new URLSearchParams(prev);
+                        params.set("pageNumber", value);
+                        return params},{ replace: true  });
+                }}/>}
+
+
+
         </>
     )
 }
@@ -307,7 +320,7 @@ const Menu= memo( ({resetInstructorName})=>{
 
     const [searchParams, setSearchParams] = useSearchParams();
 
-    const { t } = useTranslation(["bookLesson"]);
+    const { t } = useTranslation("bookLesson");
     
 
     return(
@@ -323,7 +336,7 @@ const Menu= memo( ({resetInstructorName})=>{
                         setSearchParams((prev) => {
                             const params = new URLSearchParams(prev);
                             params.set("resort", value);
-                            return params},{ replace: true });
+                            return params},{ replace: true,preventScrollReset:true  });
                          
                             }
                         }
@@ -341,7 +354,7 @@ const Menu= memo( ({resetInstructorName})=>{
                         setSearchParams((prev) => {
                             const params = new URLSearchParams(prev);
                             params.set("sport", value);
-                            return params},{ replace: true });
+                            return params},{ replace: true,preventScrollReset:true });
                          
                             }
                         }
@@ -357,7 +370,7 @@ const Menu= memo( ({resetInstructorName})=>{
                         setSearchParams((prev) => {
                             const params = new URLSearchParams(prev);
                             params.set("members", value.split(" ")[0]);
-                            return params},{ replace: true });
+                            return params},{ replace: true,preventScrollReset:true  });
                          
                             }
                         }
@@ -370,169 +383,176 @@ const Menu= memo( ({resetInstructorName})=>{
             </div>
 
             <div className="secondaryFilters">
-                        <div className="filterContainer">
-                            <button className={`circle ${lessonType=="private"?"selected":""}`} onClick={()=>{
-                                const newValue=lessonType!="private"?"private":""
+                <div className="elContainer">
 
-                                setLessonType(newValue)
-                                setSearchParams((prev) => {
-                                    const params = new URLSearchParams(prev);
-                                    if (newValue === "") {
-                                        // If the newValue is empty, remove the lessonType parameter
-                                        params.delete("lessonType");
-                                    }
-                                    else {
-                                        // Otherwise, update the lessonType parameter with the new value
-                                        params.set("lessonType", newValue);
-                                      }
-                                    
+                    <div className="filterContainer">
+                        <button className={`circle ${lessonType=="private"?"selected":""}`} onClick={()=>{
+                            const newValue=lessonType!="private"?"private":""
 
-                                    return params;
-                                  },{ replace: true });     
-                                
-                                
+                            setLessonType(newValue)
+                            setSearchParams((prev) => {
+                                const params = new URLSearchParams(prev);
+                                if (newValue === "") {
+                                    // If the newValue is empty, remove the lessonType parameter
+                                    params.delete("lessonType");
                                 }
-                            }>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1"><circle cx="8" cy="6" r="3.25"/><path d="M2.75 14.25c0-2.5 2-5 5.25-5s5.25 2.5 5.25 5"/></g></svg>
-                            </button>
-                            <span>{t("Private")} </span>
-                        </div>
-
-                        <div className="filterContainer">
-                            <button className={`circle ${lessonType=="group"?"selected":""}`} onClick={()=>{
-                                const newValue=lessonType!="group"?"group":""
-
-                                setLessonType(newValue)
-                                setSearchParams((prev) => {
-                                    const params = new URLSearchParams(prev);
-                                    if (newValue === "") {
-                                        // If the newValue is empty, remove the lessonType parameter
-                                        params.delete("lessonType");
+                                else {
+                                    // Otherwise, update the lessonType parameter with the new value
+                                    params.set("lessonType", newValue);
                                     }
-                                    else {
-                                        // Otherwise, update the lessonType parameter with the new value
-                                        params.set("lessonType", newValue);
-                                      }
-                                    
+                                
 
-                                    return params;
-                                  },{ replace: true });     
-
-                                }
+                                return params;
+                                },{ replace: true,preventScrollReset:true  });     
                             
-                            }>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="1.5"><path d="M1 20v-1a7 7 0 0 1 7-7v0a7 7 0 0 1 7 7v1"/><path d="M13 14v0a5 5 0 0 1 5-5v0a5 5 0 0 1 5 5v.5"/><path strokeLinejoin="round" d="M8 12a4 4 0 1 0 0-8a4 4 0 0 0 0 8m10-3a3 3 0 1 0 0-6a3 3 0 0 0 0 6"/></g></svg> 
-                            </button>
-                            <span>{t("Group")} </span>
-                        </div>
-
-                        <div className="filterContainer">
-                            <button className={`circle ${time=="morning"?"selected":""}`} onClick={()=>{
-                                
                             
-                                const newValue=time!="morning"?"morning":""
-    
-                                setTime(newValue)
-                                setSearchParams((prev) => {
-                                    const params = new URLSearchParams(prev);
-                                    if (newValue === "") {
-                                        // If the newValue is empty, remove the lessonType parameter
-                                        params.delete("time");
-                                    }
-                                    else {
-                                        // Otherwise, update the lessonType parameter with the new value
-                                        params.set("time", newValue);
-                                      }
-                                    
+                            }
+                        }>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1"><circle cx="8" cy="6" r="3.25"/><path d="M2.75 14.25c0-2.5 2-5 5.25-5s5.25 2.5 5.25 5"/></g></svg>
+                        </button>
+                        <span>{t("Private")} </span>
+                    </div>
 
-                                    return params;
-                                  },{ replace: true }); 
+                    <div className="filterContainer">
+                        <button className={`circle ${lessonType=="group"?"selected":""}`} onClick={()=>{
+                            const newValue=lessonType!="group"?"group":""
+
+                            setLessonType(newValue)
+                            setSearchParams((prev) => {
+                                const params = new URLSearchParams(prev);
+                                if (newValue === "") {
+                                    // If the newValue is empty, remove the lessonType parameter
+                                    params.delete("lessonType");
                                 }
-                            }>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024"><path fill="currentColor" d="M32 768h960a32 32 0 1 1 0 64H32a32 32 0 1 1 0-64m129.408-96a352 352 0 0 1 701.184 0h-64.32a288 288 0 0 0-572.544 0zM512 128a32 32 0 0 1 32 32v96a32 32 0 0 1-64 0v-96a32 32 0 0 1 32-32m407.296 168.704a32 32 0 0 1 0 45.248l-67.84 67.84a32 32 0 1 1-45.248-45.248l67.84-67.84a32 32 0 0 1 45.248 0m-814.592 0a32 32 0 0 1 45.248 0l67.84 67.84a32 32 0 1 1-45.248 45.248l-67.84-67.84a32 32 0 0 1 0-45.248"/></svg>                            
-                            </button>
-                            <span>{t("Morning")} </span>
-                        </div>
-
-                        <div className="filterContainer">
-                            <button className={`circle ${time=="noon"?"selected":""}`} onClick={()=>{
-
-                                const newValue=time!="noon"?"noon":""
-
-                                setTime(newValue)
-                                setSearchParams((prev) => {
-                                    const params = new URLSearchParams(prev);
-                                    if (newValue === "") {
-                                        // If the newValue is empty, remove the lessonType parameter
-                                        params.delete("time");
+                                else {
+                                    // Otherwise, update the lessonType parameter with the new value
+                                    params.set("lessonType", newValue);
                                     }
-                                    else {
-                                        // Otherwise, update the lessonType parameter with the new value
-                                        params.set("time", newValue);
-                                      }
-                                    
-
-                                    return params;
-                                  },{ replace: true }); 
-
-                                }
-                            }>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill="currentColor" d="M8 11a3 3 0 1 1 0-6a3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8a4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708"/></svg>                            
-                            </button>
-                            <span>{t("Noon")} </span>
-                        </div>
-
-                        <div className="filterContainer">
-                            <button className={`circle ${time=="allDay"?"selected":""}`} onClick={()=>{
-                                const newValue=time!="allDay"?"allDay":""
-
-                                setTime(newValue)
-                                setSearchParams((prev) => {
-                                    const params = new URLSearchParams(prev);
-                                    if (newValue === "") {
-                                        // If the newValue is empty, remove the lessonType parameter
-                                        params.delete("time");
-                                    }
-                                    else {
-                                        // Otherwise, update the lessonType parameter with the new value
-                                        params.set("time", newValue);
-                                      }
-                                    
-
-                                    return params;
-                                  },{ replace: true }); 
-                                }
                                 
-                            }>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" strokeWidth="1"><circle cx="12" cy="12" r="8.5"/><path strokeLinecap="round" strokeLinejoin="round" d="M12 7v5l2.8 2.8"/></g></svg>                            
-                            </button>
-                            <span>{t("All day")} </span>
-                        </div>
 
-                        <div className="right">
-                            <CancelBtn setTime={setTime} setLessonType={setLessonType} resetInstructorName={resetInstructorName}/>
+                                return params;
+                                },{ replace: true,preventScrollReset:true  });     
 
-                            <Dropdown namespace={"bookLesson"} text="Order by" selected={orderBy}
-                                setSelected={(value)=>{
-                                    if(value==orderBy){
-                                        return
+                            }
+                        
+                        }>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="1.5"><path d="M1 20v-1a7 7 0 0 1 7-7v0a7 7 0 0 1 7 7v1"/><path d="M13 14v0a5 5 0 0 1 5-5v0a5 5 0 0 1 5 5v.5"/><path strokeLinejoin="round" d="M8 12a4 4 0 1 0 0-8a4 4 0 0 0 0 8m10-3a3 3 0 1 0 0-6a3 3 0 0 0 0 6"/></g></svg> 
+                        </button>
+                        <span>{t("Group")} </span>
+                    </div>
+
+                    <div className="filterContainer">
+                        <button className={`circle ${time=="morning"?"selected":""}`} onClick={()=>{
+                            
+                        
+                            const newValue=time!="morning"?"morning":""
+
+                            setTime(newValue)
+                            setSearchParams((prev) => {
+                                const params = new URLSearchParams(prev);
+                                if (newValue === "") {
+                                    // If the newValue is empty, remove the lessonType parameter
+                                    params.delete("time");
+                                }
+                                else {
+                                    // Otherwise, update the lessonType parameter with the new value
+                                    params.set("time", newValue);
                                     }
-                                    setOrderBy(value)
-                                    setSearchParams((prev) => {
-                                        const params = new URLSearchParams(prev);
-                                        params.set("orderBy", value);
+                                
 
-                                        
-    
-                                        return params;
-                                      },{ replace: true }); 
+                                return params;
+                                },{ replace: true,preventScrollReset:true  }); 
+                            }
+                        }>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024"><path fill="currentColor" d="M32 768h960a32 32 0 1 1 0 64H32a32 32 0 1 1 0-64m129.408-96a352 352 0 0 1 701.184 0h-64.32a288 288 0 0 0-572.544 0zM512 128a32 32 0 0 1 32 32v96a32 32 0 0 1-64 0v-96a32 32 0 0 1 32-32m407.296 168.704a32 32 0 0 1 0 45.248l-67.84 67.84a32 32 0 1 1-45.248-45.248l67.84-67.84a32 32 0 0 1 45.248 0m-814.592 0a32 32 0 0 1 45.248 0l67.84 67.84a32 32 0 1 1-45.248 45.248l-67.84-67.84a32 32 0 0 1 0-45.248"/></svg>                            
+                        </button>
+                        <span>{t("Morning")} </span>
+                    </div>
 
-                                }} 
-                                options={[t("Best reviews"), t("Price Low to High"), t("Price High to Low")]} 
-                                icon={"/icons/bookLesson/orderBy.png"}
-                            />
+                    <div className="filterContainer">
+                        <button className={`circle ${time=="noon"?"selected":""}`} onClick={()=>{
 
-                        </div>                                                                                                                                             
+                            const newValue=time!="noon"?"noon":""
+
+                            setTime(newValue)
+                            setSearchParams((prev) => {
+                                const params = new URLSearchParams(prev);
+                                if (newValue === "") {
+                                    // If the newValue is empty, remove the lessonType parameter
+                                    params.delete("time");
+                                }
+                                else {
+                                    // Otherwise, update the lessonType parameter with the new value
+                                    params.set("time", newValue);
+                                    }
+                                
+
+                                return params;
+                                },{ replace: true,preventScrollReset:true  }); 
+
+                            }
+                        }>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><path fill="currentColor" d="M8 11a3 3 0 1 1 0-6a3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8a4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708"/></svg>                            
+                        </button>
+                        <span>{t("Noon")} </span>
+                    </div>
+
+                    <div className="filterContainer">
+                        <button className={`circle ${time=="allDay"?"selected":""}`} onClick={()=>{
+                            const newValue=time!="allDay"?"allDay":""
+
+                            setTime(newValue)
+                            setSearchParams((prev) => {
+                                const params = new URLSearchParams(prev);
+                                if (newValue === "") {
+                                    // If the newValue is empty, remove the lessonType parameter
+                                    params.delete("time");
+                                }
+                                else {
+                                    // Otherwise, update the lessonType parameter with the new value
+                                    params.set("time", newValue);
+                                    }
+                                
+
+                                return params;
+                                },{ replace: true,preventScrollReset:true  }); 
+                            }
+                            
+                        }>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" strokeWidth="1"><circle cx="12" cy="12" r="8.5"/><path strokeLinecap="round" strokeLinejoin="round" d="M12 7v5l2.8 2.8"/></g></svg>                            
+                        </button>
+                        <span>{t("All day")} </span>
+                    </div>
+
+                </div>
+                
+
+
+                    <div className="right">
+                        <CancelBtn setTime={setTime} setLessonType={setLessonType} resetInstructorName={resetInstructorName}/>
+
+                        <Dropdown namespace={"bookLesson"} text="Order by" selected={orderBy}
+                            setSelected={(value)=>{
+                                console.log('aaaa ',value,orderBy)
+                                if(value==orderBy){
+                                    return
+                                }
+                                setOrderBy(value)
+                                setSearchParams((prev) => {
+                                    const params = new URLSearchParams(prev);
+                                    params.set("orderBy", value);
+
+                                    
+
+                                    return params;
+                                    },{ replace: true,preventScrollReset:true  }); 
+
+                            }} 
+                            options={["Best reviews", "Price Low to High", "Price High to Low"]} 
+                            icon={"/icons/bookLesson/orderBy.png"}
+                        />
+
+                    </div>                                                                                                                                             
 
 
 
@@ -580,7 +600,7 @@ function CancelBtn({setTime,setLessonType,resetInstructorName}){
                     params.delete("instructorName")
                     return params;
 
-                },{ replace: true })
+                },{ replace: true,preventScrollReset:true  })
                 
             }
                 
@@ -692,8 +712,12 @@ function Lesson({instructorLesson,setShowLessons}){
 
                 </div>
                 <div className="right">
+                    <div className="spanContainer">
                         <span>{t("from")} <b>{instructorLesson.minPricePerHour}€/{t("hour")} </b></span>
                         <span>{t("from")} <b>{instructorLesson.minPricePerDay}€/{t("day")} </b></span>
+                    </div>
+
+                    <div className="buttonContainer">
                         <button onClick={()=>{
                             setShowLessons(
                                 {resort,sport,from,to,members,instructorId,instructorName,instructionID,typeOfLesson}
@@ -703,6 +727,10 @@ function Lesson({instructorLesson,setShowLessons}){
                             {t("View lessons")}
                         </button>
                         <button>{t("View profile")}</button>
+
+
+                    </div>
+  
 
                 </div>
             </article>
@@ -785,7 +813,7 @@ function CalendarContainer(){
                                     params.set("from", formatDateForURL(arrivalDate));
                                     params.set("to", formatDateForURL(departureDate));
                      
-                                    return params},{ replace: true });
+                                    return params},{ replace: true,preventScrollReset:true  });
 
                             }
                         }

@@ -324,7 +324,7 @@ export function Calendar({onclose,arrivalDate,setArrivalDate,departureDate,setDe
               {t("clear")}
             </button>
             <button type="button" onClick={onOk}>
-              Οκ
+              {t("ok")}
             </button>
           </div>
         </div>

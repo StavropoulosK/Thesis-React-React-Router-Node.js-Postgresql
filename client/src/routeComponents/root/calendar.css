@@ -217,7 +217,7 @@
       border-radius: 50%;
       background-color: rgba(17, 179, 187,0.7);
       color:white;
-
+      
       /* min-height: 2rem; */
     }
 
@@ -250,13 +250,14 @@
   
     }
 
-    .dropdown {
+    .calendar .dropdown {
       margin-right: 0.5rem !important;
     }
 
     .calendarMenu .bottom button{
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       margin-bottom: 0.5rem;
+      margin-right: 0.7rem;
     }
 
 

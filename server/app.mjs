@@ -1303,6 +1303,21 @@ app.get('/api/bookLesson', async (req, res) => {
       minPricePerDay: "190",
       minPricePerHour: "42"
     },
+    {
+      instructorName: "Zara A.",
+      reviewScore: "4.9",
+      reviewCount: 10,
+      experience: "11",
+      languages: ["English", "Urdu"],
+      instructionID:"12121212",
+      typeOfLesson: "group",
+      groupName:"Lesson for kids",
+      description: "Technical and safety-focused expert.",
+      image: "/images/startPage/Ski.jpg",
+      instructorId: "inst_1010",
+      minPricePerDay: "190",
+      minPricePerHour: "42"
+    },
   ];
 
   // an den iparxoun mathimata to instructorLessons einai kenos pinakas  kai maxPages=0

@@ -11,9 +11,7 @@ section article.choseLessonParams{
     max-height: 90vh;
     max-width: 90vw;
     overflow-y: auto;
-
     /* overflow: hidden; */
-
     /* padding-right:2rem; */
 }
 
@@ -21,7 +19,7 @@ section article.choseLessonParams .illustrationContainer{
     background-color: #E3F8FD;
     flex: 0 0 40%;
     margin-right:1.5rem;
-    min-height: 540px;
+    height: 600px;
 
     display: flex;
     align-items: center;
@@ -138,13 +136,14 @@ section article.choseLessonParams .lessonParams form .dropdown:last-child img{
 
     section article.choseLessonParams .lessonParams h2{
         margin-top: 0.6rem;
+        margin-right: 0.3rem;
     }
 
-    .dropdown.dropdown ul.dropdown-menu li{
+    .choseLessonParams .dropdown.dropdown ul.dropdown-menu li{
         font-size: 0.9rem;
     }
 
-    .dropdown button.dropdown-button{
+    .choseLessonParams .dropdown button.dropdown-button{
         font-size: 0.9rem;
     }
 

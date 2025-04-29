@@ -13,6 +13,8 @@ export default function Dropdown({namespace,options,text,icon,selected,setSelect
 
   const {t} = useTranslation(namespace)
 
+  console.log('asdads ',selected,t(selected))
+
 
   useCloseOnOutsideClick(dropdownRef, () => setIsOpen(false));
 

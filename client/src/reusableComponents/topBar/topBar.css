@@ -87,13 +87,6 @@
 
   }
 
-  .topBar .circle-text {
-    margin-top: 0.5rem; /* Add space between the circle and the text */
-    font-size: 12px;
-    text-align: center;
-    color: #333; /* Or any color you prefer */
-  }
-
   .topBar .text {
     position: absolute;
     z-index: 1;
@@ -101,3 +94,63 @@
     transform: translateX(-50%); 
     font-size: 14px;
   }
+
+
+@media (max-width:670px){
+
+  .topBar .line-wrapper {
+
+    height: 6px;
+  }
+
+  .topBar .remaining-line{
+
+    height: 6px;
+
+  }
+
+  /* Blue progress line */
+  .topBar .progress-line {
+
+    height: 6px;
+  }
+  
+  .topBar .circle {
+    width: 1.9rem;
+    height: 1.9rem;
+  }
+
+  
+  .topBar .text {
+
+    top: 1.5rem;  
+    max-width: 5rem;
+    /* background-color: red; */
+    font-size: 13px;
+    text-align: center;
+    margin-right: 1rem;
+    display: inline-block;
+  }
+
+  .topBar svg{
+    scale:0.8
+  }
+
+  .topBar .circle-small {
+    width: 11px;
+    height: 11px;
+
+    top: -2px;
+    right: -2px;
+
+  }
+  
+  
+}
+
+
+@media (max-width:400px){
+  .topBar .text {
+    font-size: 12px;
+  }
+}

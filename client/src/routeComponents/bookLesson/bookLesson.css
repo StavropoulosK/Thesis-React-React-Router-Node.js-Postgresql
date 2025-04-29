@@ -6,11 +6,12 @@
     box-sizing: border-box;
     border:2px solid black;
     border-radius: 1rem;
-    padding:1rem 1rem 1rem 2rem;
+    padding:1rem 1rem 1rem 1rem;
     height: 14rem;
     position: relative;
     display: flex;
     justify-content: space-between;
+    height: fit-content;
     
 
 }
@@ -20,9 +21,8 @@
 }
 
 .allLessonContainer .lessonContainer > img{
-
+    height: 12rem;
     width: 12rem;
-    height: 100%;
     border-radius: 0.5rem;;
 }
 
@@ -113,6 +113,7 @@
 .allLessonContainer .lessonContainer .infoContainer .description p{
     margin-top:0.8rem;
     margin-right: 1rem;
+    margin-bottom: 0;
 }
 
 .allLessonContainer .lessonContainer .right{
@@ -124,6 +125,12 @@
     /* justify-content: flex-start; */
     align-items: flex-end;
 
+}
+
+.allLessonContainer .lessonContainer .right .buttonContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
 }
 
 img.star {
@@ -226,12 +233,16 @@ img.star {
     display: flex;
 }
 
+.lessonMenu .secondaryFilters .elContainer{
+    display: flex;
+}
+
 .secondaryFilters .filterContainer {
     display: flex;
     flex-direction: column;
     /* background-color: red; */
     align-items: center;
-    width: 10rem;
+    width: 6rem;
     margin-right:0rem;
 
 }
@@ -246,7 +257,7 @@ img.star {
     height: 1.5rem;
 }
 
-.circle {
+.lessonMenu .circle {
     width: 2.8rem;
     height: 2.8rem;
     border-radius: 50%;
@@ -260,7 +271,7 @@ img.star {
     padding: 0;
 }
 
-.circle.selected{
+.lessonMenu .circle.selected{
     border:1px solid rgba(17, 179, 187, 0.8);
     color:rgba(17, 179, 187, 0.8)
 }
@@ -307,7 +318,7 @@ section.allLessonContainer.loading article{
 .lessonMenu .right .cancelBtn svg{
     width: 1rem;
     height: 1rem;
-    margin-right:0.2rem;
+    margin-right:0.5rem;
     position: relative;
     top:0.05rem;
 }
@@ -327,7 +338,7 @@ section.allLessonContainer.loading article{
 .lessonMenu .right button{
     color: black;
     box-sizing: border-box;
-    padding: 0.5rem 0.2rem;
+    padding: 0.5rem 0.35rem;
     border-radius: 0.4rem;
     border:none;
     cursor: pointer;
@@ -396,3 +407,457 @@ section.allLessonContainer.loading article{
     margin: 0.5rem;
     margin-left:0.2rem;
 }
+
+.allLessonContainer + .pagination{
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 1rem;
+}
+
+
+
+
+/* necessary filters */
+
+@media (max-width:1400px){
+    .lessonMenu .top{
+        flex-direction: column;
+    
+    }
+
+    .lessonMenu .dropdown{
+        margin-right: 0rem;
+    }
+
+    .lessonMenu .top > h4{
+        margin-bottom: 1rem;
+    }
+
+    .lessonMenu .top .necessaryFilters{
+        display: grid;
+        grid-template-columns: repeat(2, 0.5fr); 
+        gap:1rem;
+
+    }
+
+    .lessonMenu .calendar .calendarMenu.dropdown-menu{
+        transform: none;
+        width: 100%;
+    }
+
+}
+
+
+ /* necessary filters */
+
+
+@media (max-width:890px){
+
+    .lessonMenu .top .necessaryFilters{
+        display: flex;
+        flex-direction: column;
+        gap:1rem;
+
+    }
+
+    .lessonMenu .top .dropdown{
+        width: 100%;
+    }
+
+    .lessonMenu .dropdown.dropdown ul.dropdown-menu li{
+        font-size: 0.9rem;
+    }
+
+    .lessonMenu .dropdown button.dropdown-button{
+        font-size: 0.9rem;
+    }
+
+}
+
+
+
+
+@media (max-width:380px){
+    .lessonMenu {
+        padding:0.5rem;
+
+      }
+}
+
+@media (min-width:380px) and (max-width:500px){
+    .lessonMenu {
+        padding:0.8rem;
+        
+      }
+}
+
+@media (max-width:500px){
+    .lessonMenu {
+        width: 95%;
+
+      }
+
+      .lessonMenu .filterContainer{
+        margin-left:0.2rem;
+      }
+
+}
+
+
+
+/* secondary filters */
+
+@media (max-width:1300px){
+    .lessonMenu .secondaryFilters{
+
+        flex-direction: column;
+    }
+
+    .lessonMenu .elContainer{
+        width: 100%;
+    }
+
+    .secondaryFilters .filterContainer{
+        width: fit-content;
+        margin-right: 3rem;
+    }
+
+    .lessonMenu .right {
+        margin-top: 1rem;
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width:700px){
+    .secondaryFilters .filterContainer{
+        margin-right: 2rem;
+    }
+}
+
+@media (max-width:600px){
+    .lessonMenu .secondaryFilters .elContainer {
+        display: grid;
+        grid-template-columns: repeat(3, fit-content(100%));
+        gap:1rem;
+        margin: 0 auto;
+        width: 98%;
+        justify-content: space-between;
+        
+      }
+
+      .secondaryFilters .filterContainer{
+        margin-right: 0;
+        width: 3rem;
+      }
+
+      .lessonMenu .right{
+        flex-direction: column;
+        align-items: flex-end;
+      }
+
+      .lessonMenu .right .dropdown{
+        margin-left: 0;
+        margin-top: 1rem;
+      }
+
+      .lessonMenu .right button,.lessonMenu .right .dropdown button {
+        width: 15rem;
+        font-size: 0.9rem;
+      }
+
+}
+
+
+
+/* below menu */
+
+
+@media (max-width:500px){
+    .belowMenu{
+        width: 95%;
+    }
+}
+
+@media (max-width:900px){
+    .belowMenu{
+        flex-direction: column;
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+    }
+
+    .belowMenu .textContainer {
+        align-self: flex-start;
+    }
+    
+    .belowMenu p{
+        font-size: 1.2rem;
+        display: inline-block;
+        
+    }
+
+    .belowMenu label.search{
+        align-self: flex-end;
+    }
+    
+    .belowMenu br.desktop{
+        display: none;
+    }
+
+    #searchInput{
+        font-size: 0.9rem;
+        margin-left: 0.1rem;
+    }
+
+    .belowMenu .search svg{
+        scale:0.9
+    }
+}
+
+
+
+
+ /* lessonContainer */
+
+
+ @media (max-width:770px){
+    .allLessonContainer .lessonContainer{
+        margin:  0  !important;
+        width: 100% !important;
+        max-width:360px !important;
+    }
+
+    section.allLessonContainer{
+        display: flex !important;
+        align-items: center !important;
+        flex-wrap: nowrap !important;
+        flex-direction: column !important;
+        width: fit-content;
+        background-color: red;
+
+    }
+
+    .allLessonContainer .lessonContainer > img{
+        max-width: 350px;
+
+    }
+
+    .allLessonContainer + .pagination{
+        width: 360px;
+        margin: 0 auto;
+        margin-top: 1rem;
+    }
+    
+
+    
+
+ }
+
+@media (max-width:1150px){
+
+    section.allLessonContainer {
+
+        display: flex;
+        flex-wrap: wrap;
+        gap:1rem;
+        box-sizing: border-box;
+        justify-content: space-between;
+        width: 80% !important
+
+    }
+
+    .allLessonContainer .lessonContainer{
+        flex-direction: column;
+        margin-right: 0rem;
+        padding-left: 1rem;
+        margin-top: 0 !important;
+        margin-bottom: 1rem;
+        width: 300px;
+        max-width: 420px;
+        flex-grow: 1;
+
+    }
+
+    .allLessonContainer .lessonContainer > img{
+        margin-bottom: 1rem;
+        width: 100%;
+    }
+
+    .allLessonContainer .lessonContainer .infoContainer{
+        padding-left:0;
+ 
+    }
+
+    .allLessonContainer .lessonContainer .right{
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items:start;
+        justify-content: flex-end;
+
+    }
+
+    .allLessonContainer .lessonContainer .right .spanContainer{
+        margin-right: 1rem;
+    }
+
+    .allLessonContainer .lessonContainer .infoContainer .attributes span {
+        width: 10rem;
+      }
+
+    .allLessonContainer .lessonContainer .right button{
+        width: 10rem;
+    }
+
+    .allLessonContainer .lessonContainer .infoContainer .description p{
+        font-size: 0.9rem;
+        margin-right: 0;
+        min-height: 5rem;
+    }
+
+    .allLessonContainer .lessonContainer .infoContainer .top h4.groupName{
+        display: block;
+        margin-left:0;
+        margin-top: 0.5rem;
+    }
+
+    /* .allLessonContainer > .pagination{
+        display: none;
+    }
+
+    .allLessonContainer + .pagination{
+        width: 80%;
+        margin: 0 auto;
+        display: flex;
+        margin-top: 1rem;
+    } */
+
+
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+  @media (max-width:500px){
+    .allLessonContainer .lessonContainer .infoContainer .attributes span {
+        width: 9rem;
+      }
+
+  }
+
+  @media (max-width:1000px){
+    .allLessonContainer .lessonContainer .infoContainer .attributes{
+        display: flex;
+        flex-direction: column;
+    }
+
+   
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* copy paste from calendar.css to apply to this file specifically for 1200px */
+
+@media (max-width: 1200px) {
+
+    .lessonMenu .calendar .calendarMenu.dropdown-menu{
+      padding:0.2rem;
+    }
+
+    .lessonMenu .calendar-day {
+      box-sizing: border-box;
+      padding: 0.0rem ;
+      font-size: 0.8rem;
+      margin: 0.1rem !important;
+      /* user-select: none; */
+    }
+
+    .lessonMenu .calendar-day span{
+      display: inline-block;
+      box-sizing: border-box;
+      height: 20px;
+      text-align: center; /* center horizontally */
+      padding: 0.1rem;
+      max-width: 1.4rem;
+      width: 100%;
+      height: 100%;
+
+    }
+
+    .lessonMenu .calendar-grid .calendar-day-selected:not(.calendar-day-outside):not(.calendar-day-before){
+      border-radius: 50%;
+      background-color: white;
+      color:white;
+    }
+
+    .lessonMenu .calendar-grid .calendar-day-selected:not(.calendar-day-outside):not(.calendar-day-before) span{
+      /* display: inline-block; */
+      border-radius: 50%;
+      background-color: rgba(17, 179, 187,0.7);
+      color:white;
+      
+      /* min-height: 2rem; */
+    }
+
+    .lessonMenu .calendar-days > *{
+      padding: 0.24rem;
+      margin:0.15rem;
+    }
+
+    
+    .lessonMenu .calendar-grid-wrapper{
+      min-width: 150px;
+    }
+    
+    .lessonMenu .calendar-title {
+      font-size: 0.9rem;
+    }
+
+    .lessonMenu .calendar-days{
+      font-size: 0.7rem;
+    }
+
+    .lessonMenu  .calendar-day-label.mobile{
+      display: inline-block;
+      
+    }
+    
+    .lessonMenu  .calendar-day-label.desktop{
+  
+        display: none
+  
+    }
+
+    .lessonMenu  .calendar .dropdown {
+      margin-right: 0.5rem !important;
+    }
+
+    .lessonMenu  .calendarMenu .bottom button{
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      margin-right: 0.7rem;
+    }
+
+
+  }
+
+
+   

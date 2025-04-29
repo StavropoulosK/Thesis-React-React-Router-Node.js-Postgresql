@@ -266,9 +266,19 @@ form > div {
   }
 
   
+  .signup .dropdown.dropdown ul.dropdown-menu li{
+    font-size: 0.9rem;
+  }
+
+
+  
 
   .signup .dropdown .dropdown-menu{
     max-height: 150px !important;
+  }
+
+  .signup .dropdown{
+    margin-right: 0.5rem;
   }
   
   .signup div.errorContainer p.error{
