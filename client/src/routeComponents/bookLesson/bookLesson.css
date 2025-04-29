@@ -632,7 +632,6 @@ section.allLessonContainer.loading article{
         flex-wrap: nowrap !important;
         flex-direction: column !important;
         width: fit-content;
-        background-color: red;
 
     }
 
@@ -642,7 +641,7 @@ section.allLessonContainer.loading article{
     }
 
     .allLessonContainer + .pagination{
-        width: 360px;
+        max-width: 360px;
         margin: 0 auto;
         margin-top: 1rem;
     }
@@ -656,8 +655,12 @@ section.allLessonContainer.loading article{
 
     section.allLessonContainer {
 
-        display: flex;
-        flex-wrap: wrap;
+        /* display: flex;
+        flex-wrap: wrap; */
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        
+        
         gap:1rem;
         box-sizing: border-box;
         justify-content: space-between;
@@ -671,9 +674,8 @@ section.allLessonContainer.loading article{
         padding-left: 1rem;
         margin-top: 0 !important;
         margin-bottom: 1rem;
-        width: 300px;
+        width: 100%;
         max-width: 420px;
-        flex-grow: 1;
 
     }
 
@@ -720,17 +722,9 @@ section.allLessonContainer.loading article{
         margin-top: 0.5rem;
     }
 
-    /* .allLessonContainer > .pagination{
-        display: none;
+    .allLessonContainer p.notFound{
+        font-size: 1.3rem !important;
     }
-
-    .allLessonContainer + .pagination{
-        width: 80%;
-        margin: 0 auto;
-        display: flex;
-        margin-top: 1rem;
-    } */
-
 
 
   }

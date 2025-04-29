@@ -268,7 +268,7 @@ function AllLessonContainer({setShowLessons}){
         <>
              <section className={`allLessonContainer ${isLoading?"loading":""}`}>
 
-                {lessons.length==0 && <p style={{fontSize:"1.7rem"}}> Δεν βρέθηκαν μαθήματα με τις συγκεκριμένες επιλογές </p>}
+                {lessons.length==0 && <p className="notFound" style={{fontSize:"1.7rem"}}> Δεν βρέθηκαν μαθήματα με τις συγκεκριμένες επιλογές </p>}
 
                 {lessons.length!=0 && lessons.map( (lesson,index) => {
                     return <Lesson key={index} instructorLesson={lesson} setShowLessons={setShowLessons}/>
@@ -276,17 +276,9 @@ function AllLessonContainer({setShowLessons}){
                     })
                 }
 
-                {/* appears for desktop */}
-                {/* { maxPages!=0 && <PageNavigation maxPages={maxPages} page={lessonPage} updateURL={(value)=>{
-                    setSearchParams((prev) => {
-                        const params = new URLSearchParams(prev);
-                        params.set("pageNumber", value);
-                        return params},{ replace: true  });
-                }}/>} */}
 
             </section>
 
-            {/* appears for mobile */}
             { maxPages!=0 && <PageNavigation maxPages={maxPages} page={lessonPage} updateURL={(value)=>{
                     setSearchParams((prev) => {
                         const params = new URLSearchParams(prev);
