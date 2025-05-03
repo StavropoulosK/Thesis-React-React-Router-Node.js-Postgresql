@@ -6,11 +6,11 @@ section.showLessons{
     transform: translate(-50%, -55%);
     width: 860px;
     height: 540px;
+    min-height: 540px;
     background-color: white;
     border-radius: 5px;
     padding-left:1.5rem;
     box-sizing: border-box;
-    max-height: 90vh;
     overflow: hidden;
 
 
@@ -58,6 +58,8 @@ section.showLessons h4{
     margin-right:1rem;
     margin-bottom:0.5rem;
 
+    
+
 }
 
 .showLessons button.close img{
@@ -67,7 +69,7 @@ section.showLessons h4{
 
 
 
-.fallBack {
+.showLessons .fallBack {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -77,7 +79,7 @@ section.showLessons h4{
     align-items: center;
   }
   
-  .spinner {
+  .showLessons .spinner {
     width: 50px;
     height: 50px;
     border: 5px solid #ccc;
@@ -96,9 +98,10 @@ section.showLessons h4{
 
 
   .showLessons .showLessonsContainer{
+    
     box-sizing: border-box;
     padding-right:1rem;
-    /* overflow-x: auto; */
+    overflow-x: auto;
     min-width: 100%;
     white-space:nowrap;
 
@@ -167,6 +170,10 @@ section.showLessons h4{
     
 }
 
+.showLessons .lessonDetails .meetingPoints div span{
+  margin-bottom: 0.5rem;
+}
+
 .showLessons .circle-small {
     position: absolute;
     width: 15px;
@@ -226,5 +233,177 @@ section.showLessons h4{
   .showLessons .bottom button.disabled{
     background-color: rgba(17, 179, 187, 0.4);
     cursor:default;
-;
+
   }
+
+  @media (max-width:900px){
+
+    
+    .showLessons .lessonDetails{
+      flex-direction: column;
+    }
+
+    .showLessons .lessonDetails .mobile{
+      display: inline-block !important;
+      width: 100%;
+    }
+
+    .showLessons .lessonDetails .infoContainer{
+      height: fit-content;
+      margin-bottom: 0.8rem;
+      margin-right: 0.5rem;
+    }
+
+
+    .showLessons button.close{
+      margin-right: 0.5rem;
+    }
+
+    section.showLessons h4{
+      font-size: 1.1rem !important;
+    }
+
+    section.showLessons{
+      width: 90vw;
+      padding-left: 1rem;
+    }
+
+    .showLessons button.close{
+      margin-bottom: 0.2rem;
+    }
+
+    .showLessons .dateContainer{
+      width: 6rem;
+    }
+
+    .showLessons .dateContainer span{
+      font-size: 1rem;
+    }
+
+    .showLessons .infoContainer button.selectBtn{
+      font-size: 0.9rem;
+      width: 12rem;
+      margin-right: 0.5rem;
+    }
+
+    .showLessons .selectLevel .dropdown{
+      width: 11rem;
+    }
+
+    .showLessons .lessons .infoContainer{
+      margin-left: 0;
+      /* margin-bottom: 0.8rem; */
+      margin-right: 0.5rem;
+    }
+
+
+
+    .showLessons .bottom button{
+      font-size: 1rem;
+      padding:0.5rem 0.5rem;
+      margin-bottom: 1rem;
+      /* width: 19rem; */
+    }
+
+    .showLessons .bottom {
+      display: flex;
+      flex-direction: column;
+      /* align-items: flex-end; */
+    }
+
+  }
+
+
+  @media (max-width:900px){
+    .showLessons .lessonDetails .meetingPoints div{
+      margin-bottom: 0.1rem;
+      margin-right: 0.5rem;
+      height: fit-content;
+    }
+
+    .showLessons .lessonDetails .meetingPoints div .mobile{
+      /* margin-right: 0.4rem; */
+      margin-right: 0.1rem;
+    }
+
+    .showLessons .lessonDetails .meetingPoints div button{
+      height: fit-content;
+    }
+    
+  }
+
+
+  @media (max-width:670px){
+    .showLessons .lessonDetails .infoContainer .left{
+      max-width: 14rem;
+      width: fit-content;
+      margin-right: 0.5rem;
+    }
+
+    .showLessons .lessonDetails .meetingPoints div span{
+      max-width: 13rem;
+      display: inline-block
+    }
+  
+  }
+
+
+  @media(max-width:700px){
+
+    .imagePopup > img{
+      object-fit: contain;
+      height: fit-content !important;
+    }
+  }
+
+@media (max-height:600px){
+
+  section.showLessons{
+    min-height: 100px;
+    max-height: 94vh !important;
+    height: fit-content;
+  }
+
+  
+  .showLessons .fallBack {
+    height: fit-content;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+
+  
+
+  section.showLessons .windowContainer {
+
+    height: fit-content;
+    max-height: 400px;
+    min-height: 200px;
+  }
+
+}
+
+
+@media (max-height:460px){
+
+  section.showLessons{
+    margin-top: 1rem;
+  }
+
+  section.showLessons .windowContainer {
+
+    max-height: 300px;
+  }
+
+  .showLessons .lessonDetails .imageOverlay.imageOverlay{
+    max-width: 25rem;
+    max-height: 80%;
+    margin-top: 2rem;
+  }
+
+  .showLessons .lessonDetails .imageOverlay.imageOverlay img{
+    object-fit: contain;
+  }
+
+}

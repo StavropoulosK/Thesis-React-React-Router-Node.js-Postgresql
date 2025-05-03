@@ -75,8 +75,6 @@ export default function ShowLessons({instructorId,instructorName,resort,sport,fr
 
     
 
-
-
     // console.log("^^^^^ ",resort,sport,from,to,members,instructorId,instructorName)
 
 
@@ -99,7 +97,8 @@ export default function ShowLessons({instructorId,instructorName,resort,sport,fr
             text,
             lessonID: lesson.lessonID,
             cost: lesson.cost,
-            meetingPoint
+            meetingPoint,
+            showCancel:true
         };
       });
 

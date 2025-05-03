@@ -92,11 +92,18 @@
     z-index: 1;
     top: 2rem;  
     transform: translateX(-50%); 
-    font-size: 14px;
+    font-size: 1.2rem;
   }
 
+@media (max-width:900px){
+  .topBar .text {
 
-@media (max-width:670px){
+    font-size: 1rem;
+  }
+}
+
+
+@media (max-width:800px){
 
   .topBar .line-wrapper {
 
@@ -124,12 +131,18 @@
   .topBar .text {
 
     top: 1.5rem;  
-    max-width: 5rem;
+    max-width: 5.2rem;
+    width: 5.4rem;
     /* background-color: red; */
-    font-size: 13px;
+    font-size: 0.9rem;
     text-align: center;
     margin-right: 1rem;
     display: inline-block;
+
+  }
+
+  .topBar .line-wrapper > div:last-of-type .text{
+    margin-right: 0;
   }
 
   .topBar svg{
@@ -152,5 +165,6 @@
 @media (max-width:400px){
   .topBar .text {
     font-size: 12px;
+    font-size: 0.82rem;
   }
 }

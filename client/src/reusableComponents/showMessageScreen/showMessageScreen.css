@@ -32,3 +32,10 @@
     background-color: rgb(198, 19, 48);
 
   }
+
+
+  @media (max-width:500px){
+    .messageScreen {
+      height: 1.4rem;
+    }
+  }

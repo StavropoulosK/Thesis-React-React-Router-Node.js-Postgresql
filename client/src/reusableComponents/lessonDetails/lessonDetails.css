@@ -14,22 +14,13 @@
     margin-right:0rem;
 }
 
-.lessonDetails .meetingPoints{
-    width: 15rem;;
-}
-
-.lessonDetails .meetingPoints h4{
-    position: relative;
-    right:0.2rem;
-}
-
-
 .lessonDetails .meetingPoints div {
     height: 2rem;
     padding:0rem 0rem;
     display: flex;
     box-sizing: border-box;
     margin-top: 0.1rem;
+    max-width: 100%;
 
 }
 
@@ -57,7 +48,6 @@
     background:none;
     width: 2rem;
     margin-left:1rem;
-
     /* background-color: red; */
 }
 
@@ -96,6 +86,7 @@
     border:1px solid rgba(17, 179, 187, 0.8);
     margin-left: 0.5rem;
     padding:0;
+    margin-top: 0.1rem;
 
 }
 
@@ -160,3 +151,39 @@
     width: 0.6rem ;
     height: 0.6rem;
   }
+
+  .lessonDetails .meetingPoints > div span{
+    display: inline-block;
+    margin-top: 0.2rem;
+  }
+
+.lessonDetails .mobile{
+        display:none !important;
+  }
+
+  @media(max-width:700px){
+    .lessonDetails .imageOverlay.imageOverlay{
+      height: fit-content;
+      object-fit: cover;
+      
+    }
+
+    .lessonDetails .imagePopup.imagePopup{
+      height: fit-content;
+    }
+}
+
+
+@media (max-width:900px){
+
+      .lessonDetails.lessonDetails h4{
+        width: fit-content;
+        margin-right: 0.2rem;
+    }
+  
+  
+      .lessonDetails .meetingPoints div {
+        margin-bottom: 0.8rem;
+      }
+
+}

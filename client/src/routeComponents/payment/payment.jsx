@@ -486,7 +486,7 @@ export function Payment(){
 
                                     </div>
 
-                                    <span className="message">{t(actionMessage)||t(message)}</span>
+                                    <span className="message">{actionMessage=="-1"?"": t(actionMessage)||t(message)}</span>
 
 
                                 </Form>

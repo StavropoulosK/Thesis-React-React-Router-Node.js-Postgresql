@@ -48,10 +48,12 @@ section.studentProfile *{
   .studentProfile .centerButton {
     z-index: 1;
     position: relative;
+    right:4rem;
     padding:0;
     width: 13rem;
     height: 13rem;;
-    margin-left: 37rem;
+    /* margin-left: 37rem; */
+    margin: 0 auto;
     margin-top: 5rem;
     background-color: #6ED7DD;
     border: none;
@@ -70,11 +72,16 @@ section.studentProfile *{
 
   }
 
+  .studentProfile  svg{
+    min-width: 1.5rem;
+
+  }
+
   .studentProfile .userInfo {
     margin-top: 5rem;
-    padding-left: 12rem;
+    padding-left:12rem;
     display: flex;
-    width: 100%;
+    width: fit-content !important;
 
     
   }
@@ -92,3 +99,190 @@ section.studentProfile *{
     margin-bottom:0.6rem;
   }
 
+  .studentProfile .userInfo .toggle-container .toggle-span{
+    text-wrap:wrap;
+    word-break: break-all;
+    display: inline-block;
+  }
+
+
+
+
+  @media(max-height:800px){
+
+    .studentProfile .imageContainer{
+      height: 300px;
+    }
+
+    .studentProfile .rectBackground{
+      height: 200px;
+    }
+
+    .studentProfile .ellipseBackground{
+      height: 100px;
+    }
+
+  }
+
+
+  @media(max-width:1500px){
+
+  
+    .studentProfile .userInfo {
+      padding-left: 12rem;
+
+    }
+
+
+    .studentProfile .userInfo .toggle-container .toggle-span{
+      font-size: 1.2rem !important;
+      margin-left: 0.2rem;
+      margin-right: 0rem;
+    }
+
+    .studentProfile .toggle-input{
+      font-size: 1.2rem;
+    }
+
+    .studentProfile .row.row .toggle-container:first-of-type{
+      width: 30rem ;
+    }
+
+    .studentProfile .row.row .toggle-container:last-of-type{
+      width: fit-content;
+    }
+
+    .studentProfile svg{
+      scale:0.9
+    }
+
+    .studentProfile .toggle-container .error{
+      
+      margin-left: 0.4rem;
+    }
+
+  }
+
+  @media(max-width:1360px){
+    .studentProfile .rows .row{
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 0;
+    }
+
+    .studentProfile .rows{
+      margin-bottom: 2rem;
+    }
+
+    .studentProfile .toggle-container {
+
+      height: fit-content;
+    }
+
+    .studentProfile .row.row .toggle-container{
+      width: 25rem !important ;
+    }
+
+    .studentProfile .rows .row:last-of-type .toggle-container:first-of-type .textContainer {
+      display: flex;
+      flex-direction: column;
+
+
+    }
+
+    /* .studentProfile .rows .row:last-of-type .toggle-container:first-of-type .textContainer p.error{
+      top:1.9rem
+    } */
+
+  }
+
+  @media(max-width:900px){
+
+    .studentProfile .centerButton {
+      right:0rem;
+    }
+
+    
+    .studentProfile .userInfo{
+      flex-direction: column;
+    }
+
+    .studentProfile .userInfo > img{
+      height: 7rem;
+      margin-top: 4rem;
+    }
+
+    .studentProfile .toggle-button{
+      margin-left: 0.3rem;
+    }
+
+    .studentProfile .textContainer{
+      width: fit-content !important;
+    }
+
+
+  }
+
+  @media(max-width:600px){
+    
+    
+    .studentProfile .row.row .toggle-container{
+      max-width: 20rem !important ;
+      width: fit-content !important;
+    }
+
+    .studentProfile .row.row .toggle-container .textContainer{
+      display: flex;
+      flex-direction: column;
+    }
+
+    .studentProfile .userInfo{
+      padding-left: 6rem;
+    }
+
+    .studentProfile .toggle-input{
+      width: 10rem;
+    }
+
+
+  }
+
+
+  @media(max-width:450px){
+    .studentProfile .userInfo{
+      padding-left: 3.5rem;
+      margin-top: 2rem;
+    }
+
+    .studentProfile .imageContainer {
+      height: 250px;
+    }
+
+    .studentProfile .rectBackground {
+      height: 180px;
+    }
+
+    .studentProfile .ellipseBackground {
+      height: 70px;
+    }
+
+    .studentProfile .centerButton{
+      width: 10rem;
+      height: 10rem;
+      margin-top: 3rem;
+    }
+    .studentProfile .userInfo .toggle-container .toggle-span {
+      font-size: 1.1rem !important;
+    }
+
+    .studentProfile svg{
+      scale:0.85
+    }
+
+    
+    .studentProfile .userInfo > img{
+      height: 7rem;
+      margin-top: 7rem;
+    }
+
+  }

@@ -70,7 +70,18 @@ export function Root(){
 
     return (
         <>
-            <ScrollRestoration/>
+            <ScrollRestoration
+                getKey={(location, matches) => {
+
+                    const startsWithMenu = location.pathname.startsWith("/studentMenu") || location.pathname.startsWith("/instructorMenu");
+
+                    return startsWithMenu
+                    ? // studentMenu and instructorMenu pages  restore by pathname
+                        location.pathname
+                    : // everything else by location like the browser
+                        location.key;
+                }}
+            />
 
          {/* <Suspense fallback={<div>...</div>}> */}
             <Header setIsChooseLessonParamsOpen={setIsChooseLessonParamsOpen} loginStatus={loginStatus} lessonsInCart={lessonsInCart}/>

@@ -1,6 +1,6 @@
 .userLessonContainer{
     margin:0 auto;
-    width: 74%;
+    width: 80%;
     margin-bottom:3rem;
     box-sizing: border-box;
     border:2px solid black;
@@ -38,6 +38,7 @@
 
 .userLessonContainer .topInfo span{
   width:11rem;
+  font-size: 1.1rem;
   display: inline-block;
 
 }
@@ -61,11 +62,12 @@
 
   }
 
-  .userLessonContainer .info .left  .groupName{
+  .userLessonContainer .topInfo  .groupName{
     display: inline-block;
     margin-left:5rem;
     font-size: 1.1rem;
     margin-top: 0;
+    margin-bottom: 0;
   }
 
   .userLessonContainer .info .left .attributes{
@@ -100,6 +102,19 @@
 
   }
 
+  .userLessonContainer .info .left .attributes .secondColumn svg {
+    flex-shrink: 0;
+
+  }
+
+  .userLessonContainer .info .left .attributes .secondColumn button{
+    flex-shrink: 0;
+
+  }
+
+  /* .userLessonContainer .info .left .attributes .attribute svg.enlarge{
+    scale:1.2
+  } */
 
   .userLessonContainer .info .left .attributes .attribute button{
       position: relative;
@@ -131,14 +146,25 @@
 
   .userLessonContainer .info .left{
     margin-right:3rem;
-    width: 35rem;
+    width: 32rem;
   }
 
 
 
   .userLessonContainer .info .right{
-    margin-top:2rem;
-    width: 15rem;
+    width: 100%;
+
+  }
+
+  .userLessonContainer .info .right .container{
+    margin: 0 auto;
+    margin-bottom: 1rem;
+    width: fit-content;
+  }
+
+  .userLessonContainer .info .right h4{
+    margin-top: 0;
+
   }
 
   .userLessonContainer .info .right .container .attributesContainer{
@@ -182,6 +208,33 @@
     border-radius: 8px; /* optional: for smoother look */
   }
 
+  .userLessonContainer .lessonDetails .meetingPoints{
+    margin-left: 1rem;
+    margin-right: 0.5rem;
+  }
+
+  .userLessonContainer .lessonDetails .meetingPoints div span{
+    max-width: 10rem;
+    width: 10rem;
+    display: inline-block;
+    margin-right: 0.2rem;
+    text-wrap:wrap;
+    word-break: break-word;      
+
+
+
+  }
+
+  .userLessonContainer .lessonDetails .meetingPoints{
+    max-width: 15rem;
+    width: fit-content;
+}
+
+  .userLessonContainer .lessonDetails .meetingPoints div{
+    height: fit-content;
+  }
+
+
   .userLessonContainer .bottom{
     display: flex;
   }
@@ -192,6 +245,8 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    /* background-color: red; */
+    /* margin-right: 0; */
   }
 
 
@@ -224,6 +279,7 @@
   .userLessonContainer .bottom .optionsBtnContainer button.optionsBtn svg{
     position: relative;
     right:0.2rem;
+    top:0.07rem
   }
 
   .userLessonContainer .bottom .optionsBtnContainer button.optionsBtn:last-of-type{
@@ -232,8 +288,301 @@
   }
 
   .userLessonContainer .bottom .optionsBtnContainer button.optionsBtn span{
-    position: relative;
-    bottom:0.1rem;
+    /* position: relative;
+    bottom:0.1rem; */
   }
 
 
+  .userLessonContainer .lessonDetails .meetingPoints h4{
+    position: relative;
+    right:0.2rem;
+}
+
+
+
+  @media (max-width:1500px){
+    .userLessonContainer .lessonDetails .meetingPoints > div span{
+      width: 100%;
+    }
+
+    .userLessonContainer .lessonDetails .meetingPoints div button{
+      margin-left: 0.2rem;
+    }
+
+    .userLessonContainer .lessonDetails .meetingPoints{
+      margin-right: 1rem;
+    }
+
+    .userLessonContainer .lessonDetails .imageOverlay.imageOverlay{
+      width: 30rem !important;
+    }
+
+    .userLessonContainer .lessonDetails .meetingPoints{
+      margin-left: 0rem;
+    }
+
+  }
+
+
+  @media (min-width:1200px) and (max-width:1500px){
+    
+    .userLessonContainer .info .left{
+      width: fit-content;
+    }
+
+    .userLessonContainer .lessonDetails .infoContainer .left{
+      max-width: 20rem;
+    }
+
+    .userLessonContainer .bottom .optionsBtnContainer button.optionsBtn{
+      font-size: 0.9rem;
+      width: 11.5rem;
+      padding:0.5rem 0.4rem;
+      margin-left: 0.5rem;
+    }
+
+    .userLessonContainer .bottom .optionsBtnContainer button.optionsBtn svg{
+      margin-right: 0.1rem;
+    }
+
+    .userLessonContainer .info .right .container .attributesContainer > div{
+
+      min-width: 4rem;
+    }
+
+    .userLessonContainer .topInfo{
+      width: 100%;
+    }
+
+    .userLessonContainer .topInfo .groupName{
+      margin-left: 1rem;
+      width: fit-content;
+    }
+    
+  }
+
+  @media(max-height:600px){
+
+    .userLessonContainer .lessonDetails .imageOverlay.imageOverlay{
+      width: 30rem;
+  
+    }
+  }
+
+
+  @media (min-width:900px) and (max-width:1200px){
+    .overallContainer{
+      display: grid;
+      grid-template-columns: repeat(2, 0.5fr); 
+      gap:1rem;
+    }
+  }
+
+
+
+  @media (max-width:1200px){
+
+    .userLessonContainer .lessonDetails .mobile{
+      display:inline-block !important;
+  }
+
+    .userLessonContainer .lessonDetails .imageOverlay.imageOverlay{
+      max-width:90vw;
+      max-height: 80% !important;
+  
+    }
+
+    .overview button.back.back{
+      font-size: 1.2rem;
+      margin-left: 2rem;
+    }
+
+    .userLessonContainer .info .right .container{
+      margin-left:0;
+    }
+
+    .overview.overview > h4{
+      font-size: 1.5rem;
+      margin-left: 2rem;
+    }
+
+    .overview button.back.back svg{
+      width: 1.2rem;
+    }
+
+    .userLessonContainer{
+      max-width: 440px;
+    }
+
+    .userLessonContainer .lessonDetails {
+      margin-bottom: 1rem;
+    }
+
+    .userLessonContainer .topInfo{
+      margin-top: 1.2rem;
+    }
+
+    .userLessonContainer .info .left{
+      width: fit-content;
+      margin-bottom: 1rem;
+    }
+
+    .userLessonContainer .topInfo .groupName{
+      margin-left: 0;
+      margin-top: 0.5rem;
+    }
+
+    .userLessonContainer .lessonDetails .meetingPoints {
+      max-width: 100%;
+      width: 100%;
+    }
+
+    .userLessonContainer .top{
+      flex-direction: column;
+    }
+
+    .userLessonContainer .info{
+      flex-direction: column;
+      padding-left:0;
+    }
+
+    .userLessonContainer .image img{
+      width: 100%;
+    }
+
+    .overallContainer .lessonDetails .infoContainer .left{
+      width: 20rem;
+      max-width:20rem
+    }
+
+    section.overallContainer .lessonDetails h4{
+      font-size: 1.1rem !important;
+      margin-top: 0.5rem;
+      width: fit-content;
+    }
+
+    .overallContainer .lessonDetails .infoContainer{
+      height: fit-content;
+      margin-bottom: 0.8rem;
+      margin-right: 0.5rem;
+    }
+
+  
+
+    .overallContainer .lessonDetails .lessons h4{
+      margin-right: 0.5rem;
+    }
+
+    .overallContainer .lessonDetails .meetingPoints div{
+      width: fit-content;
+    }
+
+    .userLessonContainer .bottom{
+      flex-direction: column;
+    }
+
+    .userLessonContainer .lessonDetails{
+      flex-direction: column;
+    }
+
+    .userLessonContainer .bottom .optionsBtnContainer{
+      height: fit-content;
+      width: 100%;
+    }
+    
+    .userLessonContainer .bottom .optionsBtnContainer button.optionsBtn{
+      margin-top: 0;
+      margin-bottom: 1rem !important;
+      margin-left: auto;
+      font-size: 1rem;
+      width: fit-content;
+    }
+
+    .userLessonContainer .lessonDetails .meetingPoints div span{
+      max-width: 10rem;
+      width: 10rem;
+      display: inline-block;
+      margin-right: 0.2rem;
+      text-wrap:wrap;
+      word-break: break-word;      
+      height: fit-content;
+
+
+
+    }
+
+    .userLessonContainer .lessonDetails .meetingPoints div button{
+      height: fit-content;
+    }
+    .userLessonContainer .lessonDetails .meetingPoints div{
+      height: fit-content;
+    }
+
+    .overview .pay.pay span{
+      font-size: 1rem;
+    }
+
+    .overview .pay.pay a{
+      padding:0.4rem 1rem;
+      font-size: 1.1rem;
+    }
+
+    .userLessonContainer .lessonDetails .meetingPoints > div span{
+      margin-top: 0rem !important;
+    }
+
+    .userLessonContainer .lessonDetails .meetingPoints > div {
+      margin-bottom: 0.8rem !important;
+    }
+  }
+
+
+
+
+  @media (max-width:1200px){
+
+    .userLessonContainer{
+      width: 92%;
+    }
+
+    .overview button.back.back{
+      font-size: 1.1rem;
+      margin-left: 2rem;
+    }
+
+    .overview.overview > h4{
+      font-size: 1.4rem;
+      margin-left: 2rem;
+    }
+
+    .overallContainer .lessonDetails .infoContainer .left{
+      max-width: 14em ;
+      margin-right: 0.5rem;
+    }
+
+    .userLessonContainer .lessonDetails .meetingPoints div span{
+      font-size: 0.95rem !important;
+      max-width: 8rem;
+    }
+
+
+
+    .overallContainer .lessonDetails .meetingPoints div button{
+      margin-left: 0.1rem;
+    }
+
+    .userLessonContainer .bottom .optionsBtnContainer button.optionsBtn{
+      font-size: 1rem;
+      width: fit-content;
+      padding:0.3rem 0.3rem
+    }
+
+
+  }
+
+
+  @media (max-width:1200px){
+    .userLessonContainer .info .left .attributes{
+      flex-direction: column;
+    }
+  }

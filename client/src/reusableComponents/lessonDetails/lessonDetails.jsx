@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 
 
 
-export default function LessonDetails({lessonInfo,onCancel,textLeft}){
+export default function LessonDetails({lessonInfo,onCancel,textLeft,showIndex=false}){
     // lessonInfo=[{text:"Δευτέρα 05/01/2025 Όλη μέρα (8:00- 15:00)",cost:100, meetingPoint:{location: "Δεύτερο σαλέ" }, lessonID:"16", showCancel:true }   , {text:"Τρίτη 06/01/2025 11:00- 13:00 ",cost:40, meetingPoint:{location: "Πρώτο σαλέ" }, lessonID:"15", showCancel:true}]
     
     const [showFull, setShowFull] = useState(false);
@@ -24,7 +24,9 @@ export default function LessonDetails({lessonInfo,onCancel,textLeft}){
                    return( 
                    <div className="infoContainer" key={lesson.lessonID}>
                         <div className="left">
-                            {lesson.text}
+                           {/* {showIndex ? index+1:""}{")"}  */}
+                           
+                           {lesson.text}
 
                         </div>
 
@@ -85,9 +87,20 @@ export default function LessonDetails({lessonInfo,onCancel,textLeft}){
                 <h4>{t("Meeting_point")}</h4>
 
                 {lessonInfo.map((lesson,index)=>{
+
+                    let mobileText=lesson.text
+
+                    if (lesson.text.includes('(')) {
+                        const words = lesson.text.split(' ');
+                        // Remove all day words
+                        words.splice(2, 3);
+
+                        // remove parentheses
+                        mobileText= words.join(' ').replace(/[()]/g, '');;
+                      }
                     return (
                         <div key={lesson.lessonID}>
-                            <span>{lesson.meetingPoint.location}</span>
+                            <span className="mobile">{mobileText}</span> <span>{lesson.meetingPoint.location}</span>
 
                             <EnlargeImgButton showFull={showFull} setShowFull={setShowFull}/>
                         </div>

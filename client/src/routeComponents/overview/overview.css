@@ -67,3 +67,19 @@ section.overview{
     align-items: center;
     justify-content: center;
   }
+
+
+
+  @media (max-width:700px){
+    .overview button.back{
+      font-size: 1.1rem;
+    }
+
+    .overview button.back svg{
+      width: 1.4rem;
+    }
+
+    .overview > h4{
+      font-size: 1.4rem;
+    }
+  }

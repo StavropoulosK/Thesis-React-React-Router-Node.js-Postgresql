@@ -1,28 +1,25 @@
 .toggle-container {
     display: flex;
     align-items: center;
-    height:2.5rem;
-    margin-right: 0rem;
+    min-height:2.2rem;
+    margin-right: 0.5rem;
     margin-left: 0;
     margin-bottom: 0.5rem;
     position: relative;
   }
 
   .studentProfile .row .toggle-container:first-of-type{
-    width: 38rem;
-  }
-
-  .studentProfile .row .toggle-container:last-of-type{
-    width: 32rem;
-
+    /* width: 35rem; */
+    width: 35rem;
   }
 
   .toggle-container .error{
-    position: absolute;
+    /* position: absolute; */
     color: rgb(198, 19, 48);
-    margin-left: 0.5rem;
-    padding-left:0.1rem;
-    top:1.2rem;
+    margin-left: 0.6rem;
+    margin-top: 0rem;
+    margin-bottom: 0;
+    width: fit-content;
   }
 
   .toggle-container  svg.firstName{
@@ -36,7 +33,7 @@
   
   .toggle-span {
     margin-left: 0.5rem;
-    margin-right: 0.5rem;
+    margin-right: 0.2rem;
     font-size: 1.4rem ;
 
   }
@@ -53,10 +50,11 @@
     outline: none; /* Removes the default focus outline */
     box-shadow: none; /* Removes any shadow on focus */
 
+
   }
   
   .toggle-button {
-    height: 1rem;
+    /* height: 1rem; */
     margin-left: 0.7rem;
     padding: 0;
     background: none;
@@ -64,4 +62,20 @@
     cursor: pointer;
     display: flex;
     align-items: center;
+    flex-grow: 1;
+    height: 100% !important;
+  }
+
+  .studentProfile .row.row .toggle-container{
+    display: flex;
+    height: fit-content;
+    align-items: flex-start;
+  }
+
+  .studentProfile .textContainer{       
+    min-height: 3rem;
+    height: fit-content;
+    flex-shrink: 1;     /* shrink if needed */
+    flex-grow: 0; 
+    flex-basis: auto; 
   }

@@ -45,8 +45,6 @@ export async function studentProfileAction({request,params}){
     const firstName = formData.get("firstName");
     const phoneNumber = formData.get("phoneNumber");
 
-    console.log("!!! ",firstName, lastName, email, phoneNumber)
-
     let message
 
     try {
@@ -135,6 +133,7 @@ export function StudentProfile(){
             [name]: ""
         }));
     }
+
 
 
     const options=[{svg:
@@ -280,7 +279,7 @@ export function StudentProfile(){
                     })
             }
 
-            setFormData({ ...formData,phoneNumber:data.phoneNumber })
+            setFormData({ ...formData,phoneNumber:data.phone })
 
         }
     }
@@ -330,7 +329,7 @@ export function StudentProfile(){
                         <div className="row">
 
                             {options.slice(2).map((option, index) => {
-                                    return <ToggleInput {...option} key={index+2} />;
+                                    return <ToggleInput  {...option} key={index+2} />;
                                 })}
 
                         </div>

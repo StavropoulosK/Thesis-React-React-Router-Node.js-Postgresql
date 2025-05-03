@@ -84,3 +84,32 @@ nav.userNav img{
   width: 100%;
 }
 
+
+
+
+
+
+
+
+nav.userNav .visible{
+    display: inline-block;
+}
+
+nav.userNav .hidden{
+    display: none;
+}
+
+@media(max-width:600px){
+
+    /* swap function for mobile */
+    nav.userNav .visible{
+        display: none;
+    }
+    
+    nav.userNav .hidden{
+        display: inline-block;
+    }
+    
+
+}
+
