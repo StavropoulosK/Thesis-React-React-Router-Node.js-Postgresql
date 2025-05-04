@@ -202,7 +202,7 @@ section.studentProfile *{
       right:0rem;
     }
 
-    
+
     .studentProfile .userInfo{
       flex-direction: column;
     }
@@ -241,7 +241,7 @@ section.studentProfile *{
     }
 
     .studentProfile .toggle-input{
-      width: 10rem;
+      width: 14rem;
     }
 
 
@@ -279,10 +279,18 @@ section.studentProfile *{
       scale:0.85
     }
 
+    .studentProfile .toggle-input{
+      font-size: 1.1rem;
+    }
+
     
     .studentProfile .userInfo > img{
       height: 7rem;
       margin-top: 7rem;
+    }
+
+    .studentProfile .toggle-input{
+      width: 13rem;
     }
 
   }

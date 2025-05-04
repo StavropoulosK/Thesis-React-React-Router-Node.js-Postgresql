@@ -147,40 +147,47 @@ export function StudentLessonsComponent({namespace,lessons,instructorPhonesArray
                                         </div>
 
                                         <div className="right">
-                                            <div className="container">
-                                                    <h4>{t("participant_info")}</h4>
 
-                                                    <div className="attributesContainer">
+                                            <div className="outerContainer">
 
-                                                        <div>
-                                                            <img src="/icons/lessonParams/numberOfParticipants.png"></img>
 
-                                                            <span>{lesson.participantsInfo.participants} {t('participant', { count: Number(lesson.participantsInfo.participants) })}</span>
+                                           
+                                                <div className="container">
+                                                        <h4>{t("participant_info")}</h4>
+
+                                                        <div className="attributesContainer">
+
+                                                            <div>
+                                                                <img src="/icons/lessonParams/numberOfParticipants.png"></img>
+
+                                                                <span>{lesson.participantsInfo.participants} {t('participant', { count: Number(lesson.participantsInfo.participants) })}</span>
+
+                                                            </div>
+
+                                                            <div>
+                                                                <img src="/icons/showLessons/level.png"></img>
+                                                                <span>{t(lesson.participantsInfo.level)}</span>
+
+                                                            </div>
 
                                                         </div>
+                                                </div>
 
-                                                        <div>
-                                                            <img src="/icons/showLessons/level.png"></img>
-                                                            <span>{t(lesson.participantsInfo.level)}</span>
+                                                {instructorPhonesArray && <div className="container">
+                                                        <h4>{t("phone")}</h4>
+
+                                                        <div className="attributesContainer">
+
+                                                            <div>
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M17 19H7V5h10m0-4H7c-1.11 0-2 .89-2 2v18a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2"/></svg>
+                                                                <span>{instructorPhonesArray[lessonIndex]}</span>
+
+                                                            </div>
 
                                                         </div>
-
-                                                    </div>
+                                                </div>}
+                                                
                                             </div>
-
-                                            {instructorPhonesArray && <div className="container">
-                                                    <h4>{t("phone")}</h4>
-
-                                                    <div className="attributesContainer">
-
-                                                        <div>
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M17 19H7V5h10m0-4H7c-1.11 0-2 .89-2 2v18a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2"/></svg>
-                                                            <span>{instructorPhonesArray[lessonIndex]}</span>
-
-                                                        </div>
-
-                                                    </div>
-                                            </div>}
 
                                         </div>
 

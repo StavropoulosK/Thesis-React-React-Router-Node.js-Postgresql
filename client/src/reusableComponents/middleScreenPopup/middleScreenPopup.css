@@ -48,4 +48,16 @@
     align-items: center; 
   }
   
+
+  @media (max-width:1200px){
+
+    .popup-box {
+      width: 250px;
+    }
+
+
+    .popup-message {
+      font-size: 1rem;
+    }
+  }
   

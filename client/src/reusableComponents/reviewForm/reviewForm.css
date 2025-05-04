@@ -3,7 +3,7 @@
     top: 50%;
     left: 50%;
     width: 450px;
-    z-index: 2;
+    z-index: 20;
     height: fit-content;
     background-color: white;
     transform: translate(-50%, -50%);
@@ -78,4 +78,22 @@
     float:right;
     margin-left: 1rem;
     align-items: center; 
+  }
+
+
+  @media(max-width:750px){
+    .review-form-container {
+      margin-left: 2rem;
+    }
+    
+  }
+
+  @media(max-width:500px){
+    .review-form-container {
+
+    width: 320px;
+    max-width: 90vw;;
+    margin-left: 0;
+    }
+    
   }

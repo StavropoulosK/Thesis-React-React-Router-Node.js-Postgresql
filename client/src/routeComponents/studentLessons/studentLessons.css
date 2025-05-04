@@ -1,11 +1,18 @@
 section.studentLessons{
     padding: 4rem;
+    padding-left:12rem;
+    padding-right:0;
+    box-sizing: border-box;
+    overflow: hidden;
+    /* position: relative;
+    left:2rem */
 }
 
 article.upComingLessons > h4, article.previousLessons > h4{
     font-size: 1.5rem;
-    width: 80%;
-    margin: 2rem auto;
+    width: fit-content;
+    margin-right: auto;
+    
 
 }
 
@@ -16,10 +23,12 @@ article.upComingLessons > p, article.previousLessons > p{
 }
 
 .studentLessons .userLessonContainer{
-    width: 80%;
-    padding-left:4rem;
-    position: relative;
-    left:2rem;
+    width: 90%;
+
+}
+
+.studentLessons .overallContainer{
+    box-sizing: border-box;
 }
 
 .studentLessons .userLessonContainer .info .left{
@@ -32,4 +41,93 @@ article.upComingLessons > p, article.previousLessons > p{
     left:2rem;
     width: 80%;
     margin: 0 auto;
+  }
+
+
+
+  @media(max-width:1300px){
+    .studentLessons .userLessonContainer{
+        width: 100%;
+    }
+
+  
+  }
+
+
+  @media(max-width:1200px){
+    .studentLessons .userLessonContainer .bottom .optionsBtnContainer button.optionsBtn{
+        width: 12rem;
+    }
+
+    .studentLessons .userLessonContainer .topInfo span{
+        max-width: 11rem;
+        width: fit-content;
+    }
+  }
+
+  @media (min-width:500px) and (max-width:900px){
+    .studentLessons .userLessonContainer .lessonDetails .imageOverlay.imageOverlay {
+        max-width: 25rem;
+        margin-left: 2rem;
+      }
+  }
+
+  @media (max-width:500px){
+    .studentLessons .userLessonContainer .lessonDetails .imageOverlay.imageOverlay {
+        max-width: 20rem;
+      }
+  }
+
+  @media (max-width:600px){
+
+    section.studentLessons{
+        padding: 4rem;
+        padding-left:4rem;
+        padding-right:2rem
+    }
+    
+    article.upComingLessons > h4, article.previousLessons > h4{
+        font-size: 1.4rem;
+        width: 100%;
+    
+    }
+    
+    article.upComingLessons > p, article.previousLessons > p{
+        font-size: 1rem;
+        width: 80%;
+    }
+    
+    .studentLessons .userLessonContainer{
+        width: 100%;
+        max-width: 350px;
+    
+    
+    }
+
+    article.upComingLessons > h4, article.previousLessons > h4{
+        font-size: 1.3rem;
+    
+
+  }
+
+  @media (min-width:500px) and (max-width:1100px){
+   .studentLessons .userLessonContainer{
+        max-width: 350px;
+    }
+  }
+
+
+  @media (max-width:420px){
+    section.studentLessons{
+        padding-right: 0.5rem;
+        padding-left: 3rem;
+    }
+
+    .studentLessons .userLessonContainer .lessonDetails .meetingPoints div span {
+        max-width: 7.4rem;
+      }
+
+    .studentLessons .overallContainer .lessonDetails .infoContainer .left{
+        max-width: 13rem ;
+      }
   }

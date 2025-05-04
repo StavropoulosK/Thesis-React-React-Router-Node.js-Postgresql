@@ -70,7 +70,7 @@ import { useTranslation } from "react-i18next";
 
 // 16 enimerosi kata tin ipoboli energion ( akirosi mathimatos, ipoboli kritikis, email)
 
-//17 responsive
+// 17 responsive (desktop, tablet, mobile)
 
 
 // ----------------------
