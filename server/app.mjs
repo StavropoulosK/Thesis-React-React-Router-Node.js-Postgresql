@@ -1356,7 +1356,7 @@ app.post('/api/reviews/:page', async (req, res) => {
 
   const page = req.params.page;
 
-  // orio 50 selides
+  // orio 90 selides
 
 
   const reviews = [
@@ -1499,7 +1499,7 @@ app.post('/api/reviews/:page', async (req, res) => {
   if (page === 'instructorInfo') {
 
     const {instructorID,reviewsPage}= req.body
-    const maxPages=50
+    const maxPages=90
 
     const startIndex = (reviewsPage - 1) * reviewsPerPage;
     const endIndex = startIndex + reviewsPerPage;
