@@ -88,12 +88,11 @@ export function reviewsLoader({request,params}){
     const url = new URL(request.url);
 
     const nextPage=url.searchParams.get("nextReviewPage")
-    const currentRoute=url.searchParams.get("currentRoute")
+    let currentRoute=url.searchParams.get("currentRoute")
     
     const reviewsPage = nextPage|| 1;
 
     let reviewParameters
-
     
     if(currentRoute=='/'){
         reviewParameters={reviewsPage}
@@ -111,6 +110,13 @@ export function reviewsLoader({request,params}){
         reviewParameters={reviewsPage,resort,sport,from,to,members}
 
     }
+
+    else if(currentRoute.startsWith("/instructorInfo")){
+        const instructorID = currentRoute.split("/").pop();
+        reviewParameters={instructorID,reviewsPage}
+        currentRoute="/instructorInfo"
+    }
+
 
     const reviewDataPromise =  createReviewDataPromise(reviewParameters,currentRoute)
 
@@ -130,6 +136,10 @@ function createReviewDataPromise(reviewParameters,currentRoute){
 
     if(currentRoute=="/bookLesson"){
         page="bookLesson"
+    }
+
+    if(currentRoute=="/instructorInfo"){
+        page="instructorInfo"
     }
 
     const reviewDataPromise =  fetch(`/api/reviews/${page}`, {
@@ -215,16 +225,20 @@ function Review({stars,name,date,sport,resort,review,image,lessonHours,instructo
 export const Reviews= memo(()=>{
     const [currentPage, setCurrentPage] = useState(1);
     const location = useLocation();
-    const currentRoute = location.pathname;
+    let currentRoute = location.pathname;
+
 
     const [reviewDataPromise,setReviewDataPromise] = useState(new Promise(() => {}));
 
 
     useEffect(() => {
+        let routePage
+
         let reviewParameters
 
         if(currentRoute=="/"){
             reviewParameters={reviewsPage:1}
+            routePage="/"
         }
         else if(currentRoute=="/bookLesson"){
             const searchParams = new URLSearchParams(location.search);
@@ -233,14 +247,24 @@ export const Reviews= memo(()=>{
             const from = searchParams.get("from");
             const to = searchParams.get("to");
             const members = searchParams.get("members");
-        
+            routePage="/bookLesson"
     
             reviewParameters={reviewsPage:1,resort,sport,from,to,members}
 
         }
 
+        else if(currentRoute.startsWith("/instructorInfo")){
 
-        setReviewDataPromise(createReviewDataPromise(reviewParameters,currentRoute))
+            const instructorID = currentRoute.split("/").pop();
+
+            routePage="/instructorInfo"
+            
+            reviewParameters={instructorID,reviewsPage:1}
+        }
+
+
+
+        setReviewDataPromise(createReviewDataPromise(reviewParameters,routePage))
       }, []);
 
 

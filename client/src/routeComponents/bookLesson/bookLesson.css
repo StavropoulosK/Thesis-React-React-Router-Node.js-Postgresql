@@ -414,6 +414,10 @@ section.allLessonContainer.loading article{
     margin-top: 1rem;
 }
 
+.allLessonContainer .lessonContainer .right button a{
+    text-decoration: none;
+    color:inherit
+}
 
 
 
@@ -725,12 +729,6 @@ section.allLessonContainer.loading article{
 
 
   }
-
-
-
-
-
-
 
 
 

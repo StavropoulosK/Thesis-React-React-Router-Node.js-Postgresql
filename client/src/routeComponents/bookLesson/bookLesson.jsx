@@ -1,7 +1,7 @@
 import "./bookLesson.css"
 import { useTranslation } from "react-i18next";
 import {useState,useRef,useEffect,memo,useCallback} from "react"
-import {redirect,useLoaderData,useSearchParams,useNavigation} from "react-router-dom"
+import {redirect,useLoaderData,useSearchParams,useNavigation,Link} from "react-router-dom"
 
 import { Calendar } from "../root/choseLessonParams";
 import Dropdown from "../../reusableComponents/dropdown/dropdown";
@@ -718,8 +718,17 @@ function Lesson({instructorLesson,setShowLessons}){
                         >
                             {t("View lessons")}
                         </button>
-                        <button>{t("View profile")}</button>
+                        {/* <button>{t("View profile")}</button> */}
+                        <button type="button">
+                            {/* <a href={`/instructorInfo/${instructorName}/${instructorId}`} target="_blank" rel="noopener noreferrer">
+                                {t("View profile")}
+                            </a> */}
 
+                        <Link to={ `/instructorInfo/${instructorName}/${instructorId}`}>
+                            {t("View profile")}
+                        </Link>
+
+                        </button>
 
                     </div>
   

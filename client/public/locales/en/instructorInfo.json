@@ -1,0 +1,47 @@
+{
+    "and":"and",
+    "Greek":"Greek",
+    "English":"English",
+    "French":"French",
+    "Spanish":"Spanish",
+    "Italin":"Italin",
+    "German":"German",
+    "I speak":"I speak",
+    "review_one": "review",
+    "review_other": "reviews",
+    "experience_one":"year of experience",
+    "experience_other":"years of experience",
+    "communication":"Communication",
+    "do_lessons":"I do lessons at",
+
+    "Aniliou": "Anilio",
+    "Vasilitsas": "Vasilitsa",
+    "Velouhiou": "Velouhio",
+    "Elatochoriou": "Elatochori",
+    "Kaimaktsalan": "Kaimaktsalan",
+    "Kalavryton": "Kalavryta",
+    "Mainalou": "Mainalo",
+    "Parnassou": "Parnasso",
+    "Piliou": "Pilio",
+    "Pisoderiou": "Pisoderi",
+    "Falakrou": "Falakro",
+    "3-5 Pigadia": "3-5 Pigadia",
+
+    "Ski":"Ski lessons",
+    "Snowboard":"Snowboard lessons",
+    "Sit ski":"Sit ski lessons",
+
+    "speak":"I Speak",
+    "teach":"I Teach",
+
+    "cancelation_policy":"Cancelation policy is free up to",
+    "before_lesson":"before the lesson",
+
+    "day_one":"day",
+    "day_other":"days",
+
+    "before":"before the lesson"
+
+
+
+}

@@ -126,7 +126,7 @@ export function StudentLessonsComponent({namespace,lessons,instructorPhonesArray
                                                                 <path
                                                                     fill="currentColor"
                                                                     stroke="currentColor"
-                                                                    strokeWidth="2"       // <== This makes it look bold
+                                                                    strokeWidth="2"       
                                                                     d="M19.41 18l8.29-8.29a1 1 0 0 0-1.41-1.41L18 16.59l-8.29-8.3a1 1 0 0 0-1.42 1.42l8.3 8.29l-8.3 8.29A1 1 0 1 0 9.7 27.7l8.3-8.29l8.29 8.29a1 1 0 0 0 1.41-1.41Z"
                                                                 />
                                                                 <path fill="none" d="M0 0h36v36H0z" />

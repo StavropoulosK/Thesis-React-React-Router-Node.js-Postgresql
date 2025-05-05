@@ -93,6 +93,21 @@ const router= createBrowserRouter([
 
             }
           },
+          {
+            path:"instructorInfo/:instructorName/:instructorId",
+            async lazy(){
+              const {InstructorInfo,instructorInfoLoader}= await import("./routeComponents/instructorInfo/instructorInfo.jsx")
+              return {element:<InstructorInfo/>,loader:instructorInfoLoader}
+
+            },
+            shouldRevalidate:({formAction})=>{
+                         
+              if(formAction=="/api/postEmailRequest"){
+                // user is sending an email
+                return false;
+                }
+            }
+          },
           {  
             path: "overview",
             async lazy(){

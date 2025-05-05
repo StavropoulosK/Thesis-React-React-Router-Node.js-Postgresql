@@ -1494,8 +1494,18 @@ app.post('/api/reviews/:page', async (req, res) => {
 
   // await new Promise(resolve => setTimeout(resolve, 2000));
 
-  if (page === 'instructor') {
-    res.json(reviews);
+  if (page === 'instructorInfo') {
+
+    const {instructorID,reviewsPage}= req.body
+    const maxPages=12
+
+    const startIndex = (reviewsPage - 1) * reviewsPerPage;
+    const endIndex = startIndex + reviewsPerPage;
+  
+    res.json({
+      reviews: reviews.slice(startIndex, endIndex),
+      maxPages  
+    });
 
   }
 
@@ -1523,7 +1533,6 @@ app.post('/api/reviews/:page', async (req, res) => {
 
     const {reviewsPage } = req.body; 
 
-
     const maxPages=3
     
     const startIndex = (reviewsPage - 1) * reviewsPerPage;
@@ -1536,6 +1545,36 @@ app.post('/api/reviews/:page', async (req, res) => {
       maxPages  
     });
   }
+
+
+})
+
+app.get("/api/getInstructorInfo/:instructorId", async (req,res)=>{
+  const instructorId = req.params.instructorId;
+
+
+  //if user is not logged in userEmail=""
+
+  const message={
+    instructorName:"Alice J.",
+    yearsOfExperience:"1",
+    reviewStars:"4.8",
+    reviewCount:1,
+    skiResorts:["Kalavryton","Parnassou"],
+    sports:["Ski","Snowboard","Sit ski"],
+    languages:["English","French","Spanish"],
+    cancelationDays:7,
+    biography: "nserts a certain number of random Lorem Ipsum paragraphs into the current document. The count option indicates how many paragraphs to insert. For example, lorem_p3 will insert three paragraphs into the document. If the count option is not provided, one paragraph will be inserted. If the type of Lorem Ipsum text is not specified, the extension will generate paragraphs by default",
+    userEmail:"myemail@gmail.com",
+    instructorEmail:"instructoremail@gmail.com"
+
+
+  }
+
+
+  res.json({message})
+
+
 
 
 })

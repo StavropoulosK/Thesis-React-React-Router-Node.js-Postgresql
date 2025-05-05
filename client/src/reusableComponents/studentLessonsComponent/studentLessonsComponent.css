@@ -328,6 +328,10 @@
       margin-left: 0rem;
     }
 
+    .userLessonContainer .bottom .optionsBtnContainer button.optionsBtn svg{
+      right: 0.1rem;
+    }
+
   }
 
 
