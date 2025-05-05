@@ -38,10 +38,6 @@ export async function instructorInfoLoader({request,params}){
     return data
 }
 
-    
-// sosto leksilogio, agglika, emailForm me redirect, responsive, kritikes
-
-
 
 export function InstructorInfo(){
 
@@ -61,18 +57,6 @@ export function InstructorInfo(){
     biography,
     userEmail,
     instructorEmail} = useLoaderData().message
-
-    // console.log('!!!! ',instructorName,
-    // yearsOfExperience,
-    // reviewStars,
-    // reviewCount,
-    // skiResorts,
-    // sports,
-    // languages,
-    // cancelationDays,
-    // biography,
-    // userEmail,
-    // instructorEmail)
 
 
     function formatList(arr) {
