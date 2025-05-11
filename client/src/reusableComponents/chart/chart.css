@@ -1,0 +1,39 @@
+.chart-wrapper {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .chart-fixed-size {
+    width: 330px;
+    height: 360px;
+    margin: 0 auto;
+    position: relative;
+  }
+  
+  .chart-fixed-size canvas {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+  }
+  
+
+  @media (max-width:1200px){
+      
+  .chart-fixed-size {
+    width: 330px;
+    height: 330px;
+    }
+  }
+
+
+  @media (max-width:380px){
+    .chart-fixed-size {
+      width: 310px;
+      height: 300px;
+      }
+
+      .chart-wrapper:nth-child(3) .chart-fixed-size {
+        height: 330px;
+      }
+
+  }

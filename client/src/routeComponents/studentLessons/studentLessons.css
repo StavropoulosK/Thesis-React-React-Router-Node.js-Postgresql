@@ -108,6 +108,7 @@ article.upComingLessons > p, article.previousLessons > p{
         font-size: 1.3rem;
     
 
+    }
   }
 
   @media (min-width:500px) and (max-width:1100px){

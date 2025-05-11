@@ -71,7 +71,6 @@ function authoriseStudent(req,res,next){
 
 
 function authoriseInstructor(req,res,next){
-  console.log(req.session.userID)
   if (req.session.loggedinState!=="instructor") {
     return res.status(401).end();
   } else {
@@ -1605,6 +1604,41 @@ app.post('/api/signupUser', async(req,res)=>{
     res.json({ signUpSuccess: false  });
 
   }
+})
+
+app.get("/api/getMonthStatistics", authoriseInstructor, async (req, res) => {
+  const selectedDate = req.query.selectedDate;
+  await new Promise(resolve => setTimeout(resolve, 2000));
+
+  return res.json({profitPrivate:2000,profitGroup:3000,hoursPrivate:20,hoursGroup:40});
+});
+
+app.get('/api/getGeneralStatistics',authoriseInstructor, async (req,res)=>{
+
+  const monthsToDisplay=[
+    "April 2025",
+    "March 2025",
+    "February 2025",
+    "January 2025",
+    "December 2024",
+    "November 2024",
+    "October 2024",
+    "September 2024",
+    "August 2024",
+    "July 2024",
+    "June 2024"
+  ]
+
+  const reviewScores={
+    "1":20,
+    "2":30,
+    "3":0,
+    "4":40,
+    "5":10
+  }
+
+
+  res.json({monthsToDisplay,reviewScores})
 })
 
 app.get('*',(req,res)=>{

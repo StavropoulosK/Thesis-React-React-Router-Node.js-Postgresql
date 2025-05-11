@@ -1,0 +1,18 @@
+{
+    "statistics":"Statistics",
+    "revenue_private":"Revenue from private lessons",
+    "revenue_group":"Revenue from group lessons",
+    "group_hours":"Teaching hours of group lessons",
+    "private_hours":"Teaching hours of private lessons",
+    "starLabel_one": "{{count}} star",
+    "starLabel_other": "{{count}} stars",
+    "hour_unit":"h",
+    "reviews":"Total reviews",
+    "noStatistics":"There are no available statistics yet",
+    "revenueText":"Revenue of ",
+    "workText":"Working hours of "
+
+
+    
+
+}

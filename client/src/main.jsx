@@ -127,6 +127,22 @@ const router= createBrowserRouter([
 
           },
           {
+            path:"instructorMenu",
+            async lazy(){
+              const {InstructorMenu}= await import("./reusableComponents/instructorMenu/instructorMenu.jsx")
+              return {element:<InstructorMenu/>}
+            },
+            children:[
+              {
+                path:"statistics",
+                async lazy(){
+                  const {Statistics,StatisticsLoader}= await import("./routeComponents/statistics/statistics.jsx")
+                  return {element:<Statistics/>,loader:StatisticsLoader}
+                },
+              }
+            ]
+          },
+          {
             path:"studentMenu",
             async lazy(){
               const {StudentMenu}= await import("./reusableComponents/studentMenu/studentMenu.jsx")

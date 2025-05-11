@@ -1,6 +1,6 @@
 import "./userNav.css"
 
-import { NavLink, useNavigate,Outlet, useNavigation } from "react-router-dom";
+import { NavLink, useNavigate,Outlet, useNavigation,useLocation  } from "react-router-dom";
 import { useState } from "react";
 
 import { useTranslation } from "react-i18next";
@@ -16,8 +16,6 @@ export function UserNav({options}){
     const navigate = useNavigate();
 
     const [showNavBar,setShowNavBar]= useState(true)
-    const [pendingIndex, setPendingIndex] = useState(null);
-
 
     
     const handleLogout = async () => {
@@ -41,6 +39,9 @@ export function UserNav({options}){
 
     const navigation = useNavigation();
 
+    const location = useLocation();
+
+
     return(
 
         <>
@@ -57,7 +58,7 @@ export function UserNav({options}){
                             if(isPending){
                                 return "active"
                             }
-                            else if(isActive && navigation.state!="loading"){
+                            else if(location.pathname.endsWith(option.linkTo) && navigation.state!="loading"){
                                 return "active"
                             }
                             else{

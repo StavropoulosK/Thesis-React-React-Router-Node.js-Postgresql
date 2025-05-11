@@ -2,6 +2,9 @@
     "Profile":"Profile",
     "lessons":"Lessons",
     "logout":"Logout",
-    "Collapse":"Collapse"
+    "Collapse":"Collapse",
+    "schedule":"Schedule",
+    "statistics":"Statistics"
+
 
 }
