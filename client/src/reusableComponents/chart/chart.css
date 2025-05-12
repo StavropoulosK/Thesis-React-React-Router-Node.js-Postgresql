@@ -28,12 +28,12 @@
 
   @media (max-width:380px){
     .chart-fixed-size {
-      width: 310px;
-      height: 300px;
+      width: 280px;
+      height: 280px;
       }
 
       .chart-wrapper:nth-child(3) .chart-fixed-size {
-        height: 330px;
+        height: 300px;
       }
 
   }

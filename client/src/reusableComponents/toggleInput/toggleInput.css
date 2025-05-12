@@ -8,7 +8,7 @@
     position: relative;
   }
 
-  .studentProfile .row .toggle-container:first-of-type{
+  .studentProfile .row .toggle-container:first-of-type,   .instructorProfile .row .toggle-container:first-of-type {
     /* width: 35rem; */
     width: 35rem;
   }
@@ -66,13 +66,13 @@
     height: 100% !important;
   }
 
-  .studentProfile .row.row .toggle-container{
+  .studentProfile .row.row .toggle-container, .instructorProfile .row.row .toggle-container {
     display: flex;
     height: fit-content;
     align-items: flex-start;
   }
 
-  .studentProfile .textContainer{       
+  .studentProfile .textContainer, .instructorProfile .row.row .toggle-container{       
     min-height: 3rem;
     height: fit-content;
     flex-shrink: 1;     /* shrink if needed */

@@ -1,4 +1,4 @@
-section.studentProfile{
+section.instructorProfile{
     margin-left: 0rem;
     /* background-color: red; */
     width: 100%;
@@ -9,13 +9,13 @@ section.studentProfile{
 
 }
 
-section.studentProfile *{
+section.instructorProfile *{
     box-sizing: border-box;
 }
 
 
 
-.studentProfile .imageContainer {
+.instructorProfile .imageContainer {
     position: relative;
     display: flex;
     align-items: center;
@@ -26,7 +26,7 @@ section.studentProfile *{
   }
   
   /* Rectangle part */
-  .studentProfile .rectBackground {
+  .instructorProfile .rectBackground {
     position: absolute;
     top: 0;
     width: 100%;
@@ -35,7 +35,7 @@ section.studentProfile *{
   }
   
   /* Elliptical part */
-  .studentProfile .ellipseBackground {
+  .instructorProfile .ellipseBackground {
     position: absolute;
     bottom: 0;
     width: 100%;
@@ -45,7 +45,7 @@ section.studentProfile *{
     border-bottom-right-radius: 60% 60%;
   }
   
-  .studentProfile .centerButton {
+  .instructorProfile .centerButton {
     z-index: 1;
     position: relative;
     right:4rem;
@@ -64,20 +64,20 @@ section.studentProfile *{
 
   }
 
-  .studentProfile .centerButton  img,
-  .studentProfile .centerButton  svg{
+  .instructorProfile .centerButton  img,
+  .instructorProfile .centerButton  svg{
     width: 100%;
     height: 100%;
     border-radius: 50% 50%;
 
   }
 
-  .studentProfile  svg{
+  .instructorProfile  svg{
     min-width: 1.5rem;
 
   }
 
-  .studentProfile .userInfo {
+  .instructorProfile .userInfo {
     margin-top: 5rem;
     padding-left:12rem;
     display: flex;
@@ -86,7 +86,7 @@ section.studentProfile *{
     
   }
 
-  .studentProfile .userInfo > img{
+  .instructorProfile .userInfo > img{
     height: 9rem;
     margin-left:auto;
     margin-right: 4rem;
@@ -94,12 +94,12 @@ section.studentProfile *{
     bottom:4rem;
   }
   
-  .studentProfile .userInfo .row{
+  .instructorProfile .userInfo .row{
     display: flex;
     margin-bottom:0.6rem;
   }
 
-  .studentProfile .userInfo .toggle-container .toggle-span{
+  .instructorProfile .userInfo .toggle-container .toggle-span{
     text-wrap:wrap;
     word-break: break-all;
     display: inline-block;
@@ -110,15 +110,15 @@ section.studentProfile *{
 
   @media(max-height:800px){
 
-    .studentProfile .imageContainer{
+    .instructorProfile .imageContainer{
       height: 300px;
     }
 
-    .studentProfile .rectBackground{
+    .instructorProfile .rectBackground{
       height: 200px;
     }
 
-    .studentProfile .ellipseBackground{
+    .instructorProfile .ellipseBackground{
       height: 100px;
     }
 
@@ -128,35 +128,35 @@ section.studentProfile *{
   @media(max-width:1520px){
 
   
-    .studentProfile .userInfo {
+    .instructorProfile .userInfo {
       padding-left: 12rem;
 
     }
 
 
-    .studentProfile .userInfo .toggle-container .toggle-span{
+    .instructorProfile .userInfo .toggle-container .toggle-span{
       font-size: 1.2rem !important;
       margin-left: 0.2rem;
       margin-right: 0rem;
     }
 
-    .studentProfile .toggle-input{
+    .instructorProfile .toggle-input{
       font-size: 1.2rem;
     }
 
-    .studentProfile .row.row .toggle-container:first-of-type{
+    .instructorProfile .row.row .toggle-container:first-of-type{
       width: 30rem ;
     }
 
-    .studentProfile .row.row .toggle-container:last-of-type{
+    .instructorProfile .row.row .toggle-container:last-of-type{
       width: fit-content;
     }
 
-    .studentProfile svg{
+    .instructorProfile svg{
       scale:0.9
     }
 
-    .studentProfile .toggle-container .error{
+    .instructorProfile .toggle-container .error{
       
       margin-left: 0.4rem;
     }
@@ -164,39 +164,39 @@ section.studentProfile *{
   }
 
   @media(max-width:1360px){
-    .studentProfile .rows .row{
+    .instructorProfile .rows .row{
       display: flex;
       flex-direction: column;
       margin-bottom: 0;
     }
 
-    .studentProfile .rows{
+    .instructorProfile .rows{
       margin-bottom: 2rem;
     }
 
-    .studentProfile .toggle-container {
+    .instructorProfile .toggle-container {
 
       height: fit-content;
     }
 
-    .studentProfile .row.row .toggle-container{
+    .instructorProfile .row.row .toggle-container{
       width: 25rem !important ;
     }
 
-    .studentProfile .rows .row:last-of-type .toggle-container:first-of-type .textContainer {
+    .instructorProfile .rows .row:last-of-type .toggle-container:first-of-type .textContainer {
       display: flex;
       flex-direction: column;
 
 
     }
 
-    .studentProfile .textContainer{
-      min-height: 0;
-      height: fit-content;
-      margin-bottom: 1rem;
-    }
+    .instructorProfile .textContainer{
+        min-height: 0;
+        height: fit-content;
+        margin-bottom: 1rem;
+      }
 
-    /* .studentProfile .rows .row:last-of-type .toggle-container:first-of-type .textContainer p.error{
+    /* .instructorProfile .rows .row:last-of-type .toggle-container:first-of-type .textContainer p.error{
       top:1.9rem
     } */
 
@@ -204,25 +204,25 @@ section.studentProfile *{
 
   @media(max-width:900px){
 
-    .studentProfile .centerButton {
+    .instructorProfile .centerButton {
       right:0rem;
     }
 
 
-    .studentProfile .userInfo{
+    .instructorProfile .userInfo{
       flex-direction: column;
     }
 
-    .studentProfile .userInfo > img{
+    .instructorProfile .userInfo > img{
       height: 7rem;
       margin-top: 4rem;
     }
 
-    .studentProfile .toggle-button{
+    .instructorProfile .toggle-button{
       margin-left: 0.3rem;
     }
 
-    .studentProfile .textContainer{
+    .instructorProfile .textContainer{
       width: fit-content !important;
     }
 
@@ -232,21 +232,21 @@ section.studentProfile *{
   @media(max-width:600px){
     
     
-    .studentProfile .row.row .toggle-container{
+    .instructorProfile .row.row .toggle-container{
       max-width: 20rem !important ;
       width: fit-content !important;
     }
 
-    .studentProfile .row.row .toggle-container .textContainer{
+    .instructorProfile .row.row .toggle-container .textContainer{
       display: flex;
       flex-direction: column;
     }
 
-    .studentProfile .userInfo{
+    .instructorProfile .userInfo{
       padding-left: 6rem;
     }
 
-    .studentProfile .toggle-input{
+    .instructorProfile .toggle-input{
       width: 14rem;
     }
 
@@ -255,47 +255,47 @@ section.studentProfile *{
 
 
   @media(max-width:450px){
-    .studentProfile .userInfo{
+    .instructorProfile .userInfo{
       padding-left: 3.5rem;
       margin-top: 2rem;
     }
 
-    .studentProfile .imageContainer {
+    .instructorProfile .imageContainer {
       height: 250px;
     }
 
-    .studentProfile .rectBackground {
+    .instructorProfile .rectBackground {
       height: 180px;
     }
 
-    .studentProfile .ellipseBackground {
+    .instructorProfile .ellipseBackground {
       height: 70px;
     }
 
-    .studentProfile .centerButton{
+    .instructorProfile .centerButton{
       width: 10rem;
       height: 10rem;
       margin-top: 3rem;
     }
-    .studentProfile .userInfo .toggle-container .toggle-span {
+    .instructorProfile .userInfo .toggle-container .toggle-span {
       font-size: 1.1rem !important;
     }
 
-    .studentProfile svg{
+    .instructorProfile svg{
       scale:0.85
     }
 
-    .studentProfile .toggle-input{
+    .instructorProfile .toggle-input{
       font-size: 1.1rem;
     }
 
     
-    .studentProfile .userInfo > img{
+    .instructorProfile .userInfo > img{
       height: 7rem;
       margin-top: 7rem;
     }
 
-    .studentProfile .toggle-input{
+    .instructorProfile .toggle-input{
       width: 13rem;
     }
 

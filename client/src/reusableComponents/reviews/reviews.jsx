@@ -72,6 +72,8 @@ import { useTranslation } from "react-i18next";
 
 // 17 responsive (desktop, tablet, mobile)
 
+// 18 statistika chartJS
+
 
 // ----------------------
 

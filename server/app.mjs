@@ -123,8 +123,29 @@ app.post('/api/checkEmailIsUsed',async (req,res)=>{
 
 })
 
-app.post("/api/updateUserInfo",authoriseStudent, async(req,res)=>{
+app.post("/api/updateStudentInfo",authoriseStudent, async(req,res)=>{
   const { firstName, lastName, email, phoneNumber} = req.body;
+
+  await new Promise(resolve => setTimeout(resolve, 5000));
+
+    //success, failure
+
+
+  return res.json({message:"success"})
+})
+
+app.get("/api/getInstructorProfileParams",authoriseInstructor,async (req,res)=>{
+
+
+  res.json({firstName:"alex",lastName:"mic",email:"kostas.striker@gmail.com",phone:"306951232693"})
+})
+
+
+app.post("/api/updateInstructorInfo",authoriseInstructor, async(req,res)=>{
+  const { firstName, lastName, email, phoneNumber} = req.body;
+
+  console.log('aaa ',firstName, lastName, email, phoneNumber)
+
   await new Promise(resolve => setTimeout(resolve, 5000));
 
     //success, failure

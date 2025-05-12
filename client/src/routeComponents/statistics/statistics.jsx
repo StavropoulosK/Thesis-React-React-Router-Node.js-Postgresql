@@ -5,7 +5,7 @@ import Dropdown from "../../reusableComponents/dropdown/dropdown";
 
 import { useTranslation } from "react-i18next";
 import {useLoaderData,redirect,useNavigate } from "react-router-dom"
-import {useState,useEffect,useRef } from "react"
+import {useState,useEffect } from "react"
 
 
 export async function StatisticsLoader({request,params}){
@@ -80,7 +80,7 @@ export function Statistics(){
 
     // Lookup the translated version when rendering
     const displayDate = localizedMonths.find(m => m.original === selectedDate)?.formatted || selectedDate;
-
+    const [isLoading,setIsLoading]=useState(true)
 
     useEffect(() => {
         let isCurrent = true; // Flag to track if this effect is the latest one
@@ -101,7 +101,7 @@ export function Statistics(){
             else if (isCurrent) {
                 const result = await res.json();
                 setStatsRef(result);
-
+                setIsLoading(false)
             }
           } catch (err) {
 
@@ -148,12 +148,12 @@ export function Statistics(){
                     icon="/icons/statistics/date.png"
                 ></Dropdown>
 
-                <article className="chartContainer">
+                {!isLoading && <article className="chartContainer">
                     <Chart key={'1'+i18n.language} dataValues={[statsRef.profitPrivate,statsRef.profitGroup]} centerText={totalCost+"€"} labels={[t("revenue_private"),t("revenue_group")]} description={t("revenueText")+ displayDate} unit={"€"}/>
                     <Chart key={'2'+i18n.language} dataValues={[statsRef.hoursGroup,statsRef.hoursPrivate]} centerText={totalHours+t("hour_unit")} labels={[t("group_hours"),t("private_hours")]} description={t("workText")+displayDate} unit={t("hour_unit")}/>
                     {totalReviews !=0 && <Chart key={'3'+i18n.language} dataValues={reviewDataValues} centerText={totalReviews} labels={reviewLabels} description={t("reviews")}/>}
 
-                </article>
+                </article>}
             </section>
         </>
     )

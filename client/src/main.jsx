@@ -36,6 +36,7 @@ import {postEmailRequestAction, postReviewAction} from "./routeComponents/studen
 
 
 import './i18n.js'
+import { instructorProfileAction } from './routeComponents/instructorProfile/instructorProfile.jsx';
 
 const router= createBrowserRouter([
   {
@@ -138,6 +139,13 @@ const router= createBrowserRouter([
                 async lazy(){
                   const {Statistics,StatisticsLoader}= await import("./routeComponents/statistics/statistics.jsx")
                   return {element:<Statistics/>,loader:StatisticsLoader}
+                },
+              },
+              {
+                path:"profile",
+                async lazy(){
+                  const {InstructorProfile,instructorProfileLoader,instructorProfileAction}= await import("./routeComponents/instructorProfile/instructorProfile.jsx")
+                  return {element:<InstructorProfile/>,loader:instructorProfileLoader,action:instructorProfileAction}
                 },
               }
             ]

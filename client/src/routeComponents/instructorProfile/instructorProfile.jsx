@@ -1,4 +1,4 @@
-import "./studentProfile.css"
+import "./instructorProfile.css"
 
 import { redirect, useLoaderData, useFetcher,useActionData} from "react-router-dom";
 import { ToggleInput } from "../../reusableComponents/toggleInput/toggleInput";
@@ -11,12 +11,12 @@ import ShowMessageScreen from "../../reusableComponents/showMessageScreen/showMe
 
 
 
-export async function studentProfileLoader({request,params}){
+export async function instructorProfileLoader({request,params}){
     let data        
 
     try {
 
-        const response = await fetch('/api/getStudentProfileParams')
+        const response = await fetch('/api/getInstructorProfileParams')
     if (!response.ok) {
         // user is not logged in
         const params = new URLSearchParams(window.location.search);
@@ -38,7 +38,7 @@ export async function studentProfileLoader({request,params}){
     return data
 }
 
-export async function studentProfileAction({request,params}){
+export async function instructorProfileAction({request,params}){
     const formData = await request.formData();
     const lastName = formData.get("lastName");
     const email = formData.get("email");
@@ -48,7 +48,7 @@ export async function studentProfileAction({request,params}){
     let message
 
     try {
-        const response = await fetch("/api/updateStudentInfo", {
+        const response = await fetch("/api/updateInstructorInfo", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -76,9 +76,9 @@ export async function studentProfileAction({request,params}){
 
 
 
-export function StudentProfile(){
+export function InstructorProfile(){
 
-    const {t} = useTranslation("studentProfile")
+    const {t} = useTranslation("instructorProfile")
 
     const fetcher = useFetcher();
 
@@ -143,7 +143,7 @@ export function StudentProfile(){
         name:"firstName",
         inputText:formData["firstName"],
         handleChange,
-        namespace:"studentProfile",
+        namespace:"instructorProfile",
         loaderText: fetcher.formData?.get("firstName") || data.firstName,        // optimistic ui https://reactrouter.com/6.30.0/start/tutorial#optimistic-ui
         errorText:errors.firstName,
 
@@ -167,7 +167,7 @@ export function StudentProfile(){
         name:"lastName",
         inputText:formData["lastName"],
         handleChange,
-        namespace:"studentProfile",
+        namespace:"instructorProfile",
         loaderText: fetcher.formData?.get("lastName") || data.lastName,
         errorText:errors.lastName,
 
@@ -194,7 +194,7 @@ export function StudentProfile(){
         name:"email",
         inputText:formData["email"],
         handleChange,
-        namespace:"studentProfile",
+        namespace:"instructorProfile",
         loaderText: fetcher.formData?.get("email") || data.email,
         errorText:errors.email,
 
@@ -259,7 +259,7 @@ export function StudentProfile(){
         name:"phoneNumber",
         inputText:'+ '+formData["phoneNumber"],
         handleChange,
-        namespace:"studentProfile",
+        namespace:"instructorProfile",
         loaderText:'+ '+  ( fetcher.formData?.get("phoneNumber") || data.phone ),          
         errorText:errors.phoneNumber,
 
@@ -299,8 +299,8 @@ export function StudentProfile(){
 
     return(
         <>
-            {<ShowMessageScreen namespace="studentProfile" fetcher={fetcher}/>} 
-            <section className={`studentProfile`}>
+            {<ShowMessageScreen namespace="instructorProfile" fetcher={fetcher}/>} 
+            <section className={`instructorProfile`}>
 
                 <div className="imageContainer">
                     <div className="rectBackground"></div>
