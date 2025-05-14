@@ -89,8 +89,10 @@ import { useTranslation } from "react-i18next";
 export function reviewsLoader({request,params}){
     const url = new URL(request.url);
 
+    // console.log('aaa ',currentRoute)
     const nextPage=url.searchParams.get("nextReviewPage")
     let currentRoute=url.searchParams.get("currentRoute")
+
     
     const reviewsPage = nextPage|| 1;
 

@@ -1,0 +1,134 @@
+.selectList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: fit-content;
+    align-items: flex-end;
+  }
+
+.selectList .allContainer{
+    margin-right: auto;
+}
+
+.selectList-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    
+  }
+
+.selectList .optionsContainer.displayGrid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem; /* Optional: adds space between items */
+}
+  
+
+.selectList h2{
+    font-size: inherit;
+    font-weight: 500;
+    width: 100%;
+}
+
+
+
+.select-list-button {
+    background-color: transparent;
+    border:none;
+    color: inherit;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem;
+    width: 100%;
+  }
+  
+  .select-list-button .label-text {
+    color: inherit;
+    font-weight: 100;
+    margin-right: 0.5rem;
+    text-align: left;
+  }
+  
+  .select-list-button .icon-wrapper {
+    border: 1px solid rgba(17, 179, 187, 0.8);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1rem;
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .select-list-button .icon-wrapper svg{
+    position: relative;
+    top:0.1rem
+  }
+
+  .select-list-button .icon-wrapper.selected{
+    background-color: rgba(17, 179, 187, 0.8);
+    border: none;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+.selectList .buttonContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    /* margin-right: auto; */
+    gap:0.5rem;
+
+}
+
+.selectList  .buttonContainer button{
+    background-color: rgba(17, 179, 187, 0.4);
+    width: fit-content;
+    color: white; 
+    margin-top:1.5rem;
+    font-size: 1.1rem; 
+    padding: 0.5rem 0.8rem; 
+    border: none;
+    border-radius: 0.3rem; 
+    height: fit-content;
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+}
+
+.selectList  .buttonContainer button.displayFull{
+    background-color: rgba(17, 179, 187, 0.8);
+    cursor: pointer;
+
+}
+
+@media (max-width:600px){
+    .selectList{
+        width:340px;
+    }
+
+    
+}
+
+
+
+
+@media (max-width:400px){
+    .selectList {
+        width: 300px;
+
+    }
+}
+

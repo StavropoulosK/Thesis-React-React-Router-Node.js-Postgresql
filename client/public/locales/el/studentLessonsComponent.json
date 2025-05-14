@@ -1,11 +1,13 @@
 {
     "and":"και",
+
     "Greek":"Ελληνικά",
     "English":"Αγγλικά",
     "Spanish":"Ισπανικά",
     "French":"Γαλλικά",
-    "Italin":"Ιταλικά",
+    "Italian":"Ιταλικά",
     "German":"Γερμανικά",
+
     "I speak":"Μιλάω",
     "review_one": "κριτική",
     "review_other": "κριτικές",
@@ -33,6 +35,7 @@
     "experience_one":"χρόνο εμπειρίας",
     "experience_other":"χρόνια εμπειρίας",
 
+    "no_cancelation":"Δεν επιτρέπεται η ακύρωση μαθημάτων",
     "cancelation_policy":"Η πολιτική ακύρωσης είναι δωρεάν μέχρι",
     "before_lesson":"πριν το μάθημα",
 

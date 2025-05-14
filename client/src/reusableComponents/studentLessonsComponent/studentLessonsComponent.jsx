@@ -134,7 +134,9 @@ export function StudentLessonsComponent({namespace,lessons,instructorPhonesArray
                                                             
                                                         </button>
 
-                                                        <span className="cancelationPolicy">{t("cancelation_policy")} <b>{lesson.instructorInfo.cancelationDays} {t('day', { count: Number(lesson.instructorInfo.cancelationDays) })}</b>  {t("before_lesson")}</span>
+                                                        {Number(lesson.instructorInfo.cancelationDays)==0 && <span className="cancelationPolicy">{t("no_cancelation")}</span> }
+ 
+                                                        {Number(lesson.instructorInfo.cancelationDays)!=0 && <span className="cancelationPolicy">{t("cancelation_policy")} <b>{lesson.instructorInfo.cancelationDays} {t('day', { count: Number(lesson.instructorInfo.cancelationDays) })}</b>  {t("before_lesson")}</span> }
                                                     </div>
 
                                                 </div>

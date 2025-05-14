@@ -36,7 +36,6 @@ import {postEmailRequestAction, postReviewAction} from "./routeComponents/studen
 
 
 import './i18n.js'
-import { instructorProfileAction } from './routeComponents/instructorProfile/instructorProfile.jsx';
 
 const router= createBrowserRouter([
   {
@@ -45,7 +44,7 @@ const router= createBrowserRouter([
       const {Root,rootLoader}= await import("./routeComponents/root/root.jsx")
       return {element: <Root/>, loader:rootLoader}
     },
-    shouldRevalidate: () => true,         // it is used to fetch header params. it executes on every load because the session may have expired and thus the profile icon on the header should change.
+    shouldRevalidate: () => true,         // it is used to fetch header params. it executes on every load because the session may have expired and thus the profile icon on the header may need to change.
     errorElement:<ErrorPage/>,
 
     children:[

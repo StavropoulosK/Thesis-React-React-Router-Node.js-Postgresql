@@ -23,6 +23,10 @@
     max-width: 200px;
 }
 
+.statistics .dropdown-button{
+    cursor: pointer;;
+}
+
 @media (max-width:900px){
     .statistics .chartContainer{
         display: flex;

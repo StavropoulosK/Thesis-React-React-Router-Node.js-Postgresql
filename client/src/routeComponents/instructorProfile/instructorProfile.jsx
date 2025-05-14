@@ -1,14 +1,16 @@
 import "./instructorProfile.css"
 
-import { redirect, useLoaderData, useFetcher,useActionData} from "react-router-dom";
+import { redirect, useLoaderData, useFetcher,Link} from "react-router-dom";
 import { ToggleInput } from "../../reusableComponents/toggleInput/toggleInput";
 
-import { useState } from "react";
+import { useState,useRef } from "react";
 
 import { useTranslation } from "react-i18next";
 
 import ShowMessageScreen from "../../reusableComponents/showMessageScreen/showMessageScreen";
-
+import SelectList from "../../reusableComponents/selectList/selectList";
+import TextContainer from "../../reusableComponents/textContainer/textContainer";
+import Dropdown from "../../reusableComponents/dropdown/dropdown";
 
 
 export async function instructorProfileLoader({request,params}){
@@ -44,6 +46,14 @@ export async function instructorProfileAction({request,params}){
     const email = formData.get("email");
     const firstName = formData.get("firstName");
     const phoneNumber = formData.get("phoneNumber");
+    const resorts = formData.get("resorts");
+    const knownLanguages=formData.get("knownLanguages")
+    const sports= formData.get("sports")
+    const cancelationPolicy= formData.get("cancelationPolicy")
+    const biography= formData.get("biography")
+    const summary= formData.get("summary")
+    const yearsOfExperience= formData.get("yearsOfExperience")
+
 
     let message
 
@@ -53,7 +63,7 @@ export async function instructorProfileAction({request,params}){
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ lastName,firstName,email,phoneNumber }),
+          body: JSON.stringify({ lastName,firstName,email,phoneNumber,resorts,knownLanguages,sports,cancelationPolicy,biography,summary,yearsOfExperience}),
         });
       
         if (!response.ok) {
@@ -83,6 +93,47 @@ export function InstructorProfile(){
     const fetcher = useFetcher();
 
     const data=useLoaderData()
+
+    const resortOptions=[
+        { value: "Aniliou", label: t("Aniliou") },
+        { value: "Vasilitsas", label: t("Vasilitsas") },
+        { value: "Velouhiou", label: t("Velouhiou") },
+        { value: "Elatochoriou", label: t("Elatochoriou") },
+        { value: "Kaimaktsalan", label: t("Kaimaktsalan") },
+        { value: "Kalavryton", label: t("Kalavryton") },
+        { value: "Mainalou", label: t("Mainalou") },
+        { value: "Parnassou", label: t("Parnassou") },
+        { value: "Piliou", label: t("Piliou") },
+        { value: "Pisoderiou", label: t("Pisoderiou") },
+        { value: "Falakrou", label: t("Falakrou") },
+        { value: "3-5 Pigadia", label: t("3-5 Pigadia") }
+      ]
+
+
+    const languageOptions=[
+        { value: "Greek", label: t("Greek") },
+        { value: "English", label: t("English") },
+        { value: "French", label: t("French") },
+        { value: "Spanish", label: t("Spanish") },
+        { value: "Italian", label: t("Italian") },
+        { value: "German", label: t("German") }
+      ]
+
+    const sportOptions=[
+        { value: "Ski", label: t("Ski") },
+        { value: "Snowboard", label: t("Snowboard") },
+        { value: "Sit ski", label: t("Sit ski") }
+      ]
+
+    const cancelationOptions=[
+        { value: "dnot", label: t("dnot") },
+        { value: "d7", label: t("d7") },
+        { value: "d10", label: t("d10") },
+        { value: "d12", label: t("d12") },
+        { value: "d15", label: t("d15") }
+    ]
+
+
 
 
 
@@ -133,7 +184,6 @@ export function InstructorProfile(){
             [name]: ""
         }));
     }
-
 
 
     const options=[{svg:
@@ -295,6 +345,9 @@ export function InstructorProfile(){
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         );
     };
+
+    
+  const isSendingData = fetcher.state === "submitting" || fetcher.state === "loading";
   
 
     return(
@@ -341,7 +394,169 @@ export function InstructorProfile(){
 
                     <img src="/illustrations/slend.svg" alt="Slend Illustration" />
                 </div>
+
+                <h2 className="moreInfo">{t("additionalInfo")}</h2>
+
+
+                <section className="detailsInfo">
+
+                    <SelectList
+                        text={t("selectResort")}
+                        options={resortOptions}
+                        isSendingData={isSendingData}
+                        initialSelected={data.resorts}
+                        multiple={true}
+                        gridLayout={true}
+                        onChange={(selected) => fetcher.submit(
+                            { 'resorts': selected },
+                            {
+                              method: "post",
+                            })}
+                    />
+
+                    <SelectList
+                        text={t("selectLanguages")}
+                        options={languageOptions}
+                        isSendingData={isSendingData}
+                        initialSelected={data.knownLanguages}
+                        multiple={true}
+                        gridLayout={false}
+                        onChange={(selected) => fetcher.submit(
+                            { 'knownLanguages': selected },
+                            {
+                              method: "post",
+                            })}
+                    />
+
+                    <SelectList
+                        text={t("selectSport")}
+                        options={sportOptions}
+                        isSendingData={isSendingData}
+                        initialSelected={data.sports}
+                        multiple={true}
+                        gridLayout={false}
+                        onChange={(selected) => fetcher.submit(
+                            { 'sports': selected },
+                            {
+                              method: "post",
+                            })}
+                    />
+
+                    
+                    <SelectList
+                        text={t("selectCancelationPolicy")}
+                        options={cancelationOptions}
+                        isSendingData={isSendingData}
+                        initialSelected={data.cancelationPolicy}
+                        multiple={false}
+                        gridLayout={false}
+                        onChange={(selected) => fetcher.submit(
+                            { 'cancelationPolicy': selected },
+                            {
+                              method: "post",
+                            })}
+                    />
+
+                    <TextContainer
+                         id="t1"
+                         header={t("bioInfo")}
+                         text={data.biography}
+                         isSendingData={isSendingData}
+                         maxChars={2000}
+                         onChange={(selected) => fetcher.submit(
+                            { 'biography': selected },
+                            {
+                              method: "post",
+                            })}
+                    >
+                    </TextContainer>
+
+                    <TextContainer
+                         id="t2"
+                         header={t("summary")}
+                         text={data.summary}
+                         maxChars={180}
+                         isSendingData={isSendingData}
+                         onChange={(selected) => fetcher.submit(
+                            { 'summary': selected },
+                            {
+                              method: "post",
+                            })}
+                    >
+                    </TextContainer>
+
+                    <SelectExperience data={data} isSendingData={isSendingData}
+                     onChange={(selected) => fetcher.submit(
+                        { 'yearsOfExperience': selected },
+                        {
+                          method: "post",
+                        })}
+                    >
+
+                        </SelectExperience>
+                </section>
+
+                <div className="reviewProfile">
+                        <h2>{t("review_header")}</h2>
+
+                    <Link to={ `/instructorInfo/${data.instructorName}/${data.instructorID}`}>
+                            {t("review_text")}
+                    </Link>
+                </div>
+
+
             </section>
         </>
     )
 }
+
+
+
+function SelectExperience({data,isSendingData,onChange}){
+    const [value, setValue] = useState(data.yearsOfExperience || "");
+    const initialValueRef = useRef(data.yearsOfExperience || "");
+    const {t} = useTranslation("instructorProfile")
+  
+    const isTextChanged = () => value !== initialValueRef.current;
+  
+    const options=["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40+"]
+  
+
+    return(
+        <>
+        <article className="selectExperience">
+            <h2>{t("experience")}</h2>
+
+            <div className="allContainer">
+                <Dropdown namespace="statistics"   options={options} text={t("expText")} selected={value}
+                    setSelected={(val) => {
+                        setValue(val)
+                    }}
+                    icon="/icons/bookLesson/mountain.png"
+                ></Dropdown>
+
+                <div className="buttonContainer">
+                    <button
+                        className={isTextChanged() && !isSendingData ? "displayFull" : ""}
+                        onClick={()=>setValue(initialValueRef.current)}
+                    >
+                        {t("cancel")}
+                    </button>
+
+                    <button
+                        className={isTextChanged() && !isSendingData ? "displayFull" : ""}
+                        onClick={()=>onChange(value)}
+                    >
+                        {t("save")}
+                    </button>
+
+                </div>
+
+            </div>
+        </article>
+        
+        </>
+    )
+}
+
+

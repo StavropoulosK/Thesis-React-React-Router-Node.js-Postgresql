@@ -292,7 +292,8 @@ section.studentProfile *{
     
     .studentProfile .userInfo > img{
       height: 7rem;
-      margin-top: 7rem;
+      margin-top: 4rem;
+      margin-bottom: 1rem;
     }
 
     .studentProfile .toggle-input{

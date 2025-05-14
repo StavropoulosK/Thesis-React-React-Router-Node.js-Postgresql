@@ -183,11 +183,13 @@ export function InstructorInfo(){
                                                             
                                      </button>
 
-                                        <span className="cancelationPolicy">
-                                            {t("cancelation_policy")} <b> {cancelationDays} {t("day",{count:Number(cancelationDays)} )}  </b>
-                                            {t("before")}
+                                    {Number(cancelationDays==0) && <span className="cancelatonPolicy"> {t("no_cancelation")}</span>}
 
-                                        </span>
+                                    {Number(cancelationDays)!=0 && <span className="cancelationPolicy">
+                                        {t("cancelation_policy")} <b> {cancelationDays} {t("day",{count:Number(cancelationDays)} )}  </b>
+                                        {t("before")}
+
+                                    </span>}
                                 </div>
 
                             </div>

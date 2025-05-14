@@ -9,7 +9,61 @@
     "12_digits":"Phone number with country code must be 12 digits",
     "invalid_format":"Invalid format",
     "please_try_again":"Update failed. Please try again later",
-    "already_used":"Address is already used"
+    "already_used":"Address is already used",
+
+    "Aniliou": "Aniliou",
+    "Vasilitsas": "Vasilitsas",
+    "Velouhiou": "Velouhiou",
+    "Elatochoriou": "Elatochoriou",
+    "Kaimaktsalan": "Kaimaktsalan",
+    "Kalavryton": "Kalavryton",
+    "Mainalou": "Mainalou",
+    "Parnassou": "Parnassou",
+    "Piliou": "Piliou",
+    "Pisoderiou": "Pisoderiou",
+    "Falakrou": "Falakrou",
+    "3-5 Pigadia": "3-5 Pigadia",
+    
+    "selectResort":"Choose the ski resorts where you teach:",
+
+    "selectLanguages":"Choose the languages you speak:",
+    "Greek":"Greek",
+    "English":"English",
+    "French":"French",
+    "Spanish":"Spanish",
+    "Italian":"Italian",
+    "German":"German",
+
+    "additionalInfo":"Additional info",
+
+    "selectSport":"Choose the sports you teach:",
+    "Ski":"Ski",
+    "Snowboard":"Snowboard",
+    "Sit ski":"Sit ski",
+
+    "selectCancelationPolicy":"Select your cancelation policy:",
+
+    "dnot":"Cancelation is not permitted",
+    "d7":"Cancelation is free up to 7 days before the lesson",
+    "d10":"Cancelation is free up to 10 days before the lesson",
+    "d12":"Cancelation is free up to 12 days before the lesson",
+    "d15":"Cancelation is free up to 15 days before the lesson",
+
+    "bioInfo":"Fill in the biographical information that will be visible to your profile:",
+    "save":"Save",
+    "cancel":"Cancel",
+
+    "summary":"Fill in some information about you to appear at your lessons",
+    "experience":"Select how many years of experience you have:",
+    "expText":"Years of experience",
+    "review_header":"Profile overview and reviews",
+    "review_text":"Overview and reviews"
+
+
+
+
+
+
 
 
 

@@ -13,6 +13,11 @@ section.instructorProfile *{
     box-sizing: border-box;
 }
 
+section.instructorProfile .moreInfo{
+    font-size: 1.7rem;
+    margin-bottom: 0.5rem;
+    padding-left:12rem
+}
 
 
 .instructorProfile .imageContainer {
@@ -32,6 +37,18 @@ section.instructorProfile *{
     width: 100%;
     height: 290px;
     background-color: #6ED7DD;
+  }
+
+  .instructorProfile .detailsInfo{
+    font-size: 1.4rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: fit-content;
+  }
+
+  .select-list-button .label-text {
+    font-size: 1.3rem;
   }
   
   /* Elliptical part */
@@ -105,7 +122,120 @@ section.instructorProfile *{
     display: inline-block;
   }
 
+  .instructorProfile .detailsInfo{
+    padding-left: 12rem;
+    margin-bottom: 2rem;
+    max-width: 1400px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem; /* Optional: adds space between items */
+  }
 
+  .instructorProfile .detailsInfo > * {
+    margin-right: 4.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+
+
+
+
+
+  .instructorProfile .selectExperience {
+    margin-bottom: 0rem;
+  }
+
+
+  .instructorProfile .selectExperience h2{
+    font-size: inherit;
+    font-weight: 500;
+    width: 100%;
+  }
+
+  .instructorProfile .selectExperience .dropdown button.dropdown-button{
+    max-width: 200px;
+    margin-left: 0.5rem;
+  }
+
+  .instructorProfile .selectExperience .allContainer{
+    margin-right: auto;
+    width: fit-content;
+  }
+
+
+  .instructorProfile .selectExperience .dropdown ul.dropdown-menu{
+    margin-left: 0.5rem;
+  }
+
+  .instructorProfile .selectExperience .buttonContainer{
+    margin-left: 0.5rem;
+
+  }
+
+  .instructorProfile .selectExperience .buttonContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    /* margin-right: auto; */
+    gap:0.5rem;
+  }
+
+
+  .instructorProfile .selectExperience  .buttonContainer button{
+    background-color: rgba(17, 179, 187, 0.4);
+    width: fit-content;
+    color: white; 
+    margin-top:1.5rem;
+    font-size: 1.1rem; 
+    padding: 0.5rem 0.8rem; 
+    border: none;
+    border-radius: 0.3rem; 
+    height: fit-content;
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+  }
+
+
+.instructorProfile .selectExperience  .buttonContainer button.displayFull{
+    background-color: rgba(17, 179, 187, 0.8);
+    cursor: pointer;
+
+  }
+
+  .instructorProfile .selectExperience .dropdown .dropdown-menu{
+    max-width: 200px;
+  }
+
+  .instructorProfile .selectExperience .dropdown button.dropdown-button img{
+    scale:1.1;
+    position: relative;
+    top:0.1rem;
+  }
+
+  .instructorProfile .reviewProfile{
+    margin-left: 12rem;
+
+  }
+
+  .instructorProfile .reviewProfile h2 {
+    font-size: 1.7rem;
+  }
+
+  .instructorProfile .reviewProfile a{
+    background-color: rgba(17, 179, 187, 0.8);
+    width: fit-content;
+    color: white; 
+    margin-top:1.5rem;
+    margin-bottom: 6rem;
+    text-decoration: none;
+    font-size: 1.1rem; 
+    padding: 0.5rem 0.8rem; 
+    border: none;
+    border-radius: 0.3rem; 
+    height: fit-content;
+    display: block;
+  }
 
 
   @media(max-height:800px){
@@ -133,6 +263,10 @@ section.instructorProfile *{
 
     }
 
+    .instructorProfile .reviewProfile h2 {
+      font-size: 1.5rem;
+    }
+
 
     .instructorProfile .userInfo .toggle-container .toggle-span{
       font-size: 1.2rem !important;
@@ -140,8 +274,21 @@ section.instructorProfile *{
       margin-right: 0rem;
     }
 
+    .select-list-button .label-text {
+        font-size: 1.1rem;
+    }
+
+    .instructorProfile .detailsInfo{
+        font-size: 1.2rem;
+      }
+
     .instructorProfile .toggle-input{
       font-size: 1.2rem;
+    }
+
+    section.instructorProfile .moreInfo{
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
     }
 
     .instructorProfile .row.row .toggle-container:first-of-type{
@@ -172,6 +319,17 @@ section.instructorProfile *{
 
     .instructorProfile .rows{
       margin-bottom: 2rem;
+    }
+
+    .instructorProfile .userInfo{
+        display: flex;
+        justify-content: space-between;
+        width: 100% !important;
+    }
+
+    .instructorProfile .userInfo > img{
+        margin-right: 8rem;
+
     }
 
     .instructorProfile .toggle-container {
@@ -216,6 +374,8 @@ section.instructorProfile *{
     .instructorProfile .userInfo > img{
       height: 7rem;
       margin-top: 4rem;
+      display: none;
+
     }
 
     .instructorProfile .toggle-button{
@@ -225,6 +385,13 @@ section.instructorProfile *{
     .instructorProfile .textContainer{
       width: fit-content !important;
     }
+
+    .instructorProfile .detailsInfo{
+        display: flex;
+        flex-direction: column;
+
+    }
+
 
 
   }
@@ -246,6 +413,19 @@ section.instructorProfile *{
       padding-left: 6rem;
     }
 
+    .instructorProfile .detailsInfo{
+        padding-left: 6rem;
+      }
+
+    section.instructorProfile .moreInfo{
+        padding-left: 6rem;
+    }
+
+    .instructorProfile .reviewProfile{
+      margin-left: 6rem;
+    }
+    
+
     .instructorProfile .toggle-input{
       width: 14rem;
     }
@@ -259,6 +439,36 @@ section.instructorProfile *{
       padding-left: 3.5rem;
       margin-top: 2rem;
     }
+
+    .instructorProfile .detailsInfo{
+        padding-left: 3.5rem;
+    }
+
+    .instructorProfile .reviewProfile h2 {
+      font-size: 1.3rem;
+    }
+
+    .instructorProfile .reviewProfile{
+      margin-left: 3.5rem;
+    }
+
+    section.instructorProfile .moreInfo{
+        padding-left: 3.5rem;
+    }
+    
+
+    .instructorProfile .detailsInfo{
+        font-size: 1.1rem;
+      }
+
+    .select-list-button .label-text{
+        font-size: 1rem;
+    }
+
+    section.instructorProfile .moreInfo{
+        font-size: 1.3rem;
+    }
+
 
     .instructorProfile .imageContainer {
       height: 250px;
@@ -299,4 +509,20 @@ section.instructorProfile *{
       width: 13rem;
     }
 
+    .instructorProfile .buttonContainer.buttonContainer button{
+        
+        padding:0.5rem 0.6rem;
+        font-size: 1rem;
+
+    }
+
+    .instructorProfile .buttonContainer.buttonContainer{
+        margin-right: 0.2rem;
+    }
+
+    .instructorProfile .reviewProfile a{
+      font-size: 1rem;
+    }
+
   }
+

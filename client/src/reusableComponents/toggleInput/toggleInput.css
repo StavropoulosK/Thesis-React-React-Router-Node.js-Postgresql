@@ -22,13 +22,15 @@
     width: fit-content;
   }
 
-  .toggle-container  svg.firstName{
+  /* .toggle-container  svg.firstName{
     position: relative;
     bottom:0.1rem;
-  }
+  } */
 
   .toggle-container  svg{
     margin-right: 0.4rem;
+    position: relative;
+    top:0.1rem;
   }
   
   .toggle-span {
@@ -79,3 +81,16 @@
     flex-grow: 0; 
     flex-basis: auto; 
   }
+
+
+@media (max-width:1500px){
+  .toggle-container  svg.firstName{
+    position: relative;
+    bottom:0.1rem;
+  }
+
+  .toggle-container  svg{
+    top:0rem;
+  }
+  
+}

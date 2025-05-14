@@ -136,15 +136,28 @@ app.post("/api/updateStudentInfo",authoriseStudent, async(req,res)=>{
 
 app.get("/api/getInstructorProfileParams",authoriseInstructor,async (req,res)=>{
 
+  const knownLanguages=["English","Greek","Italian"]
+  const resorts=["Elatochoriou","Velouhiou"]
+  const sports=["Ski","Snowboard"]
+  const cancelationPolicy=["dnot"]
+  const biography= "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos velit numquam, voluptatum distinctio ex, libero deleniti, dolore illum ducimus officiis dolorem. Perspiciatis dolore voluptatem atque numquam veniam placeat omnis nemo"
+  const summary= "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos velit numquam, voluptatum distinctio ex, libero deleniti, dolore illum ducimus officiis dolorem. Perspiciatis dolore voluptatem atque numquam veniam placeat omnis nemo"
+  const yearsOfExperience="5"
 
-  res.json({firstName:"alex",lastName:"mic",email:"kostas.striker@gmail.com",phone:"306951232693"})
+  const firstName="alex"
+  const lastName="mic"
+
+  
+  const instructorName=firstName +' '+lastName[0]+"."
+
+  res.json({instructorName,instructorID:"i121212",firstName,lastName,email:"kostas.striker@gmail.com",phone:"306951232693",knownLanguages,resorts,sports,cancelationPolicy,biography,summary,yearsOfExperience})
 })
 
 
 app.post("/api/updateInstructorInfo",authoriseInstructor, async(req,res)=>{
-  const { firstName, lastName, email, phoneNumber} = req.body;
+  const { firstName, lastName, email, phoneNumber,resorts,knownLanguages,sports,cancelationPolicy,biography,summary,yearsOfExperience} = req.body;
 
-  console.log('aaa ',firstName, lastName, email, phoneNumber)
+  console.log('aaa ',firstName, lastName, email, phoneNumber,resorts,knownLanguages,sports,cancelationPolicy,biography,summary,yearsOfExperience)
 
   await new Promise(resolve => setTimeout(resolve, 5000));
 
@@ -265,7 +278,7 @@ app.get("/api/getPreviousStudentLessons/:page",authoriseStudent, async (req,res)
               reviewCount: 12,
               experience: "1",
               languages: ["English", "French", "Spanish"],
-              cancelationDays: "5",
+              cancelationDays: "0",
               image: "/images/startPage/Ski.jpg",
               email:"myemail@gmail.com",
               phoneNumber:"+306951232693"
@@ -322,7 +335,7 @@ app.get("/api/getPreviousStudentLessons/:page",authoriseStudent, async (req,res)
           reviewCount: 1,
           experience: "2",
           languages: ["English", "French"],
-          cancelationDays: "15",
+          cancelationDays: "0",
           image: "/images/startPage/Ski.jpg",
           email:"myemail!!@gmail.com",
           phoneNumber:"+306951232692"
@@ -812,7 +825,7 @@ app.get("/api/getUpComingStudentLessons",authoriseStudent, async (req,res)=>{
               reviewCount: 12,
               experience: "6",
               languages: ["English", "French", "Spanish"],
-              cancelationDays: "5",
+              cancelationDays: "0",
               image: "/images/startPage/Ski.jpg",
               email:"myemail@gmail.com",
               phoneNumber:"+306951232693"
@@ -972,7 +985,7 @@ app.get('/api/getLessonsInCart',authoriseStudent,async (req,res)=>{
             reviewCount: 12,
             experience: "6",
             languages: ["English", "French", "Spanish"],
-            cancelationDays: "5",
+            cancelationDays: "0",
             image: "/images/startPage/Ski.jpg",
 
         },
@@ -1242,7 +1255,7 @@ app.get('/api/bookLesson', async (req, res) => {
       reviewScore: "4.9",
       reviewCount: 5,
       experience: "13",
-      languages: ["Japanese", "English"],
+      languages: ["French", "English"],
       instructionID:"1213",
       typeOfLesson: "group",
       groupName:"Lesson for adults",
@@ -1257,7 +1270,7 @@ app.get('/api/bookLesson', async (req, res) => {
       reviewScore: "4.5",
       reviewCount: 6,
       experience: "7",
-      languages: ["Korean", "English"],
+      languages: ["Italian", "English"],
       instructionID:"12121221",
       typeOfLesson: "group",
       groupName:"Lesson for kids",
@@ -1313,7 +1326,7 @@ app.get('/api/bookLesson', async (req, res) => {
       reviewScore: "4.9",
       reviewCount: 10,
       experience: "11",
-      languages: ["English", "Urdu"],
+      languages: ["English", "Italian"],
       instructionID:"12121212",
       typeOfLesson: "group",
       groupName:"Lesson for kids",
@@ -1328,7 +1341,7 @@ app.get('/api/bookLesson', async (req, res) => {
       reviewScore: "4.9",
       reviewCount: 10,
       experience: "11",
-      languages: ["English", "Urdu"],
+      languages: ["English", "Italian"],
       instructionID:"12121212",
       typeOfLesson: "group",
       groupName:"Lesson for kids",
@@ -1385,7 +1398,7 @@ app.post('/api/reviews/:page', async (req, res) => {
       name: "Μαρία Α.",
       date: "24/12/2024",
       sport: "Ski",
-      resort: "Parnassos",
+      resort: "Parnassou",
       review: "Πολύ καλός προπονητής και πέρασα ευχάριστα και διασκεδαστικά μαζί του.Πολύ καλός προπονητής και πέρασα ευχάριστα και διασκεδαστικά μαζί του.",
       image: "img",
       lessonHours: 1,
@@ -1396,7 +1409,7 @@ app.post('/api/reviews/:page', async (req, res) => {
       name: "Μαρία Α.",
       date: "24/12/2024",
       sport: "Ski",
-      resort: "Parnassos",
+      resort: "Parnassou",
       review: "Πολύ καλός προπονητής και πέρασα ευχάριστα και διασκεδαστικά μαζί του.",
       image: "img",
       lessonHours: 2,
@@ -1407,7 +1420,7 @@ app.post('/api/reviews/:page', async (req, res) => {
       name: "Μαρία Α.",
       date: "24/12/2024",
       sport: "Ski",
-      resort: "Parnassos",
+      resort: "Parnassou",
       review: "Πολύ καλός προπονητής και πέρασα ευχάριστα και διασκεδαστικά μαζί του.",
       image: "img",
       lessonHours: 3,
@@ -1418,7 +1431,7 @@ app.post('/api/reviews/:page', async (req, res) => {
       name: "Μαρία Α.",
       date: "24/12/2024",
       sport: "Ski",
-      resort: "Parnassos",
+      resort: "Parnassou",
       review: "Πολύ καλός προπονητής και πέρασα ευχάριστα και διασκεδαστικά μαζί του.",
       image: "img",
       lessonHours: 4,
@@ -1429,7 +1442,7 @@ app.post('/api/reviews/:page', async (req, res) => {
       name: "Μαρία Α.",
       date: "24/12/2024",
       sport: "Ski",
-      resort: "Parnassos",
+      resort: "Parnassou",
       review: "Πολύ καλός προπονητής και πέρασα ευχάριστα και διασκεδαστικά μαζί του.",
       image: "img",
       lessonHours: 5,
@@ -1440,7 +1453,7 @@ app.post('/api/reviews/:page', async (req, res) => {
       name: "Μαρία Α.",
       date: "24/12/2024",
       sport: "Ski",
-      resort: "Parnassos",
+      resort: "Parnassou",
       review: "Πολύ καλός προπονητής και πέρασα ευχάριστα και διασκεδαστικά μαζί του.",
       image: "img",
       lessonHours: 6,
@@ -1451,7 +1464,7 @@ app.post('/api/reviews/:page', async (req, res) => {
       name: "Μαρία Α.",
       date: "24/12/2024",
       sport: "Ski",
-      resort: "Parnassos",
+      resort: "Parnassou",
       review: "Πολύ καλός προπονητής και πέρασα ευχάριστα και διασκεδαστικά μαζί του.",
       image: "img",
       lessonHours: 7,
@@ -1462,7 +1475,7 @@ app.post('/api/reviews/:page', async (req, res) => {
       name: "Μαρία Α.",
       date: "24/12/2024",
       sport: "Ski",
-      resort: "Parnassos",
+      resort: "Parnassou",
       review: "Πολύ καλός προπονητής και πέρασα ευχάριστα και διασκεδαστικά μαζί του.",
       image: "img",
       lessonHours: 8,
@@ -1473,7 +1486,7 @@ app.post('/api/reviews/:page', async (req, res) => {
       name: "Μαρία Α.",
       date: "24/12/2024",
       sport: "Ski",
-      resort: "Parnassos",
+      resort: "Parnassou",
       review: "Πολύ καλός προπονητής και πέρασα ευχάριστα και διασκεδαστικά μαζί του.",
       image: "img",
       lessonHours: 9,
@@ -1484,7 +1497,7 @@ app.post('/api/reviews/:page', async (req, res) => {
       name: "Μαρία Α.",
       date: "24/12/2024",
       sport: "Ski",
-      resort: "Parnassos",
+      resort: "Parnassou",
       review: "Πολύ καλός προπονητής και πέρασα ευχάριστα και διασκεδαστικά μαζί του.",
       image: "img",
       lessonHours: 10,
@@ -1495,7 +1508,7 @@ app.post('/api/reviews/:page', async (req, res) => {
       name: "Μαρία Α.",
       date: "24/12/2024",
       sport: "Ski",
-      resort: "Parnassos",
+      resort: "Parnassou",
       review: "Πολύ καλός προπονητής και πέρασα ευχάριστα και διασκεδαστικά μαζί του.",
       image: "img",
       lessonHours: 11,
@@ -1506,7 +1519,7 @@ app.post('/api/reviews/:page', async (req, res) => {
       name: "Μαρία Α.",
       date: "24/12/2024",
       sport: "Ski",
-      resort: "Parnassos",
+      resort: "Mainalou",
       review: "Πολύ καλός προπονητής και πέρασα ευχάριστα και διασκεδαστικά μαζί του.",
       image: "img",
       lessonHours: 12,
@@ -1585,7 +1598,7 @@ app.get("/api/getInstructorInfo/:instructorId", async (req,res)=>{
     skiResorts:["Kalavryton","Parnassou"],
     sports:["Ski","Snowboard","Sit ski"],
     languages:["English","French","Spanish"],
-    cancelationDays:7,
+    cancelationDays:0,
     biography: "nserts a certain number of random Lorem Ipsum paragraphs into the current document. The count option indicates how many paragraphs to insert. For example, lorem_p3 will insert three paragraphs into the document. If the count option is not provided, one paragraph will be inserted. If the type of Lorem Ipsum text is not specified, the extension will generate paragraphs by default",
     userEmail:"myemail@gmail.com",
     instructorEmail:"instructoremail@gmail.com"
