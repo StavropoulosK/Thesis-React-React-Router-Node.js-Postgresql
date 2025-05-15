@@ -76,7 +76,6 @@ export function InstructorInfo(){
   
     const handleClick = () => {
         if(userEmail.length==0){
-            console.log('aaa navigate')
 
             const params = new URLSearchParams(location.search);
             const newParams = new URLSearchParams();
@@ -183,9 +182,9 @@ export function InstructorInfo(){
                                                             
                                      </button>
 
-                                    {Number(cancelationDays==0) && <span className="cancelatonPolicy"> {t("no_cancelation")}</span>}
+                                    {Number(cancelationDays==-1) && <span className="cancelatonPolicy"> {t("no_cancelation")}</span>}
 
-                                    {Number(cancelationDays)!=0 && <span className="cancelationPolicy">
+                                    {Number(cancelationDays)!=-1 && <span className="cancelationPolicy">
                                         {t("cancelation_policy")} <b> {cancelationDays} {t("day",{count:Number(cancelationDays)} )}  </b>
                                         {t("before")}
 

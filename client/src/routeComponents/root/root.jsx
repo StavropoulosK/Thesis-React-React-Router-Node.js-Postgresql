@@ -1,6 +1,6 @@
 import { Outlet,useLocation, useLoaderData,ScrollRestoration  } from "react-router-dom"
 
-import { useState,useCallback,useMemo,Suspense,memo,useLayoutEffect } from "react";
+import { useState,useCallback,useMemo,useEffect,Suspense,memo,useLayoutEffect } from "react";
 
 
 import "./root.css"
@@ -67,6 +67,21 @@ export function Root(){
     //     // new pages begin at the top
     //     window.scrollTo({ top: 0, behavior: "instant" }); 
     // }, [pathname]);
+
+    useEffect(() => {
+        if (isChooseLessonParamsOpen) {
+          document.body.style.overflow = 'hidden';
+        } else {
+          document.body.style.overflow = '';
+        }
+      
+        // Cleanup on unmount
+        return () => {
+          document.body.style.overflow = '';
+        };
+      }, [isChooseLessonParamsOpen]);
+
+      
 
     return (
         <>

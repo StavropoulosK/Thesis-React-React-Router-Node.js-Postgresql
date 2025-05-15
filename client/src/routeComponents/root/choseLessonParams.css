@@ -99,9 +99,9 @@ section article.choseLessonParams .lessonParams form .dropdown:last-child img{
     background-color: rgba(17, 179, 187, 0.8);
     color: white; 
     font-size: 1.5rem; 
-    padding: 0.1rem 0.4rem; 
-    padding-top:0.05rem;
-    padding-bottom: 0.2rem;;
+    padding: 0.3rem 0.7rem; 
+    /* padding-top:0.05rem;
+    padding-bottom: 0.2rem;; */
     border: none;
     border-radius: 0.3rem; 
     cursor: pointer;

@@ -102,6 +102,9 @@ export function PreviousLessons(){
     const [visibleReviewForm,setVisibleReviewForm]=useState(false)
     const selectedInstructorReview=useRef({instructorName:"",stars:"",review:""})
 
+    const instructorEmail=useRef(null)
+    const [visibleEmailForm,setVisibleEmailForm]=useState(false)
+
     // it is used to trigger message at the bottom right corner on review sent.
     const {parentFetcher}= useOutletContext()
 
@@ -111,7 +114,7 @@ export function PreviousLessons(){
 
     const loaderData=useLoaderData()
 
-    const {previousLessons,maxPages}= fetcher.data ||loaderData
+    const {previousLessons,maxPages,studentEmail}= fetcher.data ||loaderData
 
     const {t, i18n} = useTranslation(["studentLessons","overview"])
 
@@ -145,19 +148,27 @@ export function PreviousLessons(){
 
             let showCancel= false
             
-            return {text,cost:lesson.cost,meetingPoint:lesson.meetingPoint,lessonID:lesson.lessonID,showCancel:showCancel}
+            return {text,cost:lesson.cost,meetingPoint:lesson.meetingPoint,lessonID:lesson.lessonID,showCancel:showCancel,isCanceled:lesson.canceled}
         })
         
         return arr
 
     })
-    
+
+    const instructorEmailsArray= previousLessons.map(lessonGroup=>lessonGroup.instructorInfo.email)
+
 
     const extraOptions=[
         {
+            hide:(index)=> {return lessonInfoContainer[index].filter(lesson=>!lesson.isCanceled).length==0},
             getText:()=>t("review"),
             onClick:(index)=>{ setVisibleReviewForm(true);selectedInstructorReview.current=instructorReviewsArray[index] },
             svg:<svg xmlns="http://www.w3.org/2000/svg" className="review" width={20} height={20} viewBox="0 0 24 24"><path fill="#fff" d="M2 22V4q0-.825.588-1.412T4 2h16q.825 0 1.413.588T22 4v12q0 .825-.587 1.413T20 18H6zm7.075-7.75L12 12.475l2.925 1.775l-.775-3.325l2.6-2.25l-3.425-.275L12 5.25L10.675 8.4l-3.425.275l2.6 2.25z"></path></svg>
+        },
+        {
+            getText:()=>t("Communication"),
+            onClick:(index)=>{ setVisibleEmailForm(true);instructorEmail.current=instructorEmailsArray[index]},
+            svg:<svg xmlns="http://www.w3.org/2000/svg" className="email" width={22} height={22} viewBox="0 0 20 20"><path fill="#fafafa" d="M3.87 4h13.25C18.37 4 19 4.59 19 5.79v8.42c0 1.19-.63 1.79-1.88 1.79H3.87c-1.25 0-1.88-.6-1.88-1.79V5.79c0-1.2.63-1.79 1.88-1.79m6.62 8.6l6.74-5.53c.24-.2.43-.66.13-1.07c-.29-.41-.82-.42-1.17-.17l-5.7 3.86L4.8 5.83c-.35-.25-.88-.24-1.17.17c-.3.41-.11.87.13 1.07z"></path></svg>
         },
     ]
 
@@ -177,6 +188,7 @@ export function PreviousLessons(){
         (<>
         
         { visibleReviewForm && <ReviewForm {...selectedInstructorReview.current} onClose={()=>setVisibleReviewForm(false)} fetcher={parentFetcher}></ReviewForm> }
+        { visibleEmailForm && <EmailForm studentEmail={studentEmail} instructorEmail={instructorEmail.current} onClose={()=>setVisibleEmailForm(false)} fetcher={parentFetcher}></EmailForm> }
 
         <StudentLessonsComponent instructorPhonesArray={instructorPhonesArray} namespace={"studentLessonsComponent"} lessons={previousLessons} lessonInfoContainer={lessonInfoContainer} textLeft="Selected lessons" onCancel={(lessonID)=>{popUpMessage.current=t("cancel_a_lesson") ;setShowPopUp(true); lessonsToCancel.current=[lessonID] }} extraOptions={extraOptions}></StudentLessonsComponent>
         <PageNavigation maxPages={maxPages} page={1} updateURL={handleNavigate} />
@@ -372,12 +384,13 @@ export function UpComingStudentLessons(){
             const date = new Date(`${year}-${month}-${day}`);
             const dayOfWeek = date.toLocaleDateString(currentLanguage, { weekday: "long" });
             const isAllDay = lesson.isAllDay;
+            const isCanceled=lesson.canceled || false
 
             const text=dayOfWeek+" "+lesson.date+" "+ (isAllDay?` ${t("all_day",{ns:"overview" })} (`:"") +   `${lesson.timeStart}-${lesson.timeEnd}${isAllDay?")":""}`
 
-            let showCancel= isCancellable(year,month,day,cancelationDays)
+            let showCancel= cancelationDays!=-1 &&  isCancellable(year,month,day,cancelationDays) && !isCanceled
             
-            return {text,cost:lesson.cost,meetingPoint:lesson.meetingPoint,lessonID:lesson.lessonID,showCancel:showCancel}
+            return {text,cost:lesson.cost,meetingPoint:lesson.meetingPoint,lessonID:lesson.lessonID,showCancel:showCancel,isCanceled}
         })
         
         return arr
@@ -388,6 +401,8 @@ export function UpComingStudentLessons(){
     const instructorEmailsArray= upComingLessons.map(lessonGroup=>lessonGroup.instructorInfo.email)
     
 
+    // mpori to mathima na mi dixenete gia akirosi an exoun perasi oi meres : den prepei na fainetai i akirosi olon ala mono i epikoinonia
+
     const extraOptions=[
         {
             getText:()=>t("Communication"),
@@ -396,6 +411,7 @@ export function UpComingStudentLessons(){
         },
 
         {getText:({count})=>t('remove', { count: count }) ,
+        hide:(index)=>lessonInfoContainer[index].filter(lesson=>lesson.showCancel).length==0,
         onClick:(index)=>{
             setShowPopUp(true);
             lessonsToCancel.current= lessonInfoContainer[index].filter(lesson=>lesson.showCancel).map(lesson=>lesson.lessonID)
@@ -415,7 +431,7 @@ export function UpComingStudentLessons(){
                         <h4>{t("scheduled_lessons")}</h4>
                         {upComingLessons.length!=0 ? 
                         <StudentLessonsComponent instructorPhonesArray={instructorPhonesArray} namespace={"studentLessonsComponent"} lessons={upComingLessons} lessonInfoContainer={lessonInfoContainer} textLeft="Selected lessons" onCancel={(lessonID)=>{popUpMessage.current=t("cancel_a_lesson") ;setShowPopUp(true); lessonsToCancel.current=[lessonID] }} extraOptions={extraOptions}></StudentLessonsComponent>
-                        :<p>{t("no_lessons")}</p>
+                        :<p>{t("no_lessons")} </p>
                         }
                     </article>
 

@@ -169,6 +169,20 @@ export function BookLesson(){
     // instructionID is for group lessons
     const [showLessons,setShowLessons]=useState({instructorId:"",instructorName:"",resort:"",sport:"",from:"",to:"",members:"",typeOfLesson:"",instructionID:""})
 
+
+    useEffect(() => {
+        if (showLessons.instructorId) {
+          document.body.style.overflow = 'hidden';
+        } else {
+          document.body.style.overflow = '';
+        }
+      
+        // Cleanup on unmount
+        return () => {
+          document.body.style.overflow = '';
+        };
+      }, [showLessons.instructorId]);
+
     return(
         <>
             {showLessons.instructorId && <ShowLessons {...showLessons} onClose={()=>setShowLessons("")}/>}
@@ -525,7 +539,6 @@ const Menu= memo( ({resetInstructorName})=>{
 
                         <Dropdown namespace={"bookLesson"} text="Order by" selected={orderBy}
                             setSelected={(value)=>{
-                                console.log('aaaa ',value,orderBy)
                                 if(value==orderBy){
                                     return
                                 }

@@ -199,6 +199,10 @@ div.profileDropdown{
         font-size: 0.85rem !important;
     }
 
+    .nav-right button.shoppingCart{
+        margin-right: 1rem;
+    }
+
     div.profileDropdown{
         top:2.8rem;
     }

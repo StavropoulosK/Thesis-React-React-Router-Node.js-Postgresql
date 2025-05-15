@@ -8,6 +8,10 @@ import { Await } from "react-router";
 
 import { useTranslation } from "react-i18next";
 
+// epanasxediasi
+
+// flags https://uxplanet.org/what-is-wrong-with-flag-icons-for-languages-according-to-ux-designers-ef7340423b82
+
 
 // references   
 

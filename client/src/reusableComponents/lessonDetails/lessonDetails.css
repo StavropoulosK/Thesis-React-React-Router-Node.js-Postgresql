@@ -21,7 +21,7 @@
     box-sizing: border-box;
     margin-top: 0.1rem;
     max-width: 100%;
-
+    margin-bottom: 0.5rem;
 }
 
 .lessonDetails  button.hidden {
@@ -63,6 +63,7 @@
     height: 2rem;
     margin-left:0;
     width: fit-content;
+    margin-bottom: 0.5rem;
 }
 
 .lessonDetails .infoContainer .left{
@@ -75,6 +76,7 @@
     display: flex;
     justify-content: flex-end;
     width: 4rem;
+    
 }
 
 .lessonDetails .infoContainer .right button{
@@ -186,4 +188,23 @@
         margin-bottom: 0.8rem;
       }
 
+}
+
+
+@media(max-width:1200px){
+  .overallContainer .lessonDetails .infoContainer .right {
+
+    margin-bottom: auto;
+    
+}
+
+}
+
+
+@media (max-width:900px){
+  .showLessons .lessonDetails .infoContainer .right {
+
+    margin-bottom: auto ;
+    
+}
 }

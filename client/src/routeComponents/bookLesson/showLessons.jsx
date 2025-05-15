@@ -303,9 +303,11 @@ function OneDayLessons({ lessons,setSelectedLessons,selectedLessons }) {
                                 <div className={`circle-small ${!selected?"notVisible":""}`}>
                                     <svg className="tick" xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24"><path fill="#fff" d="M21 7L9 19l-5.5-5.5l1.41-1.41L9 16.17L19.59 5.59z"/></svg>
                                 </div>
+
+                                
                             
-                            <span>{lesson.isAllDay?`${t("all_day")} (`:""}{lesson.timeStart}-{lesson.timeEnd}{lesson.isAllDay?")":""}</span>
-                            <span>{lesson.cost}€</span>
+                            <span>{lesson.isAllDay?`${t("all_day")} (`:""}{lesson.timeStart} - {lesson.timeEnd}{lesson.isAllDay?")":""} {lesson.isAllDay?lesson.cost:""}€ </span>
+                            {!lesson.isAllDay && <span>{lesson.cost}€</span>}
                         </button>
                     )
                 })}

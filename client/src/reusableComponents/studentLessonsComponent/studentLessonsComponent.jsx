@@ -134,9 +134,9 @@ export function StudentLessonsComponent({namespace,lessons,instructorPhonesArray
                                                             
                                                         </button>
 
-                                                        {Number(lesson.instructorInfo.cancelationDays)==0 && <span className="cancelationPolicy">{t("no_cancelation")}</span> }
+                                                        {Number(lesson.instructorInfo.cancelationDays)==-1 && <span className="cancelationPolicy">{t("no_cancelation")}</span> }
  
-                                                        {Number(lesson.instructorInfo.cancelationDays)!=0 && <span className="cancelationPolicy">{t("cancelation_policy")} <b>{lesson.instructorInfo.cancelationDays} {t('day', { count: Number(lesson.instructorInfo.cancelationDays) })}</b>  {t("before_lesson")}</span> }
+                                                        {Number(lesson.instructorInfo.cancelationDays)!=-1 && <span className="cancelationPolicy">{t("cancelation_policy")} <b>{lesson.instructorInfo.cancelationDays} {t('day', { count: Number(lesson.instructorInfo.cancelationDays) })}</b>  {t("before_lesson")}</span> }
                                                     </div>
 
                                                 </div>
@@ -206,14 +206,18 @@ export function StudentLessonsComponent({namespace,lessons,instructorPhonesArray
                                     <div className="optionsBtnContainer">
 
                                         {extraOptions.map((option,btnIndex)=>{
+
+                                            if (typeof option.hide === 'function' && option.hide(lessonIndex)) {
+                                                return null;
+                                            }
                                             
                                             return(
-                                            
+                                                 (
                                                 <button className="optionsBtn" key={btnIndex} onClick={()=>option.onClick(lessonIndex)}>
                                                     {option.svg}
                                                     <span>{option.getText( {count:lessonInfoContainer[lessonIndex].filter(lesson=>lesson.showCancel).map(lesson=>lesson.lessonID).length }) }</span>
 
-                                                </button>
+                                                </button>)
                                             
                                             )
                                         })}

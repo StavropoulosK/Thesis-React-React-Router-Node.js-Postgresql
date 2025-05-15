@@ -147,7 +147,7 @@ app.get("/api/getInstructorProfileParams",authoriseInstructor,async (req,res)=>{
   const firstName="alex"
   const lastName="mic"
 
-  
+
   const instructorName=firstName +' '+lastName[0]+"."
 
   res.json({instructorName,instructorID:"i121212",firstName,lastName,email:"kostas.striker@gmail.com",phone:"306951232693",knownLanguages,resorts,sports,cancelationPolicy,biography,summary,yearsOfExperience})
@@ -278,9 +278,9 @@ app.get("/api/getPreviousStudentLessons/:page",authoriseStudent, async (req,res)
               reviewCount: 12,
               experience: "1",
               languages: ["English", "French", "Spanish"],
-              cancelationDays: "0",
+              cancelationDays: "-1",
               image: "/images/startPage/Ski.jpg",
-              email:"myemail@gmail.com",
+              email:"123123myemail@gmail.com",
               phoneNumber:"+306951232693"
 
           },
@@ -308,6 +308,7 @@ app.get("/api/getPreviousStudentLessons/:page",authoriseStudent, async (req,res)
                 cost: "150",
                 meetingPoint: { location: "Δεύτερο σαλέ" },
                 isAllDay: false,
+                canceled:true
 
 
             },
@@ -319,8 +320,9 @@ app.get("/api/getPreviousStudentLessons/:page",authoriseStudent, async (req,res)
                 cost: "150",
                 isAllDay: true,
 
-                meetingPoint: { location: "Δεύτερο σαλέ" }
-              
+                meetingPoint: { location: "Δεύτερο σαλέ" },
+                canceled:true
+
             },
 
 
@@ -335,7 +337,7 @@ app.get("/api/getPreviousStudentLessons/:page",authoriseStudent, async (req,res)
           reviewCount: 1,
           experience: "2",
           languages: ["English", "French"],
-          cancelationDays: "0",
+          cancelationDays: "-1",
           image: "/images/startPage/Ski.jpg",
           email:"myemail!!@gmail.com",
           phoneNumber:"+306951232692"
@@ -800,9 +802,10 @@ app.get("/api/getPreviousStudentLessons/:page",authoriseStudent, async (req,res)
   
     // Return a slice of the lessons array for the given page
     const lessonsToSend= lessons.slice(startIndex, endIndex);
+    const studentEmail="123kostas@gmail.com"
 
 
-    res.json({previousLessons:lessonsToSend,maxPages})
+    res.json({previousLessons:lessonsToSend,maxPages,studentEmail})
 })
 
 app.get("/api/getUpComingStudentLessons",authoriseStudent, async (req,res)=>{
@@ -813,6 +816,8 @@ app.get("/api/getUpComingStudentLessons",authoriseStudent, async (req,res)=>{
 
     // esto kai ena mathima apo mia apo tis pano katigories na min exei teliosi, stelnontai ola ta mathimata tis katigorias
     // console.log("fetching")
+
+    //cancelatioDays=-1 for no cancelation policy
 
     const studentEmail="kostas@gmail.com"
 
@@ -825,7 +830,7 @@ app.get("/api/getUpComingStudentLessons",authoriseStudent, async (req,res)=>{
               reviewCount: 12,
               experience: "6",
               languages: ["English", "French", "Spanish"],
-              cancelationDays: "0",
+              cancelationDays: "-1",
               image: "/images/startPage/Ski.jpg",
               email:"myemail@gmail.com",
               phoneNumber:"+306951232693"
@@ -855,6 +860,7 @@ app.get("/api/getUpComingStudentLessons",authoriseStudent, async (req,res)=>{
                 cost: "150",
                 meetingPoint: { location: "Δεύτερο σαλέ" },
                 isAllDay: false,
+                canceled:true
   
   
             },
@@ -866,8 +872,9 @@ app.get("/api/getUpComingStudentLessons",authoriseStudent, async (req,res)=>{
                 cost: "150",
                 isAllDay: true,
   
-                meetingPoint: { location: "Δεύτερο σαλέ" }
-              
+                meetingPoint: { location: "Δεύτερο σαλέ" },
+                canceled:true
+
             },
   
   
@@ -924,9 +931,46 @@ app.get("/api/getUpComingStudentLessons",authoriseStudent, async (req,res)=>{
               timeEnd: "14:00",
               cost: "260",
               isAllDay: false,
-              meetingPoint: { location: "Δεύτερο σαλέ" }
+              meetingPoint: { location: "Δεύτερο σαλέ" },
+              canceled:true
           
           },
+
+          { 
+            lessonID: "1023",
+            date: "14/04/2026",
+            timeStart: "12:00",
+            timeEnd: "14:00",
+            cost: "260",
+            isAllDay: false,
+            meetingPoint: { location: "Δεύτερο σαλέ" },
+            canceled:false
+        
+        },
+
+        { 
+          lessonID: "1024",
+          date: "14/04/2026",
+          timeStart: "12:00",
+          timeEnd: "14:00",
+          cost: "260",
+          isAllDay: false,
+          meetingPoint: { location: "Δεύτερο σαλέ" },
+          canceled:false
+      
+      },
+
+      { 
+        lessonID: "1025",
+        date: "14/04/2026",
+        timeStart: "12:00",
+        timeEnd: "14:00",
+        cost: "260",
+        isAllDay: false,
+        meetingPoint: { location: "Δεύτερο σαλέ" },
+        canceled:true
+    
+    },
   
   
         ]
@@ -985,7 +1029,7 @@ app.get('/api/getLessonsInCart',authoriseStudent,async (req,res)=>{
             reviewCount: 12,
             experience: "6",
             languages: ["English", "French", "Spanish"],
-            cancelationDays: "0",
+            cancelationDays: "-1",
             image: "/images/startPage/Ski.jpg",
 
         },
@@ -1009,6 +1053,7 @@ app.get('/api/getLessonsInCart',authoriseStudent,async (req,res)=>{
               cost: "150",
               meetingPoint: { location: "Δεύτερο σαλέ" },
               isAllDay: false,
+              canceled:true
 
 
           },
@@ -1020,7 +1065,9 @@ app.get('/api/getLessonsInCart',authoriseStudent,async (req,res)=>{
               cost: "150",
               isAllDay: true,
 
-              meetingPoint: { location: "Δεύτερο σαλέ" }
+              meetingPoint: { location: "Δεύτερο σαλέ" },
+              canceled:true
+
             
           },
 
@@ -1598,7 +1645,7 @@ app.get("/api/getInstructorInfo/:instructorId", async (req,res)=>{
     skiResorts:["Kalavryton","Parnassou"],
     sports:["Ski","Snowboard","Sit ski"],
     languages:["English","French","Spanish"],
-    cancelationDays:0,
+    cancelationDays:-1,
     biography: "nserts a certain number of random Lorem Ipsum paragraphs into the current document. The count option indicates how many paragraphs to insert. For example, lorem_p3 will insert three paragraphs into the document. If the count option is not provided, one paragraph will be inserted. If the type of Lorem Ipsum text is not specified, the extension will generate paragraphs by default",
     userEmail:"myemail@gmail.com",
     instructorEmail:"instructoremail@gmail.com"

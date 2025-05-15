@@ -12,6 +12,7 @@ export default function LessonDetails({lessonInfo,onCancel,textLeft,showIndex=fa
     
     const [showFull, setShowFull] = useState(false);
 
+
     const totalCost = lessonInfo.reduce((sum, lesson) => sum + Number(lesson.cost), 0);
 
     const {t, i18n} = useTranslation("showLessons")
@@ -21,11 +22,12 @@ export default function LessonDetails({lessonInfo,onCancel,textLeft,showIndex=fa
             <div className="lessons">
                 <h4>{t(textLeft)}</h4>
                 {lessonInfo.map((lesson,index)=>{
+
                    return( 
                    <div className="infoContainer" key={lesson.lessonID}>
                         <div className="left">
                            {/* {showIndex ? index+1:""}{")"}  */}
-                           
+                           {lesson.isCanceled && <b> {t("canceled")+" "}</b>}
                            {lesson.text}
 
                         </div>
@@ -100,7 +102,7 @@ export default function LessonDetails({lessonInfo,onCancel,textLeft,showIndex=fa
                       }
                     return (
                         <div key={lesson.lessonID}>
-                            <span className="mobile">{mobileText}</span> <span>{lesson.meetingPoint.location}</span>
+                            <span className="mobile">{lesson.isCanceled && <b> {t("canceled")+" "}</b>} {mobileText}</span> <span>{lesson.meetingPoint.location}</span>
 
                             <EnlargeImgButton showFull={showFull} setShowFull={setShowFull}/>
                         </div>

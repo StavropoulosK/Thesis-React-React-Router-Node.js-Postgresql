@@ -120,8 +120,8 @@ const Header= memo (({setIsChooseLessonParamsOpen,loginStatus,lessonsInCart})=>{
         
                         
                         <button onClick={handleLanguageChange} className="changeLngBtn">
-                            <img src={currentLanguage=='el'?enFlag:grFlag} alt="Icon" />
-
+                            {/* <img src={currentLanguage=='el'?enFlag:grFlag} alt="Icon" /> */}
+                            {currentLanguage=='el'?"EN":"EL"}
                         </button>
                     </div>
 
