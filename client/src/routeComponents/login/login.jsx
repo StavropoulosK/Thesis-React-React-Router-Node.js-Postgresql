@@ -37,7 +37,7 @@ export async function loginAction({request}){
 
         let redirectTo = formData.get("redirectTo")
 
-        const defaultRedirect= accountType=="student"?"/studentMenu/profile" : "/"
+        const defaultRedirect= accountType=="student"?"/studentMenu/profile" : "/instructorMenu/profile"
 
 
         return redirect(redirectTo || defaultRedirect);

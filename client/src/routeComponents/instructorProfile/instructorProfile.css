@@ -378,6 +378,11 @@ section.instructorProfile .moreInfo{
 
     }
 
+    /* .selectList .allContainer{
+      margin-left: auto;
+      margin-right: 0 !important;
+    } */
+
     .instructorProfile .toggle-button{
       margin-left: 0.3rem;
     }

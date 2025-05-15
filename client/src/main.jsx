@@ -141,6 +141,13 @@ const router= createBrowserRouter([
                 },
               },
               {
+                path:"instructorSchedule",
+                async lazy(){
+                  const {InstructorSchedule,instructorScheduleLoader}= await import("./routeComponents/instructorSchedule/instructorSchedule.jsx")
+                  return {element:<InstructorSchedule/>}
+                },
+              },
+              {
                 path:"profile",
                 async lazy(){
                   const {InstructorProfile,instructorProfileLoader,instructorProfileAction}= await import("./routeComponents/instructorProfile/instructorProfile.jsx")
