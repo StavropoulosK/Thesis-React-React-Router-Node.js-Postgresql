@@ -1722,6 +1722,99 @@ app.get('/api/getGeneralStatistics',authoriseInstructor, async (req,res)=>{
   res.json({monthsToDisplay,reviewScores})
 })
 
+app.post("/api/updateNote", authoriseInstructor, async (req,res)=>{
+    const { note,lessonID} = req.body; 
+
+  //note_success note_failure
+
+    res.json({message:"note_failure"})
+
+})
+
+app.get("/api/getInstructorSchedule/:date",authoriseInstructor, async(req,res)=>{
+  const date=req.params.date
+
+  const lessons=[
+    {
+      resort:"Parnassou",
+      date:"Monday 15/01/2025",
+      time:"8:30-10:30",
+      sport:"Ski",
+      participants:3,
+      lessonType:"private",
+      meetingPoint:{
+        title:"Άνω σαλέ",
+      },
+      studentInfos:[
+        {
+          name:"Γεωργία Θάμου",
+          email:"myemail@gmail.com",
+          phone:'6999999999',
+          level:"Beginner"
+        },
+        {
+          name:"Γεωργία Θάμου",
+          email:"myemail@gmail.com",
+          phone:'6999999999',
+          level:"Beginner"
+        },
+        {
+          name:"Γεωργία Θάμου",
+          email:"myemail@gmail.com",
+          phone:'6999999999',
+          level:"Beginner"
+        },
+        {
+          name:"Γεωργία Θάμου",
+          email:"myemail@gmail.com",
+          phone:'6999999999',
+          level:"Beginner"
+        },
+        {
+          name:"Γεωργία Θάμου",
+          email:"myemail@gmail.com",
+          phone:'6999999999',
+          level:"Beginner"
+        },
+        {
+          name:"Γεωργία Θάμου",
+          email:"myemail@gmail.com",
+          phone:'6999999999',
+          level:"Beginner"
+        }
+      ],
+      note:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe quis cumque voluptatibus eos quibusdam sint reprehenderit! Nostrum qui omnis accusantium, nam voluptate ipsa sapiente enim expedita, itaque corrupti, sequi ut",
+      lessonID:"12123"
+
+    },
+
+    {
+      resort:"Parnassou",
+      date:"Monday 15/01/2025",
+      time:"8:30-10:30",
+      sport:"Ski",
+      participants:3,
+      lessonType:"group",
+      meetingPoint:{
+        title:"Άνω σαλέ",
+      },
+      studentInfos:[
+        {
+          name:"Γεωργία Θάμου",
+          email:"myemail@gmail.com",
+          phone:'6999999999',
+          level:"Beginner"
+        },
+      ],
+      note:"",
+      lessonID:"1212"
+    }
+  ]
+
+  res.json({lessons})
+
+})
+
 app.get('*',(req,res)=>{
 
     // xrisimopoioume client side routing. 

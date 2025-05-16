@@ -1,0 +1,64 @@
+{
+    "schedule":"Πρόγραμμα",
+    "lessons":"Μαθήματα",
+    "lessonInfo":"Στοιχεία μαθήματος",
+    "resort":"Χιονοδρομικό",
+    "date":"Ημερομηνία",
+    "time":"Ώρα",
+    "sport":"Άθλημα",
+    "participants":"Συμμετέχοντες",
+    "lessonType":"Τύπος μαθήματος",
+
+    "Aniliou": "Ανηλίου",
+    "Vasilitsas": "Βασιλίτσας",
+    "Velouhiou": "Βελουχίου",
+    "Elatochoriou": "Ελατοχωρίου",
+    "Kaimaktsalan": "Καϊμακτσαλάν",
+    "Kalavryton": "Καλαβρύτων",
+    "Mainalou": "Μαινάλου",
+    "Parnassou": "Παρνασσού",
+    "Piliou": "Πηλίου",
+    "Pisoderiou": "Πισοδερίου",
+    "Falakrou": "Φαλακρού",
+    "3-5 Pigadia": "3-5 Πηγάδια",
+
+    "Ski":"Χιονοδρομία",
+    "Snowboard":"Χιονοσανίδα",
+    "Sit ski":"Καθιστό σκι",
+
+    "private":"Ιδιωτικό",
+    "group":"Ομαδικό",
+
+    "Beginner":"Αρχάριος",
+    "Intermediate":"Μέτριος",
+    "Advanced":"Προχωρημένος",
+
+    "Monday": "Δευτέρα",
+    "Tuesday": "Τρίτη",
+    "Wednesday": "Τετάρτη",
+    "Thursday": "Πέμπτη",
+    "Friday": "Παρασκευή",
+    "Saturday": "Σάββατο",
+    "Sunday": "Κυριακή",
+
+    "meeting_point":"Σημείο συνάντησης",
+
+    "student_info":"Στοιχεία μαθητών",
+
+    "note":"Σημείωση",
+
+    "add_note":"Προσθήκη σημείωσης",
+
+    "write_msg":"Εδώ μπορείτε να γράψετε μία σημείωση",
+
+    "your_msg":"Σημείωση",
+
+    "ok":"Οκ",
+
+    "cancel":"Ακύρωση",
+
+    "note_failure":"Η καταχώρηση απέτυχε",
+
+    "note_success":"Η καταχώρηση πραγματοποιήθηκε"
+
+}

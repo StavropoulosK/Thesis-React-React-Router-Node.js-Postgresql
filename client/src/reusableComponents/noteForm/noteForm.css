@@ -1,4 +1,4 @@
-.email-form-container {
+.note-form-container {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -14,8 +14,12 @@
     flex-direction: column;
     box-sizing: border-box;
   }
+
+  .note-form-container h4{
+    font-size: 1.2rem;
+  }
   
-  .email-form-container .close-button {
+  .note-form-container  .close-button {
     position: absolute;
     top: 0.5rem;
     right: 0.5rem;
@@ -25,21 +29,17 @@
     cursor: pointer;
   }
   
-  .email-input-row {
+  .note-form-container .note-input-row {
     margin-top: 0rem;
 
   }
 
-  .email-input-row h4{
+  .note-form-container .note-input-row h4{
     margin-bottom: 0.8rem;
   }
 
-  .email-input-row p{
-    margin: 0rem;
-    margin-bottom: 0.5rem;
-  }
   
-  .email-textarea {
+  .note-form-container .note-textarea {
     margin-top: 1rem;
     margin-bottom: 1.5rem;
     height: 170px;
@@ -48,11 +48,11 @@
     font-size: 1rem;
   }
 
-  .email-textarea:focus {
+  .note-form-container .note-textarea:focus {
     outline: none;
   }
   
-  .email-buttons button {
+  .note-form-container .note-buttons button {
 
     background-color: rgba(17, 179, 187, 0.8);
     width: fit-content;
@@ -70,14 +70,14 @@
 
 
   @media(max-width:750px){
-    .email-form-container {
+    .note-form-container {
       margin-left: 2rem;
     }
     
   }
 
   @media(max-width:500px){
-    .email-form-container {
+    .note-form-container {
 
     width: 320px;
     max-width: 90vw;;

@@ -1,0 +1,393 @@
+.instructorSchedule{
+    padding:4rem;
+    padding-left:12rem;
+}
+
+
+.instructorSchedule .dropdown{
+    max-width: 20rem;
+    position: relative;
+}
+
+.instructorSchedule .dropdown > *{
+    width: 100%;
+}
+
+.instructorSchedule .calendar-grid-wrapper{
+    position: absolute;
+    background-color: white;
+    border:1px solid black;
+    border-radius: 0.5rem;
+    margin-top: 0.8rem;
+    z-index: 20;
+
+}
+
+.instructorSchedule  .calendar-day{
+    width: 1.8rem;
+}
+
+
+.instructorSchedule .calendar-day{
+    border-radius: 50% !important;
+    height: fit-content;
+    padding:0.2rem
+}
+
+.instructorSchedule h2{
+    font-size: 1.5rem;
+    margin-top: 2rem;
+}
+
+.instructorSchedule h4{
+    font-weight: 500;
+    font-size: 1.3rem;
+}
+
+
+
+
+
+.instructorSchedule .instructorLesson{
+    border:1px solid black;
+    border-radius: 1rem;
+    padding:1rem;
+    max-width: 85%;
+    margin: 0 auto;
+    margin-bottom: 2rem;
+}
+
+.instructorSchedule .instructorLesson .top{
+    display: flex;
+}
+
+
+.instructorSchedule .instructorLesson .attributeInfoContainer{
+    display: grid;
+    grid-template-rows: repeat(2, auto); /* 2 rows */
+    grid-auto-flow: column; /* fill columns first */
+    width: fit-content;
+}
+
+.instructorSchedule .instructorLesson .attributeInfo .participantsIcon{
+    width: 1.4rem !important;
+}
+
+
+.instructorSchedule .instructorLesson .attributeInfo{
+    margin-bottom: 1rem;
+    width: fit-content;
+    margin-right: 1rem;
+    display: flex;
+    word-break: break-word;
+    max-width: 20rem;
+
+}
+
+.instructorSchedule .instructorLesson h3{
+    margin-top: 0;
+}
+
+
+
+
+
+
+.instructorSchedule .attributeInfo > button{
+    border:none;
+    cursor:pointer;
+    background:none;
+    width: 2rem;
+    margin-left:1rem;
+}
+
+.instructorSchedule .instructorLesson .attributeInfo > button img{
+    width: 2rem;
+}
+
+.instructorSchedule .instructorLesson .attributeInfo > img, .instructorSchedule .instructorLesson .attributeInfo svg{
+    min-width: 1.1rem;
+    width: 1.1rem;
+    margin-right: 0.5rem;
+    height: fit-content;
+
+}
+
+
+.instructorSchedule .imageOverlay.imageOverlay {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 8;
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+  }
+  
+  .instructorSchedule .imagePopup.imagePopup {
+    position: relative;
+    width: fit-content;
+    padding:0 ;
+    height: 400px ;
+    background: white;
+    border-radius: 8px;
+  
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .instructorSchedule .imagePopup > img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+  }
+  
+  .instructorSchedule .closeBtn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 20;
+  }
+  
+  .instructorSchedule .closeBtn.closeBtn.closeBtn img {
+    width: 0.6rem ;
+    height: 0.6rem;
+  }
+
+
+
+
+  .instructorSchedule .studentInfoContainer{
+    display: flex;
+    flex-wrap: wrap;
+    
+  }
+
+  .instructorSchedule .studentInfo{
+    width: fit-content;
+    margin-right: 2rem;
+    display: flex;
+    margin-bottom:1rem;
+    border: 1px solid rgba(0, 0, 0, 0.5); /* lighter, thinner appearance */
+    padding:0.5rem;
+    border-radius: 0.4rem;
+
+  }
+
+  .instructorSchedule .studentInfo > img{
+    width: 5rem;
+    margin-right: 0.5rem;
+    max-height: 4rem;
+    border-radius: 0.7rem;
+
+  }
+
+  
+  .instructorSchedule .studentAttributeContainer{
+    display: grid;
+    grid-template-columns: auto 1fr; 
+    grid-template-rows: repeat(2, auto);  
+    width: fit-content;
+    max-width: fit-content;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }  
+
+
+
+  .instructorSchedule .studentAttributeContainer  .studentAttribute{
+    display: flex;
+    margin-bottom: 0.4rem;
+    width: fit-content;
+    margin-right: 0.5rem;
+  }
+
+  .instructorSchedule .studentAttributeContainer  .studentAttribute span{
+    word-break: break-word;
+    max-width: 10rem;
+  }
+
+
+  .instructorSchedule .studentAttributeContainer img,  .instructorSchedule .studentAttributeContainer svg{
+    width: 1.2rem;
+    min-width: 1.2rem;
+    height: fit-content;
+    margin-right: 0.5rem;
+  }
+
+
+.instructorSchedule .noteContainer button{
+    background-color: rgba(17, 179, 187, 0.8);
+    color: white;
+    padding: 0.4rem 0.4rem;
+    border-radius: 0.4rem;
+    border:none;
+    cursor: pointer;
+    margin-top:0.8rem;
+    width: 100%;
+    font-size: 1.1rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    box-sizing: border-box;
+    width: 15rem;
+}
+
+.instructorSchedule .noteContainer button svg{
+    margin-right: 0.6rem;
+    scale: 0.9;
+    margin-left: 0.5rem;
+}
+
+
+
+
+
+
+
+@media (max-width:1500px){
+    
+
+    .instructorSchedule .imageOverlay.imageOverlay{
+      width: 100% !important;
+    }
+}
+
+
+
+
+
+
+@media (max-width:1350px){
+    .instructorSchedule .top .attributeInfoContainer{
+        grid-template-rows: repeat(3, auto);
+
+    }
+
+    .instructorSchedule .studentInfoContainer{
+        flex-direction: column;
+        flex-wrap: nowrap;
+
+    }
+
+    .instructorSchedule .instructorLesson h3{
+        width: fit-content;
+        font-size: 1.1rem;
+    }
+
+    .instructorSchedule .studentInformation{
+        width: fit-content;
+    }
+}
+
+@media (max-width:1100px){
+    .instructorSchedule .top{
+        flex-direction: column;
+        width: fit-content;
+
+    }
+
+    .instructorSchedule .instructorLesson{
+        max-width: 600px;
+        display: flex;
+        flex-direction: column;
+        margin-right: 1rem;
+    }
+
+    .instructorSchedule  .studentInformation{
+        width: fit-content;
+    }
+
+    .instructorSchedule  .studentInformation > *{
+        width: fit-content !important;
+    }
+
+    .instructorSchedule .studentInfoContainer{
+        max-width: fit-content;
+    }
+
+    .instructorSchedule .studentInfo{
+        max-width: fit-content !important;
+        margin-right: 0;
+    }
+
+    .instructorSchedule  .noteContainer {
+        max-width:100%
+    }
+
+    .instructorSchedule .noteContainer button{
+        font-size: 1rem;
+    }
+}
+
+
+@media(max-width:720px){
+    .instructorSchedule .studentInfo{
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+
+
+
+
+@media (max-width:600px){
+
+
+    .instructorSchedule{
+        padding-left:6rem;
+        padding-right: 0;
+    }
+
+    .instructorSchedule .studentAttributeContainer{
+        display: flex;
+        flex-direction: column;
+    }
+
+
+.instructorSchedule .studentAttributeContainer .studentAttribute{
+    margin-top: 0.5rem;
+}
+
+.instructorSchedule .imageOverlay.imageOverlay{
+    height: 10rem;
+    max-width: 90%;
+    object-fit: cover;
+}
+    
+
+}
+
+@media(max-width:500px){
+    .instructorSchedule .instructorLesson .attributeInfoContainer{
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+
+@media (max-width:420px){
+    .instructorSchedule{
+        padding-left:3.5rem;
+    }
+
+    .instructorSchedule h2{
+        font-size: 1.3rem ;
+    }
+
+    .instructorSchedule h4{
+        font-size: 1.2rem;
+    }
+
+}

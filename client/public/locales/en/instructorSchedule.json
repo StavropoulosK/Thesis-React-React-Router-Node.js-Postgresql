@@ -1,0 +1,65 @@
+{
+    "schedule":"Scheudle",
+    "lessons":"Lessons",
+    "lessonInfo":"Lesson information",
+    "resort":"Resort",
+    "date":"Date",
+    "time":"Time",
+    "sport":"Sport",
+    "participants":"Participants",
+    "lessonType":"Lesson type",
+
+    "Aniliou": "Aniliou",
+    "Vasilitsas": "Vasilitsas",
+    "Velouhiou": "Velouhiou",
+    "Elatochoriou": "Elatochoriou",
+    "Kaimaktsalan": "Kaimaktsalan",
+    "Kalavryton": "Kalavryton",
+    "Mainalou": "Mainalou",
+    "Parnassou": "Parnassou",
+    "Piliou": "Piliou",
+    "Pisoderiou": "Pisoderiou",
+    "Falakrou": "Falakrou",
+    "3-5 Pigadia": "3-5 Pigadia",
+
+    "Ski":"Ski",
+    "Snowboard":"Snowboard",
+    "Sit ski":"Sit ski",
+
+    
+    "private":"Private",
+    "group":"Group",
+
+    "Beginner":"Beginner",
+    "Intermediate":"Intermediate",
+    "Advanced":"Advanced",
+
+    "Monday": "Monday",
+    "Tuesday": "Tuesday",
+    "Wednesday": "Wednesday",
+    "Thursday": "Thursday",
+    "Friday": "Friday",
+    "Saturday": "Saturday",
+    "Sunday": "Sunday",
+
+    "meeting_point":"Meeting point",
+
+    "student_info":"Student information",
+
+    "note":"Note",
+
+    "add_note":"Add note",
+
+    "write_msg":"Here you can take a note",
+
+    "your_msg":"Note",
+
+    "ok":"Ok",
+
+    "cancel":"Cancel",
+
+    "note_failure":"Note update failed",
+
+    "note_success":"Note saved"
+
+}

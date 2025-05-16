@@ -36,12 +36,10 @@
 
 
 @media (max-width:600px){
-    .statistics h2{
-        font-size: 1.3rem ;
-    }
+
 
     .statistics{
-        padding-left:4rem;
+        padding-left:6rem;
     }
 
     .statistics .chartContainer{
@@ -50,9 +48,13 @@
 }
 
 
-@media (max-width:420px){
+@media (max-width:450px){
     .statistics{
-        padding-left:3rem;
+        padding-left:3.5rem;
+    }
+
+    .statistics h2{
+        font-size: 1.3rem ;
     }
 
 }

@@ -119,7 +119,7 @@ export default function LessonDetails({lessonInfo,onCancel,textLeft,showIndex=fa
 }
 
 
-function EnlargeImgButton({showFull,setShowFull}){
+export function EnlargeImgButton({showFull,setShowFull}){
 
     return (
       <>

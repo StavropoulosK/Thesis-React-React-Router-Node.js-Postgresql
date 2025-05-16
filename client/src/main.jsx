@@ -34,7 +34,6 @@ import {reviewsLoader} from "./reusableComponents/reviews/reviews.jsx"
 
 import {postEmailRequestAction, postReviewAction} from "./routeComponents/studentLessons/studentLessons.jsx"
 
-
 import './i18n.js'
 
 const router= createBrowserRouter([
@@ -143,8 +142,8 @@ const router= createBrowserRouter([
               {
                 path:"instructorSchedule",
                 async lazy(){
-                  const {InstructorSchedule,instructorScheduleLoader}= await import("./routeComponents/instructorSchedule/instructorSchedule.jsx")
-                  return {element:<InstructorSchedule/>}
+                  const {InstructorSchedule,instructorScheduleLoader,updateNoteAction}= await import("./routeComponents/instructorSchedule/instructorSchedule.jsx")
+                  return {element:<InstructorSchedule/>,loader:instructorScheduleLoader,action:updateNoteAction}
                 },
               },
               {
@@ -244,7 +243,7 @@ const router= createBrowserRouter([
             {
               path:"postReview",
               action:postReviewAction
-            }
+            },
         ]
         
       }
