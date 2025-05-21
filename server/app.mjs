@@ -812,7 +812,7 @@ app.get("/api/getUpComingStudentLessons",authoriseStudent, async (req,res)=>{
     
     // ta mathimata katigoriopoiountai ana kratisi
     // ta idiotika mathimata : ana kratisi/ ana instructor/ ana resort/ana sport
-    // ta group amthimata : ana kratisi/ ana didaskalia
+    // ta group mathimata : ana kratisi/ ana didaskalia
 
     // esto kai ena mathima apo mia apo tis pano katigories na min exei teliosi, stelnontai ola ta mathimata tis katigorias
     // console.log("fetching")
