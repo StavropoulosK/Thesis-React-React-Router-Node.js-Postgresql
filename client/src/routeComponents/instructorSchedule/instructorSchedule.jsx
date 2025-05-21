@@ -281,7 +281,7 @@ export function InstructorSchedule(){
     )
 }
 
-function CalendarContainer({selectedDate,setSelectedDate}){
+export function CalendarContainer({selectedDate,setSelectedDate}){
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
 
@@ -304,7 +304,7 @@ function CalendarContainer({selectedDate,setSelectedDate}){
             <div className="dropdown calendar" ref={dropdownRef}>
                 <button onClick={() => setIsOpen(!isOpen)} className="dropdown-button" type="button">
                     <img src={"/icons/lessonParams/calendar.png"} />
-                    {selectedDate?formatDate(selectedDate):"Επιλογή ημερομηνίας"}
+                    {selectedDate?formatDate(selectedDate):t("selectDate")}
                 </button>
 
                 {isOpen && <CalendarGrid selectedDate={selectedDate} setSelectedDate={setSelectedDate}  onSelect={()=>setIsOpen(false)}/>}

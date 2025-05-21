@@ -1,0 +1,12 @@
+.instructorTeachings .selectList.dropdown{
+    width: 100%;
+    /* margin-bottom: 10rem; */
+}
+
+.instructorTeachings .selectList.dropdown .selectList-option{
+    height: 2.1rem;
+}
+
+.instructorTeachings .selectList.dropdown .dropdown-menu{
+    margin-top: 3rem;
+}

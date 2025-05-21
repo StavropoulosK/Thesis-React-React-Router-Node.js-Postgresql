@@ -1,0 +1,126 @@
+{
+    "success":"Η αλλαγή αποθηκεύτηκε",
+    "failure":"Η αλλαγή απέτυχε",
+    "meetingPoints":"Σημεία συνάντησης",
+    "deleteMeetingPoint":"Είστε σίγουρος/η ότι θέλετε να διαγράψετε αυτό το σημείο συνάντησης;",
+    "close":"Ακύρωση",
+    "ok":"Διαγραφή",
+
+    "location":"Τοποθεσία",
+
+    "addMeetingPoint":"Προσθήκη σημείου συνάντησης",
+
+    "updateMeetingPoint_success":"Επιτυχής ενημέρωση",
+    "updateMeetingPoint_failure":"Η ενημέρωση απέτυχε",
+
+    "deleteMeetingPoint_success":"Επιτυχής διαγραφή",
+    "deleteMeetingPoint_failure":"Η διαγραφή απέτυχε",
+
+    "resort":"Χιονοδρομικό",
+    "text":"Περιγραφή",
+
+    "createMeetingPoint_success":"Δημιουργήθηκε καινούργιο σημείο συνάντησης",
+    "createMeetingPoint_failure":"Η δημιουργία απέτυχε",
+
+    "select_days":"Επιλογή ημέρων",
+
+    "day_one":"ημέρα",
+    "day_other":"ημέρες",
+
+    "createTeaching_success":"Η διδασκαλία δημιουργήθηκε επιτυχώς",
+    "createTeaching_failure":"Η δημιουργία απέτυχε",
+
+    "createTeaching":"Δημιουργία διδασκαλίας",
+
+    "resortLocation":"Χιονοδρομικό κέντρο",
+
+    "sport":"Άθλημα",
+
+    "dateStart":"Ημερομηνία έναρξης",
+
+    "dateEnd":"Ημερομηνία λήξης",
+
+    "daysSelection":"Ημέρες μαθημάτων",
+
+    "Monday": "Δευτέρα",
+    "Tuesday": "Τρίτη",
+    "Wednesday": "Τετάρτη",
+    "Thursday": "Πέμπτη",
+    "Friday": "Παρασκευή",
+    "Saturday": "Σάββατο",
+    "Sunday": "Κυριακή",
+
+    "timestart":"Ώρα έναρξης ",
+    "timeEnd":" Ώρα λήξης",
+
+    "placeholderStart":"π.χ. 8:00",
+    "placeholderEnd":"π.χ. 12:00",
+
+    "isAllDay":"Το μάθημα διαρκεί όλη μέρα",
+    "true":"Ναι",
+    "false":"Όχι",
+
+    "lessonType":"Τύπος μαθήματος",
+    "private":"Ιδιωτικό",
+    "group":"Ομαδικό",
+
+    "maxNumber":"Μέγιστο πλήθος συμμετεχόντων",
+
+    "hourCost":"Τιμή ανά ώρα",
+
+    "groupTitle":"Τίτλος (για ομαδικό μάθημα)",
+    "groupName":"Όνομα ομαδικού μαθ.",
+
+    "meetingPoint":"Σημείο συνάντησης",
+
+    "after_agreement":"Έπειτα από συνεννόηση",
+
+    "canChange":" (μπορεί να τροποποιηθεί)",
+
+    "existingTeaching":"Δημιουργημένες διδασκαλίες",
+    
+    "updateTeaching":" Αποθήκευση",
+
+    "updateTeaching_success":"Η αλλαγή αποθηκεύτηκε",
+    "updateTeaching_failure":"Η αλλαγή απέτυχε",
+
+    "overview":"Επεξεργασία μαθημάτων",
+
+    "msg":"Μπορείτε να ακυρώσετε κάποιο μάθημα",
+
+    "lesson":"Μάθημα",
+
+    "hasStudents":"Εγγεγραμένοι",
+
+    "state":"Κατάσταση",
+
+    "yes":"Ναι",
+
+    "no":"Όχι",
+
+    "canceled":"Ακυρωμένο",
+
+    "active":"Ενεργό",
+
+    "cancelLessons_success":"Η ακύρωση πραγματοποιήθηκε",
+
+    "cancelLessons_failure":"Η ακύρωση απέτυχε",
+
+    
+    "cancelLesson_one":"Ακύρωση μαθήματος",
+
+    "cancelLesson_other":"Ακύρωση μαθημάτων"
+
+
+
+
+
+    
+
+
+
+
+
+
+
+}

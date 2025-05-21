@@ -152,6 +152,13 @@ const router= createBrowserRouter([
                   const {InstructorProfile,instructorProfileLoader,instructorProfileAction}= await import("./routeComponents/instructorProfile/instructorProfile.jsx")
                   return {element:<InstructorProfile/>,loader:instructorProfileLoader,action:instructorProfileAction}
                 },
+              },
+              {
+                path:"teachings",
+                async lazy(){
+                  const {InstructorTeachings,instructorTeachingsLoader,instructorTeachingsAction}= await import("./routeComponents/instructorTeachings/instructorTeachings.jsx")
+                  return {element:<InstructorTeachings/>,loader:instructorTeachingsLoader,action:instructorTeachingsAction}
+                },
               }
             ]
           },

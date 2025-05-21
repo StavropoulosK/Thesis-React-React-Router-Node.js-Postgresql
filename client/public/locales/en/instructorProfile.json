@@ -57,7 +57,13 @@
     "experience":"Select how many years of experience you have:",
     "expText":"Years of experience",
     "review_header":"Profile overview and reviews",
-    "review_text":"Overview and reviews"
+    "review_text":"Overview and reviews",
+
+    "createProfile":"You need to fill in your profile information to create new teachings",
+
+    "close":"Close",
+    "ok":"Ok"
+
 
 
 

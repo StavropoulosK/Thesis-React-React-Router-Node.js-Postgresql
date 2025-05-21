@@ -6,7 +6,7 @@ import useCloseOnOutsideClick from "../../hooks/closeOnClickOutside.jsx"
 import { useTranslation } from "react-i18next";
 
 
-export default function Dropdown({namespace,options,text,icon,selected,setSelected}) {
+export default function Dropdown({namespace,options,text,icon,selected,setSelected,shouldBreak=false}) {
   // const [selected, setSelected] = useState(selectedSport||'');
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -33,7 +33,7 @@ export default function Dropdown({namespace,options,text,icon,selected,setSelect
                   setIsOpen(false)
                   setSelected(el)}
                 }>
-                  {t(el)}
+                  {(!shouldBreak || el.split(" ").length!=2)?t(el):t(el.split(" ")[0])+" "+el.split(" ")[1]}
                 </li>)
               } 
             </ul>

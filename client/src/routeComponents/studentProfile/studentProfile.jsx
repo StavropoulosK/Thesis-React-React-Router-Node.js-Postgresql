@@ -57,12 +57,17 @@ export async function studentProfileAction({request,params}){
         });
       
         if (!response.ok) {
-          console.error("Failed to update user info");
-          message="failure"
+            const params = new URLSearchParams(window.location.search);
+            const newParams=new URLSearchParams()
+            newParams.set("fromPage", window.location.pathname+"?"+params.toString());
+            
+            return redirect("/login?" + newParams.toString());
 
         }
       
+     
         message = (await response.json()).message;
+        
 
     } catch (error) {
         console.error("Network or server error:", error);

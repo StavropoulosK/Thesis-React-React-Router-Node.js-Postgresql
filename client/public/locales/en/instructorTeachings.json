@@ -1,0 +1,122 @@
+{
+    "success":"Change saved",
+    "failure":"Update failed",
+    "meetingPoints":"Meeting points",
+    "deleteMeetingPoint":"Are you sure you want to delete this meeting point?",
+    "close":"Close",
+    "ok":"Delete",
+    "location":"Location",
+
+    "addMeetingPoint":"Add meeting point",
+
+    "updateMeetingPoint_success":"Updated successfully",
+    "updateMeetingPoint_failure":"Update failed",
+
+    "deleteMeetingPoint_success":"Deleted successfully",
+    "deleteMeetingPoint_failure":"Deletion failed",
+
+    "resort":"Resort location",
+    "text":"Description",
+
+    "createMeetingPoint_success":"New meeting point created",
+    "createMeetingPoint_failure":"Creation failed",
+
+    "select_days":"Select days",
+
+    
+    "day_one":"day",
+    "day_other":"days",
+
+    "createTeaching_success":"Teaching created successfully",
+    "createTeaching_failure":"Creation failed",
+
+    "createTeaching":"Create new teaching",
+
+    "resortLocation":"Resort location",
+
+    "sport":"Sport",
+
+    "dateStart":"Start date",
+
+    "dateEnd":"End date",
+
+    "daysSelection":"Lesson days",
+
+    "Monday": "Monday",
+    "Tuesday": "Tuesday",
+    "Wednesday": "Wednesday",
+    "Thursday": "Thursday",
+    "Friday": "Friday",
+    "Saturday": "Saturday",
+    "Sunday": "Sunday",
+    "timestart":"Start time ",
+    "timeEnd":" End time",
+
+    "placeholderStart":"e.g. 8:00",
+    "placeholderEnd":"e.g. 12:00",
+
+    "isAllDay":"Lesson is all day",
+    "true":"Yes",
+    "false":"No",
+
+    "lessonType":"Lesson type",
+    "private":"Private",
+    "group":"Group",
+
+    "maxNumber":"Maximum participant number",
+
+    "hourCost":"Cost per hour",
+
+    "groupTitle":"Title (for group lesson)",
+    "groupName":"Group lesson name",
+
+    "meetingPoint":"Meeting point",
+
+    "after_agreement":"After agreement",
+
+    "canChange":" (it can be changed)",
+
+    "existingTeaching":"Created teachings",
+
+    "updateTeaching":" Save",
+
+    "updateTeaching_success":"Update succeeded",
+    "updateTeaching_failure":"Update failed",
+
+    "overview":"Update lessons",
+
+    "msg":"You can select lessons to cancel",
+
+    "lesson":"Lesson",
+
+    "hasStudents":"Has students",
+
+    "state":"Status",
+
+    "yes":"Yes",
+
+    "no":"No",
+
+    "canceled":"Canceled",
+
+    "active":"Active",
+
+    "cancelLessons_success":"Cancelation succeeded",
+
+    "cancelLessons_failure":"Cancelation failed",
+
+    "cancelLesson_one":"Cancel lesson",
+
+    "cancelLesson_other":"Cancel lessons"
+
+
+
+
+
+
+
+
+
+
+
+}

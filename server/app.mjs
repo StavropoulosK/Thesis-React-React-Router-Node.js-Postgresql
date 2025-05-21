@@ -1815,6 +1815,452 @@ app.get("/api/getInstructorSchedule/:date",authoriseInstructor, async(req,res)=>
 
 })
 
+function parseDateFromString(dateStr) {
+  // dateStr is DD/MM/YYYY
+  const [day, month, year] = dateStr.split("/").map(Number);
+  return new Date(year, month - 1, day); // month is 0-based
+}
+
+app.get("/api/getTeachings",authoriseInstructor, async (req,res)=>{
+
+    const meetingPoints=[
+    {
+      id:"1",
+      resort:"laasd",
+      text:"ano sale"
+    },
+    {
+      id:"2",
+      resort:"laasd",
+      text:"ano sale"
+    },
+    {
+      id:"3",
+      resort:"laasd",
+      text:"ano sale"
+    },
+    {
+      id:"4",
+      resort:"laasd",
+      text:"ano sale"
+    },
+    {
+      id:"15",
+      resort:"",
+      text:""
+    },
+  ]
+
+    // a) 1 member 2 members, b) meetingPoint einai to index (p.x. to 3 apo auta pou blepi o xristis) kai oxi to id . To meeting point mporei na einai location 1, location 2.... after_agreement
+
+
+  const existingTeachings=[
+    {
+      teachingID:202,
+      selectedResort:"Parnassou",
+      selectedSport:"Ski",
+      selectedDateStart:"24/05/2025",
+      selectedDateEnd:"27/05/2025",
+      selectedDays:["Monday","Tuesday"],
+      timeStart:"07:20",
+      timeEnd:"10:20",
+      isLessonAllDay:"true",
+      selectedLessonType:"private",
+      selectedMaxParticipants:"1 member",
+      meetingPoint:"location 1",
+      hourCost:"202",
+      groupName:"",
+      lessons:[
+          {
+            lessonID: 1,
+            date: "20/05/2025",
+            canceled: false,
+            time: "10:00-12:00",
+            hasParticipants: true,
+          },
+          {
+            lessonID: 2,
+            date: "21/05/2025",
+            canceled: true,
+            time: "11:00-13:00",
+            hasParticipants: false,
+          },
+          {
+            lessonID: 3,
+            date: "22/05/2025",
+            canceled: false,
+            time: "09:00-11:00",
+            hasParticipants: true,
+          },
+          {
+            lessonID: 4,
+            date: "23/05/2025",
+            canceled: false,
+            time: "14:00-16:00",
+            hasParticipants: true,
+          },
+          {
+            lessonID: 5,
+            date: "24/05/2025",
+            canceled: true,
+            time: "10:20-12:20",
+            hasParticipants: true,
+          },
+          {
+            lessonID: 6,
+            date: "25/05/2025",
+            canceled: false,
+            time: "08:30-10:30",
+            hasParticipants: false,
+          },
+          {
+            lessonID: 7,
+            date: "26/05/2025",
+            canceled: false,
+            time: "15:00-17:00",
+            hasParticipants: true,
+          },
+          {
+            lessonID: 8,
+            date: "27/05/2025",
+            canceled: true,
+            time: "13:00-15:00",
+            hasParticipants: false,
+          },
+          {
+            lessonID: 9,
+            date: "28/05/2025",
+            canceled: false,
+            time: "12:00-14:00",
+            hasParticipants: true,
+          },
+          {
+            lessonID: 10,
+            date: "29/05/2025",
+            canceled: false,
+            time: "10:00-12:00",
+            hasParticipants: true,
+          },
+          {
+            lessonID: 11,
+            date: "30/05/2025",
+            canceled: true,
+            time: "09:00-11:00",
+            hasParticipants: false,
+          },
+          {
+            lessonID: 12,
+            date: "31/05/2025",
+            canceled: false,
+            time: "10:20-12:20",
+            hasParticipants: true,
+          },
+          {
+            lessonID: 13,
+            date: "01/06/2025",
+            canceled: false,
+            time: "10:20-12:20",
+            hasParticipants: true,
+          },
+          {
+            lessonID: 14,
+            date: "02/06/2025",
+            canceled: true,
+            time: "11:00-13:00",
+            hasParticipants: false,
+          },
+          {
+            lessonID: 15,
+            date: "03/06/2025",
+            canceled: false,
+            time: "12:30-14:30",
+            hasParticipants: true,
+          },
+          {
+            lessonID: 16,
+            date: "04/06/2025",
+            canceled: false,
+            time: "08:00-10:00",
+            hasParticipants: true,
+          },
+          {
+            lessonID: 17,
+            date: "05/06/2025",
+            canceled: true,
+            time: "14:00-16:00",
+            hasParticipants: false,
+          },
+          {
+            lessonID: 18,
+            date: "06/06/2025",
+            canceled: false,
+            time: "13:30-15:30",
+            hasParticipants: true,
+          },
+          {
+            lessonID: 19,
+            date: "07/06/2025",
+            canceled: false,
+            time: "09:30-11:30",
+            hasParticipants: true,
+          },
+          {
+            lessonID: 20,
+            date: "08/06/2025",
+            canceled: true,
+            time: "10:00-12:00",
+            hasParticipants: false,
+          }
+   
+        
+      ]
+
+    },
+
+    {
+      teachingID:203,
+      selectedResort:"Parnassou",
+      selectedSport:"Ski",
+      selectedDateStart:"24/05/2025",
+      selectedDateEnd:"27/05/2025",
+      selectedDays:["Monday","Tuesday","Wednesday"],
+      timeStart:"07:20",
+      timeEnd:"12:30",
+      isLessonAllDay:"false",
+      selectedLessonType:"group",
+      selectedMaxParticipants:"2 members",
+      meetingPoint:"after_agreement",
+      hourCost:"202",
+      groupName:"group name",
+      lessons:[
+        {
+          lessonID: 1,
+          date: "20/05/2025",
+          canceled: false,
+          time: "10:00-12:00",
+          hasParticipants: true,
+        },
+        {
+          lessonID: 2,
+          date: "21/05/2025",
+          canceled: true,
+          time: "11:00-13:00",
+          hasParticipants: false,
+        },
+        {
+          lessonID: 3,
+          date: "22/05/2025",
+          canceled: false,
+          time: "09:00-11:00",
+          hasParticipants: true,
+        },
+        {
+          lessonID: 4,
+          date: "23/05/2025",
+          canceled: false,
+          time: "14:00-16:00",
+          hasParticipants: true,
+        },
+        {
+          lessonID: 5,
+          date: "24/05/2025",
+          canceled: true,
+          time: "10:20-12:20",
+          hasParticipants: true,
+        },
+        {
+          lessonID: 6,
+          date: "25/05/2025",
+          canceled: false,
+          time: "08:30-10:30",
+          hasParticipants: false,
+        },
+        {
+          lessonID: 7,
+          date: "26/05/2025",
+          canceled: false,
+          time: "15:00-17:00",
+          hasParticipants: true,
+        },
+        {
+          lessonID: 8,
+          date: "27/05/2025",
+          canceled: true,
+          time: "13:00-15:00",
+          hasParticipants: false,
+        },
+        {
+          lessonID: 9,
+          date: "28/05/2025",
+          canceled: false,
+          time: "12:00-14:00",
+          hasParticipants: true,
+        },
+        {
+          lessonID: 10,
+          date: "29/05/2025",
+          canceled: false,
+          time: "10:00-12:00",
+          hasParticipants: true,
+        },
+        {
+          lessonID: 11,
+          date: "30/05/2025",
+          canceled: true,
+          time: "09:00-11:00",
+          hasParticipants: false,
+        },
+        {
+          lessonID: 12,
+          date: "31/05/2025",
+          canceled: false,
+          time: "10:20-12:20",
+          hasParticipants: true,
+        },
+        {
+          lessonID: 13,
+          date: "01/06/2025",
+          canceled: false,
+          time: "10:20-12:20",
+          hasParticipants: true,
+        },
+        {
+          lessonID: 14,
+          date: "02/06/2025",
+          canceled: true,
+          time: "11:00-13:00",
+          hasParticipants: false,
+        },
+        {
+          lessonID: 15,
+          date: "03/06/2025",
+          canceled: false,
+          time: "12:30-14:30",
+          hasParticipants: true,
+        },
+        {
+          lessonID: 16,
+          date: "04/06/2025",
+          canceled: false,
+          time: "08:00-10:00",
+          hasParticipants: true,
+        },
+        {
+          lessonID: 17,
+          date: "05/06/2025",
+          canceled: true,
+          time: "14:00-16:00",
+          hasParticipants: false,
+        },
+        {
+          lessonID: 18,
+          date: "06/06/2025",
+          canceled: false,
+          time: "13:30-15:30",
+          hasParticipants: true,
+        },
+        {
+          lessonID: 19,
+          date: "07/06/2025",
+          canceled: false,
+          time: "09:30-11:30",
+          hasParticipants: true,
+        },
+        {
+          lessonID: 20,
+          date: "08/06/2025",
+          canceled: true,
+          time: "10:00-12:00",
+          hasParticipants: false,
+        }
+ 
+      
+    ]
+
+    }
+  ]
+
+  const profileParamsAreFilled=true
+
+  res.json({meetingPoints,existingTeachings,profileParamsAreFilled})
+
+})
+
+app.post("/api/cancelInstructorLessons",authoriseInstructor, async(req,res)=>{
+  const {lessonIDsArray}= req.body
+
+
+  // cancelLessons_success, cancelLessons_failure
+
+
+  res.json({message:"cancelLessons_success"})
+})
+
+app.post("/api/updateTeaching",authoriseInstructor, async (req,res)=>{
+  const {meetingPointId,teachingID} =req.body
+
+
+  console.log("!$#!#$ ",meetingPointId,teachingID)
+
+  // updateTeaching_success, updateTeaching_failure
+
+  res.json({message:"updateTeaching_success"})
+})
+
+
+app.post("/api/createTeaching",authoriseInstructor, async (req,res)=>{
+  const {selectedDateStart,selectedDateEnd,selectedResort,selectedSport,selectedMaxParticipants,groupName,selectedDays,meetingPointId,hourCost,timeStart,timeEnd,selectedLessonType,isLessonAllDay} =req.body
+
+
+  //islessonallday is string
+  console.log("#### ",selectedDateStart,selectedDateEnd,selectedResort,selectedSport,selectedMaxParticipants,groupName,selectedDays,meetingPointId,hourCost,timeStart,timeEnd,selectedLessonType,isLessonAllDay)
+
+  // createTeaching_success, createTeaching_failure
+
+  res.json({message:"createTeaching_failure"})
+})
+
+
+app.post("/api/updateMeetingPoint",authoriseInstructor, async(req,res)=>{
+  const { meetingPointId,resort,text,updateField } = req.body; // Access request body
+
+  // await new Promise(resolve => setTimeout(resolve, 5000));
+
+  if(updateField=="resortName"){
+    console.log("resortName")
+
+  }
+  else if(updateField=="resort_text"){
+    console.log("resort_text")
+  }
+
+  // updateMeetingPoint_success, updateMeetingPoint_failure
+
+  res.json({message:"updateMeetingPoint_success"})
+
+
+})
+
+app.post("/api/deleteMeetingPoint",authoriseInstructor, async(req,res)=>{
+  const { meetingPointId } = req.body; 
+
+
+  //deleteMeetingPoint_success, deleteMeetingPoint_failure
+
+
+  res.json({message:"deleteMeetingPoint_failure"})
+
+})
+
+app.get("/api/createMeetingPoint",authoriseInstructor, async(req,res)=>{
+
+
+  // createMeetingPoint_success, api/updateMeetingPoint
+
+  res.json({message:"createMeetingPoint_success"})
+})
+
+
 app.get('*',(req,res)=>{
 
     // xrisimopoioume client side routing. 

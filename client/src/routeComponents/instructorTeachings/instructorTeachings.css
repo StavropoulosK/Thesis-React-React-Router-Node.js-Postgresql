@@ -1,0 +1,507 @@
+.instructorTeachings{
+    padding: 4rem;
+    padding-left: 12rem;
+}
+
+.instructorTeachings h2{
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.instructorTeachings .meetingPoints{
+    border:1px solid rgba(0,0,0,0.8);
+    padding:2rem;
+
+}
+
+.instructorTeachings .meetingPointsContainer{
+    display: flex;
+    flex-wrap: wrap;
+    width: fit-content;
+}
+
+.instructorTeachings .meetingPointsContainer .meetingPoint{
+    margin-right: 1rem;
+    border: 1px solid black;
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+}
+
+.instructorTeachings .meetingPointsContainer .meetingPoint img{
+    max-width: 10rem;
+    object-fit: contain; 
+    margin-top: 0.5rem;
+}
+
+.instructorTeachings .meetingPointsContainer .meetingPoint {
+    display: flex;
+    flex-direction: column;
+    padding: 0.4rem;
+    padding-left:0.7rem
+}
+
+.instructorTeachings .meetingPointsContainer .meetingPoint .id{
+    margin-bottom: 0.2rem;
+    position: relative;
+    bottom:0.3rem;
+}
+
+
+.instructorTeachings .meetingPointsContainer .meetingPoint button.delete{
+    margin-left: auto;
+    margin-right: 0;
+    font-size: 1.1rem;
+}
+
+.instructorTeachings .meetingPointsContainer .meetingPoint button{
+    border:none;
+    cursor:pointer;
+    background:none;
+}
+
+
+
+
+
+.instructorTeachings .toggle-container{
+    min-height: 1.6rem;
+    max-width: 10rem;
+    width: 10rem !important;
+    margin-bottom: 0;
+}
+
+.instructorTeachings .toggle-container svg{
+    width: 1.1rem;
+}
+
+.instructorTeachings .toggle-container input{
+    width: 100% !important;
+}
+
+.instructorTeachings .toggle-container .tick{
+    scale:1.15;
+}
+
+.instructorTeachings .toggle-container span, .instructorTeachings .toggle-container input{
+    font-size: 1rem ;
+    margin-left: 0;
+    word-break: break-all;
+    
+}
+
+.instructorTeachings .toggle-container .toggle-button{
+    margin-bottom: auto;
+}
+
+.instructorTeachings .meetingPoint .inputContainer:first-of-type span{
+    font-weight: bold;
+}
+
+.instructorTeachings .toggle-container .toggle-span:first-child{
+    width: 1rem;
+    display: none !important;
+}
+
+.instructorTeachings .toggle-button{
+    width: 2rem;
+    flex-grow: 0;
+}
+
+.instructorTeachings .createMeetingPoint svg{
+  margin-bottom: auto;
+  margin-right: 0.5rem;
+  position: relative;
+  min-width: 1.2rem;
+  width: 1.2rem;
+}
+
+.instructorTeachings .createMeetingPoint, .instructorTeachings .buttonContainer{
+  display: flex;
+}
+
+.instructorTeachings .createMeetingPoint, .instructorTeachings .optionBtn.disabled{
+    cursor: auto;
+    background-color:rgba(17, 179, 187, 0.4); ;
+}
+
+.instructorTeachings .createMeetingPoint, .instructorTeachings .optionBtn svg{
+  min-width: 2rem;
+}
+
+
+.instructorTeachings .createMeetingPoint, .instructorTeachings .optionBtn{
+    background-color: rgba(17, 179, 187, 0.8);
+    width: fit-content;
+    color: white; 
+    margin-top:1.5rem;
+    font-size: 1.1rem; 
+    padding: 0.5rem 0.8rem; 
+    cursor: pointer;
+    border: none;
+    border-radius: 0.3rem; 
+    height: fit-content;
+    display: flex;
+    align-items: center; 
+    justify-content: flex-start;
+    margin-right: 2rem;
+
+}
+
+.instructorTeachings .createMeetingPoint, .instructorTeachings .optionBtn svg{
+    margin-right: 0.5rem;
+}
+
+.instructorTeachings .addImage{
+    width: 100%;
+    height: 100%;
+    border: 1px dashed black !important;
+    margin-top: 0.5rem;
+    margin-bottom: 0.4rem;
+    min-height: 8rem;
+
+}
+
+.instructorTeachings .previousTeachings .teachingContainer{
+    border: 1px solid black;
+    padding:3rem
+}
+
+.instructorTeachings .previousTeachings .teachingContainer .teachingArticle{
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+}
+
+.instructorTeachings .previousTeachings .teachingContainer .teachingArticle .teaching{
+    /* border: none; */
+    margin-top: 0;
+}
+
+
+.instructorTeachings .createTeaching{
+    margin-bottom: 2rem;
+}
+
+.instructorTeachings .dropdown{
+    min-width: 16rem;
+    width: 100%;
+    position: relative;
+}
+
+.instructorTeachings .dropdown > *{
+    width: 100%;
+}
+
+.instructorTeachings .calendar-grid-wrapper{
+    position: absolute;
+    background-color: white;
+    border:1px solid black;
+    border-radius: 0.5rem;
+    margin-top: 0.8rem;
+    z-index: 20;
+
+}
+
+.instructorTeachings  .calendar-day{
+    width: 1.8rem;
+}
+
+
+.instructorTeachings .calendar-day{
+    border-radius: 50% !important;
+    height: fit-content;
+    padding:0.2rem
+}
+
+
+
+
+
+
+.two-option-toggle {
+    display: flex;
+    width: 200px;
+    border-radius: 1rem;
+    border: 1px solid transparent;
+    overflow: hidden;
+    background-color: rgba(151, 151, 151,0.2);
+
+  }
+  
+  .two-option-toggle .option {
+    flex: 1;
+    padding: 10px 0;
+    text-align: center;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .two-option-toggle .option.selected {
+    background-color: rgba(17, 179, 187, 0.8);
+    border-radius: 1rem;
+    color:white
+  }
+
+  .two-option-toggle .option:not(.selected) {
+    color:rgba(0,0,0,0.25);
+}
+
+
+.instructorTeachings .teaching input{
+    outline: none;
+    cursor: pointer;
+    border:1px solid black;
+    border-radius: 0.6rem;
+}
+
+
+
+
+.instructorTeachings .teaching  .input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+  }
+  
+  .instructorTeachings .teaching  .input-icon {
+    position: absolute;
+    left: 5px;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  
+  .instructorTeachings .teaching  .input-field {
+    padding-left: 2rem; /* make room for the icon */
+    height: 36px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+
+
+
+
+
+
+
+
+.instructorTeachings .teachingArticle{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    padding: 1rem;
+
+}
+
+.instructorTeachings .optionsBtn svg{
+    margin-left: 0;
+}
+
+
+
+
+
+  .instructorTeachings .teaching{
+    border-radius: 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); /* Responsive */
+    gap: 1rem; /* spacing between items */
+    margin-top: 2rem;
+
+  }
+
+  .instructorTeachings .teaching .field {
+    margin-right: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-width: 400px;
+  }
+
+  .instructorTeachings .teaching .field > div{
+    margin-bottom: 1rem;
+  }
+
+  .instructorTeachings .teaching .field > h4{
+    margin-bottom: 1rem;
+    margin-top: 0;
+
+  }
+
+  .instructorTeachings .teaching .field > h4.disabled{
+    color:rgba(0,0,0,0.25)
+
+  }
+
+  .instructorTeachings .teaching  .input-disabled {
+    background-color: #f5f5f5;
+    cursor:auto;
+    color: rgba(0,0,0,0.85);
+    border: 1px solid #ccc;
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  .instructorTeachings .teaching .field.timeSelection .container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .instructorTeachings .teaching .field.timeSelection .container > span{
+    margin:  0 0.5rem;
+  }
+
+  .instructorTeachings .teaching.existing .field:not(.meetingPointChange) button.dropdown-button,   .instructorTeachings .teaching.existing .input-field,  .instructorTeachings .teaching.existing .two-option-toggle{
+    pointer-events: none;
+    cursor: auto;
+  }
+
+  .instructorTeachings .teaching.existing .field:not(.meetingPointChange) .dropdown svg{
+    display: none;
+  }
+
+
+  .instructorTeachings .teaching.existing .dropdown.selectList button.dropdown-button{
+    pointer-events: auto !important;
+  }
+
+  .instructorTeachings .teaching.existing .dropdown.selectList svg{
+    display: block !important;
+  }
+
+  .instructorTeachings .teaching.existing .select-list-button{
+    pointer-events: none;
+  }
+
+  .instructorTeachings .optionBtn svg{
+    min-width: fit-content;
+  }
+
+  @media (max-width:860px){
+    .instructorTeachings .buttonContainer{
+      flex-direction: column;
+    }
+
+    .instructorTeachings .optionBtn svg{
+      min-width: 1.2rem;
+      margin-bottom: auto;
+    }
+
+  }
+
+  @media (max-width:680px){
+    .instructorTeachings .createMeetingPoint, .instructorTeachings .buttonContainer button.updateLesson{
+      /* max-width: 150px; */
+      width: fit-content;
+      margin-right: 0;
+      text-align: left;
+    }
+  }
+
+
+  @media (max-width:620px) and (min-width:600px){
+    .instructorTeachings .createMeetingPoint{
+      max-width: 200px !important;
+  
+   }
+  }
+
+  @media (max-width: 600px) {
+    .instructorTeachings{
+      padding-left: 6rem;
+      padding-right: 2rem;
+    }
+  }
+
+  @media(max-width:650px){
+    .instructorTeachings .previousTeachings .teachingContainer{
+      padding:2rem;
+    }
+  }
+
+  @media (max-width:550px){
+    .instructorTeachings .previousTeachings .teachingContainer{
+      padding:0rem;
+      border: none;
+    }
+  }
+
+  @media(max-width:530px){
+    .instructorTeachings .createMeetingPoint, .instructorTeachings .optionBtn{
+      max-width: 200px;
+  
+   }
+
+   .instructorTeachings .optionBtn{
+      max-width: 250px;
+      text-align: left;
+   }
+  }
+
+  @media (max-width:435px) and (min-width:420px){
+    .instructorTeachings .optionBtn:not(.updateLesson){
+      /* max-width: 250px; */
+      margin-right: 0;
+    }
+  }
+  
+
+  @media(max-width:440px){
+    .instructorTeachings .dropdown{
+      max-width: 240px !important;
+      min-width: 0 !important;
+    }
+  }
+
+  @media (max-width:420px){
+    .instructorTeachings h2{
+      font-size: 1.3rem;
+    }
+
+    .instructorTeachings{
+      padding-left: 3.5rem;
+    }
+
+    .instructorTeachings .createMeetingPoint, .instructorTeachings .optionBtn{
+        font-size: 1rem;
+    }
+
+    .instructorTeachings .createMeetingPoint{
+      max-width: 220px;
+  
+  }
+
+  .instructorTeachings .optionBtn{
+    max-width: 300px;
+
+
+  }
+
+  }
+
+
+  @media (max-width:380px){
+    .instructorTeachings .meetingPoints{
+      padding: 1rem;
+    }
+
+    .instructorTeachings .teaching .field{
+      margin-right: 0;
+    }
+
+    .instructorTeachings .teaching .field > *{
+      max-width: 230px !important;
+      margin-right: 0;
+    }
+
+    .instructorTeachings .optionBtn:not(.updateLesson){
+      max-width: 150px;
+    }
+  }

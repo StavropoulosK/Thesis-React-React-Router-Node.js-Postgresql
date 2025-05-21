@@ -23,7 +23,6 @@ export default function ChoseLessonParams({onReservationClick,selectedSport,canc
 
     const location = useLocation();
 
-
     // useEffect(() => {
 
     //   console.log("effect ",mount.current)

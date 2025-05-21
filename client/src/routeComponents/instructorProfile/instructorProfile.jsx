@@ -1,6 +1,6 @@
 import "./instructorProfile.css"
 
-import { redirect, useLoaderData, useFetcher,Link} from "react-router-dom";
+import { redirect, useLoaderData, useFetcher,Link,useSearchParams} from "react-router-dom";
 import { ToggleInput } from "../../reusableComponents/toggleInput/toggleInput";
 
 import { useState,useRef } from "react";
@@ -11,9 +11,17 @@ import ShowMessageScreen from "../../reusableComponents/showMessageScreen/showMe
 import SelectList from "../../reusableComponents/selectList/selectList";
 import TextContainer from "../../reusableComponents/textContainer/textContainer";
 import Dropdown from "../../reusableComponents/dropdown/dropdown";
+import MiddleScreenPopup from "../../reusableComponents/middleScreenPopup/middleScreenPopup";
 
 
 export async function instructorProfileLoader({request,params}){
+
+    
+    const url = new URL(request.url);
+    const showMessageProfile = url.searchParams.get("showMessage") === "true";
+
+    // console.log('loader ',showMessageProfile)
+  
     let data        
 
     try {
@@ -37,7 +45,7 @@ export async function instructorProfileLoader({request,params}){
         throw error;
     }
 
-    return data
+    return {data,showMessageProfile}
 }
 
 export async function instructorProfileAction({request,params}){
@@ -67,8 +75,11 @@ export async function instructorProfileAction({request,params}){
         });
       
         if (!response.ok) {
-          console.error("Failed to update user info");
-          message="failure"
+            const params = new URLSearchParams(window.location.search);
+            const newParams=new URLSearchParams()
+            newParams.set("fromPage", window.location.pathname+"?"+params.toString());
+            
+            return redirect("/login?" + newParams.toString());
 
         }
       
@@ -91,8 +102,17 @@ export function InstructorProfile(){
     const {t} = useTranslation("instructorProfile")
 
     const fetcher = useFetcher();
+    
+    
+    const {data,showMessageProfile}=useLoaderData()
 
-    const data=useLoaderData()
+    const showMessage=showMessageProfile
+
+    const [searchParams, setSearchParams] = useSearchParams();
+    const newParams = new URLSearchParams(searchParams);
+    newParams.delete('showMessage');
+
+
 
     const resortOptions=[
         { value: "Aniliou", label: t("Aniliou") },
@@ -203,7 +223,7 @@ export function InstructorProfile(){
             }else{
                 fetcher.submit(
                     { firstName: formData.firstName },
-                    {
+                    { 
                       method: "post",
                     })
             }
@@ -290,6 +310,7 @@ export function InstructorProfile(){
                     fetcher.submit(
                         { email: formData.email },
                         {
+                          
                           method: "post",
                         })
 
@@ -348,11 +369,12 @@ export function InstructorProfile(){
 
     
   const isSendingData = fetcher.state === "submitting" || fetcher.state === "loading";
-  
+
 
     return(
         <>
             {<ShowMessageScreen namespace="instructorProfile" fetcher={fetcher}/>} 
+            {showMessage && <MiddleScreenPopup  message={t("createProfile")} onConfirm={()=>setSearchParams(newParams, { replace: true })} onClose={()=>setSearchParams(newParams, { replace: true })} namespace="instructorProfile"></MiddleScreenPopup>}
             <section className={`instructorProfile`}>
 
                 <div className="imageContainer">
