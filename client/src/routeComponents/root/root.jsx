@@ -6,6 +6,10 @@ import { useState,useCallback,useMemo,useEffect,Suspense,memo,useLayoutEffect } 
 import "./root.css"
 
 
+// header fainetai mikros
+// choselessonparams arxika ta atoma den fainontai, meta apo periigisi sti selida fainontai
+
+
 import Header from "./header.jsx"
 import Footer from "./footer.jsx"
 
@@ -49,8 +53,6 @@ export function Root(){
     const [isChooseLessonParamsOpen,setIsChooseLessonParamsOpen]=useState(false)
     const [selectedSport,setSelectedSport]=useState("")
 
-    // const location = (useLocation()).pathname; 
-
     const handleReservationClick = useCallback(() => {
         setIsChooseLessonParamsOpen(prevState => !prevState);
     }, [setIsChooseLessonParamsOpen]);
@@ -60,24 +62,32 @@ export function Root(){
         setSelectedSport
     }), [handleReservationClick, setSelectedSport]);
 
-    // const { pathname } = useLocation();
-
-
-    // useLayoutEffect(() => {
-    //     // new pages begin at the top
-    //     window.scrollTo({ top: 0, behavior: "instant" }); 
-    // }, [pathname]);
 
     useEffect(() => {
+
+        const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+        const header = document.querySelector('.mainHeader')
+
+
         if (isChooseLessonParamsOpen) {
           document.body.style.overflow = 'hidden';
+          document.body.style.paddingRight = `${scrollbarWidth}px`;
+          header.style.paddingRight = `${scrollbarWidth}px`;
+
+
         } else {
           document.body.style.overflow = '';
+          document.body.style.paddingRight = '';
+          header.style.paddingRight = '';
+
         }
       
         // Cleanup on unmount
         return () => {
           document.body.style.overflow = '';
+          document.body.style.paddingRight = '';
+          header.style.paddingRight = '';
+
         };
       }, [isChooseLessonParamsOpen]);
 
@@ -98,18 +108,16 @@ export function Root(){
                 }}
             />
 
-         {/* <Suspense fallback={<div>...</div>}> */}
             <Header setIsChooseLessonParamsOpen={setIsChooseLessonParamsOpen} loginStatus={loginStatus} lessonsInCart={lessonsInCart}/>
-            {/* <Content contextValue={contextValue} isChooseLessonParamsOpen={isChooseLessonParamsOpen} setIsChooseLessonParamsOpen={setIsChooseLessonParamsOpen} selectedSport={selectedSport} setSelectedSport={setSelectedSport}/> */}
+            <Content contextValue={contextValue} isChooseLessonParamsOpen={isChooseLessonParamsOpen} setIsChooseLessonParamsOpen={setIsChooseLessonParamsOpen} selectedSport={selectedSport} setSelectedSport={setSelectedSport}/>
 
-            <main id='mainContent'>
+            {/* <main id='mainContent'>
                 {isChooseLessonParamsOpen && <ChoseLessonParams onReservationClick={ () => setIsChooseLessonParamsOpen(!isChooseLessonParamsOpen)} selectedSport={selectedSport} cancelSelectedSport={()=>setSelectedSport("")}/>}
 
                 <Outlet context={contextValue} 
                 />
-            </main>
+            </main> */}
             <Footer/>
-        {/* </Suspense> */}
 
         </>
     )

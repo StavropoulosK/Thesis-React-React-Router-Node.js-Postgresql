@@ -23,19 +23,19 @@ export default function ChoseLessonParams({onReservationClick,selectedSport,canc
 
     const location = useLocation();
 
-    // useEffect(() => {
+    useEffect(() => {
 
-    //   console.log("effect ",mount.current)
+      console.log("effect ",mount.current)
       
-    //   if(mount.current==true){
-    //     onReservationClick()
+      if(mount.current==true){
+        onReservationClick()
 
-    //   }
-    //   // This effect will run each time the URL path changes and at first load
-    //   mount.current=true
+      }
+      // This effect will run each time the URL path changes and at first load
+      mount.current=true
 
       
-    // }, [location.pathname]);  // Depend on location.pathname to run on path changes
+    }, [location.pathname]);  // Depend on location.pathname to run on path changes
     
 
 

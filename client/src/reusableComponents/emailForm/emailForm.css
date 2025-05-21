@@ -13,6 +13,8 @@
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
+    max-height: 95vh;
+
   }
   
   .email-form-container .close-button {

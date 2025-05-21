@@ -171,16 +171,27 @@ export function BookLesson(){
 
 
     useEffect(() => {
+
+        const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+        const header = document.querySelector('.mainHeader')
+
         if (showLessons.instructorId) {
-          document.body.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden';
+            document.body.style.paddingRight = `${scrollbarWidth}px`;
+            header.style.paddingRight = `${scrollbarWidth}px`;
         } else {
-          document.body.style.overflow = '';
+            document.body.style.overflow = '';
+            document.body.style.paddingRight = '';
+            header.style.paddingRight = '';
+  
         }
       
         // Cleanup on unmount
         return () => {
-          document.body.style.overflow = '';
-        };
+            document.body.style.overflow = '';
+            document.body.style.paddingRight = '';
+            header.style.paddingRight = '';
+          };
       }, [showLessons.instructorId]);
 
     return(

@@ -157,7 +157,7 @@ app.get("/api/getInstructorProfileParams",authoriseInstructor,async (req,res)=>{
 app.post("/api/updateInstructorInfo",authoriseInstructor, async(req,res)=>{
   const { firstName, lastName, email, phoneNumber,resorts,knownLanguages,sports,cancelationPolicy,biography,summary,yearsOfExperience} = req.body;
 
-  console.log('aaa ',firstName, lastName, email, phoneNumber,resorts,knownLanguages,sports,cancelationPolicy,biography,summary,yearsOfExperience)
+  // console.log('aaa ',firstName, lastName, email, phoneNumber,resorts,knownLanguages,sports,cancelationPolicy,biography,summary,yearsOfExperience)
 
   await new Promise(resolve => setTimeout(resolve, 5000));
 
@@ -1234,7 +1234,7 @@ app.get('/api/bookLesson', async (req, res) => {
 
   
 
-  console.log( resort, sport, from, to, members,lessonType,time,orderBy,instructorName,pageNumber);
+  // console.log( resort, sport, from, to, members,lessonType,time,orderBy,instructorName,pageNumber);
   // instructorName, reviewScore, reviewCount, experience, languages [], typeOfLesson, description, image, instructorId, minPricePerDay, minPricePerHour
   // maxPages
 
@@ -2200,7 +2200,7 @@ app.post("/api/updateTeaching",authoriseInstructor, async (req,res)=>{
   const {meetingPointId,teachingID} =req.body
 
 
-  console.log("!$#!#$ ",meetingPointId,teachingID)
+  // console.log("!$#!#$ ",meetingPointId,teachingID)
 
   // updateTeaching_success, updateTeaching_failure
 
@@ -2213,7 +2213,7 @@ app.post("/api/createTeaching",authoriseInstructor, async (req,res)=>{
 
 
   //islessonallday is string
-  console.log("#### ",selectedDateStart,selectedDateEnd,selectedResort,selectedSport,selectedMaxParticipants,groupName,selectedDays,meetingPointId,hourCost,timeStart,timeEnd,selectedLessonType,isLessonAllDay)
+  // console.log("#### ",selectedDateStart,selectedDateEnd,selectedResort,selectedSport,selectedMaxParticipants,groupName,selectedDays,meetingPointId,hourCost,timeStart,timeEnd,selectedLessonType,isLessonAllDay)
 
   // createTeaching_success, createTeaching_failure
 
@@ -2227,11 +2227,11 @@ app.post("/api/updateMeetingPoint",authoriseInstructor, async(req,res)=>{
   // await new Promise(resolve => setTimeout(resolve, 5000));
 
   if(updateField=="resortName"){
-    console.log("resortName")
+    // console.log("resortName")
 
   }
   else if(updateField=="resort_text"){
-    console.log("resort_text")
+    // console.log("resort_text")
   }
 
   // updateMeetingPoint_success, updateMeetingPoint_failure
@@ -2379,94 +2379,6 @@ async function checkEmailIsUsed(userEmail){
     return false
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-////
-// https://github.com/Uncover-F/TAS?tab=readme-ov-file
-
-// async function translateText() {
-//   const endpointsUrl = 'https://raw.githubusercontent.com/Uncover-F/TAS/Uncover/.data/endpoints.json';
-  
-//   // Parameters for translation (customize as needed)
-//   const params = {
-//       text: 'Tell me a joke about Cloudflare ell me a joke about Cloudflare ell me a joke about Cloudflare ell me a joke about Cloudflare ell me a joke about Cloudflare ell me a joke about Cloudflare ell me a joke about Cloudflare ell me a joke about Cloudflare ell me a joke about Cloudflare ell me a joke about Cloudflare ell me a joke about Cloudflare ell me a joke about Cloudflare ell me a joke about Cloudflare ell me a joke about Cloudflare ell me a joke about Cloudflare ell me a joke about Cloudflare ell me a joke about Cloudflare ell me a joke about Cloudflare ell me a joke about Cloudflare ell me a joke about Cloudflare ell me a joke about Cloudflare',  // Text to translate
-//       source_lang: 'en',  // Source language code
-//       target_lang: 'fr'   // Target language code
-//   };
-
-//   try {
-//       // Get the list of endpoints
-//       const endpointsResponse = await fetch(endpointsUrl);
-//       if (!endpointsResponse.ok) {
-//           throw new Error(`Error fetching endpoints: ${endpointsResponse.status} - ${endpointsResponse.statusText}`);
-//       }
-//       const endpoints = await endpointsResponse.json();
-
-//       // Try each endpoint until one works
-//       let result = null;
-//       for (const endpoint of endpoints) {
-//           const url = new URL(endpoint);
-//           url.search = new URLSearchParams(params).toString();
-
-//           try {
-//               const response = await fetch(url);
-//               if (response.ok) {
-//                   result = await response.json();
-//                   break;
-//               } else {
-//                   console.error(`Error at ${url}: ${response.status} - ${response.statusText}`);
-//               }
-//           } catch (error) {
-//               console.error(`Request exception at ${url}:`, error);
-//           }
-//       }
-
-//       // Print the result or an error message
-//       if (result !== null) {
-//           console.log(result);
-//       } else {
-//           console.error('All endpoints failed.');
-//       }
-//   } catch (error) {
-//       console.error('Error:', error);
-//   }
-// }
-
-// translateText();
 
 
 

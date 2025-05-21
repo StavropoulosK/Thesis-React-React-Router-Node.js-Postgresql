@@ -376,8 +376,14 @@
     display: block !important;
   }
 
-  .instructorTeachings .teaching.existing .select-list-button{
+  .instructorTeachings .teaching .select-list-button{
     pointer-events: none;
+    display: flex;
+  }
+
+  .instructorTeachings .teaching .select-list-button .label-text{
+    min-width: 4.5rem;
+    padding-left: 0.5rem;
   }
 
   .instructorTeachings .optionBtn svg{
