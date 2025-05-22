@@ -1,6 +1,5 @@
 import connect from "./connection.mjs";
 
-console.log('aaa')
 
 const sql = `insert into payment (amount,paymentDate) values (24,$1)`;
     try {
