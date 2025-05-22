@@ -70,6 +70,12 @@
     align-items: center; 
   }
 
+  .email-buttons button.disabled{
+    background-color: rgba(17, 179, 187, 0.4);
+    cursor: auto;
+
+  }
+
 
   @media(max-width:750px){
     .email-form-container {

@@ -38,10 +38,13 @@ function StarRating({ numberOfStars,setUserStars }) {
 
 
 export default function ReviewForm({onClose,stars,review,fetcher,instructorName,lessonIDS,instructorID}) {
+
+  // stars=-1 if user has not submitted them before
+
     const [message, setMessage] = useState(review);
 
 
-    const [userStars,setUserStars]=useState(stars || 0)
+    const [userStars,setUserStars]=useState(stars>0? stars : 0)
 
     const {t} = useTranslation("reviewForm")
 
@@ -53,8 +56,15 @@ export default function ReviewForm({onClose,stars,review,fetcher,instructorName,
     }
     }, []);
 
+    const disabled= userStars==0
+
 
     const handleSubmit = () => {
+
+        if(disabled){
+          return
+        }
+
 
         const formData = new FormData();
 
@@ -91,12 +101,12 @@ export default function ReviewForm({onClose,stars,review,fetcher,instructorName,
           className="review-textarea"
           ref={textareaRef}
           value={message}
-          onChange={(e) => setMessage(e.target.value)}
+          onChange={(e) =>{if(e.target.value.length>400)return; setMessage(e.target.value)}}
           placeholder={t("review")}
         />
   
         <div className="review-buttons">
-          <button onClick={handleSubmit}>{t("submit")}</button>
+          <button onClick={handleSubmit} className={disabled?"disabled":""}>{t("submit")}</button>
           <button onClick={onClose}>{t("cancel")}</button>
         </div>
       </div>

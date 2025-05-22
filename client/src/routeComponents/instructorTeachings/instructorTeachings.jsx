@@ -854,7 +854,7 @@ function InputContainer({meetingPoint,name,fetcher}){
 
     return(
         <div className="inputContainer">
-                <ToggleInput svg={null} inputText={value|| t(name)} handleChange={(e)=>setValue(e.target.value)} namespace={null} loaderText={meetingPoint[name]|| t(name)} errorText={""} onClick={handleClick}/>
+                <ToggleInput svg={null} inputText={value|| t(name)} handleChange={(e)=>{if(e.target.value.length>30) return; setValue(e.target.value);}} namespace={null} loaderText={meetingPoint[name]|| t(name)} errorText={""} onClick={handleClick}/>
 
         </div>
 

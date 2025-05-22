@@ -17,6 +17,7 @@ const distPath= path.join (__dirname,'../client/dist')
 const publicPath= path.join (__dirname,'./public')
 
 
+// mpori o proponitis na diagrapsi to meeting point, prepei na pairnei default timi
 
 
 const app=express()
@@ -125,6 +126,9 @@ app.post('/api/checkEmailIsUsed',async (req,res)=>{
 
 app.post("/api/updateStudentInfo",authoriseStudent, async(req,res)=>{
   const { firstName, lastName, email, phoneNumber} = req.body;
+
+
+  console.log("!!! ",firstName,lastName,email,phoneNumber, firstName.length,lastName.length, email.length, phoneNumber.length)
 
   await new Promise(resolve => setTimeout(resolve, 5000));
 
@@ -267,6 +271,10 @@ app.get("/api/getCostOfLessonsInCart",authoriseStudent, async(req,res)=>{
 
 app.get("/api/getPreviousStudentLessons/:page",authoriseStudent, async (req,res)=>{
 
+
+    // stars=-1 if user has not submitted review before
+
+
     const page=Number(req.params.page)
 
     const lessons = [
@@ -402,8 +410,8 @@ app.get("/api/getPreviousStudentLessons/:page",authoriseStudent, async (req,res)
 
       },
       reviewInfo:{
-        stars:4,
-        text:"awesome isntuctor",
+        stars:-1,
+        text:"",
       },
       teachingInfo:{
           typeOfLesson: "group",

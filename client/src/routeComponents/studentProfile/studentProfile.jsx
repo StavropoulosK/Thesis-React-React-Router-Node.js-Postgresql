@@ -90,7 +90,6 @@ export function StudentProfile(){
     const data=useLoaderData()
 
 
-
     const [formData, setFormData] = useState({
         firstName: data.firstName,
         lastName: data.lastName,

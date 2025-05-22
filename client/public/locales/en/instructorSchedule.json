@@ -60,6 +60,9 @@
 
     "note_failure":"Note update failed",
 
-    "note_success":"Note saved"
+    "note_success":"Note saved",
+
+    "createNote":"Save"
+
 
 }

@@ -10,6 +10,8 @@ export default function NoteForm({onClose,note,lessonID,fetcher}) {
 
     const {t} = useTranslation("instructorSchedule")
 
+    const disabled= message.length==0
+
     const noteRef = useRef(null);
   
     useEffect(() => {
@@ -20,6 +22,10 @@ export default function NoteForm({onClose,note,lessonID,fetcher}) {
 
 
     const handleSubmit = () => {
+
+      if(disabled){
+        return
+      }
 
         const formData = new FormData();
 
@@ -52,12 +58,12 @@ export default function NoteForm({onClose,note,lessonID,fetcher}) {
           className="email-textarea"
           ref={noteRef}
           value={message}
-          onChange={(e) => setMessage(e.target.value)}
+          onChange={(e) =>{if(e.target.value.length >300) return; setMessage(e.target.value) }}
           placeholder={t("your_msg")+"..."}
         />
   
         <div className="note-buttons">
-          <button onClick={handleSubmit}>{t("ok")}</button>
+          <button onClick={handleSubmit} className={disabled?"disabled":""}>{t("createNote")}</button>
           <button onClick={onClose}>{t("cancel")}</button>
         </div>
       </div>

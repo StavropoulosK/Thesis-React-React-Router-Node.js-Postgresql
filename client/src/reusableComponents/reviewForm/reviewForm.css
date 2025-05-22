@@ -82,6 +82,12 @@
     align-items: center; 
   }
 
+  .review-buttons button.disabled{
+    cursor: auto;
+    background-color: rgba(17, 179, 187, 0.4);
+
+  }
+
 
   @media(max-width:750px){
     .review-form-container {

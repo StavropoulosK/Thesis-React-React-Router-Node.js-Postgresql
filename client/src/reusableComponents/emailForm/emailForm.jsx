@@ -19,9 +19,12 @@ export default function EmailForm({onClose,studentEmail,instructorEmail,fetcher}
     }, []);
 
 
+    const disabled= message.length==0
+
+
     const handleSubmit = () => {
 
-        if(message.length==0){
+        if(disabled){
             return
         }
         const formData = new FormData();
@@ -63,7 +66,7 @@ export default function EmailForm({onClose,studentEmail,instructorEmail,fetcher}
         />
   
         <div className="email-buttons">
-          <button onClick={handleSubmit}>{t("ok")}</button>
+          <button onClick={handleSubmit} className={disabled?"disabled":""}>{t("ok")}</button>
           <button onClick={onClose}>{t("cancel")}</button>
         </div>
       </div>
