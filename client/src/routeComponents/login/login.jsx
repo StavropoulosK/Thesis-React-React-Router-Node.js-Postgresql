@@ -45,7 +45,7 @@ export async function loginAction({request}){
     
     }
     catch (error) {
-        console.error('Error fetching reviews:', error);
+        console.error('Error logging in:', error);
         return {wrongConnection:true}
     }
 

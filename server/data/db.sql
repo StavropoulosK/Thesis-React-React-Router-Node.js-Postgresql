@@ -10,14 +10,14 @@ CREATE TABLE IF NOT EXISTS "USER"(
 
 
 CREATE TABLE IF NOT EXISTS INSTRUCTOR(
-    instructorID serial primary key,
-    yearsOfExperience varchar(30) not null,
-    resorts varchar(30)[] not null,
-    sports varchar(30)[] not null,
-    languages varchar(30)[] not null,
-    summaryInfo varchar(180) not null,
-    biographyNote varchar(2000) not null,
-    cancelationPolicy varchar(30) not null,
+    instructorID integer primary key,
+    yearsOfExperience varchar(30) default null,
+    resorts varchar(30)[] default null,
+    sports varchar(30)[] default null,
+    languages varchar(30)[] default null,
+    summaryInfo varchar(180) default null,
+    biographyNote varchar(2000) default null,
+    cancelationPolicy varchar(30) default null,
     FOREIGN KEY (instructorID) REFERENCES "USER" (userID)
             ON UPDATE CASCADE
             ON DELETE CASCADE
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS INSTRUCTOR(
 
 
 CREATE TABLE IF NOT EXISTS STUDENT(
-    studentID serial primary key,
+    studentID integer primary key,
     FOREIGN KEY (studentID) REFERENCES "USER" (userID)
             ON UPDATE CASCADE
             ON DELETE CASCADE
@@ -153,3 +153,17 @@ CREATE TABLE IF NOT EXISTS CART(
 );
 
 
+
+
+-- -- drop table 
+
+-- DO $$
+-- DECLARE
+--     r RECORD;
+-- BEGIN
+--     FOR r IN (SELECT tablename FROM pg_tables WHERE schemaname = 'public') LOOP
+
+--         EXECUTE 'DROP TABLE IF EXISTS public.' || quote_ident(r.tablename) || ' CASCADE';
+
+--     END LOOP;
+-- END $$;

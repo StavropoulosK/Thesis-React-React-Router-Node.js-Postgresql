@@ -67,7 +67,7 @@ import { useTranslation } from "react-i18next";
 // scroll restoration
 
 // 14 
-// Form Validation: OnBlur (dieukolinsi xristi), onFormSubmit (to mono ipoxreotiko), server (prostasia apo hackers)
+// Form Validation: OnBlur (dieukolinsi xristi), onFormSubmit (to mono ipoxreotiko), server (prostasia apo hackers) zontani enimerosi gia ta panta, akomi kai an to email xrisimopoieitai idi
 
 // 15 Optimistic ui
 // https://reactrouter.com/6.30.0/start/tutorial#optimistic-ui
@@ -77,6 +77,17 @@ import { useTranslation } from "react-i18next";
 // 17 responsive (desktop, tablet, mobile)
 
 // 18 statistika chartJS
+
+
+
+// 19 postgreSQL
+
+// 20 nodejs
+
+// 21 expressjs
+
+// 22 asfalia  (min anafero client hashing)
+
 
 
 // ----------------------

@@ -11,6 +11,7 @@ import Dropdown from "./../../reusableComponents/dropdown/dropdown.jsx"
 import globe from "/icons/loginSignup/globe.svg"
 // import snowglobe from "../../assets/illustrations/snowGlobe.svg"
 import snowglobe from "/illustrations/snowGlobe.svg"
+import bcrypt from 'bcryptjs';
 
 
 // validation for email (valid expression, already used), password (valid password, same password in both fields), phoneNumber
@@ -62,11 +63,10 @@ const checkEmailIsUsed= async(email)=>{
         }
 }
 
-
 export async function signupAction({request,params}){
     const formData= await request.formData()
     const {firstName,lastName,email,password,passwordCheck,countryPhoneCode,phoneNumber}= Object.fromEntries(formData)
-    
+  
     const accountType= params.account
     
 
@@ -146,12 +146,17 @@ export async function signupAction({request,params}){
 
     try {
 
+      const saltRounds = 10;
+      const passwordHash= await bcrypt.hash(password, saltRounds)
+
       const response = await fetch('/api/signupUser', {
         method: 'POST',
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({firstName,lastName,email,password,passwordCheck,countryPhoneCode,phoneNumber,accountType})
+        // body: JSON.stringify({firstName,lastName,email,hashedPassword,hashedPasswordCheck,countryPhoneCode,phoneNumber,accountType})
+
+        body: JSON.stringify({firstName,lastName,email,passwordHash,countryPhoneCode,phoneNumber,accountType})
       });
 
 
@@ -159,7 +164,6 @@ export async function signupAction({request,params}){
       if (!response.ok) {
 
         errorMsg="Sign up failed"
-
         return({firstNameError, lastNameError,emailError, passwordError,passwordCheckError,phoneNumberError,errorMsg})
 
       }
@@ -168,7 +172,7 @@ export async function signupAction({request,params}){
 
 
       if(signUpSuccess){
-          const defaultRedirect= accountType=="student"?"/studentMenu/profile" : "/"
+          const defaultRedirect= accountType=="student"?"/studentMenu/profile" : "/instructorMenu/profile"
           return redirect(defaultRedirect);
 
       }
@@ -388,8 +392,7 @@ export function Signup(){
 
     // console.log('aaaa ',firstNameError, lastNameError,emailError, passwordError,passwordCheckError,phoneNumberError)
 
-    const showPasswordCheckError= (showActionError.passwordCheck && (!(passwordCheckError=="Required field") )  ||  (showActionError.password && !(passwordError=="Required field"))) || errors.password
-
+    const showPasswordCheckError= (showActionError.passwordCheck && (!(passwordCheckError=="Required field") )  ||  (showActionError.password && (passwordError && !(passwordError=="Required field") )  ))  || errors.password
 
     return(
     
@@ -539,7 +542,7 @@ export function Signup(){
                           
                         </div>
 
-                        { (showActionError.passwordCheck && (!(passwordCheckError=="Required field") )  ||  (showActionError.password && !(passwordError=="Required field")))?   <p className="error fullLine">{showActionError.password?t(passwordError):t(passwordCheckError)}</p> : <p className="error fullLine">{t(errors.password)}</p>}
+                        { (showActionError.passwordCheck && (  passwordCheckError && ( !(passwordCheckError=="Required field"))  )  ||  (showActionError.password && (passwordError && !(passwordError=="Required field") )  ))?   <p className="error fullLine">{(showActionError.password && passwordError!='')?t(passwordError):t(passwordCheckError)}</p> : <p className="error fullLine">{t(errors.password)}</p>}
 
                         {/* { (!(passwordError=="Υποχρεωτικό πεδίο") && !(passwordCheckError=="Υποχρεωτικό πεδίο")) && <p className="error fullLine">{errors.password||passwordError||"\u00A0"}</p>} */}
       
