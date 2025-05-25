@@ -30,6 +30,8 @@ export default function SelectList({ options = [], multiple = false, onChange, t
           return selected !== initialSelectedRef.current;
         }
     };
+
+    const disabled= (!isSelectionChanged() ) || isSendingData
   
     return (
       <article className={`selectList`}>
@@ -72,8 +74,8 @@ export default function SelectList({ options = [], multiple = false, onChange, t
             </div>
 
             <div className="buttonContainer">
-                <button className={ ( isSelectionChanged()&& !isSendingData )?"displayFull":""}   onClick={() => setSelected(initialSelectedRef.current)}>{t("cancel")}</button>
-                <button className={( isSelectionChanged()&& !isSendingData )?"displayFull":""} onClick={()=>onChange(selected)}>{t("save")}</button>
+                <button className={ !disabled?"displayFull":""}   onClick={disabled?null:() => setSelected(initialSelectedRef.current)}>{t("cancel")}</button>
+                <button className={!disabled?"displayFull":""} onClick={disabled?null:()=>{ initialSelectedRef.current=selected; onChange(selected)}}>{t("save")}</button>
 
             </div>
 

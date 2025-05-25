@@ -57,11 +57,11 @@ async function authenticate(email){
     try {
         client = await connect();
 
-        const sql1 = `select passwordHash from "USER" join instructor on userID=instructorID
+        const sql1 = `select passwordHash,userID from "USER" join instructor on userID=instructorID
                       WHERE email = $1`;
         const res1 = await client.query(sql1, [email]);
 
-        const sql2 = `select passwordHash from "USER" join student on userID=studentID
+        const sql2 = `select passwordHash,userID from "USER" join student on userID=studentID
                         WHERE email = $1`;
         const res2 = await client.query(sql2, [email]);
 
@@ -69,19 +69,22 @@ async function authenticate(email){
         const userExists= res1.rows.length>0 || res2.rows.length>0
         let accountType=""
         let hashedPassword=""
+        let userID=""
 
         if(res1.rows.length>0 ){
             accountType='instructor'
             hashedPassword=res1.rows[0].passwordhash
+            userID=res1.rows[0].userid
+
         }
 
         else if(res2.rows.length>0){
             accountType='student'
             hashedPassword=res2.rows[0].passwordhash
-
+            userID=res2.rows[0].userid
         }
 
-        return {userExists,hashedPassword,accountType}
+        return {userExists,hashedPassword,accountType,userID}
 
     } catch (err) {
         throw err;
@@ -90,4 +93,21 @@ async function authenticate(email){
     }
 }
 
-export {insertUser,checkEmailAlreadyUsed,authenticate}
+async function getProfileImage(userID){
+    let client
+    try {
+        const sql = `SELECT profilepicture
+                     FROM "USER" WHERE userID = $1`;
+
+        client = await connect();
+        const res = await client.query(sql, [userID]);
+        return res.rows[0]
+    } catch (err) {
+        throw err;
+    } finally {
+        client.release(); 
+    }
+}
+
+
+export {insertUser,checkEmailAlreadyUsed,authenticate,getProfileImage}

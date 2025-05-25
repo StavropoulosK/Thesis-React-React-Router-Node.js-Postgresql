@@ -11,13 +11,13 @@ CREATE TABLE IF NOT EXISTS "USER"(
 
 CREATE TABLE IF NOT EXISTS INSTRUCTOR(
     instructorID integer primary key,
-    yearsOfExperience varchar(30) default null,
-    resorts varchar(30)[] default null,
-    sports varchar(30)[] default null,
-    languages varchar(30)[] default null,
-    summaryInfo varchar(180) default null,
-    biographyNote varchar(2000) default null,
-    cancelationPolicy varchar(30) default null,
+    yearsOfExperience varchar(30) default '',
+    resorts varchar(30)[] default '{}',
+    sports varchar(30)[] default '{}',
+    languages varchar(30)[] default '{}',
+    summaryInfo varchar(180) default '',
+    biographyNote varchar(2000) default '',
+    cancelationPolicy varchar(30) default '',
     FOREIGN KEY (instructorID) REFERENCES "USER" (userID)
             ON UPDATE CASCADE
             ON DELETE CASCADE
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS TEACHING(
     lessonType varchar(30) not null,
     dateStart varchar(30) not null,
     dateEnd varchar(30) not null,
-    weekDays varchar(30)[] not null,
+    weekDays varchar(30)[] default '{}',
     timeStart varchar(30) not null,
     timeEnd varchar(30) not null,
     isAllDay boolean not null,
@@ -152,10 +152,14 @@ CREATE TABLE IF NOT EXISTS CART(
         ON DELETE CASCADE
 );
 
+create index if not exists user_email
+on "USER"(email);
 
 
 
--- -- drop table 
+
+
+-- --to drop all tables
 
 -- DO $$
 -- DECLARE
@@ -167,3 +171,11 @@ CREATE TABLE IF NOT EXISTS CART(
 
 --     END LOOP;
 -- END $$;
+
+
+
+
+-- to view all indexes
+
+-- SELECT * FROM pg_catalog.pg_indexes
+-- WHERE schemaname = 'public'

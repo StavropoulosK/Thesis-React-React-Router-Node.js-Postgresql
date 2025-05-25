@@ -11,6 +11,7 @@ export default function TextContainer({ id, header, text, isSendingData, onChang
   const isTextChanged = () => value !== initialValueRef.current;
 
 
+  const disabled= (!isTextChanged() ) || isSendingData
 
   return (
     <article className="textAreaContainer">
@@ -29,14 +30,14 @@ export default function TextContainer({ id, header, text, isSendingData, onChang
 
       <div className="buttonContainer">
         <button
-          className={isTextChanged() && !isSendingData ? "displayFull" : ""}
-          onClick={()=>setValue(initialValueRef.current)}
+          className={!disabled ? "displayFull" : ""}
+          onClick={disabled?null:()=>setValue(initialValueRef.current)}
         >
           {t("cancel")}
         </button>
         <button
-          className={isTextChanged() && !isSendingData ? "displayFull" : ""}
-          onClick={()=>onChange(value)}
+          className={!disabled ? "displayFull" : ""}
+          onClick={disabled?null:()=>{initialValueRef.current=value;onChange(value)}}
         >
           {t("save")}
         </button>

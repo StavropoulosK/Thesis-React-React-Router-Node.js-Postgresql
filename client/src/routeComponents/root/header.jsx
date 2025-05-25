@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 
 
 
-const Header= memo (({setIsChooseLessonParamsOpen,loginStatus,lessonsInCart})=>{
+const Header= memo (({setIsChooseLessonParamsOpen,loginStatus,lessonsInCart,profileImage})=>{
     const {t, i18n } = useTranslation("header");
     const currentLanguage = i18n.language;
 
@@ -92,7 +92,7 @@ const Header= memo (({setIsChooseLessonParamsOpen,loginStatus,lessonsInCart})=>{
 
                         {loginStatus=='student' &&<Link className="optional" to={'/studentMenu/lessons/studentLessons'}> {t("studentLessons")}</Link>}
 
-                        {loginStatus && <Profile loginStatus={loginStatus}/>}
+                        {loginStatus && <Profile loginStatus={loginStatus} profileImage={profileImage}/>}
 
 
                         {loginStatus=="student" && lessonsInCart!=0 && 
@@ -129,7 +129,7 @@ const Header= memo (({setIsChooseLessonParamsOpen,loginStatus,lessonsInCart})=>{
 })
 
 
-function Profile({loginStatus   }){
+function Profile({loginStatus,profileImage }){
 
     const [showProfile,setShowProfile]= useState(false)
 
@@ -147,7 +147,7 @@ function Profile({loginStatus   }){
 
                 
                 <button onClick={()=>setShowProfile(!showProfile)} className="profileBtn">
-                                <img src="/icons/startPage/userProfileDropdown.png" alt="Profile Icon" />
+                    <img className="profileImg" src={profileImage?profileImage:"/icons/startPage/userProfileDropdown.png"} alt="Profile Icon" />
 
                 </button>
 

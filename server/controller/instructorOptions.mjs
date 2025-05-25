@@ -1,33 +1,188 @@
+import * as instructorOptionsModel from "../model/instructorOptions.mjs"
+
+
+
 async function getInstructorProfileParams(req,res,next){
     try{
-        const knownLanguages=["English","Greek","Italian"]
-        const resorts=["Elatochoriou","Velouhiou"]
-        const sports=["Ski","Snowboard"]
-        const cancelationPolicy=["dnot"]
-        const biography= "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos velit numquam, voluptatum distinctio ex, libero deleniti, dolore illum ducimus officiis dolorem. Perspiciatis dolore voluptatem atque numquam veniam placeat omnis nemo"
-        const summary= "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos velit numquam, voluptatum distinctio ex, libero deleniti, dolore illum ducimus officiis dolorem. Perspiciatis dolore voluptatem atque numquam veniam placeat omnis nemo"
-        const yearsOfExperience="5"
+        // const instructorID="i121212"
+        // const email="kostas.striker@gmail.com"
+        // const phone="306951232693"
+        // const knownLanguages=["English","Greek","Italian"]
+        // const resorts=["Elatochoriou","Velouhiou"]
+        // const sports=["Ski","Snowboard"]
+        // const cancelationPolicy="dnot"
+        // const biography= "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos velit numquam, voluptatum distinctio ex, libero deleniti, dolore illum ducimus officiis dolorem. Perspiciatis dolore voluptatem atque numquam veniam placeat omnis nemo"
+        // const summary= "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos velit numquam, voluptatum distinctio ex, libero deleniti, dolore illum ducimus officiis dolorem. Perspiciatis dolore voluptatem atque numquam veniam placeat omnis nemo"
+        // const yearsOfExperience="5"
 
-        const firstName="alex"
-        const lastName="mic"
+        // const firstName="alex"
+        // const lastName="mic"
+
+        const instrcutorId= req.session.userID
 
 
-        const instructorName=firstName +' '+lastName[0]+"."
+        if(!instrcutorId){
+            return res.status(401).end();
 
-        res.json({instructorName,instructorID:"i121212",firstName,lastName,email:"kostas.striker@gmail.com",phone:"306951232693",knownLanguages,resorts,sports,cancelationPolicy,biography,summary,yearsOfExperience})
+        }
+
+
+
+        const { instructorid, email, phonenumber, languages, resorts, sports, cancelationpolicy, biographynote, summaryinfo, yearsofexperience, firstname, lastname, profilepicture  } = await (instructorOptionsModel.getInstructorProfileParams(instrcutorId))
+        // console.log('bbb ',instructorid , email, phonenumber, languages, resorts, sports, cancelationpolicy, biographynote, summaryinfo, yearsofexperience, firstname, lastname )
+
+        let imageBase64 = null;
+        if (profilepicture) {
+            const mimeType = "image"; 
+            imageBase64 = `data:${mimeType};base64,${profilepicture.toString("base64")}`;
+        }
+
+        const instructorName=firstname +' '+lastname[0]+"."
+
+        res.json({ profileImage: imageBase64 ,instructorName,instructorID:instructorid,firstName:firstname,lastName:lastname,email,phone:phonenumber,knownLanguages:languages,resorts,sports,cancelationPolicy:cancelationpolicy,biography:biographynote,summary:summaryinfo,yearsOfExperience:yearsofexperience})
     }
     catch(error){
         next(error)
     }
 }
 
+async function updateInstructorImage(req,res,next){
+    try{
+        const imageBuffer = req.file.buffer;
+        const fileName = req.file.originalname;
+        const instrcutorId= req.session.userID
+
+        if(!instrcutorId){
+            return res.status(401).end();
+
+        }
+
+        await instructorOptionsModel.saveImage(instrcutorId, imageBuffer);
+
+
+        res.send({message:"success"});
+    }
+    catch(error){
+        return res.json({message:"failure"})
+    }
+}
+
 async function updateInstructorInfo(req,res,next){
     try{
-        const { firstName, lastName, email, phoneNumber,resorts,knownLanguages,sports,cancelationPolicy,biography,summary,yearsOfExperience} = req.body;
+        let { firstName, lastName, email, phoneNumber,resorts,knownLanguages,sports,cancelationPolicy,biography,summary,yearsOfExperience} = req.body;
 
-        // console.log('aaa ',firstName, lastName, email, phoneNumber,resorts,knownLanguages,sports,cancelationPolicy,biography,summary,yearsOfExperience)
+        const instrcutorId= req.session.userID
+
+
+        if(!instrcutorId){
+            return res.status(401).end();
+
+        }
+
+
+        // if value is null return empty array
+
+        // apothikeusi se keno pinaka
+        // alagi se ipartko email
+        const convertStrToArray = (val) =>{
+
+            if(typeof val === 'string' && val.length!=0){
+                return val.split(',')
+            }
+            else{
+                return []
+            }
+
+        } 
+        
+
+        let updateValueName=""
+        let updateValue=""
+        let tableName=""
+
+        // only update value is not null
+
+        if(firstName!=null){
+            updateValueName="firstName"
+            updateValue=firstName
+            tableName="USER"
+        }
+        else if(lastName!=null){
+            updateValueName="lastName"
+            updateValue=lastName
+            tableName="USER"
+        }
+        else if(email!=null){
+            updateValueName="email"
+            updateValue=email
+            tableName="USER"
+        }
+        else if(phoneNumber!=null){
+            updateValueName="phoneNumber"
+            updateValue=phoneNumber
+            tableName="USER"
+        }
+        else if(knownLanguages!=null){
+            //remove comma at first index
+            if (knownLanguages.charAt(0) === ",") {
+                knownLanguages = knownLanguages.slice(1);
+              }
+            updateValueName="languages"
+            updateValue=convertStrToArray(knownLanguages)
+            tableName="instructor"
+        }
+
+        else if(resorts!=null){
+            //remove comma at first index
+
+            if (resorts.charAt(0) === ",") {
+                resorts = resorts.slice(1);
+            }
+
+            updateValueName="resorts"
+            updateValue=convertStrToArray(resorts)
+            tableName="instructor"
+        }
+        else if(sports!=null){
+            //remove comma at first index
+
+            if (sports.charAt(0) === ",") {
+                sports = sports.slice(1);
+            }
+
+            updateValueName="sports"
+            updateValue=convertStrToArray(sports)
+            tableName="instructor"
+        }
+        else if(cancelationPolicy!=null){
+            updateValueName="cancelationpolicy"
+            updateValue=cancelationPolicy
+            tableName="instructor"
+        }
+        else if(biography!=null){
+            updateValueName="biographyNote"
+            updateValue=biography
+            tableName="instructor"
+        }
+        else if(summary!=null){
+            updateValueName="summaryInfo"
+            updateValue=summary
+            tableName="instructor"
+        }
+        else if(yearsOfExperience!=null){
+            updateValue=yearsOfExperience
+            updateValueName="yearsofexperience"
+            tableName="instructor"
+        }
+
+
+
+        // console.log('aaa ',firstName, lastName, email, phoneNumber,resorts,knownLanguages,sports,cancelationPolicy,biography,summary,yearsOfExperience, convertStrToArray(sports))
+        // console.log('aaa ',sports,resorts,knownLanguages,updateValueName,updateValue)
+        await (instructorOptionsModel.updateInstructorInfo(updateValueName,updateValue,tableName,instrcutorId))
+
       
-        await new Promise(resolve => setTimeout(resolve, 5000));
+        // await new Promise(resolve => setTimeout(resolve, 5000));
       
         //success, failure
       
@@ -35,9 +190,13 @@ async function updateInstructorInfo(req,res,next){
         return res.json({message:"success"})
     }
     catch(error){
-        next(error)
+        return res.json({message:"failure"})
+
     }
 }
+
+
+
 
 async function getMonthStatistics(req,res,next){
     try{
@@ -82,6 +241,8 @@ async function getGeneralStatistics(req,res,next){
         next(error)
     }
 }
+
+
 
 
 
@@ -185,6 +346,9 @@ async function getInstructorSchedule(req,res,next){
         next(error)
     }
 }
+
+
+
 
 async function getTeachings(req,res,next){
     try{
@@ -653,4 +817,4 @@ async function createMeetingPoint(req,res,next){
 
 
 export {getInstructorProfileParams,updateInstructorInfo,getMonthStatistics,getGeneralStatistics,updateNote,getInstructorSchedule,
-getTeachings,cancelInstructorLessons,updateTeaching,createTeaching,updateMeetingPoint,deleteMeetingPoint,createMeetingPoint}
+getTeachings,cancelInstructorLessons,updateTeaching,createTeaching,updateMeetingPoint,deleteMeetingPoint,createMeetingPoint,updateInstructorImage}

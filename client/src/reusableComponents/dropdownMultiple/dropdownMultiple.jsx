@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 
 export default function DropdownMultiple({namespace,options,text,icon,selected,setSelected}) {
 
-    const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
   const {t} = useTranslation(namespace)

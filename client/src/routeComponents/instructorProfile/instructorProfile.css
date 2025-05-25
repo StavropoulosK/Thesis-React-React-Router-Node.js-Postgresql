@@ -89,6 +89,10 @@ section.instructorProfile .moreInfo{
 
   }
 
+  .instructorProfile .centerButton  img{
+    object-fit: cover;
+  }
+
   .instructorProfile  svg{
     min-width: 1.5rem;
 

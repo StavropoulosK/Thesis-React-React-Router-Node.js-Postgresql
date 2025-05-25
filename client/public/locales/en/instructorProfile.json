@@ -62,7 +62,13 @@
     "createProfile":"You need to fill in your profile information to create new teachings",
 
     "close":"Close",
-    "ok":"Ok"
+    "ok":"Ok",
+
+    "wrong_type_failure":"Wrong file format",
+
+    "tooBig_failure":"Maximum permitted image size is 5MB"
+
+
 
 
 

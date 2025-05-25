@@ -266,6 +266,12 @@ export function Signup(){
           }));
         }
 
+        if(name=="email"){
+          if(value.length>40){
+            return
+          }
+        }
+
 
         if(name=="phoneNumber"){
 
@@ -286,6 +292,10 @@ export function Signup(){
           const containsDigits = /\d/.test(value);
 
           if(containsDigits){
+            return
+          }
+
+          if(value.length>20){
             return
           }
 

@@ -3,7 +3,7 @@ import "./studentProfile.css"
 import { redirect, useLoaderData, useFetcher,useActionData} from "react-router-dom";
 import { ToggleInput } from "../../reusableComponents/toggleInput/toggleInput";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 import { useTranslation } from "react-i18next";
 
@@ -44,17 +44,42 @@ export async function studentProfileAction({request,params}){
     const email = formData.get("email");
     const firstName = formData.get("firstName");
     const phoneNumber = formData.get("phoneNumber");
+    const image = formData.get("image"); // This is a File object
 
     let message
+    let response
 
     try {
-        const response = await fetch("/api/updateStudentInfo", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ lastName,firstName,email,phoneNumber }),
-        });
+        if(!image){
+            response = await fetch("/api/updateStudentInfo", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ lastName,firstName,email,phoneNumber }),
+              });
+        }
+        else{
+             // Example: send to Express backend
+             if (!image.type.startsWith("image/")) {
+                message = "wrong_type_failure";
+                return {message}
+            } else if (image.size > 5 * 1024 * 1024) { // 5MB limit
+                message = "tooBig_failure";
+                return {message}
+
+            }
+
+            const backendFormData = new FormData();
+            backendFormData.append("image", image);
+
+            response = await fetch("/api/updateStudentImage", {
+                method: "POST",
+                body: backendFormData,
+            });
+
+
+        }
       
         if (!response.ok) {
             const params = new URLSearchParams(window.location.search);
@@ -162,7 +187,7 @@ export function StudentProfile(){
                     })
             }
 
-            setFormData({ ...formData,firstName:data.firstName })
+            // setFormData({ ...formData,firstName:data.firstName })
 
         }
     },
@@ -186,7 +211,7 @@ export function StudentProfile(){
                     })
             }
 
-            setFormData({ ...formData,lastName:data.lastName })
+            // setFormData({ ...formData,lastName:data.lastName })
 
         }
 
@@ -251,7 +276,7 @@ export function StudentProfile(){
 
             }
 
-            setFormData({ ...formData,email:data.email })
+            // setFormData({ ...formData,email:data.email })
 
         }
 
@@ -283,7 +308,7 @@ export function StudentProfile(){
                     })
             }
 
-            setFormData({ ...formData,phoneNumber:data.phone })
+            // setFormData({ ...formData,phoneNumber:data.phone })
 
         }
     }
@@ -309,12 +334,8 @@ export function StudentProfile(){
                 <div className="imageContainer">
                     <div className="rectBackground"></div>
                     <div className="ellipseBackground"></div>
-                    <button className="centerButton">
+                    <ImageUpload fetcher={fetcher} image={data.profileImage}></ImageUpload>
 
-
-                        <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24"><g fill="none" stroke="#fafafa" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1}><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10s10-4.477 10-10S17.523 2 12 2"></path><path d="M4.271 18.346S6.5 15.5 12 15.5s7.73 2.846 7.73 2.846M12 12a3 3 0 1 0 0-6a3 3 0 0 0 0 6"></path></g></svg>
-                    
-                    </button>
 
                 </div>
 
@@ -349,3 +370,37 @@ export function StudentProfile(){
         </>
     )
 }
+
+
+function ImageUpload({fetcher,image=null}) {
+    const fileInputRef = useRef();
+  
+    const handleFileChange = (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+  
+      const formData = new FormData();
+      formData.append("image", file);
+  
+      fetcher.submit(formData, {
+        method: "post",
+        encType: "multipart/form-data", 
+      });
+    }
+
+    return (
+    <button type="button" className="centerButton" onClick={() => fileInputRef.current.click()}>
+        <input
+            type="file"
+            name="image"
+            ref={fileInputRef}
+            style={{ display: "none" }}
+            onChange={handleFileChange}
+        />
+        {!image && <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24"><g fill="none" stroke="#fafafa" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1}><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10s10-4.477 10-10S17.523 2 12 2"></path><path d="M4.271 18.346S6.5 15.5 12 15.5s7.73 2.846 7.73 2.846M12 12a3 3 0 1 0 0-6a3 3 0 0 0 0 6"></path></g></svg>}
+        {image && <img className="profileImg" src={image}></img>}
+
+    </button>
+    );
+    
+};

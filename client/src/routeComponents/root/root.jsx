@@ -21,6 +21,7 @@ export const rootLoader = async ({request}) => {
     let loginStatus
 
     let lessonsInCart
+    let profileImage
 
     try {
 
@@ -32,6 +33,7 @@ export const rootLoader = async ({request}) => {
         const data = await response.json();
         loginStatus= data.status
         lessonsInCart=data.lessonsInCart
+        profileImage=data.profileImage
             
     }
     catch (error) {
@@ -39,7 +41,7 @@ export const rootLoader = async ({request}) => {
         throw error;
     }
 
-    return {loginStatus,lessonsInCart}
+    return {loginStatus,lessonsInCart,profileImage}
   };
 
 
@@ -47,7 +49,7 @@ export function Root(){
 
     // epilogi sport apo index allagi selidas kai meta kratisi apo header => thimate to sport
 
-    const {loginStatus,lessonsInCart}= useLoaderData()
+    const {loginStatus,lessonsInCart,profileImage}= useLoaderData()
 
 
     const [isChooseLessonParamsOpen,setIsChooseLessonParamsOpen]=useState(false)
@@ -108,7 +110,7 @@ export function Root(){
                 }}
             />
 
-            <Header setIsChooseLessonParamsOpen={setIsChooseLessonParamsOpen} loginStatus={loginStatus} lessonsInCart={lessonsInCart}/>
+            <Header setIsChooseLessonParamsOpen={setIsChooseLessonParamsOpen} loginStatus={loginStatus} lessonsInCart={lessonsInCart} profileImage={profileImage}/>
             <Content contextValue={contextValue} isChooseLessonParamsOpen={isChooseLessonParamsOpen} setIsChooseLessonParamsOpen={setIsChooseLessonParamsOpen} selectedSport={selectedSport} setSelectedSport={setSelectedSport}/>
 
             {/* <main id='mainContent'>

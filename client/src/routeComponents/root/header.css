@@ -17,6 +17,11 @@ header{
     min-height: 100vh;
 }
 
+header .profileImg{
+    border-radius: 50%;
+    height:1.5rem;
+    width: 1.5rem !important;
+}
 
 header nav a{
     text-decoration: none;

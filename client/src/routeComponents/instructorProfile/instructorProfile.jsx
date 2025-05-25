@@ -61,18 +61,43 @@ export async function instructorProfileAction({request,params}){
     const biography= formData.get("biography")
     const summary= formData.get("summary")
     const yearsOfExperience= formData.get("yearsOfExperience")
-
+    const image = formData.get("image"); // This is a File object
 
     let message
+    let response
 
     try {
-        const response = await fetch("/api/updateInstructorInfo", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ lastName,firstName,email,phoneNumber,resorts,knownLanguages,sports,cancelationPolicy,biography,summary,yearsOfExperience}),
-        });
+
+        if(!image){
+
+            response = await fetch("/api/updateInstructorInfo", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ lastName,firstName,email,phoneNumber,resorts,knownLanguages,sports,cancelationPolicy,biography,summary,yearsOfExperience}),
+            });
+        }
+        else{
+
+            // Example: send to Express backend
+            if (!image.type.startsWith("image/")) {
+                message = "wrong_type_failure";
+                return {message}
+            } else if (image.size > 5 * 1024 * 1024) { // 5MB limit
+                message = "tooBig_failure";
+                return {message}
+
+            }
+
+            const backendFormData = new FormData();
+            backendFormData.append("image", image);
+
+            response = await fetch("/api/updateInstructorImage", {
+                method: "POST",
+                body: backendFormData,
+            });
+        }
       
         if (!response.ok) {
             const params = new URLSearchParams(window.location.search);
@@ -164,14 +189,13 @@ export function InstructorProfile(){
         phoneNumber:data.phone
     });
 
+
     const [errors, setErrors] = useState({
         firstName: "",
         lastName: "",
         email:"",
         phoneNumber:""
     });
-
-
     
     const handleChange = (e) => {
         let { name, value } = e.target;
@@ -228,8 +252,6 @@ export function InstructorProfile(){
                     })
             }
 
-            setFormData({ ...formData,firstName:data.firstName })
-
         }
     },
     {svg:
@@ -251,8 +273,6 @@ export function InstructorProfile(){
                       method: "post",
                     })
             }
-
-            setFormData({ ...formData,lastName:data.lastName })
 
         }
 
@@ -318,8 +338,6 @@ export function InstructorProfile(){
 
             }
 
-            setFormData({ ...formData,email:data.email })
-
         }
 
     },
@@ -350,12 +368,9 @@ export function InstructorProfile(){
                     })
             }
 
-            setFormData({ ...formData,phoneNumber:data.phone })
-
         }
     }
-    ]  
-    
+    ]      
     
     const validateEmailExpression = (email) => {
         // regex expression https://stackoverflow.com/questions/46155/how-can-i-validate-an-email-address-in-javascript
@@ -370,7 +385,6 @@ export function InstructorProfile(){
     
   const isSendingData = fetcher.state === "submitting" || fetcher.state === "loading";
 
-
     return(
         <>
             {<ShowMessageScreen namespace="instructorProfile" fetcher={fetcher}/>} 
@@ -380,12 +394,17 @@ export function InstructorProfile(){
                 <div className="imageContainer">
                     <div className="rectBackground"></div>
                     <div className="ellipseBackground"></div>
-                    <button className="centerButton">
+                    <ImageUpload fetcher={fetcher} image={data.profileImage}></ImageUpload>
+                    {/* <button className="centerButton"onClick={null}>
 
-
+                        <input
+                            type="file"
+                            name="image"
+                            style={{ display: "none" }}
+                        />
                         <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24"><g fill="none" stroke="#fafafa" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1}><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10s10-4.477 10-10S17.523 2 12 2"></path><path d="M4.271 18.346S6.5 15.5 12 15.5s7.73 2.846 7.73 2.846M12 12a3 3 0 1 0 0-6a3 3 0 0 0 0 6"></path></g></svg>
                     
-                    </button>
+                    </button> */}
 
                 </div>
 
@@ -542,7 +561,8 @@ function SelectExperience({data,isSendingData,onChange}){
     const isTextChanged = () => value !== initialValueRef.current;
   
     const options=["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40+"]
-  
+    
+    const disabled= (!isTextChanged() ) || isSendingData
 
     return(
         <>
@@ -550,7 +570,7 @@ function SelectExperience({data,isSendingData,onChange}){
             <h2>{t("experience")}</h2>
 
             <div className="allContainer">
-                <Dropdown namespace="statistics"   options={options} text={t("expText")} selected={value}
+                <Dropdown namespace=""   options={options} text={t("expText")} selected={value}
                     setSelected={(val) => {
                         setValue(val)
                     }}
@@ -559,15 +579,15 @@ function SelectExperience({data,isSendingData,onChange}){
 
                 <div className="buttonContainer">
                     <button
-                        className={isTextChanged() && !isSendingData ? "displayFull" : ""}
-                        onClick={()=>setValue(initialValueRef.current)}
+                        className={!disabled? "displayFull" : ""}
+                        onClick={disabled?null:()=>setValue(initialValueRef.current)}
                     >
                         {t("cancel")}
                     </button>
 
                     <button
-                        className={isTextChanged() && !isSendingData ? "displayFull" : ""}
-                        onClick={()=>onChange(value)}
+                        className={!disabled ? "displayFull" : ""}
+                        onClick={disabled?null:()=>{ initialValueRef.current=value;onChange(value)}}
                     >
                         {t("save")}
                     </button>
@@ -582,3 +602,36 @@ function SelectExperience({data,isSendingData,onChange}){
 }
 
 
+
+function ImageUpload({fetcher,image=null}) {
+    const fileInputRef = useRef();
+  
+    const handleFileChange = (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+  
+      const formData = new FormData();
+      formData.append("image", file);
+  
+      fetcher.submit(formData, {
+        method: "post",
+        encType: "multipart/form-data", 
+      });
+    }
+
+    return (
+    <button type="button" className="centerButton" onClick={() => fileInputRef.current.click()}>
+        <input
+            type="file"
+            name="image"
+            ref={fileInputRef}
+            style={{ display: "none" }}
+            onChange={handleFileChange}
+        />
+        {!image && <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24"><g fill="none" stroke="#fafafa" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1}><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10s10-4.477 10-10S17.523 2 12 2"></path><path d="M4.271 18.346S6.5 15.5 12 15.5s7.73 2.846 7.73 2.846M12 12a3 3 0 1 0 0-6a3 3 0 0 0 0 6"></path></g></svg>}
+        {image && <img className="profileImg" src={image}></img>}
+
+    </button>
+    );
+    
+};

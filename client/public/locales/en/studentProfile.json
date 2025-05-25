@@ -9,7 +9,12 @@
     "12_digits":"Phone number with country code must be 12 digits",
     "invalid_format":"Invalid format",
     "please_try_again":"Update failed. Please try again later",
-    "already_used":"Address is already used"
+    "already_used":"Address is already used",
+
+    "wrong_type_failure":"Wrong file format",
+
+    "tooBig_failure":"Maximum permitted image size is 5MB"
+
 
 
 

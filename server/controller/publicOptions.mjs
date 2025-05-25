@@ -1,17 +1,37 @@
 import * as publicOptionsModel from "../model/publicOptions.mjs"
 import bcrypt from 'bcrypt'
 
-function getHeaderParams(req,res){
-    // an einai sindedemenos apothikeuetai sto session, alios einai 0
-    const lessonsInCart=2
+async function getHeaderParams(req,res,next){
+  try{
+      // an einai sindedemenos apothikeuetai sto session, alios einai 0
+      const lessonsInCart=2
 
-    if(req.session?.loggedinState){
-        return res.json({ status: req.session.loggedinState, lessonsInCart});
-
-    }
-    else{
-        return res.json({ status: null, lessonsInCart});
-    }
+      const userID= req.session.userID
+      let imageBase64 = null;
+  
+  
+      if(userID){
+          const {profilepicture  } = await (publicOptionsModel.getProfileImage(userID))
+  
+          if (profilepicture) {
+            const mimeType = "image"; 
+            imageBase64 = `data:${mimeType};base64,${profilepicture.toString("base64")}`;
+        }
+    
+      }
+  
+      if(req.session?.loggedinState){
+          return res.json({ status: req.session.loggedinState, lessonsInCart, profileImage: imageBase64 });
+  
+      }
+      else{
+          return res.json({ status: null, lessonsInCart:0,profileImage: null });
+      }
+  }
+  catch(error){
+    next(error)
+  }
+   
 }
 
 async function loginUser(req,res,next){
@@ -26,8 +46,7 @@ async function loginUser(req,res,next){
         }
 
         else{
-          const {userExists,hashedPassword,accountType}= await publicOptionsModel.authenticate(email)
-
+          const {userExists,hashedPassword,accountType,userID}= await publicOptionsModel.authenticate(email)
 
           if(!userExists){
               return res.json({ userExists: false  });
@@ -35,6 +54,8 @@ async function loginUser(req,res,next){
           else{
               const check= await bcrypt.compare(password,hashedPassword)
               if(check){
+                  req.session.userID= userID
+
                   if(accountType=="student"){
                       req.session.loggedinState = "student";
                       return res.json({ userExists: true,accountType:"student" });

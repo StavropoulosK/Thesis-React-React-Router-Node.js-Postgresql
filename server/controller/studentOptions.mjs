@@ -1,8 +1,30 @@
+import * as studentOptionsModel from "../model/studentOptions.mjs"
+import { saveImage } from "../model/instructorOptions.mjs";
+
 async function getStudentProfileParams(req,res,next){
 
   try{
 
-    res.json({firstName:"alex",lastName:"mic",email:"kostas.striker@gmail.com",phone:"306951232693"})
+     const studentId= req.session.userID
+
+        if(!studentId){
+            return res.status(401).end();
+
+        }
+
+
+
+        const { email, phonenumber, firstname, lastname, profilepicture  } = await (studentOptionsModel.getStudentProfileParams(studentId))
+
+        let imageBase64 = null;
+        if (profilepicture) {
+            const mimeType = "image"; 
+            imageBase64 = `data:${mimeType};base64,${profilepicture.toString("base64")}`;
+        }
+
+
+
+    res.json({firstName:firstname,lastName:lastname,email,phone:phonenumber,profileImage: imageBase64 })
 
   }
   catch(error){
@@ -15,21 +37,75 @@ async function getStudentProfileParams(req,res,next){
 async function updateStudentInfo(req,res,next){
   try{
     const { firstName, lastName, email, phoneNumber} = req.body;
+  
+    const userID= req.session.userID
 
 
-    console.log("!!! ",firstName,lastName,email,phoneNumber, firstName.length,lastName.length, email.length, phoneNumber.length)
+    if(!userID){
+        return res.status(401).end();
+
+    }
+
+    let updateValueName=""
+    let updateValue=""
+
+    // only update value is not null
+
+    if(firstName!=null){
+        updateValueName="firstName"
+        updateValue=firstName
+    }
+    else if(lastName!=null){
+        updateValueName="lastName"
+        updateValue=lastName
+    }
+    else if(email!=null){
+        updateValueName="email"
+        updateValue=email
+    }
+    else if(phoneNumber!=null){
+        updateValueName="phoneNumber"
+        updateValue=phoneNumber
+    }
   
-    await new Promise(resolve => setTimeout(resolve, 5000));
-  
+    await (studentOptionsModel.updateStudentInfo(updateValueName,updateValue,userID))
+
     //success, failure
   
   
     return res.json({message:"success"})
   }
   catch(error){
-    next(error)
+    return res.json({message:"failure"})
   }
 }
+
+async function updateStudentImage(req,res,next){
+  try{
+      const imageBuffer = req.file.buffer;
+      const fileName = req.file.originalname;
+      const studentId= req.session.userID
+
+      if(!studentId){
+          return res.status(401).end();
+
+      }
+
+      await saveImage(studentId, imageBuffer);
+
+
+      res.send({message:"success"});
+  }
+  catch(error){
+      return res.json({message:"failure"})
+  }
+}
+
+
+
+
+
+
 
 async function addLessonToCart(req,res,next){
   try{
@@ -1056,4 +1132,4 @@ function isValidPaymentInput(cardHolderName,cardNumber,expirationDate,cvv){
   
 
 export {getStudentProfileParams,updateStudentInfo,addLessonToCart,removeLessonsFromCart,payLessonsInCart,getCostOfLessonsInCart,
-    getPreviousStudentLessons,getUpComingStudentLessons,cancelLessons,sendEmailRequest,postReview,getLessonsInCart}
+    getPreviousStudentLessons,getUpComingStudentLessons,cancelLessons,sendEmailRequest,postReview,getLessonsInCart,updateStudentImage}

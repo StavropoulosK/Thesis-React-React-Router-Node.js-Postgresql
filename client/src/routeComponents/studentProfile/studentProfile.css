@@ -93,6 +93,12 @@ section.studentProfile *{
     position: relative;
     bottom:4rem;
   }
+
+    .studentProfile .centerButton  img{
+    object-fit: cover;
+  }
+
+
   
   .studentProfile .userInfo .row{
     display: flex;

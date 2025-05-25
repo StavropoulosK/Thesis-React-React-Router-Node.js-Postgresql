@@ -2,6 +2,9 @@ import express from 'express'
 
 import * as instructorOptions from '../controller/instructorOptions.mjs'
 import {authoriseInstructor} from '../controller/authorise.mjs'
+import multer from "multer"
+
+const upload = multer({ storage: multer.memoryStorage() });
 
 
 const router = express.Router();
@@ -19,6 +22,7 @@ router.route('/createTeaching').post(authoriseInstructor,instructorOptions.creat
 router.route('/updateMeetingPoint').post(authoriseInstructor,instructorOptions.updateMeetingPoint)
 router.route('/deleteMeetingPoint').post(authoriseInstructor,instructorOptions.deleteMeetingPoint)
 router.route('/createMeetingPoint').get(authoriseInstructor,instructorOptions.createMeetingPoint)
+router.route('/updateInstructorImage').post(authoriseInstructor,upload.single("image"),instructorOptions.updateInstructorImage)
 
 
 

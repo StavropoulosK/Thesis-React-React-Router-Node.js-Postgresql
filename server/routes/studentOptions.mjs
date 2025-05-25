@@ -3,12 +3,17 @@ import express from 'express'
 import {authoriseStudent} from '../controller/authorise.mjs'
 import * as studentOptions from '../controller/studentOptions.mjs'
 
+import multer from "multer"
+
+const upload = multer({ storage: multer.memoryStorage() });
 
 const router = express.Router();
 
 
 router.route('/getStudentProfileParams').get(authoriseStudent,studentOptions.getStudentProfileParams)
 router.route('/updateStudentInfo').post(authoriseStudent,studentOptions.updateStudentInfo)
+
+
 router.route('/addLessonToCart').post(authoriseStudent,studentOptions.addLessonToCart)
 router.route('/removeLessonsFromCart').post(authoriseStudent,studentOptions.removeLessonsFromCart)
 router.route('/payLessonsInCart').post(authoriseStudent,studentOptions.payLessonsInCart)
@@ -19,5 +24,6 @@ router.route('/cancelLessons').post(authoriseStudent,studentOptions.cancelLesson
 router.route('/sendEmailRequest').post(authoriseStudent,studentOptions.sendEmailRequest)
 router.route('/postReview').post(authoriseStudent,studentOptions.postReview)
 router.route('/getLessonsInCart').get(authoriseStudent,studentOptions.getLessonsInCart)
+router.route('/updateStudentImage').post(authoriseStudent,upload.single("image"),studentOptions.updateStudentImage)
 
 export default router

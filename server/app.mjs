@@ -5,6 +5,7 @@ import { dirname } from "path"
 import session from "express-session"
 import 'dotenv/config'
 
+
 import studentOptionsRouter from './routes/studentOptions.mjs'
 import publicOptionsRouter from './routes/publicOptions.mjs'
 import instructorOptionsRouter from './routes/instructorOptions.mjs'
@@ -32,6 +33,9 @@ const app=express()
 app.use(express.static(distPath))     // ta public files topothetountai kata to build sto distpath kai serbirontai apo eki.
 
 
+// na megaloso to meeting point, na balo piasmena mathimata, taksinomimena ta mathimata, na fainetai i ora pou diarki to kathe matima, sto payment na dixno to farms (p.x. 4 4-paules gia to kodiko kartas )
+
+// tous aresan ta xromata, oti lei ola ta attributes sta lessons, tous fanikan ola poli apla.
 
 
 app.use(express.json())
