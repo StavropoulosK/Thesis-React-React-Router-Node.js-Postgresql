@@ -56,19 +56,19 @@ export async function instructorTeachingsAction({request,params}){
 
     if(reason=="meetingPointUpdate"){
         const meetingPointId = formData.get("meetingPointId");
-        const resort= formData.get("resort") || ""
-        const text= formData.get("text") || ""
+        const resort= formData.get("resort") 
+        const text= formData.get("text") 
 
         let updateField=""
 
-        if(resort!=""){
+        if(resort!=null){
             //user is updating resort name
-            updateField="resortName"
+            updateField="resortText"
         }
 
-        else if(text !=""){
+        else if(text !=null){
             // user is updating text value
-            updateField="resort_text"
+            updateField="locationText"
 
         }
 
@@ -100,6 +100,40 @@ export async function instructorTeachingsAction({request,params}){
             console.error('Error connecting to server', error);
             throw error;
         }
+
+    }
+
+    else if (reason=="updateMeetingPointImage"){
+        const image = formData.get("image"); 
+        const meetingPointId = formData.get("meetingPointId"); 
+
+         if (!image.type.startsWith("image/")) {
+            message = "wrong_type_failure";
+            return {message}
+        } else if (image.size > 5 * 1024 * 1024) { // 5MB limit
+            message = "tooBig_failure";
+            return {message}
+        }
+
+        const backendFormData = new FormData();
+        backendFormData.append("image", image);
+        backendFormData.append("meetingPointId", meetingPointId);
+
+        const response = await fetch("/api/updateMeetingPointImage", {
+            method: "POST",
+            body: backendFormData,
+        });
+
+        if (!response.ok) {
+            const params = new URLSearchParams(window.location.search);
+            const newParams=new URLSearchParams()
+            newParams.set("fromPage", window.location.pathname+"?"+params.toString());
+            
+            return redirect("/login?" + newParams.toString());
+        }
+
+       
+        message = (await response.json()).message;
 
     }
 
@@ -344,14 +378,15 @@ export function InstructorTeachings(){
                             <span className="id">{t("location")} {index+1}</span>
                             <InputContainer meetingPoint={meetingPoint} name="resort" fetcher={fetcher}/>
                             <InputContainer meetingPoint={meetingPoint} name="text" fetcher={fetcher}/>
-                            {index!=1 && <button>
+                            <ImageUpload fetcher={fetcher} meetingPointId={meetingPoint.id} image={meetingPoint.image}/>
+                            {/* {index!=1 && <button>
                                 <img src="/images/showLessons/map.png"></img>
                             </button>}
 
                             {index==1 && <button className="addImage">
                                 <svg xmlns="http://www.w3.org/2000/svg" width={30} height={30} viewBox="0 0 24 24"><path fill="currentColor" d="M12 6.5a5.5 5.5 0 1 0-11 0a5.5 5.5 0 0 0 11 0M7 7l.001 2.504a.5.5 0 0 1-1 0V7H3.496a.5.5 0 0 1 0-1H6V3.5a.5.5 0 0 1 1 0V6h2.497a.5.5 0 0 1 0 1zm10.75-2.5h-5.063a6.5 6.5 0 0 0-.709-1.5h5.772A3.25 3.25 0 0 1 21 6.25v11.5A3.25 3.25 0 0 1 17.75 21H6.25A3.25 3.25 0 0 1 3 17.75v-5.772c.463.297.967.536 1.5.709v5.063q.001.313.103.594l5.823-5.701a2.25 2.25 0 0 1 3.02-.116l.128.116l5.822 5.702q.102-.28.104-.595V6.25a1.75 1.75 0 0 0-1.75-1.75m.58 14.901l-5.805-5.686a.75.75 0 0 0-.966-.071l-.084.07l-5.807 5.687q.274.097.582.099h11.5c.203 0 .399-.035.58-.099M15.253 6.5a2.252 2.252 0 1 1 0 4.504a2.252 2.252 0 0 1 0-4.504m0 1.5a.752.752 0 1 0 0 1.504a.752.752 0 0 0 0-1.504"></path></svg>
                             
-                            </button>}
+                            </button>} */}
 
                         </article>
                     ))
@@ -383,7 +418,7 @@ export function InstructorTeachings(){
                         return (
                             // <Teaching key={teaching.teachingID} buttonOption={buttonOptionCreate} fetcher={fetcher} type="create" teachingValues={teaching}/>
 
-                            <Teaching key={teachingValues.teachingID} buttonOption={buttonOptionChange} fetcher={fetcher} type="existing" teachingValues={teachingValues}/>
+                            <Teaching key={String(teachingValues.teachingID)+teachingValues.meetingPointId+String(data.meetingPoints.length)} buttonOption={buttonOptionChange} fetcher={fetcher} type="existing" teachingValues={teachingValues}/>
 
                         );
                     })}
@@ -410,7 +445,6 @@ function parseDateFromString(dateStr) {
   }
 
 function Teaching({buttonOption,fetcher,type,teachingValues}){
-
 
     const [showUpdateLessons,setShowUpdateLessons] = useState(false)
     const selectedTeachingRef= useRef(null)
@@ -844,17 +878,22 @@ function InputContainer({meetingPoint,name,fetcher}){
 
 
     const handleClick = () => {
+        if(value==meetingPoint[name] || (meetingPoint[name]===null && value==="")){
+            return
+        }
         const formData = new FormData();
         formData.append(name, value);
         formData.append("meetingPointId", meetingPoint.id);
         formData.append("reason", "meetingPointUpdate");
-
         fetcher.submit(formData, { method: "post"});
     };
 
+    const inputText= value||""
+    // const inputText= ((value!=null)||meetingPoint[name])?value:t(name)
+
     return(
         <div className="inputContainer">
-                <ToggleInput svg={null} inputText={value|| t(name)} handleChange={(e)=>{if(e.target.value.length>30) return; setValue(e.target.value);}} namespace={null} loaderText={meetingPoint[name]|| t(name)} errorText={""} onClick={handleClick}/>
+                <ToggleInput svg={null} inputText={inputText} handleChange={(e)=>{if(e.target.value.length>30) return; setValue(e.target.value);}} namespace={null} loaderText={meetingPoint[name]|| t(name)} errorText={""} onClick={handleClick}/>
 
         </div>
 
@@ -862,3 +901,40 @@ function InputContainer({meetingPoint,name,fetcher}){
 
 
 }
+
+
+function ImageUpload({fetcher,image=null,meetingPointId}) {
+    const fileInputRef = useRef();
+  
+    const handleFileChange = (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+  
+      const formData = new FormData();
+      formData.append("image", file);
+      formData.append("meetingPointId", meetingPointId);
+      formData.append("reason", "updateMeetingPointImage");
+
+      fetcher.submit(formData, {
+        method: "post",
+        encType: "multipart/form-data", 
+      });
+    }
+
+    return (
+
+        <button onClick={() => fileInputRef.current.click()} className={image==null?"addImage":""}>
+            <input
+                type="file"
+                name="image"
+                ref={fileInputRef}
+                style={{ display: "none" }}
+                onChange={handleFileChange}
+            />
+            {image==null && <svg xmlns="http://www.w3.org/2000/svg" width={30} height={30} viewBox="0 0 24 24"><path fill="currentColor" d="M12 6.5a5.5 5.5 0 1 0-11 0a5.5 5.5 0 0 0 11 0M7 7l.001 2.504a.5.5 0 0 1-1 0V7H3.496a.5.5 0 0 1 0-1H6V3.5a.5.5 0 0 1 1 0V6h2.497a.5.5 0 0 1 0 1zm10.75-2.5h-5.063a6.5 6.5 0 0 0-.709-1.5h5.772A3.25 3.25 0 0 1 21 6.25v11.5A3.25 3.25 0 0 1 17.75 21H6.25A3.25 3.25 0 0 1 3 17.75v-5.772c.463.297.967.536 1.5.709v5.063q.001.313.103.594l5.823-5.701a2.25 2.25 0 0 1 3.02-.116l.128.116l5.822 5.702q.102-.28.104-.595V6.25a1.75 1.75 0 0 0-1.75-1.75m.58 14.901l-5.805-5.686a.75.75 0 0 0-.966-.071l-.084.07l-5.807 5.687q.274.097.582.099h11.5c.203 0 .399-.035.58-.099M15.253 6.5a2.252 2.252 0 1 1 0 4.504a2.252 2.252 0 0 1 0-4.504m0 1.5a.752.752 0 1 0 0 1.504a.752.752 0 0 0 0-1.504"></path></svg>}
+            {image!=null && <img src={image}/>}
+        </button>
+
+    );
+    
+};

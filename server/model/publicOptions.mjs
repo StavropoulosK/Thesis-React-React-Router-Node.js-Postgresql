@@ -109,5 +109,356 @@ async function getProfileImage(userID){
     }
 }
 
+async function getInstructorInfo(instructorId){
+    let client
+    try {
+        const sql =`WITH REVIEWS_INSTRUCTOR AS(
+                        SELECT count(reviewStars) as starScore,instructorID, count(*) AS total_reviews
+                        from review natural join review_lesson natural join lesson natural join teaching
+                        where instructorID=$1
+                        group by instructorID
+                     )
+                    select (firstName || ' '|| SUBSTRING(lastName,1,1)||'.') as "instructorName", yearsOfExperience as "yearsOfExperience",resorts as "skiResorts",sports,languages,
+                    cancelationPolicy,biographyNote as biography, email as "instructorEmail",profilepicture as "profilePicture",starScore,total_reviews
+                    from "USER"  join instructor on userID=instructorID natural left join reviews_instructor
+                    where instructorID=$1`;
 
-export {insertUser,checkEmailAlreadyUsed,authenticate,getProfileImage}
+        client = await connect();
+        const res = await client.query(sql, [instructorId]);
+        return res.rows[0]
+    } catch (err) {
+        throw err;
+    } finally {
+        client.release(); 
+    }
+
+
+}
+
+
+async function getUserEmail(userID){
+    let client
+    try {
+        const sql = `SELECT email
+                     FROM "USER" WHERE userID = $1`;
+
+        client = await connect();
+        const res = await client.query(sql, [userID]);
+        return res.rows[0].email
+    } catch (err) {
+        throw err;
+    } finally {
+        client.release(); 
+    }
+}
+
+
+async function bookLesson(resort, sport, from, to, members,lessonType,time,orderBy,instructorName,pageNumber){
+    // according to user filters, the available group lessons and instructors are retrieved
+
+    let lessonTypeCheck=''
+    let timeCheck=''
+    let orderByClause=''
+
+    if(lessonType=='private'){
+        lessonTypeCheck= " lessonType='private' "
+    }
+    else if(lessonType=="group"){
+        lessonTypeCheck= " lessonType='group' "
+
+    }
+    else{
+        lessonTypeCheck= " lessonType='private' or lessonType='group' "
+
+    }
+
+    if(time=='allDay'){
+        timeCheck="isAllDay=true"
+    }
+    else if(time=='morning'){
+        timeCheck="timeStart<='12:00'"
+
+    }
+    else if(time=='noon'){
+        timeCheck="timeStart>='12:00'"
+
+    }
+    else{
+        timeCheck="TRUE"
+    }
+
+    if(orderBy=="Price Low to High"){
+        orderByClause=' "minPricePerHour" asc'
+    }
+    else if(orderBy=='Price High to Low'){
+        orderByClause= '"minPricePerHour" desc'
+
+    }
+    else if(orderBy=='Best reviews'){
+        orderByClause=' "reviewScore" desc'
+
+    }
+    else{
+        orderByClause=' "reviewScore" desc'
+
+    }
+
+    // console.log('aaa ',lessonTypeCheck,timeCheck,orderByClause)
+
+
+    let client
+    try {
+        const sql = `
+        WITH REVIEWS_INSTRUCTOR AS(
+            SELECT AVG(reviewStars)::NUMERIC(3,1) as "reviewScore",instructorID, count(CASE WHEN reviewStars IS NOT NULL THEN 1 END) AS "reviewCount"
+            from instructor natural join teaching natural join lesson natural left outer join (review_lesson natural join review)
+            group by instructorID
+         ),
+        INSTRUCTOR_INFO AS(
+            select teachingID,lessonType as "typeOfLesson" ,(firstName || ' '|| SUBSTRING(lastName,1,1)||'.') as "instructorName", yearsOfExperience as experience,languages,
+            summaryInfo as description, profilepicture as image,instructorID as "instructorId","reviewScore","reviewCount"
+            from "USER"  join instructor on userID=instructorID natural join teaching natural left join reviews_instructor
+        ),
+        TEACHING_OPTIONS AS(
+            select teachingid, costPerHour, groupName as "groupName"
+            from (teaching natural join lesson l) left join (reservation_lesson r natural join reservation) on l.lessonID=r.lessonID
+            where l.canceled=false and (r.canceled=false or r.canceled is null) and ( ${lessonTypeCheck})
+            and resort=$1 and sport=$2 and ${timeCheck} and l.date>=$3 and l.date<=$4
+            group by l.lessonID, teachingid
+            HAVING 
+                CASE 
+                    WHEN lessonType = 'group' 
+                        THEN (maxParticipants - COALESCE(SUM(participantNumber), 0)) >= $5
+                    WHEN lessonType = 'private' 
+                        THEN ( SUM(participantNumber) IS NULL  and maxParticipants >= $5 )
+                    ELSE false
+                END
+        )
+        select i."typeOfLesson", i."instructorName",i."groupName",i."instructionID"::text,i.experience, i.languages,i.description,i.image,i."instructorId",i."reviewScore"::text,i."reviewCount", min(costperhour) as "minPricePerHour",  COUNT(*) OVER () AS "entries"
+        from(
+            SELECT  i."typeOfLesson",teach."groupName", i."instructorName",i.experience, i.languages,i.description,i.image,i."instructorId",i."reviewScore",i."reviewCount", costperhour
+                , 
+                   CASE 
+                     WHEN i."typeOfLesson" = 'private' THEN NULL
+                     ELSE i.teachingid
+                   END AS "instructionID"
+            from TEACHING_OPTIONS teach natural join  INSTRUCTOR_INFO i
+            where i."instructorName" ILIKE  ($6 || '%')) i
+        group by i."typeOfLesson", i."instructorName",i."groupName",i."instructionID",i.experience, i.languages,i.description,i.image,i."instructorId",i."reviewScore",i."reviewCount"
+        order by ${orderByClause}
+        LIMIT 4
+        OFFSET (4 * ($7 - 1))`;
+
+        client = await connect();
+        const res = await client.query(sql, [resort, sport,from,to,members,instructorName,pageNumber]);
+        return res.rows
+    } catch (err) {
+        throw err;
+    } finally {
+        client.release(); 
+    }
+}
+
+async function showLessons(resort,sport,from,to,members,instructorId,instructionID,typeOfLesson,time){
+    let client
+
+    // console.log("aaa!! ",resort,sport,from,to,members,typeOfLesson,instructorId,instructionID,time)
+
+    let lessonTypeCheck=''
+    let timeCheck=''
+    let instructionIDCheck=''
+
+    if(typeOfLesson=='private'){
+        lessonTypeCheck= " lessonType='private' "
+    }
+    else if(typeOfLesson=="group"){
+        lessonTypeCheck= " lessonType='group' "
+
+    }
+    else{
+        lessonTypeCheck= " lessonType='private' or lessonType='group' "
+
+    }
+
+    if(time=='allDay'){
+        timeCheck="isAllDay=true"
+    }
+    else if(time=='morning'){
+        timeCheck="timeStart<='12:00'"
+
+    }
+    else if(time=='noon'){
+        timeCheck="timeStart>='12:00'"
+
+    }
+    else{
+        timeCheck="TRUE"
+    }
+
+    if(instructionID!=null){
+        instructionIDCheck= `teachingID=${instructionID}`
+    }
+    else{
+        instructionIDCheck='TRUE'
+    }
+
+    try {
+        const sql =`WITH AVAILABLE_LESSONS AS(
+                    select teachingid, l.lessonid, "date", isallday, costPerHour, timeStart, timeEnd
+                    from (teaching natural join lesson l) left join (reservation_lesson r natural join reservation) on l.lessonID=r.lessonID
+                    where l.canceled=false and (r.canceled=false or r.canceled is null) and ( ${lessonTypeCheck})
+                    and resort=$1 and sport=$2 and ${timeCheck} and l.date>=$3 and l.date<=$4 and instructorId=$6 and (${instructionIDCheck})
+                    group by l.lessonID, teachingid
+                    HAVING 
+                        CASE 
+                            WHEN lessonType = 'group' 
+                                THEN (maxParticipants - COALESCE(SUM(participantNumber), 0)) >= $5
+                            WHEN lessonType = 'private' 
+                                THEN ( SUM(participantNumber) IS NULL  and maxParticipants >= $5 )
+                            ELSE false
+                        END
+                ),
+                ALL_LESSONS AS(
+                    select teachingid, l.lessonid, "date", isallday, costPerHour, timeStart, timeEnd
+                    from teaching natural join lesson l
+                    where l.canceled=false  and ( ${lessonTypeCheck})
+                    and resort=$1 and sport=$2 and ${timeCheck} and l.date>=$3 and l.date<=$4 and instructorId=$6 and (${instructionIDCheck}) and maxParticipants >=$5
+                )
+                select  json_agg(
+                        json_build_object(
+                            'teachingID',teachingid::text,
+                            'lessonID',lessonid::text,
+                            'date',"date",
+                            'isAllDay',isallday,
+                            'cost',costPerHour::text,
+                            'timeStart',timeStart, 
+                            'timeEnd',timeEnd,
+                            'full', lessonid not in ( select lessonid from AVAILABLE_LESSONS)
+                        )
+                        ORDER BY timeStart
+                    ) AS lessons
+                FROM ALL_LESSONS
+                GROUP BY "date" `;
+
+        client = await connect();
+        const res = await client.query(sql, [resort,sport,from,to,members,instructorId]);
+
+        
+
+        // console.log(res.rows.map(row=> row.lessons));
+        // console.log("\n\n\n")
+        return res.rows.map(row=> row.lessons)
+    } catch (err) {
+        throw err;
+    } finally {
+        client.release(); 
+    }
+
+}
+
+async function getLessonsMeetingPoints(uniqueTeachingIDs){
+    let client
+    try{
+        client = await connect();
+
+        const sql=` select teachingID::text, meetingPointID,locationText as "location", picture
+                    from teaching natural left join meetingPoint
+                    where teachingID::text = ANY ($1);` 
+        
+        const result=await  client.query(sql, [uniqueTeachingIDs])
+        return result.rows
+ 
+    } catch (err) {
+        throw err;
+    } finally {
+        client.release();
+
+    }
+}
+
+
+// WITH AVAILABLE_LESSONS AS(
+// 	select teachingid, l.lessonid, "date", isallday, costPerHour, timeStart, timeEnd
+// 	from (teaching natural join lesson l) left join (reservation_lesson r natural join reservation) on l.lessonID=r.lessonID
+// 	where l.canceled=false and (r.canceled=false or r.canceled is null) and (lessonType='private' or lessonType='group')
+// 	and resort='Vasilitsas' and sport='Ski' and timeStart<='15:00' and l.date>='2025/05/29' and l.date<='2025/06/13' and instructorId=4
+// 	group by l.lessonID, teachingid
+// 	HAVING 
+// 	    CASE 
+// 	        WHEN lessonType = 'group' 
+// 	            THEN (maxParticipants - COALESCE(SUM(participantNumber), 0)) >= 2
+// 	        WHEN lessonType = 'private' 
+//                 THEN ( SUM(participantNumber) IS NULL  and maxParticipants >= 2 )
+// 	        ELSE false
+// 	    END
+// ),
+// ALL_LESSONS AS(
+// 	select teachingid, l.lessonid, "date", isallday, costPerHour, timeStart, timeEnd
+// 	from (teaching natural join lesson l) left join (reservation_lesson r natural join reservation) on l.lessonID=r.lessonID
+// 	where l.canceled=false and (r.canceled=false or r.canceled is null) and (lessonType='private' or lessonType='group')
+// 	and resort='Vasilitsas' and sport='Ski' and timeStart<='15:00' and l.date>='2025/05/29' and l.date<='2025/06/13' and instructorId=4
+// 	group by l.lessonID, teachingid
+// )
+// select  json_agg(
+// 		json_build_object(
+// 			'teachingid',teachingid,
+// 			'lessonid',lessonid,
+// 			'date',"date",
+// 			'isallday',isallday,
+// 			'costPerHour',costPerHour,
+// 			'timeStart',timeStart, 
+// 			'timeEnd',timeEnd,
+// 			'full', lessonid not in ( select lessonid from AVAILABLE_LESSONS)
+// 		)
+// 		ORDER BY timeStart
+// 	) AS lessons
+// FROM ALL_LESSONS
+// GROUP BY "date"
+
+
+
+
+// WITH REVIEWS_INSTRUCTOR AS(
+// 	SELECT AVG(reviewStars)::NUMERIC(3,1) as "reviewScore",instructorID, count(CASE WHEN reviewStars IS NOT NULL THEN 1 END) AS "reviewCount"
+// 	from instructor natural join teaching natural join lesson natural left outer join (review_lesson natural join review)
+// 	group by instructorID
+//  ),
+// INSTRUCTOR_INFO AS(
+// select teachingID,lessonType as "typeOfLesson" ,(firstName || ' '|| SUBSTRING(lastName,1,1)||'.') as "instructorName", yearsOfExperience as experience,languages,
+// summaryInfo as description, profilepicture as image,instructorID as "instructorId","reviewScore","reviewCount"
+// from "USER"  join instructor on userID=instructorID natural join teaching natural left join reviews_instructor
+// ),
+// TEACHING_OPTIONS AS(
+// 	select teachingid, costPerHour, groupName as "groupName"
+// 	from (teaching natural join lesson l) left join (reservation_lesson r natural join reservation) on l.lessonID=r.lessonID
+// 	where l.canceled=false and (r.canceled=false or r.canceled is null) and (lessonType='private' or lessonType='group')
+// 	and resort='Velouhiou' and sport='Snowboard' and timeStart<='15:00' 
+// 	and (isAllDay=false or isAllDay=true) and l.date>='2025/05/29' and l.date<='2026/05/29' 
+// 	group by l.lessonID, teachingid
+// 	HAVING 
+// 	    CASE 
+// 	        WHEN lessonType = 'group' 
+// 	            THEN (maxParticipants - COALESCE(SUM(participantNumber), 0)) >= 2
+// 	        WHEN lessonType = 'private' 
+//                 THEN ( SUM(participantNumber) IS NULL  and maxParticipants >= 2 )
+// 	        ELSE false
+// 	    END
+// )
+// select i."typeOfLesson", i."instructorName",i."groupName",i."instructionID",i.experience, i.languages,i.description,i.image,i."instructorId",i."reviewScore"::text,i."reviewCount", min(costperhour) as "minPricePerHour",  COUNT(*) OVER () AS "entries"
+// from(
+// 	SELECT  i."typeOfLesson",teach."groupName", i."instructorName",i.experience, i.languages,i.description,i.image,i."instructorId",i."reviewScore",i."reviewCount", costperhour
+// 		, 
+// 	       CASE 
+// 	         WHEN i."typeOfLesson" = 'private' THEN NULL
+// 	         ELSE i.teachingid
+// 	       END AS "instructionID"
+// 	from TEACHING_OPTIONS teach natural join  INSTRUCTOR_INFO i
+// 	where i."instructorName" ILIKE '%') i
+// group by i."typeOfLesson", i."instructorName",i."groupName",i."instructionID",i.experience, i.languages,i.description,i.image,i."instructorId",i."reviewScore",i."reviewCount"
+// order by "reviewScore" desc
+// LIMIT 4
+// OFFSET 0
+
+
+
+export {insertUser,checkEmailAlreadyUsed,authenticate,getProfileImage,getInstructorInfo,getUserEmail,bookLesson,showLessons,getLessonsMeetingPoints}

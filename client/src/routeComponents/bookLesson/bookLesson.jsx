@@ -157,7 +157,6 @@ export function BookLesson(){
 
     const [instructorName, setInstructorName]= useState(params.instructorName)
 
-
     // it prevents the effect on SearchInput to trigger when user clicks clear filters
     const resetSearchRef=useRef(0)
 
@@ -167,7 +166,7 @@ export function BookLesson(){
     }, []);
 
     // instructionID is for group lessons
-    const [showLessons,setShowLessons]=useState({instructorId:"",instructorName:"",resort:"",sport:"",from:"",to:"",members:"",typeOfLesson:"",instructionID:""})
+    const [showLessons,setShowLessons]=useState({instructorId:"",instructorName:"",resort:"",sport:"",from:"",to:"",members:"",typeOfLesson:"",instructionID:"",time:""})
 
 
     useEffect(() => {
@@ -646,6 +645,7 @@ function Lesson({instructorLesson,setShowLessons}){
     const resort=params.resort
     const from=params.from
     const to=params.to
+    const time=params.time
     const instructorId=instructorLesson.instructorId
     const instructorName=instructorLesson.instructorName
     const typeOfLesson=instructorLesson.typeOfLesson
@@ -673,15 +673,17 @@ function Lesson({instructorLesson,setShowLessons}){
       return(
         <>
             <article className="lessonContainer">
-                <img src={instructorLesson.image}></img>
+                <img src={instructorLesson.image!=null?instructorLesson.image :'/images/startPage/imageIcon.png'}></img>
                 <div className="infoContainer">
                     <div className="top">
                         <h4>{instructorLesson.instructorName}</h4>
-                        <span>
-                            <img src="/icons/startPage/fullStar.png" alt="Star" className="star"/>
-                            {instructorLesson.reviewScore} ({instructorLesson.reviewCount} {t('review', { count: instructorLesson.reviewCount })})
-                            
-                        </span> 
+                        {instructorLesson.reviewScore!=null &&
+                            <span>
+                                <img src="/icons/startPage/fullStar.png" alt="Star" className="star"/>
+                                {instructorLesson.reviewScore} ({instructorLesson.reviewCount} {t('review', { count: instructorLesson.reviewCount })})
+                                
+                            </span> 
+                        }
                         {instructorLesson.typeOfLesson=="group" && <h4 className="groupName"> {instructorLesson.groupName }</h4>}
                         {/* {instructorLesson && <h4 className="groupName"> {instructorLesson.instructorName }</h4>} */}
 
@@ -730,13 +732,13 @@ function Lesson({instructorLesson,setShowLessons}){
                 <div className="right">
                     <div className="spanContainer">
                         <span>{t("from")} <b>{instructorLesson.minPricePerHour}€/{t("hour")} </b></span>
-                        <span>{t("from")} <b>{instructorLesson.minPricePerDay}€/{t("day")} </b></span>
+                        {/* <span>{t("from")} <b>{instructorLesson.minPricePerDay}€/{t("day")} </b></span> */}
                     </div>
 
                     <div className="buttonContainer">
                         <button onClick={()=>{
                             setShowLessons(
-                                {resort,sport,from,to,members,instructorId,instructorName,instructionID,typeOfLesson}
+                                {resort,sport,from,to,members,instructorId,instructorName,instructionID,typeOfLesson,time}
                             )}
                         }
                         >

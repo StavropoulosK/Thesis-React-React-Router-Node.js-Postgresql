@@ -109,7 +109,13 @@
     
     "cancelLesson_one":"Ακύρωση μαθήματος",
 
-    "cancelLesson_other":"Ακύρωση μαθημάτων"
+    "cancelLesson_other":"Ακύρωση μαθημάτων",
+
+    "wrong_type_failure":"Λανθασμένος τύπος αρχείου",
+
+    "tooBig_failure":"Το μέγιστο επιτρεπτό μέγεθος εικόνας είναι 5MB"
+
+
 
 
 

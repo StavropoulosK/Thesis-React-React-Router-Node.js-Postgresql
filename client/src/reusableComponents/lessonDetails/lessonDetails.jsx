@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 
 
 export default function LessonDetails({lessonInfo,onCancel,textLeft,showIndex=false}){
-    // lessonInfo=[{text:"Δευτέρα 05/01/2025 Όλη μέρα (8:00- 15:00)",cost:100, meetingPoint:{location: "Δεύτερο σαλέ" }, lessonID:"16", showCancel:true }   , {text:"Τρίτη 06/01/2025 11:00- 13:00 ",cost:40, meetingPoint:{location: "Πρώτο σαλέ" }, lessonID:"15", showCancel:true}]
+    // lessonInfo=[{text:"Δευτέρα 05/01/2025 Όλη μέρα (8:00- 15:00)",cost:100, meetingPoint:{location: "Δεύτερο σαλέ", picture }, lessonID:"16", showCancel:true }   , {text:"Τρίτη 06/01/2025 11:00- 13:00 ",cost:40, meetingPoint:{location: "Πρώτο σαλέ" }, lessonID:"15", showCancel:true}]
     
     const [showFull, setShowFull] = useState(false);
 
@@ -102,9 +102,9 @@ export default function LessonDetails({lessonInfo,onCancel,textLeft,showIndex=fa
                       }
                     return (
                         <div key={lesson.lessonID}>
-                            <span className="mobile">{lesson.isCanceled && <b> {t("canceled")+" "}</b>} {mobileText}</span> <span>{lesson.meetingPoint.location}</span>
+                            <span className="mobile">{lesson.isCanceled && <b> {t("canceled")+" "}</b>} {mobileText}</span> <span>{lesson.meetingPoint.location!="after_agreement"?lesson.meetingPoint.location:t("after_agreement")}</span>
 
-                            <EnlargeImgButton showFull={showFull} setShowFull={setShowFull}/>
+                            <EnlargeImgButton showFull={showFull} setShowFull={setShowFull} picture={lesson.meetingPoint.picture}/>
                         </div>
                     )
                 })}
@@ -119,12 +119,11 @@ export default function LessonDetails({lessonInfo,onCancel,textLeft,showIndex=fa
 }
 
 
-export function EnlargeImgButton({showFull,setShowFull}){
-
+export function EnlargeImgButton({showFull,setShowFull,picture}){
     return (
       <>
         <button onClick={() => setShowFull(true)}>
-          <img src="/images/showLessons/map.png" alt="map preview" />
+          {picture!=null && <img src={picture} alt="map preview" />}
         </button>
   
         {showFull && (

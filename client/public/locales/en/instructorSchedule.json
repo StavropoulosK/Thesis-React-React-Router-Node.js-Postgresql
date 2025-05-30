@@ -62,7 +62,10 @@
 
     "note_success":"Note saved",
 
-    "createNote":"Save"
+    "createNote":"Save",
+
+    "after_agreement":"After agreement"
+
 
 
 }

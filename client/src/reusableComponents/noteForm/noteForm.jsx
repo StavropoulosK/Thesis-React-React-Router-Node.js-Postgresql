@@ -10,7 +10,7 @@ export default function NoteForm({onClose,note,lessonID,fetcher}) {
 
     const {t} = useTranslation("instructorSchedule")
 
-    const disabled= message.length==0
+    const disabled= note==message
 
     const noteRef = useRef(null);
   

@@ -66,7 +66,9 @@ section.showLessons h4{
     width: 100%;
 }
 
-
+.showLessons .lessonDetails .infoContainer .left{
+  width: 28rem;
+}
 
 
 .showLessons .fallBack {
@@ -133,6 +135,7 @@ section.showLessons h4{
   gap: 0rem; /* handles spacing instead of margin-right */
   justify-content: flex-start;
   width: 100%;
+  margin-bottom: 0.4rem;
 }
 
 .showLessons .infoContainer button.selectBtn {
@@ -177,7 +180,7 @@ section.showLessons h4{
     
 }
 
-.showLessons .lessonDetails .meetingPoints div span{
+.showLessons .lessonDetails .meetingPoints > div span{
   margin-bottom: 0.5rem;
 }
 
@@ -243,6 +246,32 @@ section.showLessons h4{
 
   }
 
+  .showLessons .lessonDetails .meetingPoints div span:first-of-type{
+    max-width: 280px;
+  }
+
+  .showLessons .lessonDetails .infoContainer{
+    height: 2.7rem;
+  }
+
+  .showLessons .lessonDetails .meetingPoints > div{
+    height: 2.7rem;
+    padding-top: 0.05rem;
+    align-items: center;
+    /* display: flex; */
+  }
+
+  .showLessons .lessonDetails .meetingPoints > div{
+    margin-bottom: 0.4rem;
+  }
+
+  .showLessons .lessonDetails .meetingPoints div span:last-of-type{
+    word-break: break-all;
+    max-width: 11.8rem;
+    width: 100%;
+    margin-left: 0.5rem;
+  }
+
   @media (max-width:900px){
 
     
@@ -257,7 +286,7 @@ section.showLessons h4{
 
     .showLessons .lessonDetails .infoContainer{
       height: fit-content;
-      margin-bottom: 0.8rem;
+      margin-bottom: 1rem;
       margin-right: 0.5rem;
     }
 
@@ -323,7 +352,7 @@ section.showLessons h4{
 
 
   @media (max-width:900px){
-    .showLessons .lessonDetails .meetingPoints div{
+    .showLessons .lessonDetails .meetingPoints > div{
       margin-bottom: 0.1rem;
       margin-right: 0.5rem;
       height: fit-content;
@@ -349,17 +378,56 @@ section.showLessons h4{
     }
 
     .showLessons .lessonDetails .meetingPoints div span{
+      display: inline-block;
       max-width: 13rem;
-      display: inline-block
+      text-align: left;
+      width: 100%;
+
     }
-  
+
+    .showLessons .lessonDetails .meetingPoints div span:first-of-type{
+      width: 100% !important;
+      max-width: 10.7rem;
+
   }
 
 
-  @media(max-width:700px){
+    /* .showLessons .lessonDetails .meetingPoints div span:last-of-type{
+        max-width: 7rem;
 
-    .imagePopup > img{
-      object-fit: contain;
+    } */
+  
+  }
+
+  @media (max-width:500px) and (min-width:400px){
+    .showLessons .lessonDetails .meetingPoints div span:first-of-type{
+      max-width: 9rem;
+
+  }
+
+  }
+
+  @media(max-width:400px){
+    .showLessons .lessonDetails .meetingPoints div span:first-of-type{
+      word-break: break-word;
+      max-width: 7.5rem !important;
+      min-width:0 !important;
+      hyphens: auto;
+  
+    }
+
+    .showLessons .lessonDetails .meetingPoints div span:last-of-type{
+        max-width: 7.5rem;
+        width: 100%;
+        margin-left: 0;
+    }
+  }
+
+
+  @media(max-width:650px){
+
+    .showLessons .imagePopup > img{
+      object-fit: contain !important;
       height: fit-content !important;
     }
   }
@@ -413,5 +481,7 @@ section.showLessons h4{
   .showLessons .lessonDetails .imageOverlay.imageOverlay img{
     object-fit: contain;
   }
+
+
 
 }

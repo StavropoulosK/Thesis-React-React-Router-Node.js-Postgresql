@@ -47,7 +47,7 @@ section.instructorProfile .moreInfo{
     height: fit-content;
   }
 
-  .select-list-button .label-text {
+  .instructorProfile .select-list-button .label-text {
     font-size: 1.3rem;
   }
   
@@ -278,7 +278,7 @@ section.instructorProfile .moreInfo{
       margin-right: 0rem;
     }
 
-    .select-list-button .label-text {
+    .instructorProfile  .select-list-button .label-text {
         font-size: 1.1rem;
     }
 

@@ -34,8 +34,8 @@ CREATE TABLE IF NOT EXISTS STUDENT(
 
 CREATE TABLE IF NOT EXISTS MEETINGPOINT(
     meetingPointID serial primary key,
-    resortText varchar(30) not null,
-    locationText varchar(30) not null,
+    resortText varchar(30) default null,
+    locationText varchar(30) default null,
     picture bytea default null,
     instructorID integer not null,
     FOREIGN KEY (instructorID) references INSTRUCTOR (instructorID)
@@ -154,6 +154,11 @@ CREATE TABLE IF NOT EXISTS CART(
 
 create index if not exists user_email
 on "USER"(email);
+
+
+create index if not exists teaching_instructorID
+on TEACHING(instructorID);
+
 
 
 

@@ -118,7 +118,7 @@
 
 .allLessonContainer .lessonContainer .right{
     width: 20rem;
-    padding-top:1rem;
+    padding-top:3rem;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -142,7 +142,8 @@ img.star {
   .allLessonContainer .lessonContainer .right span{
     display: block !important;
     margin-top: 0.7rem;
-    font-size: 0.8rem;
+    font-size: 1rem;
+    margin-right: 0.3rem;
 }
 
 .allLessonContainer .lessonContainer .right button {

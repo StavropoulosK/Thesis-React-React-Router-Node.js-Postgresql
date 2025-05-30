@@ -107,7 +107,15 @@
 
     "cancelLesson_one":"Cancel lesson",
 
-    "cancelLesson_other":"Cancel lessons"
+    "cancelLesson_other":"Cancel lessons",
+
+    "wrong_type_failure":"Wrong file format",
+
+    "tooBig_failure":"Maximum permitted image size is 5MB"
+
+
+
+
 
 
 

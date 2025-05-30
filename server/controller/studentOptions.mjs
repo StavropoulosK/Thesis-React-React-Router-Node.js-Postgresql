@@ -76,6 +76,8 @@ async function updateStudentInfo(req,res,next){
     return res.json({message:"success"})
   }
   catch(error){
+    console.log(error)
+
     return res.json({message:"failure"})
   }
 }
@@ -97,6 +99,8 @@ async function updateStudentImage(req,res,next){
       res.send({message:"success"});
   }
   catch(error){
+      console.log(error)
+
       return res.json({message:"failure"})
   }
 }

@@ -49,7 +49,6 @@ export async function instructorScheduleLoader({request,params}){
 
     data = await response.json();
 
-
     }
     catch (error) {
         console.error('Error connecting to server', error);
@@ -116,7 +115,7 @@ export function InstructorSchedule(){
 
     const [showFull,setShowFull]=useState(false)
 
-    const { lessons } = fetcherLessons?.lessons ? fetcherLessons : useLoaderData();
+    const { lessons } = fetcherLessons?.data?.lessons ? fetcherLessons.data : useLoaderData();
 
     return(
         <>
@@ -191,7 +190,7 @@ export function InstructorSchedule(){
 
                               <div className="attributeInfo">
                                   <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24"><path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="m9 19l-5.21 1.737a.6.6 0 0 1-.79-.57V5.433a.6.6 0 0 1 .41-.569L9 3m0 16l6 2m-6-2V3m6 18l5.59-1.863a.6.6 0 0 0 .41-.57V3.832a.6.6 0 0 0-.79-.569L15 5m0 16V5m0 0L9 3"></path></svg>
-                                    <span>{lesson.meetingPoint.title} </span>
+                                    <span>{lesson.meetingPoint.title!="after_agreement"?lesson.meetingPoint.title:t("after_agreement")} </span>
                                     <EnlargeImgButton showFull={showFull} setShowFull={setShowFull}/>
                               </div>
                           </div>
@@ -204,7 +203,7 @@ export function InstructorSchedule(){
                             <div className="studentInfoContainer">
 
                                 {
-                                  lesson.studentInfos.map((studentInfo,index)=>{
+                                  lesson.studentInfos?.map((studentInfo,index)=>{
 
                                     return(
                                     

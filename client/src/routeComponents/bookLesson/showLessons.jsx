@@ -43,13 +43,13 @@ function fetchShowLessons(showLessonsParameters){
 }
 
 
-export default function ShowLessons({instructorId,instructorName,resort,sport,from,to,members,typeOfLesson,instructionID,onClose}){
+export default function ShowLessons({instructorId,instructorName,resort,sport,from,to,members,typeOfLesson,time,instructionID,onClose}){
 
     const [lessonsPromise,setShowLessonsPromise]=useState(new Promise(() => {}))
 
 
 
-    const showLessonsParameters={resort,sport,from,to,members,instructorId,instructionID,typeOfLesson}
+    const showLessonsParameters={resort,sport,from,to,members,instructorId,instructionID,typeOfLesson,time}
 
     // setter function must be pure, but here it isnt and therefore it is called multiple times, so we move it to an effect
     // const [lessonsPromise,setShowLessonsPromise]=useState(()=>fetchShowLessons(showLessonsParameters))
@@ -287,7 +287,6 @@ function OneDayLessons({ lessons,setSelectedLessons,selectedLessons }) {
 
                 {lessons.map((lesson, index) => {
                     const selected=selectedLessons.some(l => l.lessonID === lesson.lessonID)
-
                     return (
                     
                         <button className={`selectBtn ${lesson.full?"full":""}  ${selected?"selected":""} `} key={index} onClick={()=>{
@@ -306,7 +305,7 @@ function OneDayLessons({ lessons,setSelectedLessons,selectedLessons }) {
 
                                 
                             
-                            <span>{lesson.isAllDay?`${t("all_day")} (`:""}{lesson.timeStart} - {lesson.timeEnd}{lesson.isAllDay?")":""} {lesson.isAllDay?lesson.cost:""}€ </span>
+                            <span>{lesson.isAllDay?`${t("all_day")} (`:""}{lesson.timeStart} - {lesson.timeEnd}{lesson.isAllDay?")":""} {lesson.isAllDay?lesson.cost+"€":""} </span>
                             {!lesson.isAllDay && <span>{lesson.cost}€</span>}
                         </button>
                     )

@@ -56,7 +56,8 @@ export function InstructorInfo(){
     cancelationDays,
     biography,
     userEmail,
-    instructorEmail} = useLoaderData().message
+    instructorEmail,
+    profilePicture} = useLoaderData().message
 
 
     function formatList(arr) {
@@ -103,18 +104,22 @@ export function InstructorInfo(){
 
                         <div className="top">
                             <h4>{instructorName}</h4>
-                            <img src="/images/startPage/profile.jpg"></img>
+                            {/* <img src="/images/startPage/imageProfile.png"></img> */}
+                            <img  src={profilePicture?profilePicture:"/images/startPage/imageIcon.png"} alt="Profile Icon" />
 
-
+                        {reviewCount !=null &&
                             <span>
                                 <img src="/icons/startPage/fullStar.png" alt="Star" className="star"/>
                                 {reviewStars} ( {reviewCount} {t("review", {count:Number(reviewCount)})} )
                                 
                             </span> 
+                        }
 
                             <span> 
                                 <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 15 15"><path fill="currentColor" d="M7.5 1c-.3 0-.4.2-.6.4l-5.8 9.5c-.1.1-.1.3-.1.4c0 .5.4.7.7.7h11.6c.4 0 .7-.2.7-.7c0-.2 0-.2-.1-.4L8.2 1.4C8 1.2 7.8 1 7.5 1m0 1.5L10.8 8H10L8.5 6.5L7.5 8l-1-1.5L5 8h-.9z"/></svg>
-                                {yearsOfExperience} {t("experience", {count:Number(yearsOfExperience)})}
+                                {yearsOfExperience} {t("experience", {count: yearsOfExperience!='40+'? Number(yearsOfExperience):2     })}
+                                {/* {yearsOfExperience} {t("experience", {count:Number(yearsOfExperience)})} */}
+
                             </span>
 
 
@@ -149,8 +154,9 @@ export function InstructorInfo(){
 
                                 <span>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 15 15"><path fill="currentColor" d="M7.5 1c-.3 0-.4.2-.6.4l-5.8 9.5c-.1.1-.1.3-.1.4c0 .5.4.7.7.7h11.6c.4 0 .7-.2.7-.7c0-.2 0-.2-.1-.4L8.2 1.4C8 1.2 7.8 1 7.5 1m0 1.5L10.8 8H10L8.5 6.5L7.5 8l-1-1.5L5 8h-.9z"/></svg>
-                                    {yearsOfExperience} {t("experience", {count:Number(yearsOfExperience)})}
-                                        
+                                    {/* {yearsOfExperience} {t("experience", {count:Number(yearsOfExperience)})} */}
+                                    {yearsOfExperience} {t("experience", {count: yearsOfExperience!='40+'? Number(yearsOfExperience):2     })}
+       
                                 </span>
 
                             </div>
@@ -182,7 +188,7 @@ export function InstructorInfo(){
                                                             
                                      </button>
 
-                                    {Number(cancelationDays==-1) && <span className="cancelatonPolicy"> {t("no_cancelation")}</span>}
+                                    {Number(cancelationDays)==-1 && <span className="cancelatonPolicy"> {t("no_cancelation")}</span>}
 
                                     {Number(cancelationDays)!=-1 && <span className="cancelationPolicy">
                                         {t("cancelation_policy")} <b> {cancelationDays} {t("day",{count:Number(cancelationDays)} )}  </b>

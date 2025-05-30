@@ -22,9 +22,6 @@ const distPath= path.join (__dirname,'../client/dist')
 const publicPath= path.join (__dirname,'./public')
 
 
-// mpori o proponitis na diagrapsi to meeting point, prepei na pairnei default timi
-
-
 const app=express()
 
 // app.use(express.static(publicPath))
@@ -51,6 +48,53 @@ app.use(session({
         secure:false,
     }
 }))
+
+app.listen(PORT,()=>{
+  console.log(`server listening on http://localhost:${PORT}`)
+})
+
+
+
+app.use('/api',studentOptionsRouter)
+app.use('/api',publicOptionsRouter)
+app.use('/api',instructorOptionsRouter)
+
+
+app.use(errorHandler)
+
+
+// na mi steli res.json enas controller
+// controller public options logoutUser
+// kinito
+// indexes
+
+
+
+
+
+
+
+
+
+app.get('*',(req,res)=>{
+
+// xrisimopoioume client side routing. 
+const staticFileRegex = /\.(js|css|png|jpg|jpeg|gif|ico|json|woff|woff2|ttf|eot|svg)$/i;
+// console.log('asassas')
+
+if (staticFileRegex.test(req.url)) {
+  console.log("### ",req.url)
+  res.status(404).send("File not found or invalid route!");
+  return
+}
+
+  res.sendFile('index.html',{root:distPath});
+
+})
+
+
+
+
 
 
 
@@ -2321,48 +2365,6 @@ function parseDateFromString(dateStr) {
 
 //   res.json({message:"createMeetingPoint_success"})
 // })
-
-
-app.listen(PORT,()=>{
-    console.log(`server listening on http://localhost:${PORT}`)
-})
-
-
-
-app.use('/api',studentOptionsRouter)
-app.use('/api',publicOptionsRouter)
-app.use('/api',instructorOptionsRouter)
-
-
-app.use(errorHandler)
-
-
-//  na mi steli res.json enas controller
-// controller public options logoutUser
-
-
-
-
-
-
-
-
-
-app.get('*',(req,res)=>{
-
-  // xrisimopoioume client side routing. 
-  const staticFileRegex = /\.(js|css|png|jpg|jpeg|gif|ico|json|woff|woff2|ttf|eot|svg)$/i;
-  // console.log('asassas')
-
-  if (staticFileRegex.test(req.url)) {
-    console.log("### ",req.url)
-    res.status(404).send("File not found or invalid route!");
-    return
-  }
-
-    res.sendFile('index.html',{root:distPath});
-
-})
 
 
 // async function validateSignUpInputs(firstName,lastName,email,password,passwordCheck,countryPhoneCode,phoneNumber,accountType){

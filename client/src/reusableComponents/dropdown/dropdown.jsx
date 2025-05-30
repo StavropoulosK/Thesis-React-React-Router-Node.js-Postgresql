@@ -13,14 +13,14 @@ export default function Dropdown({namespace,options,text,icon,selected,setSelect
 
   const {t} = useTranslation(namespace)
 
-
+  
   useCloseOnOutsideClick(dropdownRef, () => setIsOpen(false));
 
   return (
     <div className="dropdown" ref={dropdownRef}>
         <button onMouseDown={() => setIsOpen(!isOpen)} className={`dropdown-button ${isOpen?"selected":""}`} type="button">
           <img src={icon} />
-          {t(selected||text)}
+          {(!shouldBreak || selected?.split(" ").length!=2)?t(selected||text):t(selected.split(" ")[0])+" "+selected.split(" ")[1]}
           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="24" viewBox="0 0 12 24"><defs><path id="weuiArrowOutlined0" fill="currentColor" d="m7.588 12.43l-1.061 1.06L.748 7.713a.996.996 0 0 1 0-1.413L6.527.52l1.06 1.06l-5.424 5.425z"/></defs><use fillRule="evenodd" href="#weuiArrowOutlined0" transform="rotate(-180 5.02 9.505)"/></svg>
         </button>
 
@@ -28,6 +28,7 @@ export default function Dropdown({namespace,options,text,icon,selected,setSelect
         {isOpen && (
             <ul className="dropdown-menu" >
               {options.map((el,index)=>
+              
                 <li key={index} onClick={()=>
                 {
                   setIsOpen(false)
