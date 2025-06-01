@@ -351,7 +351,7 @@ export function Payment(){
               <section className="payment">
 
                 
-                    <button className={`back ${!fromPage?"notVisible":""}`} onClick={()=>{
+                    <button className={`back`} onClick={()=>{
 
                         navigate('/overview', {
                             state: {

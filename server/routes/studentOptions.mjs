@@ -19,10 +19,11 @@ router.route('/addLessonToCart').post(authoriseStudent,studentOptions.addLessonT
 router.route('/removeLessonsFromCart').post(authoriseStudent,studentOptions.removeLessonsFromCart)
 router.route('/payLessonsInCart').post(authoriseStudent,studentOptions.payLessonsInCart)
 router.route('/getCostOfLessonsInCart').get(authoriseStudent,studentOptions.getCostOfLessonsInCart)
+router.route('/getLessonsInCart').get(authoriseStudent,studentOptions.renewCartLessons,studentOptions.getLessonsInCart)
+
 
 router.route('/getPreviousStudentLessons/:page').get(authoriseStudent,studentOptions.getPreviousStudentLessons)
 router.route('/getUpComingStudentLessons').get(authoriseStudent,studentOptions.getUpComingStudentLessons)
-router.route('/getLessonsInCart').get(authoriseStudent,studentOptions.getLessonsInCart)
 
 router.route('/cancelLessons').post(authoriseStudent,studentOptions.cancelLessons)
 router.route('/sendEmailRequest').post(authoriseStudent,studentOptions.sendEmailRequest)

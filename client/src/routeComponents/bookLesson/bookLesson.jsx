@@ -323,9 +323,8 @@ const Menu= memo( ({resetInstructorName})=>{
     //lessonType,time,orderBy,instructorName,pageNumber
 
     const params= useLoaderData().params
-
-  
-    const [selectedNumberOfParticipants,setSelectedNumberOfParticipants]=useState(params.members +" members")
+    
+    const [selectedNumberOfParticipants,setSelectedNumberOfParticipants]=useState(params.members + (Number(params.members)!=1?" members":" member") )
     const [selectedActivity,setSelectedActivity]=useState(params.sport)
     const [selectedResort,setSelectedResort]=useState(params.resort)
 
@@ -680,7 +679,7 @@ function Lesson({instructorLesson,setShowLessons}){
                         {instructorLesson.reviewScore!=null &&
                             <span>
                                 <img src="/icons/startPage/fullStar.png" alt="Star" className="star"/>
-                                {instructorLesson.reviewScore} ({instructorLesson.reviewCount} {t('review', { count: instructorLesson.reviewCount })})
+                                {instructorLesson.reviewScore} ({instructorLesson.reviewCount} {t('review', { count: Number(instructorLesson.reviewCount) })})
                                 
                             </span> 
                         }

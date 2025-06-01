@@ -91,6 +91,7 @@ export function Overview(){
     // const lessonInfo=[{text:"Δευτέρα 05/01/2025 Όλη μέρα (8:00- 15:00)",cost:100, meetingPoint:{location: "Δεύτερο σαλέ" }, lessonID:"16", showCancel:true }   , {text:"Τρίτη 06/01/2025 11:00- 13:00 ",cost:40, meetingPoint:{location: "Πρώτο σαλέ" }, lessonID:"15", showCancel:true}]
 
     // it is an array with elements like lessonInfo
+
     const lessonInfoContainer=lessons.map((lessonGroup)=>{
 
         if(lessons.length==0){

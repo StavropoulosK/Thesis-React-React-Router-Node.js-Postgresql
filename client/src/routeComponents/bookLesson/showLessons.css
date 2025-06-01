@@ -246,6 +246,9 @@ section.showLessons h4{
 
   }
 
+
+
+
   .showLessons .lessonDetails .meetingPoints div span:first-of-type{
     max-width: 280px;
   }
@@ -367,6 +370,12 @@ section.showLessons h4{
       height: fit-content;
     }
     
+  }
+
+  @media (max-width:900px) and (min-width:670px){
+    .showLessons .lessons .infoContainer{
+      margin-bottom: 1.5rem;
+    }
   }
 
 

@@ -41,7 +41,7 @@ export function StudentLessonsComponent({namespace,lessons,instructorPhonesArray
                             <div className="top">
 
                                 <div className="image">
-                                    <img src={lesson.instructorInfo.image}></img>
+                                    <img src={lesson.instructorInfo.image!=null?lesson.instructorInfo.image:'/images/startPage/imageIcon.png'}></img>
 
 
                                 </div>
@@ -50,13 +50,15 @@ export function StudentLessonsComponent({namespace,lessons,instructorPhonesArray
 
                                     <div className="topInfo">
                                         <h4 className="instructorName">{lesson.instructorInfo.instructorName}</h4>
-                                        <span>
-                                            <img src="/icons/startPage/fullStar.png" alt="Star" className="star"/>
-                                            {/* {lesson.reviewScore} ({lesson.reviewCount} {t('review', { count: instructorLesson.reviewCount })}) */}
-                                            {lesson.instructorInfo.reviewScore} ({lesson.instructorInfo.reviewCount} {t('review', { count: lesson.instructorInfo.reviewCount })} )
+                                        {Number(lesson.instructorInfo.reviewCount)!=0 &&
+                                            <span>
+                                                <img src="/icons/startPage/fullStar.png" alt="Star" className="star"/>
+                                                {/* {lesson.reviewScore} ({lesson.reviewCount} {t('review', { count: instructorLesson.reviewCount })}) */}
+                                                {lesson.instructorInfo.reviewScore} ({lesson.instructorInfo.reviewCount} {t('review', { count: Number(lesson.instructorInfo.reviewCount) })} )
 
-                                            
-                                        </span> 
+                                                
+                                            </span> 
+                                        }
 
                                         {lesson.teachingInfo.typeOfLesson=="group" && <h4 className="groupName"> {lesson.teachingInfo.groupName }</h4>}
 

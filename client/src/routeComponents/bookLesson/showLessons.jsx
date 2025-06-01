@@ -116,7 +116,7 @@ export default function ShowLessons({instructorId,instructorName,resort,sport,fr
                 'Content-Type': 'application/json'
               },
               body: JSON.stringify({
-                lessonIDs
+                lessonIDs,members,selectedLevel
               })
             });
 

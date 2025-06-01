@@ -294,7 +294,7 @@ async function getExistingTeachings(instructorId){
                                         t.meetingPointID as "meetingPoint", t.costPerHour::text as "hourCost", t.groupName as "groupName",lp.lessons
                     FROM teaching t JOIN lessonsPerTeaching lp ON t.teachingID = lp.teachingID
                     where t.instructorID=$1
-                    order by t.dateEnd DESC`
+                    order by t.dateEnd DESC, t.teachingid `
         
         const result=await  client.query(sql, [instructorId])
         return result.rows

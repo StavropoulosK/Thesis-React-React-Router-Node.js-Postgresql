@@ -1,7 +1,9 @@
 import * as publicOptionsModel from "../model/publicOptions.mjs"
 import bcrypt from 'bcrypt'
+import {renewCartLessonsExecution} from "./studentOptions.mjs"
 
 async function getHeaderParams(req,res,next){
+
   try{
       // an einai sindedemenos apothikeuetai sto session, alios einai 0
       const lessonsInCart=2
@@ -35,7 +37,6 @@ async function getHeaderParams(req,res,next){
 }
 
 async function loginUser(req,res,next){
-
     
     try{
 
@@ -57,6 +58,7 @@ async function loginUser(req,res,next){
                   req.session.userID= userID
 
                   if(accountType=="student"){
+                      await renewCartLessonsExecution(userID)
                       req.session.loggedinState = "student";
                       return res.json({ userExists: true,accountType:"student" });
                   }
@@ -255,14 +257,12 @@ async function showLessons(req,res,next){
       const instructionID=req.query.instructionID!=""? Number(req.query.instructionID) :null
     
     
-      // An einai sto kalathi tou xristi na mi fainetai
-      // meeting points
-
       let lessons=await publicOptionsModel.showLessons(resort,sport,formatDB(from),formatDB(to),Number(members),Number(instructorId),instructionID,typeOfLesson,time)
 
       lessons.forEach(dayLessons => {
         dayLessons.forEach(lesson => {
- 
+          lesson.cost=String( Math.round(calculateHoursBetween(lesson.timeStart,lesson.timeEnd)* Number(lesson.cost)) )
+
           lesson.date = reformatDateUI(lesson.date)
         })
       })
@@ -374,6 +374,22 @@ async function showLessons(req,res,next){
   }
 
 }
+
+function calculateHoursBetween(timeStart, timeEnd) {
+  // Parse HH:MM strings into Date objects on the same arbitrary day
+  const [startHours, startMinutes] = timeStart.split(":").map(Number);
+  const [endHours, endMinutes] = timeEnd.split(":").map(Number);
+
+  const startDate = new Date(0, 0, 0, startHours, startMinutes);
+  const endDate = new Date(0, 0, 0, endHours, endMinutes);
+
+  let diffMs = endDate - startDate;
+
+  const hours = diffMs / (1000 * 60 * 60);
+  return hours;
+}
+
+
 
 function isNullOrEmpty(value) {
   return value === null || value === "";
@@ -603,7 +619,6 @@ async function bookLesson(req,res,next){
         const lessonsPerPage=4
 
         const maxPages= instructorLessons.length!=0?Math.ceil ( Number(instructorLessons[0].entries) /lessonsPerPage) : 0
-        // console.log("aaa ",instructorLessons)
 
         res.json({
           instructorLessons,

@@ -54,7 +54,9 @@
 
     "participant_one":"member",
     "participant_other":"members",
-    "phone":"Instructor phone number"
+    "phone":"Instructor phone number",
+
+    "after_agreement":"After agreement"
 
 
 

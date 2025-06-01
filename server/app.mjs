@@ -67,6 +67,7 @@ app.use(errorHandler)
 // controller public options logoutUser
 // kinito
 // indexes
+// redis
 
 
 

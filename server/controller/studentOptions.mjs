@@ -114,8 +114,17 @@ async function updateStudentImage(req,res,next){
 async function addLessonToCart(req,res,next){
   try{
     // await new Promise(resolve => setTimeout(resolve, 2000));
+    const { lessonIDs,members,selectedLevel} = req.body;
 
-    const { lessonIDs} = req.body;
+    const studentId= req.session.userID
+
+    if(!studentId){
+        return res.status(401).end();
+
+    }
+
+    
+    const insertedLessons = await studentOptionsModel.addLessonToCart(studentId,lessonIDs,Number(members),selectedLevel)
 
     return res.status(200).end();
   }
@@ -125,6 +134,18 @@ async function addLessonToCart(req,res,next){
 
 }
 
+const convertStrToArray = (val) =>{
+  // if value is null return empty array
+
+  if(typeof val === 'string' && val.length!=0){
+      return val.split(',')
+  }
+  else{
+      return []
+  }
+
+} 
+
 async function removeLessonsFromCart(req,res,next){
   try{
      // await new Promise(resolve => setTimeout(resolve, 2000));
@@ -132,7 +153,15 @@ async function removeLessonsFromCart(req,res,next){
       // lessonIDS is an array
       const { lessonIDS} = req.body;
 
+      const studentId= req.session.userID
 
+      if(!studentId){
+          return res.status(401).end();
+
+      }
+
+      const removedLessons= await studentOptionsModel.removeLessonsFromCart(studentId,convertStrToArray(lessonIDS).map(Number))
+      console.log('bb ',removedLessons)
 
       return res.status(200).end();
   }
@@ -171,10 +200,19 @@ async function payLessonsInCart(req,res,next){
 
 }
 
-
 async function getCostOfLessonsInCart(req,res,next){
   try{
-    res.json({cost:400})
+
+    const studentId= req.session.userID
+
+    if(!studentId){
+        return res.status(401).end();
+
+    }
+
+    const cost=  (await studentOptionsModel.getCostOfLessonsInCart(studentId) )
+
+    res.json({cost})
 
   }
   catch(error){
@@ -963,121 +1001,234 @@ async function postReview(req,res,next){
    
 }
 
+
+function reformatDateUI(input) {
+  // input YYYY/MM/DD
+  // output DD/MM/YYYY
+
+  const [year, month, day] = input.split('/');
+  return `${day}/${month}/${year}`;
+}
+
+function calculateHoursBetween(timeStart, timeEnd) {
+  // Parse HH:MM strings into Date objects on the same arbitrary day
+  const [startHours, startMinutes] = timeStart.split(":").map(Number);
+  const [endHours, endMinutes] = timeEnd.split(":").map(Number);
+
+  const startDate = new Date(0, 0, 0, startHours, startMinutes);
+  const endDate = new Date(0, 0, 0, endHours, endMinutes);
+
+  let diffMs = endDate - startDate;
+
+  const hours = diffMs / (1000 * 60 * 60);
+  return hours;
+}
+
+function isNullOrEmpty(value) {
+  return value === null || value === "";
+}
+
+
+function groupLessons(lessons) {
+  const grouped = new Map();
+
+  for (const lesson of lessons) {
+
+    const profileImg= lesson.image
+    const lessonImg= lesson.picture
+
+    let imageBase64_a = null;
+    if (profileImg) {
+        const mimeType = "image"; 
+        imageBase64_a = `data:${mimeType};base64,${profileImg.toString("base64")}`
+    }
+
+    let imageBase64_b = null;
+    if (lessonImg) {
+        const mimeType = "image"; 
+        imageBase64_b = `data:${mimeType};base64,${lessonImg.toString("base64")}`
+    }
+
+    const meetingPointId= lesson.meetingpointid
+    const locationText= lesson.locationText
+
+    const finalLocation= (meetingPointId==null) || (isNullOrEmpty(locationText) && isNullOrEmpty(lessonImg)) ?"after_agreement":locationText
+
+    const isPrivate = lesson.typeOfLesson === "private";
+
+    // Choose key fields based on lesson type
+    const key = isPrivate
+      ? `${lesson.instructorid}|${lesson.resort}|${lesson.sport}|${lesson.level}|${lesson.participants}`
+      : `${lesson.instructionID}|${lesson.resort}|${lesson.sport}|${lesson.level}|${lesson.participants}`;
+
+    // Prepare lessonInfo item
+    const lessonInfoItem = {
+      lessonID: String(lesson.lessonID),
+      date: reformatDateUI(lesson.date),
+      timeStart: lesson.timeStart,
+      timeEnd: lesson.timeEnd,
+      cost: String(  Math.round(lesson.costPerHour * calculateHoursBetween(lesson.timeStart, lesson.timeEnd) ) ),
+      meetingPoint: {location:finalLocation,picture:imageBase64_b },
+      costPerHour: lesson.costPerHour,
+      isAllDay: lesson.isAllDay,
+    };
+
+    // If this group doesn't exist yet, create it
+    if (!grouped.has(key)) {
+      grouped.set(key, {
+        instructorInfo: {
+          instructorName: lesson.instructorName,
+          reviewScore: lesson.reviewScore,
+          reviewCount: lesson.reviewCount,
+          experience: lesson.experience,
+          languages: lesson.languages,
+          cancelationDays: lesson.cancelationpolicy=="dnot"?"-1": String(lesson.cancelationpolicy.slice(1) ),
+          image: imageBase64_a
+        },
+        teachingInfo: {
+          typeOfLesson: lesson.typeOfLesson,
+          resort: lesson.resort,
+          sport: lesson.sport,
+          groupName: lesson.groupName!=null?lesson.groupName:""
+        },
+        participantsInfo: {
+          level: lesson.level,
+          participants: lesson.participants
+        },
+        lessonInfo: [lessonInfoItem]
+      });
+    } else {
+      // If group exists, just add the lessonInfo item
+      grouped.get(key).lessonInfo.push(lessonInfoItem);
+    }
+  }
+
+  // Return grouped results as an array
+  return Array.from(grouped.values());
+}
+
 async function getLessonsInCart(req,res,next){
   try{
       // elegxoume an ta mathimata einai akomi eleuthera, alios ta afairoume apo to kalathi
 
-      // ta private lessons katigoriopoiountai me basi ton proponiti (kai to resort,sport)  (mpori na einai poles didaskalies)
-      // ta group lessons katigoriopoiountai me basi tin didaskalia   (mono mia didaskalia)
+      // ta private lessons katigoriopoiountai me basi ton proponiti (kai to resort,sport), kai participants info  (mpori na einai poles didaskalies)
+      // ta group lessons katigoriopoiountai me basi tin didaskalia, kai participants info  (mono mia didaskalia)
 
-      const lessons = [
-        {
-            instructorInfo:{
-                instructorName: "Alice J.",
-                reviewScore: "4.8",
-                reviewCount: 12,
-                experience: "6",
-                languages: ["English", "French", "Spanish"],
-                cancelationDays: "-1",
-                image: "/images/startPage/Ski.jpg",
+    const studentId= req.session.userID
 
-            },
-            teachingInfo:{
-                typeOfLesson: "private",
-                resort: "Parnassou",
-                sport: "Ski",
-                groupName: "",           // only for group lessons
-            },
-            participantsInfo:{
-                level: "Beginner",
-                participants: "4",      //  how many participants the person book for 
-            },
-            lessonInfo:
-            [ {
-                // occupancy: "",           // only for group lessons (e.g. 4/6)
-                lessonID: "101",
-                date: "12/05/2024",
-                timeStart: "09:00",
-                timeEnd: "17:00",
-                cost: "150",
-                meetingPoint: { location: "Δεύτερο σαλέ" },
-                isAllDay: false,
-                canceled:true
+    if(!studentId){
+        return res.status(401).end();
+
+    }
+
+    // const lessons = [
+    //     {
+    //         instructorInfo:{
+    //             instructorName: "Alice J.",
+    //             reviewScore: "4.8",         
+    //             reviewCount: 12,            
+    //             experience: "6",
+    //             languages: ["English", "French", "Spanish"],
+    //             cancelationDays: "-1",                           
+    //             image: "/images/startPage/Ski.jpg",
+
+    //         },
+    //         teachingInfo:{
+    //             typeOfLesson: "private",
+    //             resort: "Parnassou",
+    //             sport: "Ski",
+    //             groupName: "",           // only for group lessons is not null 
+    //         },
+    //         participantsInfo:{
+    //             level: "Beginner",
+    //             participants: "4",      //  how many participants the person book for 
+    //         },
+    //         lessonInfo:
+    //         [ {
+    //             lessonID: "101",                
+    //             date: "12/05/2024",             
+    //             timeStart: "09:00",
+    //             timeEnd: "17:00",
+    //             cost: "150",                   
+    //             meetingPoint: { location: "Δεύτερο σαλέ" },
+    //             isAllDay: false,
 
 
-            },
-            {
-                lessonID: "102",
-                date: "14/05/2024",
-                timeStart: "12:00",
-                timeEnd: "14:00",
-                cost: "150",
-                isAllDay: true,
+    //         },
+    //         {
+    //             lessonID: "102",
+    //             date: "14/05/2024",
+    //             timeStart: "12:00",
+    //             timeEnd: "14:00",
+    //             cost: "150",
+    //             isAllDay: true,
 
-                meetingPoint: { location: "Δεύτερο σαλέ" },
-                canceled:true
+    //             meetingPoint: { location: "Δεύτερο σαλέ" },
 
                 
-            },
+    //         },
 
 
-            ]
-        },
+    //         ]
+    //     },
 
-        {
-        instructorInfo:{
-            instructorName: "Michael R.",
-            reviewScore: "3.8",
-            reviewCount: 1,
-            experience: "2",
-            languages: ["English", "French"],
-            cancelationDays: "15",
-            image: "/images/startPage/Ski.jpg",
+    //     {
+    //     instructorInfo:{
+    //         instructorName: "Michael R.",
+    //         reviewScore: "3.8",
+    //         reviewCount: 1,
+    //         experience: "2",
+    //         languages: ["English", "French"],
+    //         cancelationDays: "15",
+    //         image: "/images/startPage/Ski.jpg",
 
-        },
-        teachingInfo:{
-            typeOfLesson: "group",
-            resort: "Kalavryton",
-            sport: "Snowboard",
-            groupName: "Lessons for kids",           // only for group lessons
-        },
-        participantsInfo:{
-            level: "Beginner",
-            participants: "3",      
+    //     },
+    //     teachingInfo:{
+    //         typeOfLesson: "group",
+    //         resort: "Kalavryton",
+    //         sport: "Snowboard",
+    //         groupName: "Lessons for kids",           // only for group lessons
+    //     },
+    //     participantsInfo:{
+    //         level: "Beginner",
+    //         participants: "3",      
 
 
-        },
-        lessonInfo:
-        [ {
-                lessonID: "1011",
-                date: "13/05/2024",
-                timeStart: "12:00",
-                timeEnd: "14:00",
-                cost: "250",
-                meetingPoint: { location: "Δεύτερο σαλέ" },
-                isAllDay: true,
+    //     },
+    //     lessonInfo:
+    //     [ {
+    //             lessonID: "1011",
+    //             date: "13/05/2024",
+    //             timeStart: "12:00",
+    //             timeEnd: "14:00",
+    //             cost: "250",
+    //             meetingPoint: { location: "Δεύτερο σαλέ" },
+    //             isAllDay: true,
 
             
 
-            },
-            { 
-                lessonID: "1022",
-                date: "14/05/2024",
-                timeStart: "12:00",
-                timeEnd: "14:00",
-                cost: "260",
-                isAllDay: false,
-                meetingPoint: { location: "Δεύτερο σαλέ" }
+    //         },
+    //         { 
+    //             lessonID: "1022",
+    //             date: "14/05/2024",
+    //             timeStart: "12:00",
+    //             timeEnd: "14:00",
+    //             cost: "260",
+    //             isAllDay: false,
+    //             meetingPoint: { location: "Δεύτερο σαλέ" }
             
-            },
+    //         },
 
 
-        ]
-    },
-    ]
+    //     ]
+    // },
+    // ]
 
+    const lessons= await studentOptionsModel.getLessonsInCart(studentId)
 
-    res.json({lessons})
+    // console.dir(groupLessons(lessons), { depth: null });
+
+    res.json({lessons:groupLessons(lessons)})
 
   }
   catch(error){
@@ -1133,7 +1284,48 @@ function isValidPaymentInput(cardHolderName,cardNumber,expirationDate,cvv){
     }
   
   }
+
+
+  async function renewCartLessons(req,res,next){
+    try{
+      const studentId= req.session.userID
+
+      const accountType=req.session.loggedinState 
+
+      if(!studentId || accountType!="student"){
+
+          return res.status(401).end();
+
+
+      }
+
+      await renewCartLessonsExecution(studentId)
+
+     
+      next()
+    }
+    catch(error){
+      next(error)
+    }
+  }
+
+  async function renewCartLessonsExecution(studentId){
+    const lessonIDSToRemove= await studentOptionsModel.getTakenLessonsInCart(studentId)
+    if(lessonIDSToRemove.length!=0){
+      await studentOptionsModel.removeLessonsFromCart(studentId,(lessonIDSToRemove).map(Number))
+
+    }
+    console.log('ids to remove ',lessonIDSToRemove)
+
+  }
+
+
+  // piasimo private lesson
+  // piasimo theseon se group lesson (gia 4 atoma na mi fainetai)
+  // automati afairesi mathimaton apo to kalathi (allagi imerominiasa, piasimo)
+  // programma
+  // statistika
   
 
 export {getStudentProfileParams,updateStudentInfo,addLessonToCart,removeLessonsFromCart,payLessonsInCart,getCostOfLessonsInCart,
-    getPreviousStudentLessons,getUpComingStudentLessons,cancelLessons,sendEmailRequest,postReview,getLessonsInCart,updateStudentImage}
+    getPreviousStudentLessons,getUpComingStudentLessons,cancelLessons,sendEmailRequest,postReview,getLessonsInCart,updateStudentImage,renewCartLessons,renewCartLessonsExecution}

@@ -197,6 +197,42 @@
   }
 
 
+
+  .userLessonContainer .lessonDetails .infoContainer{
+    height: 2.7rem;
+  }
+
+  .userLessonContainer .lessonDetails .meetingPoints > div{
+    height: 2.7rem;
+    padding-top: 0.05rem;
+    align-items: center;
+    display: flex;
+  }
+
+  .userLessonContainer .lessonDetails .meetingPoints > div{
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center !important;
+  }
+
+  .userLessonContainer .lessonDetails .meetingPoints div span:first-of-type{
+    width: 100%;
+  }
+
+  .userLessonContainer .lessonDetails .meetingPoints div span:last-of-type{
+    word-break: break-all;
+    max-width: 11.8rem;
+    width: 100%;
+    margin-left: 0.5rem;
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+
+
+
+
+
  .userLessonContainer .lessonDetails .imageOverlay.imageOverlay {
     position: fixed;
     top: 50%;
@@ -211,7 +247,6 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-  
     border-radius: 8px; /* optional: for smoother look */
   }
 
@@ -238,7 +273,7 @@
 }
 
   .userLessonContainer .lessonDetails .meetingPoints div{
-    height: fit-content;
+    /* height: fit-content; */
   }
 
 
@@ -292,6 +327,7 @@
   .userLessonContainer .bottom .optionsBtnContainer button.optionsBtn:last-of-type{
         margin-bottom:2.2rem;
 
+
   }
 
 
@@ -315,9 +351,9 @@
       margin-right: 1rem;
     }
 
-    .userLessonContainer .lessonDetails .imageOverlay.imageOverlay{
+    /* .userLessonContainer .lessonDetails .imageOverlay.imageOverlay{
       width: 30rem !important;
-    }
+    } */
 
     .userLessonContainer .lessonDetails .meetingPoints{
       margin-left: 0rem;
@@ -367,13 +403,18 @@
     
   }
 
-  @media(max-height:600px){
+  /* @media(max-height:600px){
 
     .userLessonContainer .lessonDetails .imageOverlay.imageOverlay{
       width: 30rem;
+      background-color: red;
   
     }
-  }
+
+    .userLessonContainer {
+      background-color: red;
+    }
+  } */
 
 
   @media (min-width:900px) and (max-width:1200px){
@@ -519,7 +560,6 @@
       height: fit-content;
 
 
-
     }
 
     .userLessonContainer .lessonDetails .meetingPoints div button{
@@ -595,4 +635,40 @@
     .userLessonContainer .info .left .attributes{
       flex-direction: column;
     }
+  }
+
+  @media (max-width:670px){
+    .userLessonContainer .lessonDetails .meetingPoints div span:first-of-type{
+      width: 100% !important; 
+      max-width: 110px;
+
+    }
+
+    .userLessonContainer .lessonDetails .meetingPoints div span:last-of-type{
+
+      max-width: 8rem;
+      hyphens: auto;
+    }
+
+    .userLessonContainer .lessonDetails .imageOverlay.imageOverlay{
+      max-width: 25rem;
+      max-height: 80%;
+      width: 90%;
+      margin-top: 2rem;
+    }
+  
+    .userLessonContainer .lessonDetails .imageOverlay.imageOverlay img{
+      object-fit: contain;
+    }
+
+  }
+
+  @media (max-height:420px){
+    .userLessonContainer .lessonDetails .imageOverlay.imageOverlay {
+      max-height: 70vh !important;
+      margin-top: 2rem;
+      max-width: 26rem;
+    }
+
+     
   }
