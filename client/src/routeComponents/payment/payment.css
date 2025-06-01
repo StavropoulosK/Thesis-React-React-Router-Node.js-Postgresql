@@ -165,6 +165,8 @@ section.payment{
   .payment .message{
     width: fit-content;
     display: block;
+    max-width: 30rem;
+
     margin-top: 1rem;
     margin-left: auto;
     font-weight: bold;
@@ -172,6 +174,11 @@ section.payment{
     min-height: 2rem;
   }
 
+  @media(max-width:1000px){
+    .payment .message{
+      max-width: 22rem;
+  }
+}
 
 
   @media (max-width:1300px){

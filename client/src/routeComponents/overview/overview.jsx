@@ -153,14 +153,15 @@ export function Overview(){
             <h4>{t("selected_lessons")}</h4>
 
             <StudentLessonsComponent namespace={"studentLessonsComponent"} lessons={lessons} lessonInfoContainer={lessonInfoContainer} textLeft="Selected lessons" onCancel={(lessonID)=>removeFromCart([lessonID]) } extraOptions={extraOptions}></StudentLessonsComponent>
-            
-            <div className="pay">
+            {totalCost !=0 &&
+                <div className="pay">
 
-                <span><b>{t("total")} {totalCost}€  </b></span>
+                    <span><b>{t("total")} {totalCost}€  </b></span>
 
-                <Link to="/payment"  state={{ fromPage: fromPage }}> {t("book")}</Link>
+                    <Link to="/payment"  state={{ fromPage: fromPage }}> {t("book")}</Link>
 
-            </div>
+                </div>
+            }
         </section>
 
     

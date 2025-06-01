@@ -417,7 +417,7 @@ async function getInstructorSchedule(instrcutorId,date){
         client = await connect();
 
         const sql=` WITH studentInfosTable AS (
-                    SELECT  lessonID, count (*) as participants,
+                    SELECT  lessonID, sum(participantNumber) as participants,
                         json_agg(
                             json_build_object(
                                 'name', (firstName || lastName),

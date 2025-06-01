@@ -81,24 +81,12 @@ CREATE TABLE IF NOT EXISTS LESSON(
 
 );
 
-CREATE TABLE IF NOT EXISTS PAYMENT(
-    paymentID serial primary key,
-    amount numeric(10,2) not null,
-    paymentDate varchar(30) not null
-);
-
 
 CREATE TABLE IF NOT EXISTS RESERVATION(
     reservationID serial primary key,
     reservationDate varchar(30) not null,
-    participantNumber integer not null,
-    lowestLevel varchar(30) not null,
     studentID integer not null,
-    paymentID integer not null,
     FOREIGN KEY(studentID) references STUDENT (studentID)
-        ON UPDATE CASCADE
-        ON DELETE CASCADE,
-    FOREIGN KEY(paymentID) references PAYMENT (paymentID)
         ON UPDATE CASCADE
         ON DELETE CASCADE
 );
@@ -108,6 +96,8 @@ CREATE TABLE IF NOT EXISTS RESERVATION_LESSON(
     reservationID integer not null,
     lessonID integer not null,
     canceled boolean not null default false,
+    participantNumber integer not null,
+    lowestLevel varchar(30) not null,
     reservLesID serial primary key,
     FOREIGN KEY (reservationID) references RESERVATION(reservationID)
         ON UPDATE CASCADE
@@ -117,6 +107,18 @@ CREATE TABLE IF NOT EXISTS RESERVATION_LESSON(
         ON DELETE CASCADE
     
 );
+
+CREATE TABLE IF NOT EXISTS PAYMENT(
+    paymentID serial primary key,
+    amount numeric(10,2) not null,
+    paymentDate varchar(30) not null,
+    reservationID integer not null,
+    FOREIGN KEY(reservationID) references RESERVATION (reservationID)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+);
+
+
 
 CREATE TABLE IF NOT EXISTS REVIEW(
     reviewID serial primary key,

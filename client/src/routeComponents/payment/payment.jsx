@@ -2,7 +2,7 @@ import "./payment.css"
 import TopBar from "../../reusableComponents/topBar/TopBar";
 import { useLocation,redirect,useNavigate,useLoaderData,Form,useNavigation,useActionData  } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import { useState, useRef} from "react";
 
 
 export async function paymentLoader({request,params}){
@@ -82,6 +82,12 @@ export function Payment(){
     const { fromPage } = location.state || {};
 
     const cost= useLoaderData()
+
+    const costRef= useRef(null)
+
+    if(costRef.current==null){
+        costRef.current=cost
+    }
 
     const navigate = useNavigate();
 
@@ -274,9 +280,9 @@ export function Payment(){
     function handleSubmit(ev){
 
         let fail=false
-
-        if(submitting || paymentDone){
+        if(submitting || paymentDone || cost==0){
             ev.preventDefault()
+            return
         }
 
         const newErrors = {};
@@ -478,9 +484,9 @@ export function Payment(){
 
                                     <div className="bottom">
 
-                                        <span>{t("total")} {cost} €</span>
+                                        <span>{t("total")} {costRef.current} €</span>
 
-                                        <button className={submitting||paymentDone?"submitting":""} type="submit">
+                                        <button className={submitting||paymentDone ||  cost==0?"submitting":""} type="submit">
                                             {t("payment")}
                                         </button>
 

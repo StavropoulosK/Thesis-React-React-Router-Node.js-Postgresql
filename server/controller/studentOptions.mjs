@@ -161,7 +161,7 @@ async function removeLessonsFromCart(req,res,next){
       }
 
       const removedLessons= await studentOptionsModel.removeLessonsFromCart(studentId,convertStrToArray(lessonIDS).map(Number))
-      console.log('bb ',removedLessons)
+      // console.log('bb ',removedLessons)
 
       return res.status(200).end();
   }
@@ -172,20 +172,32 @@ async function removeLessonsFromCart(req,res,next){
 }
 
 async function payLessonsInCart(req,res,next){
+
   try{
     const {  cardHolderName,cardNumber,expirationDate,cvv} = req.body;
 
+    const studentId= req.session.userID
+
+    if(!studentId){
+        return res.status(401).end();
+
+    }
+
+
     const cardNumberNoSpace= cardNumber.replace(/\s/g, "");
     
-    // await new Promise(resolve => setTimeout(resolve, 12000));
-
     const isValid = isValidPaymentInput( cardHolderName,cardNumberNoSpace,expirationDate,cvv)
 
 
     let message
 
     if(isValid){
-      message="payment_succeeded"
+
+      // 1) insert reservation to db
+      // 2) check if insertion classes from another insertion (by the time user paid, the lesson may have been reserved by someone else)
+      // 3) if there is a class, remove reservation from db and notify user. if there is no class, authorize payment. if payment fails notify user, if payment succeeds notify user and remove lessons from cart.
+
+      message =await reserveLessons(studentId,cardHolderName,cardNumber,expirationDate,cvv)
     }
     else{
 
@@ -199,6 +211,43 @@ async function payLessonsInCart(req,res,next){
   }
 
 }
+
+async function reserveLessons(studentId,cardHolderName,cardNumber,expirationDate,cvv){
+      // 1) insert reservation to db
+      // 2) check if insertion classes from another insertion (by the time user paid, the lesson may have been reserved by someone else)
+      // 3) if there is a class, remove reservation from db and notify user. if there is no class, authorize payment. if payment fails notify user, if payment succeeds notify user, insert payment and remove lessons from cart.
+
+    
+    const reservationID= await studentOptionsModel.createNewReservation(studentId)
+
+
+    const reservLesIDs= await studentOptionsModel.insertReservationLesson(reservationID,studentId)
+    const existingClasses= await studentOptionsModel.checkForLessonClasses(reservationID)
+
+    if(existingClasses !=0){
+      await studentOptionsModel.deleteReservation(reservationID)
+      return 'check_cart_failed'
+    }
+    else{
+      const cost=  (await studentOptionsModel.getCostOfLessonsInCart(studentId) )
+      const paymentSucceded= await makePayment(cardHolderName,cardNumber,expirationDate,cvv,cost)
+      if(paymentSucceded){
+        await studentOptionsModel.clearCart(studentId)
+        await studentOptionsModel.insertPayment(cost,reservationID)
+        return 'payment_succeeded'
+      }
+      else{
+        return 'payment_failed'
+      }
+    }
+
+  }
+
+async function makePayment(cardHolderName,cardNumber,expirationDate,cvv,cost){
+  // connect to bank api
+  return true
+}
+
 
 async function getCostOfLessonsInCart(req,res,next){
   try{
@@ -773,18 +822,113 @@ async function getPreviousStudentLessons(req,res,next){
     
 }
 
+function groupStudentLessons(lessons) {
+  const grouped = new Map();
+
+  for (const lesson of lessons) {
+
+    const profileImg= lesson.image
+    const lessonImg= lesson.picture
+
+    let imageBase64_a = null;
+    if (profileImg) {
+        const mimeType = "image"; 
+        imageBase64_a = `data:${mimeType};base64,${profileImg.toString("base64")}`
+    }
+
+    let imageBase64_b = null;
+    if (lessonImg) {
+        const mimeType = "image"; 
+        imageBase64_b = `data:${mimeType};base64,${lessonImg.toString("base64")}`
+    }
+
+    const meetingPointId= lesson.meetingpointid
+    const locationText= lesson.locationText
+
+    const finalLocation= (meetingPointId==null) || (isNullOrEmpty(locationText) && isNullOrEmpty(lessonImg)) ?"after_agreement":locationText
+
+    const isPrivate = lesson.typeOfLesson === "private";
+
+    // Choose key fields based on lesson type
+    const key = isPrivate
+      ? `${lesson.reservationid}|${lesson.instructorid}|${lesson.resort}|${lesson.sport}|${lesson.level}|${lesson.participants}`
+      : `${lesson.reservationid}|${lesson.instructionID}|${lesson.resort}|${lesson.sport}|${lesson.level}|${lesson.participants}`;
+
+    // Prepare lessonInfo item
+    const lessonInfoItem = {
+      lessonID: String(lesson.lessonid),
+      date: reformatDateUI(lesson.date),
+      timeStart: lesson.timeStart,
+      timeEnd: lesson.timeEnd,
+      cost: String(  Math.round(lesson.costPerHour * calculateHoursBetween(lesson.timeStart, lesson.timeEnd) ) ),
+      meetingPoint: {location:finalLocation,picture:imageBase64_b },
+      costPerHour: lesson.costPerHour,
+      isAllDay: lesson.isAllDay,
+      canceled:false
+
+    };
+
+    // If this group doesn't exist yet, create it
+    if (!grouped.has(key)) {
+      grouped.set(key, {
+        instructorInfo: {
+          instructorId:lesson.instructorid,
+          instructorName: lesson.instructorName,
+          reviewScore: lesson.reviewScore,
+          reviewCount: lesson.reviewCount,
+          experience: lesson.experience,
+          languages: lesson.languages,
+          cancelationDays: lesson.cancelationpolicy=="dnot"?"-1": String(lesson.cancelationpolicy.slice(1) ),
+          image: imageBase64_a,
+          phoneNumber:lesson.phonenumber
+        },
+        teachingInfo: {
+          typeOfLesson: lesson.typeOfLesson,
+          resort: lesson.resort,
+          sport: lesson.sport,
+          groupName: lesson.groupName!=null?lesson.groupName:""
+        },
+        participantsInfo: {
+          level: lesson.lowestlevel,
+          participants: lesson.participantnumber
+        },
+        lessonInfo: [lessonInfoItem]
+      });
+    } else {
+      // If group exists, just add the lessonInfo item
+      grouped.get(key).lessonInfo.push(lessonInfoItem);
+    }
+  }
+
+  // Return grouped results as an array
+  return Array.from(grouped.values());
+}
+
+
+
 async function getUpComingStudentLessons(req,res,next){
   try{
     // ta mathimata katigoriopoiountai ana kratisi
-    // ta idiotika mathimata : ana kratisi/ ana instructor/ ana resort/ana sport
-    // ta group mathimata : ana kratisi/ ana didaskalia
+    // ta idiotika mathimata : ana kratisi/ ana instructor/ ana resort/ana sport/ ana participant info
+    // ta group mathimata : ana kratisi/ ana didaskalia / ana participant info
 
     // esto kai ena mathima apo mia apo tis pano katigories na min exei teliosi, stelnontai ola ta mathimata tis katigorias
     // console.log("fetching")
 
     //cancelatioDays=-1 for no cancelation policy
 
-    const studentEmail="kostas@gmail.com"
+    const studentId= req.session.userID
+
+    if(!studentId){
+        return res.status(401).end();
+
+    }
+
+    const lessonss= groupStudentLessons (await studentOptionsModel.getUpComingStudentLessons(studentId))
+
+    console.log('aaa ',lessonss)
+
+    const studentEmail="myemail@gmail.com"
 
     const lessons = [
       {
@@ -943,7 +1087,7 @@ async function getUpComingStudentLessons(req,res,next){
     ]
   
   
-    res.json({upComingLessons:lessons,studentEmail:studentEmail})
+    res.json({upComingLessons:lessonss,studentEmail:studentEmail})
   }
   catch(error){
     next(error)
@@ -1029,7 +1173,7 @@ function isNullOrEmpty(value) {
 }
 
 
-function groupLessons(lessons) {
+function groupCartLessons(lessons) {
   const grouped = new Map();
 
   for (const lesson of lessons) {
@@ -1226,9 +1370,9 @@ async function getLessonsInCart(req,res,next){
 
     const lessons= await studentOptionsModel.getLessonsInCart(studentId)
 
-    // console.dir(groupLessons(lessons), { depth: null });
+    // console.dir(groupCartLessons(lessons), { depth: null });
 
-    res.json({lessons:groupLessons(lessons)})
+    res.json({lessons:groupCartLessons(lessons)})
 
   }
   catch(error){
@@ -1323,6 +1467,7 @@ function isValidPaymentInput(cardHolderName,cardNumber,expirationDate,cvv){
   // piasimo private lesson
   // piasimo theseon se group lesson (gia 4 atoma na mi fainetai)
   // automati afairesi mathimaton apo to kalathi (allagi imerominiasa, piasimo)
+  // piasimo mathimatos apo kalathi prin apo pliromi
   // programma
   // statistika
   

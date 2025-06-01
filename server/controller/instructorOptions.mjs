@@ -258,8 +258,8 @@ async function getGeneralStatistics(req,res,next){
       "5":10
       }
 
-      const result = await instructorOptionsModel.getGeneralStatistics(instrcutorId)
-      console.log("bbb ",result)
+    //   const result = await instructorOptionsModel.getGeneralStatistics(instrcutorId)
+    //   console.log("bbb ",result)
 
   
       res.json({monthsToDisplay,reviewScores})
@@ -326,82 +326,53 @@ async function getInstructorSchedule(req,res,next){
 
         const date=reformatDateDB(req.params.date)
 
-        // const lessonss=[
-        //   {
-        //     resort:"Parnassou",
-        //     date:"Monday 15/01/2025",
-        //     time:"8:30-10:30",
-        //     sport:"Ski",
-        //     participants:3,
-        //     lessonType:"private",
-        //     meetingPoint:{
-        //       title:"Άνω σαλέ",
-        //     },
-        //     studentInfos:[
-        //       {
-        //         name:"Γεωργία Θάμου",
-        //         email:"myemail@gmail.com",
-        //         phone:'6999999999',
-        //         level:"Beginner"
-        //       },
-        //       {
-        //         name:"Γεωργία Θάμου",
-        //         email:"myemail@gmail.com",
-        //         phone:'6999999999',
-        //         level:"Beginner"
-        //       },
-        //       {
-        //         name:"Γεωργία Θάμου",
-        //         email:"myemail@gmail.com",
-        //         phone:'6999999999',
-        //         level:"Beginner"
-        //       },
-        //       {
-        //         name:"Γεωργία Θάμου",
-        //         email:"myemail@gmail.com",
-        //         phone:'6999999999',
-        //         level:"Beginner"
-        //       },
-        //       {
-        //         name:"Γεωργία Θάμου",
-        //         email:"myemail@gmail.com",
-        //         phone:'6999999999',
-        //         level:"Beginner"
-        //       },
-        //       {
-        //         name:"Γεωργία Θάμου",
-        //         email:"myemail@gmail.com",
-        //         phone:'6999999999',
-        //         level:"Beginner"
-        //       }
-        //     ],
-        //     note:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe quis cumque voluptatibus eos quibusdam sint reprehenderit! Nostrum qui omnis accusantium, nam voluptate ipsa sapiente enim expedita, itaque corrupti, sequi ut",
-        //     lessonID:"12123"
+        const lessonss=[
+          {
+            resort:"Parnassou",
+            date:"Monday 15/01/2025",
+            time:"8:30-10:30",
+            sport:"Ski",
+            participants:3,
+            lessonType:"private",
+            meetingPoint:{
+              title:"Άνω σαλέ",
+            },
+            studentInfos:[
+              {
+                name:"Γεωργία Θάμου",
+                email:"myemail@gmail.com",
+                phone:'6999999999',
+                level:"Beginner"
+              },
+             
+            ],
+            note:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe quis cumque voluptatibus eos quibusdam sint reprehenderit! Nostrum qui omnis accusantium, nam voluptate ipsa sapiente enim expedita, itaque corrupti, sequi ut",
+            lessonID:"12123"
       
-        //   },
+          },
       
-        //   {
-        //     resort:"Parnassou",
-        //     date:"Monday 15/01/2025",
-        //     time:"8:30-10:30",
-        //     sport:"Ski",
-        //     participants:3,
-        //     lessonType:"group",
-        //     meetingPoint:{
-        //       title:"Άνω σαλέ",
-        //     },
-        //     studentInfos:[
-        //       {
-        //         name:"Γεωργία Θάμου",
-        //         email:"myemail@gmail.com",
-        //         phone:'6999999999',
-        //         level:"Beginner"
-        //       },
-        //     ],
-        //     note:"",
-        //     lessonID:"1212"
-        //   }
-        // ]
+          {
+            resort:"Parnassou",
+            date:"Monday 15/01/2025",
+            time:"10:30-12:30",
+            sport:"Ski",
+            participants:3,
+            lessonType:"group",
+            meetingPoint:{
+              title:"Άνω σαλέ",
+            },
+            studentInfos:[
+              {
+                name:"Γεωργία Θάμου",
+                email:"myemail@gmail.com",
+                phone:'6999999999',
+                level:"Beginner"
+              },
+            ],
+            note:"",
+            lessonID:"1212"
+          }
+        ]
 
 
         const lessons = await instructorOptionsModel.getInstructorSchedule(instrcutorId,date)
@@ -425,7 +396,8 @@ async function getInstructorSchedule(req,res,next){
         })
 
 
-          res.json({lessons})
+
+          res.json({lessons:lessonss})
     }
     catch(error){
         next(error)

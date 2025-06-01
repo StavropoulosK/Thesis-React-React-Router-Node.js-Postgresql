@@ -22,7 +22,10 @@
 
     "payment_succeeded":"Payment succeeded",
 
-    "cvv":"Cvv"
+    "cvv":"Cvv",
+
+    "check_cart_failed":"Payment did not happen because a lesson you had in your cart is no longer available. Visit your cart to continue."
+
 
 
 
