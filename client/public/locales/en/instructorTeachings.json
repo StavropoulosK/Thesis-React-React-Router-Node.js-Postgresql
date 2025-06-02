@@ -111,7 +111,10 @@
 
     "wrong_type_failure":"Wrong file format",
 
-    "tooBig_failure":"Maximum permitted image size is 5MB"
+    "tooBig_failure":"Maximum permitted image size is 5MB",
+
+    "perPerson":"per person"
+
 
 
 

@@ -138,6 +138,8 @@ export default function ShowLessons({instructorId,instructorName,resort,sport,fr
           }
     }
 
+    console.log('aaa ',members)
+
     const lessonIDs= selectedLessons.map(lesson=>lesson.lessonID)
 
     return(
@@ -165,7 +167,7 @@ export default function ShowLessons({instructorId,instructorName,resort,sport,fr
                                     {lessonsData.lessons.map((oneDayLessons,index)=>{
 
                                         // oneDayLessons is an array with objects. each object is a lesson for a specific day
-                                        return <OneDayLessons key={index} lessons={oneDayLessons} setSelectedLessons={setSelectedLessons} selectedLessons={selectedLessons}/>
+                                        return <OneDayLessons key={index} lessons={oneDayLessons} members={members} typeOfLesson={typeOfLesson} setSelectedLessons={setSelectedLessons} selectedLessons={selectedLessons}/>
                                     })
 
                                     }
@@ -258,7 +260,7 @@ export default function ShowLessons({instructorId,instructorName,resort,sport,fr
 
 }
 
-function OneDayLessons({ lessons,setSelectedLessons,selectedLessons }) {
+function OneDayLessons({ lessons,setSelectedLessons,selectedLessons,members,typeOfLesson }) {
 
     const {t, i18n} = useTranslation("showLessons")
 
@@ -287,6 +289,8 @@ function OneDayLessons({ lessons,setSelectedLessons,selectedLessons }) {
 
                 {lessons.map((lesson, index) => {
                     const selected=selectedLessons.some(l => l.lessonID === lesson.lessonID)
+
+                    const cost= typeOfLesson=="private"?lesson.cost:lesson.cost *Number(members)
                     return (
                     
                         <button className={`selectBtn ${lesson.full?"full":""}  ${selected?"selected":""} `} key={index} onClick={()=>{
@@ -305,8 +309,8 @@ function OneDayLessons({ lessons,setSelectedLessons,selectedLessons }) {
 
                                 
                             
-                            <span>{lesson.isAllDay?`${t("all_day")} (`:""}{lesson.timeStart} - {lesson.timeEnd}{lesson.isAllDay?")":""} {lesson.isAllDay?lesson.cost+"€":""} </span>
-                            {!lesson.isAllDay && <span>{lesson.cost}€</span>}
+                            <span>{lesson.isAllDay?`${t("all_day")} (`:""}{lesson.timeStart} - {lesson.timeEnd}{lesson.isAllDay?")":""} {lesson.isAllDay?cost+"€":""} </span>
+                            {!lesson.isAllDay && <span>{cost}€</span>}
                         </button>
                     )
                 })}

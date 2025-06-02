@@ -125,7 +125,7 @@ async function addLessonToCart(req,res,next){
 
     
     const insertedLessons = await studentOptionsModel.addLessonToCart(studentId,lessonIDs,Number(members),selectedLevel)
-
+    req.session.cartLessons = req.session.cartLessons + insertedLessons
     return res.status(200).end();
   }
   catch(error){
@@ -161,7 +161,8 @@ async function removeLessonsFromCart(req,res,next){
       }
 
       const removedLessons= await studentOptionsModel.removeLessonsFromCart(studentId,convertStrToArray(lessonIDS).map(Number))
-      // console.log('bb ',removedLessons)
+
+      req.session.cartLessons = req.session.cartLessons - removedLessons
 
       return res.status(200).end();
   }
@@ -197,7 +198,7 @@ async function payLessonsInCart(req,res,next){
       // 2) check if insertion classes from another insertion (by the time user paid, the lesson may have been reserved by someone else)
       // 3) if there is a class, remove reservation from db and notify user. if there is no class, authorize payment. if payment fails notify user, if payment succeeds notify user and remove lessons from cart.
 
-      message =await reserveLessons(studentId,cardHolderName,cardNumber,expirationDate,cvv)
+      message =await reserveLessons(req,studentId,cardHolderName,cardNumber,expirationDate,cvv)
     }
     else{
 
@@ -212,7 +213,7 @@ async function payLessonsInCart(req,res,next){
 
 }
 
-async function reserveLessons(studentId,cardHolderName,cardNumber,expirationDate,cvv){
+async function reserveLessons(req,studentId,cardHolderName,cardNumber,expirationDate,cvv){
       // 1) insert reservation to db
       // 2) check if insertion classes from another insertion (by the time user paid, the lesson may have been reserved by someone else)
       // 3) if there is a class, remove reservation from db and notify user. if there is no class, authorize payment. if payment fails notify user, if payment succeeds notify user, insert payment and remove lessons from cart.
@@ -234,6 +235,7 @@ async function reserveLessons(studentId,cardHolderName,cardNumber,expirationDate
       if(paymentSucceded){
         await studentOptionsModel.clearCart(studentId)
         await studentOptionsModel.insertPayment(cost,reservationID)
+        req.session.cartLessons=0
         return 'payment_succeeded'
       }
       else{
@@ -275,545 +277,556 @@ async function getPreviousStudentLessons(req,res,next){
   try{
       // stars=-1 if user has not submitted review before
 
+      const studentId= req.session.userID
+
+      if(!studentId){
+          return res.status(401).end();
+
+      }
+
 
       const page=Number(req.params.page)
 
-      const lessons = [
-        {
-            instructorInfo:{
-                instructorID:'12',
-                instructorName: "Alice J.",
-                reviewScore: "4.8",
-                reviewCount: 12,
-                experience: "1",
-                languages: ["English", "French", "Spanish"],
-                cancelationDays: "-1",
-                image: "/images/startPage/Ski.jpg",
-                email:"123123myemail@gmail.com",
-                phoneNumber:"+306951232693"
+      // const lessonss = [
+      //   {
+      //       instructorInfo:{
+      //           instructorID:'12',
+      //           instructorName: "Alice J.",
+      //           reviewScore: "4.8",
+      //           reviewCount: 12,
+      //           experience: "1",
+      //           languages: ["English", "French", "Spanish"],
+      //           cancelationDays: "-1",
+      //           image: "/images/startPage/Ski.jpg",
+      //           email:"123123myemail@gmail.com",
+      //           phoneNumber:"+306951232693"
   
-            },
-            teachingInfo:{
-                typeOfLesson: "private",
-                resort: "Parnassou",
-                sport: "Ski",
-                groupName: "",           // only for group lessons
-            },
-            reviewInfo:{
-              stars:"",
-              text:"",
-            },
-            participantsInfo:{
-                level: "Beginner",
-                participants: "4",      //  how many participants the person book for 
-            },
-            lessonInfo:
-            [ {
-                  // occupancy: "",           // only for group lessons (e.g. 4/6)
-                  lessonID: "1",
-                  date: "30/04/2025",
-                  timeStart: "09:00",
-                  timeEnd: "17:00",
-                  cost: "150",
-                  meetingPoint: { location: "Δεύτερο σαλέ" },
-                  isAllDay: false,
-                  canceled:true
-  
-  
-              },
-              {
-                  lessonID: "2",
-                  date: "29/04/2025",
-                  timeStart: "12:00",
-                  timeEnd: "14:00",
-                  cost: "150",
-                  isAllDay: true,
-  
-                  meetingPoint: { location: "Δεύτερο σαλέ" },
-                  canceled:true
-  
-              },
+      //       },
+      //       teachingInfo:{
+      //           typeOfLesson: "private",
+      //           resort: "Parnassou",
+      //           sport: "Ski",
+      //           groupName: "",           // only for group lessons
+      //       },
+      //       reviewInfo:{
+      //         stars:"",
+      //         text:"",
+      //       },
+      //       participantsInfo:{
+      //           level: "Beginner",
+      //           participants: "4",      //  how many participants the person book for 
+      //       },
+      //       lessonInfo:
+      //       [ {
+      //             lessonID: "1",
+      //             date: "30/04/2025",
+      //             timeStart: "09:00",
+      //             timeEnd: "17:00",
+      //             cost: "150",
+      //             meetingPoint: { location: "Δεύτερο σαλέ" },
+      //             isAllDay: false,
+      //             canceled:true
   
   
-            ]
-        },
+      //         },
+      //         {
+      //             lessonID: "2",
+      //             date: "29/04/2025",
+      //             timeStart: "12:00",
+      //             timeEnd: "14:00",
+      //             cost: "150",
+      //             isAllDay: true,
   
-        {
-          instructorInfo:{
-            instructorID:'12',
-            instructorName: "Andrew R.",
-            reviewScore: "3.8",
-            reviewCount: 1,
-            experience: "2",
-            languages: ["English", "French"],
-            cancelationDays: "-1",
-            image: "/images/startPage/Ski.jpg",
-            email:"myemail!!@gmail.com",
-            phoneNumber:"+306951232692"
+      //             meetingPoint: { location: "Δεύτερο σαλέ" },
+      //             canceled:true
   
-          },
-          reviewInfo:{
-            stars:4,
-            text:"awesome isntuctor",
-          },
-          teachingInfo:{
-              typeOfLesson: "group",
-              resort: "Kalavryton",
-              sport: "Snowboard",
-              groupName: "Lessons for kids",           // only for group lessons
-          },
-          participantsInfo:{
-              level: "Beginner",
-              participants: "3",      
+      //         },
   
   
-          },
-          lessonInfo:
-          [ {
-                lessonID: "3",
-                date: "13/04/2025",
-                timeStart: "12:00",
-                timeEnd: "14:00",
-                cost: "250",
-                meetingPoint: { location: "Δεύτερο σαλέ" },
-                isAllDay: true,
+      //       ]
+      //   },
+  
+      //   {
+      //     instructorInfo:{
+      //       instructorID:'12',
+      //       instructorName: "Andrew R.",
+      //       reviewScore: "3.8",
+      //       reviewCount: 1,
+      //       experience: "2",
+      //       languages: ["English", "French"],
+      //       cancelationDays: "-1",
+      //       image: "/images/startPage/Ski.jpg",
+      //       email:"myemail!!@gmail.com",
+      //       phoneNumber:"+306951232692"
+  
+      //     },
+      //     reviewInfo:{
+      //       stars:4,
+      //       text:"awesome isntuctor",
+      //     },
+      //     teachingInfo:{
+      //         typeOfLesson: "group",
+      //         resort: "Kalavryton",
+      //         sport: "Snowboard",
+      //         groupName: "Lessons for kids",           // only for group lessons
+      //     },
+      //     participantsInfo:{
+      //         level: "Beginner",
+      //         participants: "3",      
+  
+  
+      //     },
+      //     lessonInfo:
+      //     [ {
+      //           lessonID: "3",
+      //           date: "13/04/2025",
+      //           timeStart: "12:00",
+      //           timeEnd: "14:00",
+      //           cost: "250",
+      //           meetingPoint: { location: "Δεύτερο σαλέ" },
+      //           isAllDay: true,
   
               
   
-            },
-            { 
-                lessonID: "4",
-                date: "14/04/2026",
-                timeStart: "12:00",
-                timeEnd: "14:00",
-                cost: "260",
-                isAllDay: false,
-                meetingPoint: { location: "Δεύτερο σαλέ" }
+      //       },
+      //       { 
+      //           lessonID: "4",
+      //           date: "14/04/2026",
+      //           timeStart: "12:00",
+      //           timeEnd: "14:00",
+      //           cost: "260",
+      //           isAllDay: false,
+      //           meetingPoint: { location: "Δεύτερο σαλέ" }
             
-            },
+      //       },
   
   
-          ]
-      },
+      //     ]
+      // },
   
-      {
-        instructorInfo:{
-          instructorID:'12',
-          instructorName: "Michael R.",
-          reviewScore: "3.8",
-          reviewCount: 1,
-          experience: "3",
-          languages: ["English", "French"],
-          cancelationDays: "15",
-          image: "/images/startPage/Ski.jpg",
-          email:"myemail!!@gmail.com",
-          phoneNumber:"+306951232693"
+      // {
+      //   instructorInfo:{
+      //     instructorID:'12',
+      //     instructorName: "Michael R.",
+      //     reviewScore: "3.8",
+      //     reviewCount: 1,
+      //     experience: "3",
+      //     languages: ["English", "French"],
+      //     cancelationDays: "15",
+      //     image: "/images/startPage/Ski.jpg",
+      //     email:"myemail!!@gmail.com",
+      //     phoneNumber:"+306951232693"
   
-        },
-        reviewInfo:{
-          stars:-1,
-          text:"",
-        },
-        teachingInfo:{
-            typeOfLesson: "group",
-            resort: "Kalavryton",
-            sport: "Snowboard",
-            groupName: "Lessons for kids",           // only for group lessons
-        },
-        participantsInfo:{
-            level: "Beginner",
-            participants: "3",      
+      //   },
+      //   reviewInfo:{
+      //     stars:-1,
+      //     text:"",
+      //   },
+      //   teachingInfo:{
+      //       typeOfLesson: "group",
+      //       resort: "Kalavryton",
+      //       sport: "Snowboard",
+      //       groupName: "Lessons for kids",           // only for group lessons
+      //   },
+      //   participantsInfo:{
+      //       level: "Beginner",
+      //       participants: "3",      
   
   
-        },
-        lessonInfo:
-        [ {
-              lessonID: "3a",
-              date: "13/04/2025",
-              timeStart: "12:00",
-              timeEnd: "14:00",
-              cost: "250",
-              meetingPoint: { location: "Δεύτερο σαλέ" },
-              isAllDay: true,
+      //   },
+      //   lessonInfo:
+      //   [ {
+      //         lessonID: "3a",
+      //         date: "13/04/2025",
+      //         timeStart: "12:00",
+      //         timeEnd: "14:00",
+      //         cost: "250",
+      //         meetingPoint: { location: "Δεύτερο σαλέ" },
+      //         isAllDay: true,
   
             
   
-          },
-          { 
-              lessonID: "3b",
-              date: "14/04/2026",
-              timeStart: "12:00",
-              timeEnd: "14:00",
-              cost: "260",
-              isAllDay: false,
-              meetingPoint: { location: "Δεύτερο σαλέ" }
+      //     },
+      //     { 
+      //         lessonID: "3b",
+      //         date: "14/04/2026",
+      //         timeStart: "12:00",
+      //         timeEnd: "14:00",
+      //         cost: "260",
+      //         isAllDay: false,
+      //         meetingPoint: { location: "Δεύτερο σαλέ" }
           
-          },
+      //     },
   
   
-        ]
-      },
+      //   ]
+      // },
   
-      {
-        instructorInfo:{
-          instructorID:'12',
-          instructorName: "Michael R.",
-          reviewScore: "3.8",
-          reviewCount: 1,
-          experience: "4",
-          languages: ["English", "French"],
-          cancelationDays: "15",
-          image: "/images/startPage/Ski.jpg",
-          email:"myemail!!@gmail.com",
-          phoneNumber:"+306951232693"
+      // {
+      //   instructorInfo:{
+      //     instructorID:'12',
+      //     instructorName: "Michael R.",
+      //     reviewScore: "3.8",
+      //     reviewCount: 1,
+      //     experience: "4",
+      //     languages: ["English", "French"],
+      //     cancelationDays: "15",
+      //     image: "/images/startPage/Ski.jpg",
+      //     email:"myemail!!@gmail.com",
+      //     phoneNumber:"+306951232693"
   
-        },
-        reviewInfo:{
-          stars:4,
-          text:"awesome isntuctor",
-        },
-        teachingInfo:{
-            typeOfLesson: "group",
-            resort: "Kalavryton",
-            sport: "Snowboard",
-            groupName: "Lessons for kids",           // only for group lessons
-        },
-        participantsInfo:{
-            level: "Beginner",
-            participants: "3",      
-  
-  
-        },
-        lessonInfo:
-        [ {
-              lessonID: "4a",
-              date: "13/04/2025",
-              timeStart: "12:00",
-              timeEnd: "14:00",
-              cost: "250",
-              meetingPoint: { location: "Δεύτερο σαλέ" },
-              isAllDay: true,
-  
-            
-  
-          },
-          { 
-              lessonID: "4b",
-              date: "14/04/2026",
-              timeStart: "12:00",
-              timeEnd: "14:00",
-              cost: "260",
-              isAllDay: false,
-              meetingPoint: { location: "Δεύτερο σαλέ" }
-          
-          },
+      //   },
+      //   reviewInfo:{
+      //     stars:4,
+      //     text:"awesome isntuctor",
+      //   },
+      //   teachingInfo:{
+      //       typeOfLesson: "group",
+      //       resort: "Kalavryton",
+      //       sport: "Snowboard",
+      //       groupName: "Lessons for kids",           // only for group lessons
+      //   },
+      //   participantsInfo:{
+      //       level: "Beginner",
+      //       participants: "3",      
   
   
-        ]
-      },
-  
-      {
-        instructorInfo:{
-          instructorID:'12',
-          instructorName: "Michael R.",
-          reviewScore: "3.8",
-          reviewCount: 1,
-          experience: "5",
-          languages: ["English", "French"],
-          cancelationDays: "15",
-          image: "/images/startPage/Ski.jpg",
-          email:"myemail!!@gmail.com",
-          phoneNumber:"+306951232693"
-  
-        },
-        reviewInfo:{
-          stars:4,
-          text:"awesome isntuctor",
-        },
-        teachingInfo:{
-            typeOfLesson: "group",
-            resort: "Kalavryton",
-            sport: "Snowboard",
-            groupName: "Lessons for kids",           // only for group lessons
-        },
-        participantsInfo:{
-            level: "Beginner",
-            participants: "3",      
-  
-  
-        },
-        lessonInfo:
-        [ {
-              lessonID: "5a",
-              date: "13/04/2025",
-              timeStart: "12:00",
-              timeEnd: "14:00",
-              cost: "250",
-              meetingPoint: { location: "Δεύτερο σαλέ" },
-              isAllDay: true,
+      //   },
+      //   lessonInfo:
+      //   [ {
+      //         lessonID: "4a",
+      //         date: "13/04/2025",
+      //         timeStart: "12:00",
+      //         timeEnd: "14:00",
+      //         cost: "250",
+      //         meetingPoint: { location: "Δεύτερο σαλέ" },
+      //         isAllDay: true,
   
             
   
-          },
-          { 
-              lessonID: "5b",
-              date: "14/04/2026",
-              timeStart: "12:00",
-              timeEnd: "14:00",
-              cost: "260",
-              isAllDay: false,
-              meetingPoint: { location: "Δεύτερο σαλέ" }
+      //     },
+      //     { 
+      //         lessonID: "4b",
+      //         date: "14/04/2026",
+      //         timeStart: "12:00",
+      //         timeEnd: "14:00",
+      //         cost: "260",
+      //         isAllDay: false,
+      //         meetingPoint: { location: "Δεύτερο σαλέ" }
           
-          },
+      //     },
   
   
-        ]
-      },
+      //   ]
+      // },
   
-      {
-        instructorInfo:{
-          instructorID:'12',
-          instructorName: "Michael R.",
-          reviewScore: "3.8",
-          reviewCount: 1,
-          experience: "6",
-          languages: ["English", "French"],
-          cancelationDays: "15",
-          image: "/images/startPage/Ski.jpg",
-          email:"myemail!!@gmail.com",
-          phoneNumber:"+306951232693"
+      // {
+      //   instructorInfo:{
+      //     instructorID:'12',
+      //     instructorName: "Michael R.",
+      //     reviewScore: "3.8",
+      //     reviewCount: 1,
+      //     experience: "5",
+      //     languages: ["English", "French"],
+      //     cancelationDays: "15",
+      //     image: "/images/startPage/Ski.jpg",
+      //     email:"myemail!!@gmail.com",
+      //     phoneNumber:"+306951232693"
   
-        },
-        reviewInfo:{
-          stars:4,
-          text:"awesome isntuctor",
-        },
-        teachingInfo:{
-            typeOfLesson: "group",
-            resort: "Kalavryton",
-            sport: "Snowboard",
-            groupName: "Lessons for kids",           // only for group lessons
-        },
-        participantsInfo:{
-            level: "Beginner",
-            participants: "3",      
+      //   },
+      //   reviewInfo:{
+      //     stars:4,
+      //     text:"awesome isntuctor",
+      //   },
+      //   teachingInfo:{
+      //       typeOfLesson: "group",
+      //       resort: "Kalavryton",
+      //       sport: "Snowboard",
+      //       groupName: "Lessons for kids",           // only for group lessons
+      //   },
+      //   participantsInfo:{
+      //       level: "Beginner",
+      //       participants: "3",      
   
   
-        },
-        lessonInfo:
-        [ {
-              lessonID: "6a",
-              date: "13/04/2025",
-              timeStart: "12:00",
-              timeEnd: "14:00",
-              cost: "250",
-              meetingPoint: { location: "Δεύτερο σαλέ" },
-              isAllDay: true,
+      //   },
+      //   lessonInfo:
+      //   [ {
+      //         lessonID: "5a",
+      //         date: "13/04/2025",
+      //         timeStart: "12:00",
+      //         timeEnd: "14:00",
+      //         cost: "250",
+      //         meetingPoint: { location: "Δεύτερο σαλέ" },
+      //         isAllDay: true,
   
             
   
-          },
-          { 
-              lessonID: "6b",
-              date: "14/04/2026",
-              timeStart: "12:00",
-              timeEnd: "14:00",
-              cost: "260",
-              isAllDay: false,
-              meetingPoint: { location: "Δεύτερο σαλέ" }
+      //     },
+      //     { 
+      //         lessonID: "5b",
+      //         date: "14/04/2026",
+      //         timeStart: "12:00",
+      //         timeEnd: "14:00",
+      //         cost: "260",
+      //         isAllDay: false,
+      //         meetingPoint: { location: "Δεύτερο σαλέ" }
           
-          },
+      //     },
   
   
-        ]
-      },
+      //   ]
+      // },
   
-      {
-        instructorInfo:{
-          instructorID:'12',
-          instructorName: "Michael R.",
-          reviewScore: "3.8",
-          reviewCount: 1,
-          experience: "7",
-          languages: ["English", "French"],
-          cancelationDays: "15",
-          image: "/images/startPage/Ski.jpg",
-          email:"myemail!!@gmail.com",
-          phoneNumber:"+306951232693"
+      // {
+      //   instructorInfo:{
+      //     instructorID:'12',
+      //     instructorName: "Michael R.",
+      //     reviewScore: "3.8",
+      //     reviewCount: 1,
+      //     experience: "6",
+      //     languages: ["English", "French"],
+      //     cancelationDays: "15",
+      //     image: "/images/startPage/Ski.jpg",
+      //     email:"myemail!!@gmail.com",
+      //     phoneNumber:"+306951232693"
   
-        },
-        reviewInfo:{
-          stars:4,
-          text:"awesome isntuctor",
-        },
-        teachingInfo:{
-            typeOfLesson: "group",
-            resort: "Kalavryton",
-            sport: "Snowboard",
-            groupName: "Lessons for kids",           // only for group lessons
-        },
-        participantsInfo:{
-            level: "Beginner",
-            participants: "3",      
+      //   },
+      //   reviewInfo:{
+      //     stars:4,
+      //     text:"awesome isntuctor",
+      //   },
+      //   teachingInfo:{
+      //       typeOfLesson: "group",
+      //       resort: "Kalavryton",
+      //       sport: "Snowboard",
+      //       groupName: "Lessons for kids",           // only for group lessons
+      //   },
+      //   participantsInfo:{
+      //       level: "Beginner",
+      //       participants: "3",      
   
   
-        },
-        lessonInfo:
-        [ {
-              lessonID: "7a",
-              date: "13/04/2025",
-              timeStart: "12:00",
-              timeEnd: "14:00",
-              cost: "250",
-              meetingPoint: { location: "Δεύτερο σαλέ" },
-              isAllDay: true,
+      //   },
+      //   lessonInfo:
+      //   [ {
+      //         lessonID: "6a",
+      //         date: "13/04/2025",
+      //         timeStart: "12:00",
+      //         timeEnd: "14:00",
+      //         cost: "250",
+      //         meetingPoint: { location: "Δεύτερο σαλέ" },
+      //         isAllDay: true,
   
             
   
-          },
-          { 
-              lessonID: "7b",
-              date: "14/04/2026",
-              timeStart: "12:00",
-              timeEnd: "14:00",
-              cost: "260",
-              isAllDay: false,
-              meetingPoint: { location: "Δεύτερο σαλέ" }
+      //     },
+      //     { 
+      //         lessonID: "6b",
+      //         date: "14/04/2026",
+      //         timeStart: "12:00",
+      //         timeEnd: "14:00",
+      //         cost: "260",
+      //         isAllDay: false,
+      //         meetingPoint: { location: "Δεύτερο σαλέ" }
           
-          },
+      //     },
   
   
-        ]
-      },
+      //   ]
+      // },
   
-      {
-        instructorInfo:{
-          instructorID:'12',
-          instructorName: "Michael R.",
-          reviewScore: "3.8",
-          reviewCount: 1,
-          experience: "8",
-          languages: ["English", "French"],
-          cancelationDays: "15",
-          image: "/images/startPage/Ski.jpg",
-          email:"myemail!!@gmail.com",
-          phoneNumber:"+306951232693"
+      // {
+      //   instructorInfo:{
+      //     instructorID:'12',
+      //     instructorName: "Michael R.",
+      //     reviewScore: "3.8",
+      //     reviewCount: 1,
+      //     experience: "7",
+      //     languages: ["English", "French"],
+      //     cancelationDays: "15",
+      //     image: "/images/startPage/Ski.jpg",
+      //     email:"myemail!!@gmail.com",
+      //     phoneNumber:"+306951232693"
   
-        },
-        reviewInfo:{
-          stars:4,
-          text:"awesome isntuctor",
-        },
-        teachingInfo:{
-            typeOfLesson: "group",
-            resort: "Kalavryton",
-            sport: "Snowboard",
-            groupName: "Lessons for kids",           // only for group lessons
-        },
-        participantsInfo:{
-            level: "Beginner",
-            participants: "3",      
+      //   },
+      //   reviewInfo:{
+      //     stars:4,
+      //     text:"awesome isntuctor",
+      //   },
+      //   teachingInfo:{
+      //       typeOfLesson: "group",
+      //       resort: "Kalavryton",
+      //       sport: "Snowboard",
+      //       groupName: "Lessons for kids",           // only for group lessons
+      //   },
+      //   participantsInfo:{
+      //       level: "Beginner",
+      //       participants: "3",      
   
   
-        },
-        lessonInfo:
-        [ {
-              lessonID: "8a",
-              date: "13/04/2025",
-              timeStart: "12:00",
-              timeEnd: "14:00",
-              cost: "250",
-              meetingPoint: { location: "Δεύτερο σαλέ" },
-              isAllDay: true,
+      //   },
+      //   lessonInfo:
+      //   [ {
+      //         lessonID: "7a",
+      //         date: "13/04/2025",
+      //         timeStart: "12:00",
+      //         timeEnd: "14:00",
+      //         cost: "250",
+      //         meetingPoint: { location: "Δεύτερο σαλέ" },
+      //         isAllDay: true,
   
             
   
-          },
-          { 
-              lessonID: "8b",
-              date: "14/04/2026",
-              timeStart: "12:00",
-              timeEnd: "14:00",
-              cost: "260",
-              isAllDay: false,
-              meetingPoint: { location: "Δεύτερο σαλέ" }
+      //     },
+      //     { 
+      //         lessonID: "7b",
+      //         date: "14/04/2026",
+      //         timeStart: "12:00",
+      //         timeEnd: "14:00",
+      //         cost: "260",
+      //         isAllDay: false,
+      //         meetingPoint: { location: "Δεύτερο σαλέ" }
           
-          },
+      //     },
   
   
-        ]
-      },
+      //   ]
+      // },
   
-      {
-        instructorInfo:{
-          instructorID:'12',
-          instructorName: "Michael R.",
-          reviewScore: "3.8",
-          reviewCount: 1,
-          experience: "9",
-          languages: ["English", "French"],
-          cancelationDays: "15",
-          image: "/images/startPage/Ski.jpg",
-          email:"myemail!!@gmail.com",
-          phoneNumber:"+306951232693"
+      // {
+      //   instructorInfo:{
+      //     instructorID:'12',
+      //     instructorName: "Michael R.",
+      //     reviewScore: "3.8",
+      //     reviewCount: 1,
+      //     experience: "8",
+      //     languages: ["English", "French"],
+      //     cancelationDays: "15",
+      //     image: "/images/startPage/Ski.jpg",
+      //     email:"myemail!!@gmail.com",
+      //     phoneNumber:"+306951232693"
   
-        },
-        reviewInfo:{
-          stars:4,
-          text:"awesome isntuctor",
-        },
-        teachingInfo:{
-            typeOfLesson: "group",
-            resort: "Kalavryton",
-            sport: "Snowboard",
-            groupName: "Lessons for kids",           // only for group lessons
-        },
-        participantsInfo:{
-            level: "Beginner",
-            participants: "3",      
+      //   },
+      //   reviewInfo:{
+      //     stars:4,
+      //     text:"awesome isntuctor",
+      //   },
+      //   teachingInfo:{
+      //       typeOfLesson: "group",
+      //       resort: "Kalavryton",
+      //       sport: "Snowboard",
+      //       groupName: "Lessons for kids",           // only for group lessons
+      //   },
+      //   participantsInfo:{
+      //       level: "Beginner",
+      //       participants: "3",      
   
   
-        },
-        lessonInfo:
-        [ {
-              lessonID: "9a",
-              date: "13/04/2025",
-              timeStart: "12:00",
-              timeEnd: "14:00",
-              cost: "250",
-              meetingPoint: { location: "Δεύτερο σαλέ" },
-              isAllDay: true,
+      //   },
+      //   lessonInfo:
+      //   [ {
+      //         lessonID: "8a",
+      //         date: "13/04/2025",
+      //         timeStart: "12:00",
+      //         timeEnd: "14:00",
+      //         cost: "250",
+      //         meetingPoint: { location: "Δεύτερο σαλέ" },
+      //         isAllDay: true,
   
             
   
-          },
-          { 
-              lessonID: "9b",
-              date: "14/04/2026",
-              timeStart: "12:00",
-              timeEnd: "14:00",
-              cost: "260",
-              isAllDay: false,
-              meetingPoint: { location: "Δεύτερο σαλέ" }
+      //     },
+      //     { 
+      //         lessonID: "8b",
+      //         date: "14/04/2026",
+      //         timeStart: "12:00",
+      //         timeEnd: "14:00",
+      //         cost: "260",
+      //         isAllDay: false,
+      //         meetingPoint: { location: "Δεύτερο σαλέ" }
           
-          },
+      //     },
   
   
-        ]
-      },
-      ]
+      //   ]
+      // },
+  
+      // {
+      //   instructorInfo:{
+      //     instructorID:'12',
+      //     instructorName: "Michael R.",
+      //     reviewScore: "3.8",
+      //     reviewCount: 1,
+      //     experience: "9",
+      //     languages: ["English", "French"],
+      //     cancelationDays: "15",
+      //     image: "/images/startPage/Ski.jpg",
+      //     email:"myemail!!@gmail.com",
+      //     phoneNumber:"+306951232693"
+  
+      //   },
+      //   reviewInfo:{
+      //     stars:4,
+      //     text:"awesome isntuctor",
+      //   },
+      //   teachingInfo:{
+      //       typeOfLesson: "group",
+      //       resort: "Kalavryton",
+      //       sport: "Snowboard",
+      //       groupName: "Lessons for kids",           // only for group lessons
+      //   },
+      //   participantsInfo:{
+      //       level: "Beginner",
+      //       participants: "3",      
+  
+  
+      //   },
+      //   lessonInfo:
+      //   [ {
+      //         lessonID: "9a",
+      //         date: "13/04/2025",
+      //         timeStart: "12:00",
+      //         timeEnd: "14:00",
+      //         cost: "250",
+      //         meetingPoint: { location: "Δεύτερο σαλέ" },
+      //         isAllDay: true,
+  
+            
+  
+      //     },
+      //     { 
+      //         lessonID: "9b",
+      //         date: "14/04/2026",
+      //         timeStart: "12:00",
+      //         timeEnd: "14:00",
+      //         cost: "260",
+      //         isAllDay: false,
+      //         meetingPoint: { location: "Δεύτερο σαλέ" }
+          
+      //     },
+  
+  
+      //   ]
+      // },
+      // ]
+
+      const lessons= groupStudentLessons (await studentOptionsModel.getPreviousStudentLessons(studentId)  )
   
       const lessonsPerPage = 3;
+      // fix constraint date
+
+      // console.dir((lessons), { depth: null });
   
       const maxPages= Math.ceil(lessons.length / lessonsPerPage)
       const startIndex = (page - 1) * lessonsPerPage;
       const endIndex = startIndex + lessonsPerPage;
     
-      // Return a slice of the lessons array for the given page
+      // Return lessons for the given page
       const lessonsToSend= lessons.slice(startIndex, endIndex);
-      const studentEmail="123kostas@gmail.com"
+      const studentEmail= await studentOptionsModel.getStudentEmail(studentId)
   
-  
+      
       res.json({previousLessons:lessonsToSend,maxPages,studentEmail})
   }
   catch(error){
@@ -826,6 +839,7 @@ function groupStudentLessons(lessons) {
   const grouped = new Map();
 
   for (const lesson of lessons) {
+
 
     const profileImg= lesson.image
     const lessonImg= lesson.picture
@@ -845,26 +859,34 @@ function groupStudentLessons(lessons) {
     const meetingPointId= lesson.meetingpointid
     const locationText= lesson.locationText
 
+    console.log("!!! ",lesson.reservationid)
+
+
     const finalLocation= (meetingPointId==null) || (isNullOrEmpty(locationText) && isNullOrEmpty(lessonImg)) ?"after_agreement":locationText
 
     const isPrivate = lesson.typeOfLesson === "private";
+    const finalCostPerHour=  lesson.typeOfLesson === "private"?lesson.costPerHour:lesson.costPerHour*Number(lesson.participants)
+
+
 
     // Choose key fields based on lesson type
     const key = isPrivate
-      ? `${lesson.reservationid}|${lesson.instructorid}|${lesson.resort}|${lesson.sport}|${lesson.level}|${lesson.participants}`
-      : `${lesson.reservationid}|${lesson.instructionID}|${lesson.resort}|${lesson.sport}|${lesson.level}|${lesson.participants}`;
+      ? `${lesson.reservationid}|${lesson.instructorid}|${lesson.resort}|${lesson.sport}|${lesson.lowestlevel}|${lesson.participants}`
+      : `${lesson.reservationid}|${lesson.instructionID}|${lesson.resort}|${lesson.sport}|${lesson.lowestlevel}|${lesson.participants}`;
+
 
     // Prepare lessonInfo item
     const lessonInfoItem = {
       lessonID: String(lesson.lessonid),
+      reservationID: String(lesson.reservationid),
       date: reformatDateUI(lesson.date),
       timeStart: lesson.timeStart,
       timeEnd: lesson.timeEnd,
-      cost: String(  Math.round(lesson.costPerHour * calculateHoursBetween(lesson.timeStart, lesson.timeEnd) ) ),
+      cost: String(  Math.round(finalCostPerHour * calculateHoursBetween(lesson.timeStart, lesson.timeEnd) ) ), 
       meetingPoint: {location:finalLocation,picture:imageBase64_b },
-      costPerHour: lesson.costPerHour,
+      costPerHour: finalCostPerHour,
       isAllDay: lesson.isAllDay,
-      canceled:false
+      canceled:lesson.canceled
 
     };
 
@@ -880,7 +902,8 @@ function groupStudentLessons(lessons) {
           languages: lesson.languages,
           cancelationDays: lesson.cancelationpolicy=="dnot"?"-1": String(lesson.cancelationpolicy.slice(1) ),
           image: imageBase64_a,
-          phoneNumber:lesson.phonenumber
+          phoneNumber:lesson.phonenumber,
+          email:lesson.email
         },
         teachingInfo: {
           typeOfLesson: lesson.typeOfLesson,
@@ -888,9 +911,13 @@ function groupStudentLessons(lessons) {
           sport: lesson.sport,
           groupName: lesson.groupName!=null?lesson.groupName:""
         },
+        reviewInfo:{
+          stars:lesson.stars!=null? lesson.stars:-1,
+          text:lesson.text,
+        },
         participantsInfo: {
           level: lesson.lowestlevel,
-          participants: lesson.participantnumber
+          participants: lesson.participants
         },
         lessonInfo: [lessonInfoItem]
       });
@@ -913,7 +940,6 @@ async function getUpComingStudentLessons(req,res,next){
     // ta group mathimata : ana kratisi/ ana didaskalia / ana participant info
 
     // esto kai ena mathima apo mia apo tis pano katigories na min exei teliosi, stelnontai ola ta mathimata tis katigorias
-    // console.log("fetching")
 
     //cancelatioDays=-1 for no cancelation policy
 
@@ -923,171 +949,170 @@ async function getUpComingStudentLessons(req,res,next){
         return res.status(401).end();
 
     }
+    const lessons= groupStudentLessons (await studentOptionsModel.getUpComingStudentLessons(studentId))
 
-    const lessonss= groupStudentLessons (await studentOptionsModel.getUpComingStudentLessons(studentId))
 
-    console.log('aaa ',lessonss)
+    const studentEmail= await studentOptionsModel.getStudentEmail(studentId)
 
-    const studentEmail="myemail@gmail.com"
 
-    const lessons = [
-      {
-          instructorInfo:{
-              instructorID:'12',
-              instructorName: "Alice J.",
-              reviewScore: "4.8",
-              reviewCount: 12,
-              experience: "6",
-              languages: ["English", "French", "Spanish"],
-              cancelationDays: "-1",
-              image: "/images/startPage/Ski.jpg",
-              email:"myemail@gmail.com",
-              phoneNumber:"+306951232693"
+    // const lessons = [
+    //   {
+    //       instructorInfo:{
+    //           instructorID:'12',
+    //           instructorName: "Alice J.",
+    //           reviewScore: "4.8",
+    //           reviewCount: 12,
+    //           experience: "6",
+    //           languages: ["English", "French", "Spanish"],
+    //           cancelationDays: "-1",
+    //           image: "/images/startPage/Ski.jpg",
+    //           email:"myemail@gmail.com",
+    //           phoneNumber:"+306951232693"
   
-          },
-          reviewInfo:{
-            stars:"",
-            text:"",
-          },
-          teachingInfo:{
-              typeOfLesson: "private",
-              resort: "Parnassou",
-              sport: "Ski",
-              groupName: "",           // only for group lessons
-          },
-          participantsInfo:{
-              level: "Beginner",
-              participants: "4",      //  how many participants the person book for 
-          },
-          lessonInfo:
-          [ {
-                // occupancy: "",           // only for group lessons (e.g. 4/6)
-                lessonID: "101",
-                date: "30/05/2025",
-                timeStart: "09:00",
-                timeEnd: "17:00",
-                cost: "150",
-                meetingPoint: { location: "Δεύτερο σαλέ" },
-                isAllDay: false,
-                canceled:true
+    //       },
+    //       reviewInfo:{
+    //         stars:"",
+    //         text:"",
+    //       },
+    //       teachingInfo:{
+    //           typeOfLesson: "private",
+    //           resort: "Parnassou",
+    //           sport: "Ski",
+    //           groupName: "",           // only for group lessons
+    //       },
+    //       participantsInfo:{
+    //           level: "Beginner",
+    //           participants: "4",      //  how many participants the person book for 
+    //       },
+    //       lessonInfo:
+    //       [ {
+    //             // occupancy: "",           // only for group lessons (e.g. 4/6)
+    //             lessonID: "101",
+    //             date: "30/05/2025",
+    //             timeStart: "09:00",
+    //             timeEnd: "17:00",
+    //             cost: "150",
+    //             meetingPoint: { location: "Δεύτερο σαλέ" },
+    //             isAllDay: false,
+    //             canceled:true
   
   
-            },
-            {
-                lessonID: "102",
-                date: "29/05/2025",
-                timeStart: "12:00",
-                timeEnd: "14:00",
-                cost: "150",
-                isAllDay: true,
+    //         },
+    //         {
+    //             lessonID: "102",
+    //             date: "29/05/2025",
+    //             timeStart: "12:00",
+    //             timeEnd: "14:00",
+    //             cost: "150",
+    //             isAllDay: true,
   
-                meetingPoint: { location: "Δεύτερο σαλέ" },
-                canceled:true
+    //             meetingPoint: { location: "Δεύτερο σαλέ" },
+    //             canceled:true
 
-            },
+    //         },
   
   
-          ]
-      },
+    //       ]
+    //   },
   
-      {
-        instructorInfo:{
-          instructorID:'12',
-          instructorName: "Michael R.",
-          reviewScore: "3.8",
-          reviewCount: 1,
-          experience: "2",
-          languages: ["English", "French"],
-          cancelationDays: "15",
-          image: "/images/startPage/Ski.jpg",
-          email:"myemail!!@gmail.com",
-          phoneNumber:"+306951232693"
+    //   {
+    //     instructorInfo:{
+    //       instructorID:'12',
+    //       instructorName: "Michael R.",
+    //       reviewScore: "3.8",
+    //       reviewCount: 1,
+    //       experience: "2",
+    //       languages: ["English", "French"],
+    //       cancelationDays: "15",
+    //       image: "/images/startPage/Ski.jpg",
+    //       email:"myemail!!@gmail.com",
+    //       phoneNumber:"+306951232693"
 
-        },
-        reviewInfo:{
-          stars:"",
-          text:"",
-        },
-        teachingInfo:{
-            typeOfLesson: "group",
-            resort: "Kalavryton",
-            sport: "Snowboard",
-            groupName: "Lessons for kids",           // only for group lessons
-        },
-        participantsInfo:{
-            level: "Beginner",
-            participants: "3",      
+    //     },
+    //     reviewInfo:{
+    //       stars:"",
+    //       text:"",
+    //     },
+    //     teachingInfo:{
+    //         typeOfLesson: "group",
+    //         resort: "Kalavryton",
+    //         sport: "Snowboard",
+    //         groupName: "Lessons for kids",           // only for group lessons
+    //     },
+    //     participantsInfo:{
+    //         level: "Beginner",
+    //         participants: "3",      
   
   
-        },
-        lessonInfo:
-        [ {
-              lessonID: "1011",
-              date: "13/04/2025",
-              timeStart: "12:00",
-              timeEnd: "14:00",
-              cost: "250",
-              meetingPoint: { location: "Δεύτερο σαλέ" },
-              isAllDay: true,
+    //     },
+    //     lessonInfo:
+    //     [ {
+    //           lessonID: "1011",
+    //           date: "13/04/2025",
+    //           timeStart: "12:00",
+    //           timeEnd: "14:00",
+    //           cost: "250",
+    //           meetingPoint: { location: "Δεύτερο σαλέ" },
+    //           isAllDay: true,
   
             
   
-          },
-          { 
-              lessonID: "1022",
-              date: "14/04/2026",
-              timeStart: "12:00",
-              timeEnd: "14:00",
-              cost: "260",
-              isAllDay: false,
-              meetingPoint: { location: "Δεύτερο σαλέ" },
-              canceled:true
+    //       },
+    //       { 
+    //           lessonID: "1022",
+    //           date: "14/04/2026",
+    //           timeStart: "12:00",
+    //           timeEnd: "14:00",
+    //           cost: "260",
+    //           isAllDay: false,
+    //           meetingPoint: { location: "Δεύτερο σαλέ" },
+    //           canceled:true
           
-          },
+    //       },
 
-          { 
-            lessonID: "1023",
-            date: "14/04/2026",
-            timeStart: "12:00",
-            timeEnd: "14:00",
-            cost: "260",
-            isAllDay: false,
-            meetingPoint: { location: "Δεύτερο σαλέ" },
-            canceled:false
+    //       { 
+    //         lessonID: "1023",
+    //         date: "14/04/2026",
+    //         timeStart: "12:00",
+    //         timeEnd: "14:00",
+    //         cost: "260",
+    //         isAllDay: false,
+    //         meetingPoint: { location: "Δεύτερο σαλέ" },
+    //         canceled:false
         
-        },
+    //     },
 
-        { 
-          lessonID: "1024",
-          date: "14/04/2026",
-          timeStart: "12:00",
-          timeEnd: "14:00",
-          cost: "260",
-          isAllDay: false,
-          meetingPoint: { location: "Δεύτερο σαλέ" },
-          canceled:false
+    //     { 
+    //       lessonID: "1024",
+    //       date: "14/04/2026",
+    //       timeStart: "12:00",
+    //       timeEnd: "14:00",
+    //       cost: "260",
+    //       isAllDay: false,
+    //       meetingPoint: { location: "Δεύτερο σαλέ" },
+    //       canceled:false
       
-      },
+    //   },
 
-      { 
-        lessonID: "1025",
-        date: "14/04/2026",
-        timeStart: "12:00",
-        timeEnd: "14:00",
-        cost: "260",
-        isAllDay: false,
-        meetingPoint: { location: "Δεύτερο σαλέ" },
-        canceled:true
+    //   { 
+    //     lessonID: "1025",
+    //     date: "14/04/2026",
+    //     timeStart: "12:00",
+    //     timeEnd: "14:00",
+    //     cost: "260",
+    //     isAllDay: false,
+    //     meetingPoint: { location: "Δεύτερο σαλέ" },
+    //     canceled:true
     
-    },
+    // },
   
   
-        ]
-    },
-    ]
+    //     ]
+    // },
+    // ]
   
   
-    res.json({upComingLessons:lessonss,studentEmail:studentEmail})
+    res.json({upComingLessons:lessons,studentEmail:studentEmail})
   }
   catch(error){
     next(error)
@@ -1099,6 +1124,17 @@ async function cancelLessons(req,res,next){
 
   try{
     const {lessons} = req.body
+
+    const studentId= req.session.userID
+
+    if(!studentId){
+        return res.status(401).end();
+
+    }
+
+    await studentOptionsModel.cancelLessons(studentId, lessons.map(Number))
+
+    console.log("!! ",lessons,studentId)
 
     //cancel_success, cancel_failure
 
@@ -1200,6 +1236,8 @@ function groupCartLessons(lessons) {
 
     const isPrivate = lesson.typeOfLesson === "private";
 
+    const finalCostPerHour=  lesson.typeOfLesson === "private"?lesson.costPerHour:lesson.costPerHour*Number(lesson.participants)
+
     // Choose key fields based on lesson type
     const key = isPrivate
       ? `${lesson.instructorid}|${lesson.resort}|${lesson.sport}|${lesson.level}|${lesson.participants}`
@@ -1211,9 +1249,9 @@ function groupCartLessons(lessons) {
       date: reformatDateUI(lesson.date),
       timeStart: lesson.timeStart,
       timeEnd: lesson.timeEnd,
-      cost: String(  Math.round(lesson.costPerHour * calculateHoursBetween(lesson.timeStart, lesson.timeEnd) ) ),
+      cost: String(  Math.round(finalCostPerHour * calculateHoursBetween(lesson.timeStart, lesson.timeEnd) ) ),
       meetingPoint: {location:finalLocation,picture:imageBase64_b },
-      costPerHour: lesson.costPerHour,
+      costPerHour: finalCostPerHour,
       isAllDay: lesson.isAllDay,
     };
 
@@ -1247,12 +1285,14 @@ function groupCartLessons(lessons) {
     }
   }
 
+
   // Return grouped results as an array
   return Array.from(grouped.values());
 }
 
 async function getLessonsInCart(req,res,next){
   try{
+      // we check if lessons are still available, else we remove them from cart
       // elegxoume an ta mathimata einai akomi eleuthera, alios ta afairoume apo to kalathi
 
       // ta private lessons katigoriopoiountai me basi ton proponiti (kai to resort,sport), kai participants info  (mpori na einai poles didaskalies)
@@ -1381,8 +1421,6 @@ async function getLessonsInCart(req,res,next){
    
 }
 
-
-
 function isValidPaymentInput(cardHolderName,cardNumber,expirationDate,cvv){
     let fail
   
@@ -1427,10 +1465,10 @@ function isValidPaymentInput(cardHolderName,cardNumber,expirationDate,cvv){
       return true
     }
   
-  }
+}
 
 
-  async function renewCartLessons(req,res,next){
+async function renewCartLessons(req,res,next){
     try{
       const studentId= req.session.userID
 
@@ -1443,31 +1481,35 @@ function isValidPaymentInput(cardHolderName,cardNumber,expirationDate,cvv){
 
       }
 
-      await renewCartLessonsExecution(studentId)
+      const removedLessonsCount= await renewCartLessonsExecution(studentId)
 
-     
+      req.session.cartLessons=  req.session.cartLessons- removedLessonsCount
+
       next()
     }
     catch(error){
       next(error)
     }
-  }
+}
 
-  async function renewCartLessonsExecution(studentId){
+async function renewCartLessonsExecution(studentId){
     const lessonIDSToRemove= await studentOptionsModel.getTakenLessonsInCart(studentId)
     if(lessonIDSToRemove.length!=0){
       await studentOptionsModel.removeLessonsFromCart(studentId,(lessonIDSToRemove).map(Number))
 
     }
-    console.log('ids to remove ',lessonIDSToRemove)
 
-  }
+    return lessonIDSToRemove.length
+
+}
 
 
   // piasimo private lesson
   // piasimo theseon se group lesson (gia 4 atoma na mi fainetai)
   // automati afairesi mathimaton apo to kalathi (allagi imerominiasa, piasimo)
   // piasimo mathimatos apo kalathi prin apo pliromi
+  // akirosi mathimatos
+  // kritikes 
   // programma
   // statistika
   

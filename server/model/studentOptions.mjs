@@ -16,6 +16,23 @@ async function getStudentProfileParams(studentID){
     }
 }
 
+
+async function getStudentEmail(studentID){
+    let client
+    try {
+        const sql = `SELECT email
+                     FROM "USER" WHERE userID = $1`;
+
+        client = await connect();
+        const res = await client.query(sql, [studentID]);
+        return res.rows[0].email
+    } catch (err) {
+        throw err;
+    } finally {
+        client.release(); 
+    }
+}
+
 async function updateStudentInfo(updateValueName,updateValue,userID){
     let client
     try {
@@ -186,7 +203,7 @@ async function removeLessonsFromCart(studentId,lessonIDS){
         const res = await client.query(sql, [studentId,lessonIDS]);
 
         const removedLessons= res.rowCount
-
+        console.log('removed lessons',removedLessons)
 
         return removedLessons
 
@@ -203,8 +220,11 @@ async function getCostOfLessonsInCart(studentId){
         const sql = `SELECT 
                         SUM(
                             ROUND(
-                                (EXTRACT(EPOCH FROM (timeEnd::time - timeStart::time)) / 3600) * costPerHour)
-                            ) AS paymentAmount
+                                (EXTRACT(EPOCH FROM (timeEnd::time - timeStart::time)) / 3600) * CASE 
+                                                                                                    WHEN lessonType = 'group' THEN costPerHour * participants
+                                                                                                    ELSE costPerHour
+                                                                                                END )
+                        ) AS paymentAmount
                     from cart natural join lesson natural join teaching
                     where studentid=$1
                     group by studentid`;
@@ -277,21 +297,26 @@ async function insertPayment(amount,reservationID){
 async function getUpComingStudentLessons(studentId){
     let client
     try{
-        const sql = `WITH REVIEWS_INSTRUCTOR AS(
-                    SELECT AVG(reviewStars)::NUMERIC(3,1) as "reviewScore",instructorID, count(CASE WHEN reviewStars IS NOT NULL THEN 1 END) AS "reviewCount"
-                    from  teaching natural join lesson natural left outer join (review_lesson natural join review)
-                    group by instructorID
-                ),
-                INSTRUCTOR_TEACHING_INFO AS(
-                    select instructorID,phoneNumber,meetingPointID,teachingID as "instructionID",(firstName || ' '|| SUBSTRING(lastName,1,1)||'.') as "instructorName", yearsOfExperience as experience,languages,
-                    profilepicture as image,instructorID as "instructorId","reviewScore","reviewCount", cancelationPolicy ,costPerHour as "costPerHour", 
-                    lessonType as "typeOfLesson",resort,sport,groupName as "groupName", timeStart as "timeStart", timeEnd as "timeEnd",
-                    locationText as "locationText",picture, isAllDay as "isAllDay"
-                    from "USER"  join instructor on userID=instructorID natural join teaching natural left join meetingpoint natural left join reviews_instructor
-                )
-                select *
-                from ( (reservation natural join reservation_lesson) k1 join lesson k2 on k1.lessonID=k2.lessonID) e join INSTRUCTOR_TEACHING_INFO i on e.teachingID= i."instructionID"
-                where  studentid=$1`
+        const sql = `WITH NOT_FINISHED_RESERVATIONS AS(
+                        select distinct reservationID,studentID
+                        from (reservation natural join reservation_lesson) r join lesson l on l.lessonID=r.lessonID
+                        where studentID=$1 and l.date>= (SELECT TO_CHAR(CURRENT_DATE, 'YYYY/MM/DD')) and r.canceled=false and l.canceled=false
+                    ),
+                    REVIEWS_INSTRUCTOR AS(
+                        SELECT AVG(reviewStars)::NUMERIC(3,1) as "reviewScore",instructorID, count(CASE WHEN reviewStars IS NOT NULL THEN 1 END) AS "reviewCount"
+                        from  teaching natural join lesson natural left outer join (review_lesson natural join review)
+                        group by instructorID
+                    ),
+                    INSTRUCTOR_TEACHING_INFO AS(
+                        select instructorID,email,phoneNumber,meetingPointID,teachingID as "instructionID",(firstName || ' '|| SUBSTRING(lastName,1,1)||'.') as "instructorName", yearsOfExperience as experience,languages,
+                        profilepicture as image,instructorID as "instructorId","reviewScore","reviewCount", cancelationPolicy ,costPerHour as "costPerHour", 
+                        lessonType as "typeOfLesson",resort,sport,groupName as "groupName", timeStart as "timeStart", timeEnd as "timeEnd",
+                        locationText as "locationText",picture, isAllDay as "isAllDay"
+                        from "USER"  join instructor on userID=instructorID natural join teaching natural left join meetingpoint natural left join reviews_instructor
+                    )
+                    select reservationid,"instructionID",instructorID,"instructorName","reviewScore","reviewCount",experience,languages,cancelationPolicy, image , email, phoneNumber, "typeOfLesson",resort,sport,"groupName",lowestLevel, participantNumber as participants,lesson.lessonID, "date","timeStart", "timeEnd", "costPerHour",meetingPointID, "locationText", picture,"isAllDay", (lesson.canceled or reservation_lesson.canceled) as canceled
+                    from ( (NOT_FINISHED_RESERVATIONS natural join reservation_lesson) join lesson  on reservation_lesson.lessonID=lesson.lessonID) join INSTRUCTOR_TEACHING_INFO i on lesson.teachingID= i."instructionID"
+                    where  studentid=$1`
         client = await connect();
         const res = await client.query(sql, [studentId]);
 
@@ -304,6 +329,61 @@ async function getUpComingStudentLessons(studentId){
     }
 }
 
+async function getPreviousStudentLessons(studentId){
+    let client
+    try{
+        const sql =`WITH NOT_FINISHED_RESERVATIONS AS(
+                    select distinct reservationID,studentID
+                    from (reservation natural join reservation_lesson) r join lesson l on l.lessonID=r.lessonID
+                    where studentID=$1 and l.date> (SELECT TO_CHAR(CURRENT_DATE, 'YYYY/MM/DD')) and r.canceled=false and l.canceled=false
+                ),
+                FINISHED_RESERVATIONS AS (
+                    SELECT distinct reservationID,studentID
+                    from reservation
+                    where reservationID not in (select reservationID from NOT_FINISHED_RESERVATIONS) and studentID=$1
+                ),
+                REVIEWS_INSTRUCTOR AS(
+                    SELECT AVG(reviewStars)::NUMERIC(3,1) as "reviewScore",instructorID, count(CASE WHEN reviewStars IS NOT NULL THEN 1 END) AS "reviewCount"
+                    from  teaching natural join lesson natural left outer join (review_lesson natural join review)
+                    group by instructorID
+                ),
+                INSTRUCTOR_TEACHING_INFO AS(
+                    select instructorID,email,phoneNumber,meetingPointID,teachingID as "instructionID",(firstName || ' '|| SUBSTRING(lastName,1,1)||'.') as "instructorName", yearsOfExperience as experience,languages,
+                    profilepicture as image,instructorID as "instructorId","reviewScore","reviewCount", cancelationPolicy ,costPerHour as "costPerHour", 
+                    lessonType as "typeOfLesson",resort,sport,groupName as "groupName", timeStart as "timeStart", timeEnd as "timeEnd",
+                    locationText as "locationText",picture, isAllDay as "isAllDay"
+                    from "USER"  join instructor on userID=instructorID natural join teaching natural left join meetingpoint natural left join reviews_instructor
+                )
+                select reservationid,"instructionID",instructorID,"instructorName","reviewScore","reviewCount",experience,languages,cancelationPolicy, image , email, phoneNumber, "typeOfLesson",resort,sport,"groupName",lowestLevel, participantNumber as participants,lesson.lessonID, "date","timeStart", "timeEnd", "costPerHour",meetingPointID, "locationText", picture,"isAllDay", (lesson.canceled or reservation_lesson.canceled) as canceled, reviewStars as stars, reviewText as "text"
+                from ( (FINISHED_RESERVATIONS natural join reservation_lesson) join lesson  on reservation_lesson.lessonID=lesson.lessonID) join INSTRUCTOR_TEACHING_INFO i on lesson.teachingID= i."instructionID" left join (review natural join review_lesson) rev on rev.lessonID= lesson.lessonID and rev.resLesID=reservation_lesson.reservLesID
+                order by "date" desc`
+        client = await connect();
+        const res = await client.query(sql, [studentId]);
+
+        return res.rows
+
+    } catch (err) {
+        throw err;
+    } finally {
+        client.release(); 
+    }
+}
+
+async function cancelLessons(studentID,lessonIDs){
+    let client
+    try{
+        const sql = `   update reservation_lesson set canceled=true 
+                        WHERE lessonId = ANY($2) and studentID=$1`
+        client = await connect();
+        const res = await client.query(sql, [studentID,lessonIDs]);
+
+    } catch (err) {
+        throw err;
+    } finally {
+        client.release(); 
+    }
+}
+
 
 export {getStudentProfileParams,updateStudentInfo,addLessonToCart,getLessonsInCart,removeLessonsFromCart,getTakenLessonsInCart,getCostOfLessonsInCart,createNewReservation,insertReservationLesson,checkForLessonClasses,deleteReservation,
-    clearCart,insertPayment,getUpComingStudentLessons}
+    clearCart,insertPayment,getUpComingStudentLessons,getStudentEmail,getPreviousStudentLessons,cancelLessons}

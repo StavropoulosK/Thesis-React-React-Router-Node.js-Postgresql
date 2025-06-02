@@ -688,7 +688,7 @@ function Teaching({buttonOption,fetcher,type,teachingValues}){
 
 
             <div className="field">
-                <h4>{t("hourCost")}</h4>
+                <h4>{t("hourCost")} {selectedLessonType=="group"?t("perPerson"):""}</h4>
                 <CostInput cost={hourCost} setCost={setHourCost} />
 
             </div>

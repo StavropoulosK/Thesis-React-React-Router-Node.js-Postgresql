@@ -31,7 +31,7 @@ export default function LessonDetails({lessonInfo,onCancel,textLeft,showIndex=fa
                 {sortedLessons.map((lesson,index)=>{
 
                    return( 
-                   <div className="infoContainer" key={lesson.lessonID}>
+                   <div className="infoContainer" key={String(lesson.lessonID)+String(index)}>
                         <div className="left">
                            {/* {showIndex ? index+1:""}{")"}  */}
                            {lesson.isCanceled && <b> {t("canceled")+" "}</b>}
@@ -108,7 +108,7 @@ export default function LessonDetails({lessonInfo,onCancel,textLeft,showIndex=fa
                         mobileText= words.join(' ').replace(/[()]/g, '');;
                       }
                     return (
-                        <div key={lesson.lessonID}>
+                        <div key={String(lesson.lessonID)+String(index)}>
                             <span className="mobile">{lesson.isCanceled && <b> {t("canceled")+" "}</b>} {mobileText}</span> <span>{lesson.meetingPoint.location!="after_agreement"?lesson.meetingPoint.location:t("after_agreement")}</span>
 
                             <EnlargeImgButton  picture={lesson.meetingPoint.picture}/>

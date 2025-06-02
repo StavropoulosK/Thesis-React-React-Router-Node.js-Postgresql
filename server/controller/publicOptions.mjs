@@ -1,13 +1,13 @@
 import * as publicOptionsModel from "../model/publicOptions.mjs"
 import bcrypt from 'bcrypt'
 import {renewCartLessonsExecution} from "./studentOptions.mjs"
+import { getLessonsInCart } from "../model/studentOptions.mjs"
 
 async function getHeaderParams(req,res,next){
 
   try{
       // an einai sindedemenos apothikeuetai sto session, alios einai 0
-      const lessonsInCart=2
-
+      const lessonsInCart= req.session.cartLessons ?? 0
       const userID= req.session.userID
       let imageBase64 = null;
   
@@ -59,6 +59,8 @@ async function loginUser(req,res,next){
 
                   if(accountType=="student"){
                       await renewCartLessonsExecution(userID)
+                      const cartLessons= (await getLessonsInCart(userID)).length
+                      req.session.cartLessons=cartLessons
                       req.session.loggedinState = "student";
                       return res.json({ userExists: true,accountType:"student" });
                   }

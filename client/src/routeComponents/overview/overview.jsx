@@ -3,8 +3,8 @@ import "./overview.css"
 import { useTranslation } from "react-i18next";
 
 import TopBar from "../../reusableComponents/topBar/TopBar";
-import { Link,useLocation,redirect,useNavigate,useLoaderData,useSubmit  } from 'react-router-dom';
-
+import { Link,useLocation,redirect,useNavigate,useLoaderData,useSubmit,useRevalidator   } from 'react-router-dom';
+import { useEffect } from "react";
 import { StudentLessonsComponent } from "../../reusableComponents/studentLessonsComponent/studentLessonsComponent";
 
 
@@ -80,6 +80,7 @@ export function Overview(){
 
     const {lessons}= useLoaderData()
 
+
     const {t, i18n} = useTranslation("overview")
 
     const currentLanguage = i18n.language;
@@ -106,7 +107,6 @@ export function Overview(){
             const date = new Date(`${year}-${month}-${day}`);
             const dayOfWeek = date.toLocaleDateString(currentLanguage, { weekday: "long" });
             const isAllDay = lesson.isAllDay;
-
             const text=dayOfWeek+" "+lesson.date+" "+ (isAllDay?` ${t("all_day")} (`:"") +   `${lesson.timeStart}-${lesson.timeEnd}${isAllDay?")":""}`
             
             return {text,cost:lesson.cost,meetingPoint:lesson.meetingPoint,lessonID:lesson.lessonID,showCancel:true}
@@ -130,6 +130,14 @@ export function Overview(){
           action: "/overview",
         });
       };
+
+    const { revalidate } = useRevalidator();
+
+    useEffect(() => {
+        //  the header has as a parameter  the lessons in cart, due to express middleware the client first gets the amount of lessons, afterwards the lessons may be removed (renewCartLessons in server) because they are already taken
+        // so the data becoms invalid
+     revalidate(); // re-run the root loader (and any loader with shouldRevalidate: true)
+    }, []);
 
 
     const extraOptions=[{getText:({count})=>t('remove', { count: count }) ,onClick:(index)=>removeFromCart(lessonGroupIDS[index]),svg:<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="m12 12.708l-5.246 5.246q-.14.14-.344.15t-.364-.15t-.16-.354t.16-.354L11.292 12L6.046 6.754q-.14-.14-.15-.344t.15-.364t.354-.16t.354.16L12 11.292l5.246-5.246q.14-.14.345-.15q.203-.01.363.15t.16.354t-.16.354L12.708 12l5.246 5.246q.14.14.15.345q.01.203-.15.363t-.354.16t-.354-.16z"/></svg>}]

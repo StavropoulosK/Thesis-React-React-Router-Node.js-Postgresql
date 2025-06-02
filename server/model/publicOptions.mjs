@@ -234,9 +234,9 @@ async function bookLesson(resort, sport, from, to, members,lessonType,time,order
                     ELSE false
                 END
         )
-        select i."typeOfLesson", i."instructorName",i."groupName",i."instructionID"::text,i.experience, i.languages,i.description,i.image,i."instructorId",i."reviewScore"::text,i."reviewCount", min(costperhour) as "minPricePerHour",  COUNT(*) OVER () AS "entries"
+        select i."typeOfLesson", i."instructorName",i."groupName",i."instructionID"::text,i.experience, i.languages,i.description,i.image,i."instructorId",i."reviewScore"::text,i."reviewCount", min(finalCostPerHour) as "minPricePerHour",  COUNT(*) OVER () AS "entries"
         from(
-            SELECT  i."typeOfLesson",teach."groupName", i."instructorName",i.experience, i.languages,i.description,i.image,i."instructorId",i."reviewScore",i."reviewCount", costperhour
+            SELECT  i."typeOfLesson",teach."groupName", i."instructorName",i.experience, i.languages,i.description,i.image,i."instructorId",i."reviewScore",i."reviewCount", CASE WHEN i."typeOfLesson" = 'group' THEN costPerHour * $5 ELSE costPerHour END AS finalCostPerHour
                 , 
                    CASE 
                      WHEN i."typeOfLesson" = 'private' THEN NULL

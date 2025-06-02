@@ -126,7 +126,7 @@ export function PreviousLessons(){
     const instructorReviewsArray= previousLessons.map(lessonGroup=>{return {instructorName:lessonGroup.instructorInfo.instructorName,instructorID:lessonGroup.instructorInfo.instructorID,stars:lessonGroup.reviewInfo.stars,review:lessonGroup.reviewInfo.text, lessonIDS:lessonGroup.lessonInfo.map(lesson=>lesson.lessonID) }})
 
 
-    // const lessonInfo=[{text:"Δευτέρα 05/01/2025 Όλη μέρα (8:00- 15:00)",cost:100, meetingPoint:{location: "Δεύτερο σαλέ" }, lessonID:"16", showCancel:true }   , {text:"Τρίτη 06/01/2025 11:00- 13:00 ",cost:40, meetingPoint:{location: "Πρώτο σαλέ" }, lessonID:"15", showCancel:true}]
+    // const lessonInfo=[{text:"Δευτέρα 05/01/2025 Όλη μέρα (8:00- 15:00)",cost:100, meetingPoint:{location: "Δεύτερο σαλέ" }, lessonID:"16",reservationID:12, showCancel:true }   , {text:"Τρίτη 06/01/2025 11:00- 13:00 ",cost:40, meetingPoint:{location: "Πρώτο σαλέ" }, lessonID:"15",reservationID:13, showCancel:true}]
 
     // it is an array with elements like lessonInfo
     const lessonInfoContainer=previousLessons.map((lessonGroup)=>{
@@ -148,7 +148,7 @@ export function PreviousLessons(){
 
             let showCancel= false
             
-            return {text,cost:lesson.cost,meetingPoint:lesson.meetingPoint,lessonID:lesson.lessonID,showCancel:showCancel,isCanceled:lesson.canceled}
+            return {text,cost:lesson.cost,meetingPoint:lesson.meetingPoint,lessonID:lesson.lessonID,reservationID:lesson.reservationID,showCancel:showCancel,isCanceled:lesson.canceled}
         })
         
         return arr
@@ -390,7 +390,7 @@ export function UpComingStudentLessons(){
 
             let showCancel= cancelationDays!=-1 &&  isCancellable(year,month,day,cancelationDays) && !isCanceled
             
-            return {text,cost:lesson.cost,meetingPoint:lesson.meetingPoint,lessonID:lesson.lessonID,showCancel:showCancel,isCanceled}
+            return {text,cost:lesson.cost,meetingPoint:lesson.meetingPoint,lessonID:lesson.lessonID,showCancel:showCancel,isCanceled,reservationID:lesson.reservationID}
         })
         
         return arr
