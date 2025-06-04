@@ -376,6 +376,111 @@ async function getLessonsMeetingPoints(uniqueTeachingIDs){
     }
 }
 
+async function getBookLessonRevies(resort, sport, from, to, members){
+    // according to user filters, the available group lessons and instructors are retrieved
+
+
+    let client
+    try {
+        const sql = `
+                WITH INSTRUCTOR_INFO AS(
+                    select	instructorid,teachingid, (firstName || ' ' || SUBSTRING(lastName FROM 1 FOR 1) || '.') as "instructorName"
+                    from "USER" u join instructor i on u.userid=i.instructorid natural join teaching
+                ),
+                TEACHING_OPTIONS AS(
+                    select distinct teachingID
+                    from (teaching natural join lesson l) left join (reservation_lesson r natural join reservation) on l.lessonID=r.lessonID
+                    where l.canceled=false and (r.canceled=false or r.canceled is null)  
+                    and resort=$1 and sport=$2  and l.date>=$3 and l.date<=$4
+                    GROUP BY TEACHINGID
+                    HAVING 
+                        CASE 
+                            WHEN lessonType = 'group' 
+                                THEN (maxParticipants - COALESCE(SUM(participantNumber), 0)) >= $5
+                            WHEN lessonType = 'private' 
+                                THEN ( SUM(participantNumber) IS NULL  and maxParticipants >= $5 )
+                            ELSE false
+                        END
+                ),
+                all_review_lessons as (
+                    select distinct reservID,"date",sport,resort,reviewText as review,reviewStars as stars,timeStart,timeEnd ,"instructorName", (i.firstName || ' ' || SUBSTRING(i.lastName FROM 1 FOR 1) || '.') as "name", i.profilePicture
+                    from (teaching natural join lesson join (review_lesson natural join review join "USER" u  on u.userid=review.studentid)
+                            on lesson.lessonid= review_lesson.lessonid ) i join instructor_info inf on i.instructorid=inf.instructorid
+                    where inf.instructorID in (select instructorid from INSTRUCTOR_INFO natural join TEACHING_OPTIONS))
+                select * from all_review_lessons
+                order by ((case when review is not null then 1000 else 0 end)+stars) desc
+                limit 360`;
+
+        client = await connect();
+        const res = await client.query(sql, [resort, sport,from,to,members]);
+        return res.rows
+    } catch (err) {
+        throw err;
+    } finally {
+        client.release(); 
+    }
+}
+
+async function getIndexReviews(){
+    let client
+    try{
+        client = await connect();
+
+        const sql=` with instructor_info as (
+                    select	instructorid, (firstName || ' ' || SUBSTRING(lastName FROM 1 FOR 1) || '.') as "instructorName"
+                    from "USER" u join instructor i on u.userid=i.instructorid
+                    
+                ),
+                all_review_lessons as (
+                select reservID,"date",sport,resort,reviewText as review,reviewStars as stars,timeStart,timeEnd ,"instructorName", (i.firstName || ' ' || SUBSTRING(i.lastName FROM 1 FOR 1) || '.') as "name", i.profilePicture
+                from (teaching natural join lesson join (review_lesson natural join review join "USER" u  on u.userid=review.studentid)
+                        on lesson.lessonid= review_lesson.lessonid ) i join instructor_info inf on i.instructorid=inf.instructorid
+                where reviewText is not null)
+                select * from all_review_lessons
+                order by stars desc
+                limit 12` 
+        
+        const result=await  client.query(sql, [])
+        return result.rows
+ 
+    } catch (err) {
+        throw err;
+    } finally {
+        client.release();
+
+    }
+}
+
+async function getInstructorReviews(instructorID){
+    let client
+    try{
+        client = await connect();
+
+        const sql=` with instructor_info as (
+                    select	instructorid, (firstName || ' ' || SUBSTRING(lastName FROM 1 FOR 1) || '.') as "instructorName"
+                    from "USER" u join instructor i on u.userid=i.instructorid and instructorid=$1
+                    
+                ),
+                all_review_lessons as (
+                select reservID,"date",sport,resort,reviewText as review,reviewStars as stars,timeStart,timeEnd ,"instructorName", (i.firstName || ' ' || SUBSTRING(i.lastName FROM 1 FOR 1) || '.') as "name", i.profilePicture
+                from (teaching natural join lesson join (review_lesson natural join review join "USER" u  on u.userid=review.studentid)
+                        on lesson.lessonid= review_lesson.lessonid ) i join instructor_info inf on i.instructorid=inf.instructorid
+                where inf.instructorID=$1)
+                select * from all_review_lessons
+                order by ((case when review is not null then 1000 else 0 end)+stars) desc
+                limit 360	` 
+        
+        const result=await  client.query(sql, [instructorID])
+        return result.rows
+ 
+    } catch (err) {
+        throw err;
+    } finally {
+        client.release();
+
+    }
+}
+
 
 // WITH AVAILABLE_LESSONS AS(
 // 	select teachingid, l.lessonid, "date", isallday, costPerHour, timeStart, timeEnd
@@ -461,4 +566,4 @@ async function getLessonsMeetingPoints(uniqueTeachingIDs){
 
 
 
-export {insertUser,checkEmailAlreadyUsed,authenticate,getProfileImage,getInstructorInfo,getUserEmail,bookLesson,showLessons,getLessonsMeetingPoints}
+export {insertUser,checkEmailAlreadyUsed,authenticate,getProfileImage,getInstructorInfo,getUserEmail,bookLesson,showLessons,getLessonsMeetingPoints,getIndexReviews,getInstructorReviews,getBookLessonRevies}

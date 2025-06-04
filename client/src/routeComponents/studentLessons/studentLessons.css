@@ -16,6 +16,10 @@ article.upComingLessons > h4, article.previousLessons > h4{
 
 }
 
+.studentLessons .meetingPoints{
+    min-width: 196px;
+}
+
 article.upComingLessons > p, article.previousLessons > p{
     font-size: 1.2rem;
     width: 80%;
@@ -131,4 +135,16 @@ article.upComingLessons > p, article.previousLessons > p{
     .studentLessons .overallContainer .lessonDetails .infoContainer .left{
         max-width: 13rem ;
       }
+  }
+
+  @media (max-width: 670px) {
+    .studentLessons .userLessonContainer .lessonDetails .meetingPoints div span:last-of-type {
+      max-width: 12rem !important;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .studentLessons .userLessonContainer .lessonDetails .meetingPoints div span:last-of-type {
+      max-width: 8rem !important;
+    }
   }

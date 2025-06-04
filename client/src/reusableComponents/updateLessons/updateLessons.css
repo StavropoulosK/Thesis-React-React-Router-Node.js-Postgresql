@@ -55,8 +55,13 @@
   .lesson-form-container .lesson-row > div {
     margin-bottom: auto;
     align-self: start;
-
     height: fit-content;
+
+  }
+
+  .lesson-form-container .lesson-row .stateContainer{
+    display: flex;
+    align-items: flex-start;
   }
 
   .lesson-form-container .lesson-row .state{
@@ -64,6 +69,9 @@
     margin-right: 0.5rem;
     display: inline-block;
     min-width: 5rem;
+ 
+
+
   }
 
   /* .lesson-form-container .lesson-header div{
@@ -102,6 +110,7 @@
     /* height: 1.8rem; */
     width: fit-content;
     height: fit-content;
+    min-height: 1rem;
   }
   
   
@@ -115,6 +124,8 @@
     width: 1rem;
     height: 1rem;
     box-sizing: border-box;
+    position: relative;
+    top:0.1rem;
   }
 
   .instructorTeachings .select-list-button .icon-wrapper svg{

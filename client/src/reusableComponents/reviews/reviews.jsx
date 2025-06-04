@@ -2,8 +2,8 @@ import "./reviews.css"
 
 
 
-import {useFetcher,useLocation } from 'react-router-dom'
-import {useState,memo,Suspense,useEffect,useRef } from "react"
+import {useFetcher,useLocation} from 'react-router-dom'
+import {useState,memo,Suspense,useEffect,useRef, useMemo } from "react"
 import { Await } from "react-router";
 
 import { useTranslation } from "react-i18next";
@@ -228,7 +228,7 @@ function Review({stars,name,date,sport,resort,review,image,lessonHours,instructo
 
                     <div className="bottom">
 
-                        <img className="profile" src="/images/startPage/profile.jpg" alt="profile picture" />
+                        <img className="profile" src={image!=null?image:"images/startPage/imageIcon.png"} alt="profile picture" />
 
                         <p className="hourInfo">{t("review info",{studentName:name,lessonHours:lessonHours,timeUnit:timeUnit})}<b>{instructorName}</b></p>
 
@@ -249,7 +249,14 @@ export const Reviews= memo(()=>{
 
     const [reviewDataPromise,setReviewDataPromise] = useState(new Promise(() => {}));
 
+    const searchParams = useMemo(() => new URLSearchParams(location.search), [location.search]);
 
+    const resort = searchParams.get("resort") || 1
+    const sport = searchParams.get("sport") || 1
+    const from = searchParams.get("from")  || 1
+    const to = searchParams.get("to")  || 1
+    const members = searchParams.get("members")  || 1
+    
     useEffect(() => {
         let routePage
 
@@ -260,12 +267,12 @@ export const Reviews= memo(()=>{
             routePage="/"
         }
         else if(currentRoute=="/bookLesson"){
-            const searchParams = new URLSearchParams(location.search);
-            const resort = searchParams.get("resort");
-            const sport = searchParams.get("sport");
-            const from = searchParams.get("from");
-            const to = searchParams.get("to");
-            const members = searchParams.get("members");
+            // const searchParams = new URLSearchParams(location.search);
+            // const resort = searchParams.get("resort");
+            // const sport = searchParams.get("sport");
+            // const from = searchParams.get("from");
+            // const to = searchParams.get("to");
+            // const members = searchParams.get("members");
             routePage="/bookLesson"
     
             reviewParameters={reviewsPage:1,resort,sport,from,to,members}
@@ -284,7 +291,7 @@ export const Reviews= memo(()=>{
 
 
         setReviewDataPromise(createReviewDataPromise(reviewParameters,routePage))
-      }, []);
+      }, [resort,sport,from,to,members]);
 
 
     const [transition, setTransition] =useState('')
@@ -378,7 +385,8 @@ export const Reviews= memo(()=>{
                         totalPages.current=maxPages
                         if(allReviewData.reviews.length==0){
                             // no reviews
-                            return
+                            return( <section className="marginReviews">
+                                    </section>)
                         }
                         
                         return(

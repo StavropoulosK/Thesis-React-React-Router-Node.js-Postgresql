@@ -664,6 +664,36 @@ async function bookLesson(req,res,next){
 }
 
 
+
+function formatReviews(reviews){
+
+  reviews.forEach(review=>{
+
+      review.date= reformatDateUI(review.date)
+      review.lessonHours=Math.round(calculateHoursBetween(review.timestart,review.timeend))
+
+      let imageBase64 = null;
+
+      if (review.profilepicture) {
+        const mimeType = "image"; 
+        imageBase64 = `data:${mimeType};base64,${review.profilepicture.toString("base64")}`;
+    }
+    review.image=imageBase64
+
+  })
+
+  return reviews
+}
+
+function reformatDateDB(inputDate) {
+  //input 04-06-2025
+  //output 2025/06/04
+
+  const [day, month, year] = inputDate.split("-");
+  return `${year}/${month}/${day}`;
+}
+
+
 async function getReviews(req,res,next){
   try{
 
@@ -672,7 +702,6 @@ async function getReviews(req,res,next){
     const page = req.params.page;
 
     // orio 90 selides
-
 
     const reviews = [
         {
@@ -814,14 +843,26 @@ async function getReviews(req,res,next){
     if (page === 'instructorInfo') {
 
         const {instructorID,reviewsPage}= req.body
-        const maxPages=90
+        // const maxPages=90
 
+        // const startIndex = (reviewsPage - 1) * reviewsPerPage;
+        // const endIndex = startIndex + reviewsPerPage;
+    
+        // res.json({
+        // reviews: reviews.slice(startIndex, endIndex),
+        // maxPages  
+        // });
+
+        const finalReviews= formatReviews(await publicOptionsModel.getInstructorReviews(Number(instructorID)))
+        const maxPages=Math.min ( Math.ceil(finalReviews.length /4) , 90)
+        
         const startIndex = (reviewsPage - 1) * reviewsPerPage;
         const endIndex = startIndex + reviewsPerPage;
     
         res.json({
-        reviews: reviews.slice(startIndex, endIndex),
-        maxPages  
+            reviews: finalReviews.slice(startIndex, endIndex),
+
+            maxPages  
         });
 
     }
@@ -831,16 +872,14 @@ async function getReviews(req,res,next){
 
         const { resort,sport,from,to,members,reviewsPage } = req.body; 
 
-        // await new Promise(resolve => setTimeout(resolve, 4000));
-
-
-        const maxPages=3
+        const finalReviews= formatReviews(await publicOptionsModel.getBookLessonRevies(resort, sport, reformatDateDB(from), reformatDateDB(to), members))
+        const maxPages=Math.ceil(finalReviews.length /4)
         
         const startIndex = (reviewsPage - 1) * reviewsPerPage;
         const endIndex = startIndex + reviewsPerPage;
     
         res.json({
-        reviews: reviews.slice(startIndex, endIndex),
+        reviews: finalReviews.slice(startIndex, endIndex),
         maxPages  
         });
     }
@@ -850,14 +889,14 @@ async function getReviews(req,res,next){
 
         const {reviewsPage } = req.body; 
 
-        const maxPages=3
+        const finalReviews= formatReviews(await publicOptionsModel.getIndexReviews())
+        const maxPages=Math.ceil(finalReviews.length /4)
         
         const startIndex = (reviewsPage - 1) * reviewsPerPage;
         const endIndex = startIndex + reviewsPerPage;
-
     
         res.json({
-            reviews: reviews.slice(startIndex, endIndex),
+            reviews: finalReviews.slice(startIndex, endIndex),
 
             maxPages  
         });
@@ -954,7 +993,6 @@ async function getInstructorInfo(req,res,next){
 }
   
 
-// checkEmailIsUsedPoint, loginUser, signupUser
-  
+ 
 
 export {getHeaderParams,loginUser,logoutUser,signupUser, checkEmailIsUsedPoint,showLessons,bookLesson,getReviews,getInstructorInfo}

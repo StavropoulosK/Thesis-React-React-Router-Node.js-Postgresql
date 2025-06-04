@@ -138,8 +138,6 @@ export default function ShowLessons({instructorId,instructorName,resort,sport,fr
           }
     }
 
-    console.log('aaa ',members)
-
     const lessonIDs= selectedLessons.map(lesson=>lesson.lessonID)
 
     return(

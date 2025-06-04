@@ -29,6 +29,4 @@ router.route('/updateMeetingPoint').post(authoriseInstructor,instructorOptions.u
 router.route('/deleteMeetingPoint').post(authoriseInstructor,instructorOptions.deleteMeetingPoint)
 router.route('/createMeetingPoint').get(authoriseInstructor,instructorOptions.createMeetingPoint)
 
-
-
 export default router

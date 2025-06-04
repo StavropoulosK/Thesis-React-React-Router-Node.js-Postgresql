@@ -68,7 +68,7 @@ export default function ReviewForm({onClose,stars,review,fetcher,instructorName,
 
         const formData = new FormData();
 
-        formData.append("stars", stars)
+        formData.append("stars", userStars)
         formData.append("review", message)
         formData.append("lessonIDS",lessonIDS)
         formData.append("instructorID",instructorID)

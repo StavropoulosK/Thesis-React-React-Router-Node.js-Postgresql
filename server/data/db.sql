@@ -134,7 +134,7 @@ CREATE TABLE IF NOT EXISTS REVIEW(
 CREATE TABLE IF NOT EXISTS REVIEW_LESSON(
     reviewID integer not null,
     lessonID integer not null,
-    resLesID integer not null,
+    reservID integer not null,
     primary key(reviewID,lessonID),
     FOREIGN KEY(reviewID) references REVIEW(reviewID)
         ON UPDATE CASCADE
@@ -142,7 +142,7 @@ CREATE TABLE IF NOT EXISTS REVIEW_LESSON(
     FOREIGN KEY(lessonID) references LESSON(lessonID)
         ON UPDATE CASCADE
         ON DELETE CASCADE,
-    FOREIGN KEY(resLesID) references RESERVATION_LESSON(reservLesID)
+    FOREIGN KEY(lessonID,reservID) references RESERVATION_LESSON(lessonID,reservationID)
         ON UPDATE CASCADE
         ON DELETE CASCADE
 );

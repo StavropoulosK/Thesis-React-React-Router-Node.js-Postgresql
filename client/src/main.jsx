@@ -218,15 +218,16 @@ const router= createBrowserRouter([
                       return {element:<PreviousLessons/>,loader:PreviousLessonsLoader}
                     },
                     shouldRevalidate:({formAction,actionResult})=>{
-                      if(formAction=="/api/postEmailRequest"){
+                      if(formAction=="/api/postEmailRequest" ){
                         // user is sending an email, child does not revalidate.
                         return false;
                       }
 
                       if(actionResult && actionResult.message?.startsWith("cancel")){
                         //user is cancelling a scheduled lesson
-                        return false
+                        return true
                       }
+          
                     }
                   }
                 ]

@@ -1,5 +1,11 @@
 import * as studentOptionsModel from "../model/studentOptions.mjs"
 import { saveImage } from "../model/instructorOptions.mjs";
+import 'dotenv/config'
+import emailjs from '@emailjs/nodejs';
+
+const EMAILJS_PUBLIC_API_KEY=  process.env.EMAILJS_PUBLIC_API_KEY
+const EMAILJS_PRIVATE_API_KEY= process.env.EMAILJS_PRIVATE_API_KEY
+
 
 async function getStudentProfileParams(req,res,next){
 
@@ -278,7 +284,6 @@ async function getPreviousStudentLessons(req,res,next){
       // stars=-1 if user has not submitted review before
 
       const studentId= req.session.userID
-
       if(!studentId){
           return res.status(401).end();
 
@@ -814,9 +819,6 @@ async function getPreviousStudentLessons(req,res,next){
       const lessons= groupStudentLessons (await studentOptionsModel.getPreviousStudentLessons(studentId)  )
   
       const lessonsPerPage = 3;
-      // fix constraint date
-
-      // console.dir((lessons), { depth: null });
   
       const maxPages= Math.ceil(lessons.length / lessonsPerPage)
       const startIndex = (page - 1) * lessonsPerPage;
@@ -825,7 +827,10 @@ async function getPreviousStudentLessons(req,res,next){
       // Return lessons for the given page
       const lessonsToSend= lessons.slice(startIndex, endIndex);
       const studentEmail= await studentOptionsModel.getStudentEmail(studentId)
-  
+
+ 
+      // console.dir(temp, { depth: null });
+
       
       res.json({previousLessons:lessonsToSend,maxPages,studentEmail})
   }
@@ -859,14 +864,11 @@ function groupStudentLessons(lessons) {
     const meetingPointId= lesson.meetingpointid
     const locationText= lesson.locationText
 
-    console.log("!!! ",lesson.reservationid)
-
 
     const finalLocation= (meetingPointId==null) || (isNullOrEmpty(locationText) && isNullOrEmpty(lessonImg)) ?"after_agreement":locationText
 
     const isPrivate = lesson.typeOfLesson === "private";
     const finalCostPerHour=  lesson.typeOfLesson === "private"?lesson.costPerHour:lesson.costPerHour*Number(lesson.participants)
-
 
 
     // Choose key fields based on lesson type
@@ -890,42 +892,63 @@ function groupStudentLessons(lessons) {
 
     };
 
+
     // If this group doesn't exist yet, create it
     if (!grouped.has(key)) {
-      grouped.set(key, {
+
+      const groupObject = {
         instructorInfo: {
-          instructorId:lesson.instructorid,
+          instructorId: lesson.instructorid,
           instructorName: lesson.instructorName,
           reviewScore: lesson.reviewScore,
           reviewCount: lesson.reviewCount,
           experience: lesson.experience,
           languages: lesson.languages,
-          cancelationDays: lesson.cancelationpolicy=="dnot"?"-1": String(lesson.cancelationpolicy.slice(1) ),
+          cancelationDays:
+            lesson.cancelationpolicy == "dnot"
+              ? "-1"
+              : String(lesson.cancelationpolicy.slice(1)),
           image: imageBase64_a,
-          phoneNumber:lesson.phonenumber,
-          email:lesson.email
+          phoneNumber: lesson.phonenumber,
+          email: lesson.email,
+        },
+        reviewInfo : {
+          stars: -1,
+          text:"",
         },
         teachingInfo: {
           typeOfLesson: lesson.typeOfLesson,
           resort: lesson.resort,
           sport: lesson.sport,
-          groupName: lesson.groupName!=null?lesson.groupName:""
-        },
-        reviewInfo:{
-          stars:lesson.stars!=null? lesson.stars:-1,
-          text:lesson.text,
+          groupName: lesson.groupName != null ? lesson.groupName : "",
         },
         participantsInfo: {
           level: lesson.lowestlevel,
-          participants: lesson.participants
+          participants: lesson.participants,
         },
-        lessonInfo: [lessonInfoItem]
-      });
+        lessonInfo: [lessonInfoItem],
+      };
+
+      grouped.set(key, groupObject);
+
+
+      
     } else {
       // If group exists, just add the lessonInfo item
       grouped.get(key).lessonInfo.push(lessonInfoItem);
     }
+
+    // Conditionally add reviewInfo only if review exist
+    if (lesson.stars != null ){
+      const group = grouped.get(key);
+      group.reviewInfo = {
+        stars: lesson.stars,
+        text: lesson.text ?? "",
+      };
+    } 
+
   }
+
 
   // Return grouped results as an array
   return Array.from(grouped.values());
@@ -935,11 +958,10 @@ function groupStudentLessons(lessons) {
 
 async function getUpComingStudentLessons(req,res,next){
   try{
-    // ta mathimata katigoriopoiountai ana kratisi
+    // dixnontai mono ta erxomena mathimata.
+    // ta erxomena mathimata katigoriopoiountai ana kratisi
     // ta idiotika mathimata : ana kratisi/ ana instructor/ ana resort/ana sport/ ana participant info
     // ta group mathimata : ana kratisi/ ana didaskalia / ana participant info
-
-    // esto kai ena mathima apo mia apo tis pano katigories na min exei teliosi, stelnontai ola ta mathimata tis katigorias
 
     //cancelatioDays=-1 for no cancelation policy
 
@@ -1132,9 +1154,15 @@ async function cancelLessons(req,res,next){
 
     }
 
-    await studentOptionsModel.cancelLessons(studentId, lessons.map(Number))
+    // lessons is an array with strings like '241 35' first is lessonID, second is reservationID 
 
-    console.log("!! ",lessons,studentId)
+    const lessonTuples = lessons.map(pair => {
+      const [lesson_id, reservation_id] = pair.split(' ').map(Number);
+      return `(${lesson_id}, ${reservation_id})`;
+    });
+
+    await studentOptionsModel.cancelLessons(lessonTuples)
+
 
     //cancel_success, cancel_failure
 
@@ -1144,7 +1172,8 @@ async function cancelLessons(req,res,next){
     res.json({message:"cancel_success"})
   }
   catch(error){
-    next(error)
+    console.error(error)
+    res.json({message:"cancel_failure"})
   }
 
 }
@@ -1153,13 +1182,38 @@ async function sendEmailRequest(req,res,next){
   try{
     const {studentEmail,instructorEmail,userMessage} = req.body
 
+    const studentId= req.session.userID
+
+    if(!studentId){
+        return res.status(401).end();
+
+    }
+
+    const studentName= await studentOptionsModel.getStudentName(studentId)
+
+   
+    emailjs.send(
+      'service_x3w1eap','easy_snow',{
+              to_email: instructorEmail ,
+              from_name: studentName,
+              from_email: studentEmail,
+              message: userMessage,
+          },{
+              publicKey: EMAILJS_PUBLIC_API_KEY,
+              privateKey: EMAILJS_PRIVATE_API_KEY,
+            }
+    )
+
+
     //email_success, email_failure
   
   
     res.json({message:"email_success"})
   }
   catch(error){
-    next(error)
+    console.error(error)
+    res.json({message:"email_failure"})
+
   }
    
 }
@@ -1170,13 +1224,45 @@ async function postReview(req,res,next){
 
     //review_success, review_failure
   
-    // console.log("!@12 ",stars,review,lessonIDS,instructorID)
-  
+    const studentId= req.session.userID
+    // lessonid 383 , reservlesid 57
+    if(!studentId){
+        return res.status(401).end();
+
+    }
+
+    // lessonIDS is an array with strings like '241 35' first is lessonID, second is reservationID 
+
+    const lessonTuples = lessonIDS.map(pair => {
+      const [lesson_id, reservation_id] = pair.split(' ').map(Number);
+      return `(${lesson_id}, ${reservation_id})`;
+    });
+
+    const existingReviewID= await studentOptionsModel.getReviewID(lessonTuples)
+    const firstLesson = Number(lessonIDS[0].split(" ")[0])
+    const reservationID=Number(lessonIDS[0].split(" ")[1])
+
+
+    if(existingReviewID==-1){
+        
+        const newReviewID=await studentOptionsModel.createReview(studentId,review,stars)
+
+        await studentOptionsModel.insertIntoReviewLesson(newReviewID,reservationID,firstLesson)
+
+
+    }
+
+    else{
+        await studentOptionsModel.updateReview(existingReviewID,review,stars)
+
+    }
+
   
     res.json({message:"review_success"})
   }
   catch(error){
-    next(error)
+    console.error(error)
+    res.json({message:"review_failure"})
   }
    
 }
@@ -1254,6 +1340,7 @@ function groupCartLessons(lessons) {
       costPerHour: finalCostPerHour,
       isAllDay: lesson.isAllDay,
     };
+
 
     // If this group doesn't exist yet, create it
     if (!grouped.has(key)) {
@@ -1410,6 +1497,7 @@ async function getLessonsInCart(req,res,next){
 
     const lessons= await studentOptionsModel.getLessonsInCart(studentId)
 
+
     // console.dir(groupCartLessons(lessons), { depth: null });
 
     res.json({lessons:groupCartLessons(lessons)})
@@ -1508,6 +1596,8 @@ async function renewCartLessonsExecution(studentId){
   // piasimo theseon se group lesson (gia 4 atoma na mi fainetai)
   // automati afairesi mathimaton apo to kalathi (allagi imerominiasa, piasimo)
   // piasimo mathimatos apo kalathi prin apo pliromi
+  // kratisi omadikou mathimatos 2 fores, dio kritikes.
+  // 2 mathimata einai se diadoxikew imerominies kai apoteloun kanonika omada. pernai to ena mathima kritiki gia auto. pernai to alo mathima kritiki ksana.
   // akirosi mathimatos
   // kritikes 
   // programma

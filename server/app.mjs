@@ -137,8 +137,6 @@ if (staticFileRegex.test(req.url)) {
 
 
 // elegxoi
-// header params
-// reviews
 
 // na mi steli res.json enas controller
 // controller public options logoutUser

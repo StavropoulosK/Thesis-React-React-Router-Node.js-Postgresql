@@ -105,7 +105,6 @@ async function getMonthStatistics(instructorID,monthYearStr){
 
 
     const{firstDate,lastDate}= getFirstAndLastDate(monthYearStr)
-
     let client;
     try{
         client = await connect();
@@ -113,7 +112,7 @@ async function getMonthStatistics(instructorID,monthYearStr){
         const sql=`select amount,e.lessonType, (EXTRACT(EPOCH FROM (e.timeEnd::time - e.timeStart::time)) / 60) as minutes
                     from (( (select instructorID from instructor where instructorID=$1) natural join teaching natural join lesson) e join reservation_lesson r on e.lessonID=r.lessonID )
                     natural join reservation  natural join payment
-                    where e.canceled=FALSE and r.canceled=FALSE and e.date>=$2 and e.date<=$3` 
+                    where e.canceled=FALSE and r.canceled=FALSE and e.date>=$2 and e.date<=$3 and e.date<= (SELECT TO_CHAR(CURRENT_DATE, 'YYYY/MM/DD'))` 
         
         const res=await client.query(sql, [instructorID,firstDate,lastDate]);
         return res.rows
@@ -131,13 +130,13 @@ async function getGeneralStatistics(instructorID){
         client1 = await connect();
         client2 = await connect();
 
-        const sql1=`select reviewStars
-                    from (( select instructorID from instructor where instructorID=$1) natural join teaching natural join lesson natural join review_lesson 
-                    natural join review
-                    where canceled=FALSE` 
-        
+        const sql1=`select count(*),reviewStars::text
+                    from instructor natural join teaching natural join lesson natural join review_lesson natural join review
+                    where instructorid=$1
+                    group by reviewStars,instructorid` 
+                    
 
-        const sql2=`select "date"
+        const sql2=`select distinct TO_CHAR(TO_DATE("date", 'YYYY/MM/DD'), 'YYYY/MM') as "date"
                     from (( select instructorID from instructor where instructorID=$1) natural join teaching natural join lesson ) e join reservation_lesson r on e.lessonID= r.lessonID
                     where e.canceled=FALSE and r.canceled=false and e.date<= (SELECT TO_CHAR(CURRENT_DATE, 'YYYY/MM/DD') as today)` 
 
@@ -145,7 +144,7 @@ async function getGeneralStatistics(instructorID){
                                 client1.query(sql1, [instructorID]),
                                 client2.query(sql2, [instructorID])
                             ]);
-        return 1
+        return {reviewScores:res1.rows, monthsToDisplay:res2.rows}
  
     } catch (err) {
         throw err;
@@ -409,31 +408,19 @@ async function cancelInstructorLessons(instrcutorId,lessonIDsArray){
 }
 
 async function getInstructorSchedule(instrcutorId,date){
-    // console.log("remove left outer")
-    // from lesson natural join teaching natural join meetingPoint natural left outer join studentInfosTable
 
     let client
     try{
         client = await connect();
 
-        const sql=` WITH studentInfosTable AS (
-                    SELECT  lessonID, sum(participantNumber) as participants,
-                        json_agg(
-                            json_build_object(
-                                'name', (firstName || lastName),
-                                'email', email,
-                                'phone', phoneNumber,
-                                'level', lowestLevel
-                            )
-                            ORDER BY lastName
-                        ) AS studentInfos
-                    FROM (reservation_lesson natural join reservation) r join "USER" u on u.userID= r.studentID
-                    WHERE r.canceled = FALSE 
-                    GROUP BY lessonID
-                )
-                select studentInfos,participants,resort,"date", (timeStart || '-' ||timeEnd) as "time",sport,lessonType as "lessonType", locationText as "meetingPointTitle", instructorNote as note,lessonID::text as "lessonID"
-                from lesson natural join teaching natural join meetingPoint natural join studentInfosTable
-                where lesson.canceled=false and instructorID=$1 and lesson.date=$2   ` 
+        const sql=` WITH STUDENT_INFO AS (
+                        SELECT reservationID, (firstName || ' ' || lastName) as "name", email, phoneNumber as phone, profilePicture
+                        FROM "USER"join reservation on userID=studentID
+                    )
+                    select lesson.canceled as lessoncanceled, r.canceled as studentcanceled,resort,"date",(timeStart||'-'||timeEnd) as "time",sport,participantNumber, lessonType, locationText,instructorNote,lesson.lessonID,lowestLevel as "level", "name", email,phone, profilePicture, picture
+                    from (teaching natural join lesson join (reservation_lesson natural join STUDENT_INFO) r on lesson.lessonID= r.lessonID) natural  left join meetingpoint 
+                    where instructorID=$1 and lesson.date=$2
+                    order by timeStart asc ` 
         
         const result=await  client.query(sql, [instrcutorId,date])
 

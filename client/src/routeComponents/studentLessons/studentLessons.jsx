@@ -60,7 +60,6 @@ export async function postReviewAction({request,params}){
 
 
 export async function PreviousLessonsLoader({request,params}){
-
     const url = new URL(request.url);
     const searchParams = new URLSearchParams(url.search);
   
@@ -121,9 +120,7 @@ export function PreviousLessons(){
     const currentLanguage = i18n.language;
 
     const instructorPhonesArray= previousLessons.map(lessonGroup=>lessonGroup.instructorInfo.phoneNumber)
-
-
-    const instructorReviewsArray= previousLessons.map(lessonGroup=>{return {instructorName:lessonGroup.instructorInfo.instructorName,instructorID:lessonGroup.instructorInfo.instructorID,stars:lessonGroup.reviewInfo.stars,review:lessonGroup.reviewInfo.text, lessonIDS:lessonGroup.lessonInfo.map(lesson=>lesson.lessonID) }})
+    const instructorReviewsArray= previousLessons.map(lessonGroup=>{return {instructorName:lessonGroup.instructorInfo.instructorName,instructorID:lessonGroup.instructorInfo.instructorId,stars:lessonGroup.reviewInfo.stars,review:lessonGroup.reviewInfo.text, lessonIDS:lessonGroup.lessonInfo.filter(lesson => !lesson.canceled).map(lesson=>String(lesson.lessonID)+" "+String(lesson.reservationID)) }})
 
 
     // const lessonInfo=[{text:"Δευτέρα 05/01/2025 Όλη μέρα (8:00- 15:00)",cost:100, meetingPoint:{location: "Δεύτερο σαλέ" }, lessonID:"16",reservationID:12, showCancel:true }   , {text:"Τρίτη 06/01/2025 11:00- 13:00 ",cost:40, meetingPoint:{location: "Πρώτο σαλέ" }, lessonID:"15",reservationID:13, showCancel:true}]
@@ -143,12 +140,15 @@ export function PreviousLessons(){
             const date = new Date(`${year}-${month}-${day}`);
             const dayOfWeek = date.toLocaleDateString(currentLanguage, { weekday: "long" });
             const isAllDay = lesson.isAllDay;
+            const reservationID= lesson.reservationID
+
 
             const text=dayOfWeek+" "+lesson.date+" "+ (isAllDay?` ${t("all_day",{ns:"overview" })} (`:"") +   `${lesson.timeStart}-${lesson.timeEnd}${isAllDay?")":""}`
 
             let showCancel= false
             
-            return {text,cost:lesson.cost,meetingPoint:lesson.meetingPoint,lessonID:lesson.lessonID,reservationID:lesson.reservationID,showCancel:showCancel,isCanceled:lesson.canceled}
+            return {text,cost:lesson.cost,meetingPoint:lesson.meetingPoint,lessonID:String(lesson.lessonID)+" "+String(reservationID),showCancel:showCancel,isCanceled:lesson.canceled}
+            
         })
         
         return arr
@@ -365,8 +365,8 @@ export function UpComingStudentLessons(){
 
     const instructorPhonesArray= upComingLessons.map(lessonGroup=>lessonGroup.instructorInfo.phoneNumber)
 
-    // const lessonInfo=[{text:"Δευτέρα 05/01/2025 Όλη μέρα (8:00- 15:00)",cost:100, meetingPoint:{location: "Δεύτερο σαλέ" }, lessonID:"16", showCancel:true }   , {text:"Τρίτη 06/01/2025 11:00- 13:00 ",cost:40, meetingPoint:{location: "Πρώτο σαλέ" }, lessonID:"15", showCancel:true}]
-
+    // const lessonInfo=[{text:"Δευτέρα 05/01/2025 Όλη μέρα (8:00- 15:00)",cost:100, meetingPoint:{location: "Δεύτερο σαλέ" }, lessonID:"16 34", showCancel:true }   , {text:"Τρίτη 06/01/2025 11:00- 13:00 ",cost:40, meetingPoint:{location: "Πρώτο σαλέ" }, lessonID:"15", showCancel:true}]
+                                                                                                                                    // lessonid reservationid
     // it is an array with elements like lessonInfo
     const lessonInfoContainer=upComingLessons.map((lessonGroup)=>{
 
@@ -386,11 +386,14 @@ export function UpComingStudentLessons(){
             const isAllDay = lesson.isAllDay;
             const isCanceled=lesson.canceled || false
 
+            const reservationID= lesson.reservationID
+
+
             const text=dayOfWeek+" "+lesson.date+" "+ (isAllDay?` ${t("all_day",{ns:"overview" })} (`:"") +   `${lesson.timeStart}-${lesson.timeEnd}${isAllDay?")":""}`
 
             let showCancel= cancelationDays!=-1 &&  isCancellable(year,month,day,cancelationDays) && !isCanceled
             
-            return {text,cost:lesson.cost,meetingPoint:lesson.meetingPoint,lessonID:lesson.lessonID,showCancel:showCancel,isCanceled,reservationID:lesson.reservationID}
+            return {text,cost:lesson.cost,meetingPoint:lesson.meetingPoint,lessonID:String(lesson.lessonID)+" "+String(reservationID),showCancel:showCancel,isCanceled}
         })
         
         return arr

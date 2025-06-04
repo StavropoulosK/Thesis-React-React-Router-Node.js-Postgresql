@@ -215,10 +215,33 @@ async function getMonthStatistics(req,res,next){
 
         const result =await instructorOptionsModel.getMonthStatistics(instrcutorId,selectedDate)
 
-        console.log("aaa ",result)
 
+        const statistics = {
+            profitPrivate: 0,
+            profitGroup: 0,
+            hoursPrivate: 0,
+            hoursGroup: 0
+          };
+          
+          for (const lesson of result) {
+            const amount = parseFloat(lesson.amount);
+            const hours = parseFloat(lesson.minutes) / 60;
+          
+            if (lesson.lessontype === 'private') {
+              statistics.profitPrivate += amount;
+              statistics.hoursPrivate += hours;
+            } else if (lesson.lessontype === 'group') {
+              statistics.profitGroup += amount;
+              statistics.hoursGroup += hours;
+            }
+          }
 
-        return res.json({profitPrivate:2000,profitGroup:3000,hoursPrivate:20,hoursGroup:40});
+          for (const key in statistics) {
+            statistics[key] = Math.round(statistics[key])
+          }
+          
+
+        return res.json(statistics);
     }
     catch(error){
         next(error)
@@ -236,33 +259,54 @@ async function getGeneralStatistics(req,res,next){
 
       }
 
-      const monthsToDisplay=[
-          "April 2025",
-          "March 2025",
-          "February 2025",
-          "January 2025",
-          "December 2024",
-          "November 2024",
-          "October 2024",
-          "September 2024",
-          "August 2024",
-          "July 2024",
-          "June 2024"
-      ]
+    //   const monthsToDisplayy=[
+    //       "April 2025",
+    //       "March 2025",
+    //       "February 2025",
+    //       "January 2025",
+    //       "December 2024",
+    //       "November 2024",
+    //       "October 2024",
+    //       "September 2024",
+    //       "August 2024",
+    //       "July 2024",
+    //       "June 2024"
+    //   ]
       
-      const reviewScores={
-      "1":20,
-      "2":30,
-      "3":0,
-      "4":40,
-      "5":10
-      }
+    //   const reviewScoress={
+    //   "1":20,
+    //   "2":30,
+    //   "3":0,
+    //   "4":40,
+    //   "5":10
+    //   }
 
+      const {reviewScores, monthsToDisplay}= await instructorOptionsModel.getGeneralStatistics(instrcutorId)
     //   const result = await instructorOptionsModel.getGeneralStatistics(instrcutorId)
     //   console.log("bbb ",result)
 
-  
-      res.json({monthsToDisplay,reviewScores})
+    const monthsToDisplayFinal = monthsToDisplay.map(monthEl => {
+        const [year, month] = monthEl.date.split('/');
+        const date = new Date(`${year}-${month}-01`);
+        return date.toLocaleString('en-US', { month: 'long', year: 'numeric' });
+      });
+
+    const finalReviewScores = {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      };
+     
+      for (const entry of reviewScores) {
+        const count = parseInt(entry.count, 10);
+        const star = entry.reviewstars;
+      
+        finalReviewScores[star] = count;
+      }
+
+      res.json({monthsToDisplay:monthsToDisplayFinal,reviewScores:finalReviewScores})
     }
     catch(error){
         next(error)
@@ -326,78 +370,112 @@ async function getInstructorSchedule(req,res,next){
 
         const date=reformatDateDB(req.params.date)
 
-        const lessonss=[
-          {
-            resort:"Parnassou",
-            date:"Monday 15/01/2025",
-            time:"8:30-10:30",
-            sport:"Ski",
-            participants:3,
-            lessonType:"private",
-            meetingPoint:{
-              title:"Άνω σαλέ",
-            },
-            studentInfos:[
-              {
-                name:"Γεωργία Θάμου",
-                email:"myemail@gmail.com",
-                phone:'6999999999',
-                level:"Beginner"
-              },
+
+        // const lessonss=[
+        //   {
+        //     resort:"Parnassou",
+        //     date:"Monday 15/01/2025",
+        //     time:"8:30-10:30",
+        //     sport:"Ski",
+        //     participants:3,
+        //     lessonType:"private",
+        //     meetingPoint:{
+        //       title:"Άνω σαλέ",
+        //     },
+        //     studentInfos:[
+        //       {
+        //         name:"Γεωργία Θάμου",
+        //         email:"myemail@gmail.com",
+        //         phone:'6999999999',
+        //         level:"Beginner"
+        //       },
              
-            ],
-            note:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe quis cumque voluptatibus eos quibusdam sint reprehenderit! Nostrum qui omnis accusantium, nam voluptate ipsa sapiente enim expedita, itaque corrupti, sequi ut",
-            lessonID:"12123"
+        //     ],
+        //     note:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe quis cumque voluptatibus eos quibusdam sint reprehenderit! Nostrum qui omnis accusantium, nam voluptate ipsa sapiente enim expedita, itaque corrupti, sequi ut",
+        //     lessonID:"12123"
       
-          },
+        //   },
       
-          {
-            resort:"Parnassou",
-            date:"Monday 15/01/2025",
-            time:"10:30-12:30",
-            sport:"Ski",
-            participants:3,
-            lessonType:"group",
-            meetingPoint:{
-              title:"Άνω σαλέ",
-            },
-            studentInfos:[
-              {
-                name:"Γεωργία Θάμου",
-                email:"myemail@gmail.com",
-                phone:'6999999999',
-                level:"Beginner"
-              },
-            ],
-            note:"",
-            lessonID:"1212"
-          }
-        ]
+        //   {
+        //     resort:"Parnassou",
+        //     date:"Monday 15/01/2025",
+        //     time:"10:30-12:30",
+        //     sport:"Ski",
+        //     participants:3,
+        //     lessonType:"group",
+        //     meetingPoint:{
+        //       title:"Άνω σαλέ",
+        //     },
+        //     studentInfos:[
+        //       {
+        //         name:"Γεωργία Θάμου",
+        //         email:"myemail@gmail.com",
+        //         phone:'6999999999',
+        //         level:"Beginner"
+        //       },
+        //     ],
+        //     note:"",
+        //     lessonID:"1212"
+        //   }
+        // ]
 
 
         const lessons = await instructorOptionsModel.getInstructorSchedule(instrcutorId,date)
 
+        const lessonMap = new Map();
 
-        lessons.forEach(lesson=>{
-            const date=getWeekday(lesson.date)+" "+reformatDateUI(lesson.date)
-            lesson.date=date
-            const meetingPointTitle=lesson.meetingPointTitle
+        for (const l of lessons) {
+                
+            if (!lessonMap.has(l.lessonid)) {
+                const image= l.picture
+                let imageBase64_b = null;
+                if (image) {
+                    const mimeType = "image"; 
+                    imageBase64_b = `data:${mimeType};base64,${image.toString("base64")}`;
+                }
 
-            if(meetingPointTitle==null){
-                lesson.meetingPoint={
-                    title:"after_agreement",
-                  }
+                lessonMap.set(l.lessonid, {
+                resort: l.resort,
+                date: getWeekday(l.date)+" "+reformatDateUI(l.date),  
+                time: l.time,
+                lessonCanceled:l.lessoncanceled,
+                sport: l.sport,
+                participants: 0,  // initialize to 0
+                lessonType: l.lessontype,
+                meetingPoint: {
+                    title: l.locationtext || "after_agreement", picture:imageBase64_b
+                },
+                studentInfos: [],
+                note: l.instructornote || "",
+                lessonID: l.lessonid.toString(),
+                });
             }
-            else{
-                lesson.meetingPoint={
-                    title:meetingPointTitle,
-                  }
+
+            const entry = lessonMap.get(l.lessonid);
+            entry.participants += l.participantnumber;
+
+            const profilePicture= l.profilepicture
+            let imageBase64 = null;
+            if (profilePicture) {
+                const mimeType = "image"; 
+                imageBase64 = `data:${mimeType};base64,${profilePicture.toString("base64")}`;
             }
-        })
 
+            entry.studentInfos.push({
+                name: l.name,
+                email: l.email,
+                phone: l.phone,
+                level: l.level,
+                profilePicture:imageBase64,
+                participants:l.participantnumber,
+                studentCanceled:l.studentcanceled
+            });
+        }
 
+        const lessonsFinal = Array.from(lessonMap.values());
 
-          res.json({lessons:lessonss})
+    // console.dir(lessonsFinal, { depth: null });
+    res.json({lessons:lessonsFinal})
     }
     catch(error){
         next(error)

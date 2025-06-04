@@ -132,7 +132,7 @@ export function InstructorSchedule(){
                   {lessons.map((lesson,index)=>{
                     return(
                       
-                      <article key={lesson.lessonID} className="instructorLesson">
+                      <article key={lesson.lessonID} className={`instructorLesson ${lesson.lessonCanceled?"lessonCanceled":""}`}>
 
                         <div className="top">
 
@@ -191,7 +191,7 @@ export function InstructorSchedule(){
                               <div className="attributeInfo">
                                   <svg xmlns="http://www.w3.org/2000/svg" width={24} height={24} viewBox="0 0 24 24"><path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="m9 19l-5.21 1.737a.6.6 0 0 1-.79-.57V5.433a.6.6 0 0 1 .41-.569L9 3m0 16l6 2m-6-2V3m6 18l5.59-1.863a.6.6 0 0 0 .41-.57V3.832a.6.6 0 0 0-.79-.569L15 5m0 16V5m0 0L9 3"></path></svg>
                                     <span>{lesson.meetingPoint.title!="after_agreement"?lesson.meetingPoint.title:t("after_agreement")} </span>
-                                    <EnlargeImgButton showFull={showFull} setShowFull={setShowFull}/>
+                                    <EnlargeImgButton showFull={showFull} setShowFull={setShowFull} picture={lesson.meetingPoint.picture}/>
                               </div>
                           </div>
 
@@ -207,8 +207,8 @@ export function InstructorSchedule(){
 
                                     return(
                                     
-                                      <div className="studentInfo" key={index}>
-                                          <img src="/images/startPage/profile.jpg"></img>
+                                      <div className={`studentInfo ${studentInfo.studentCanceled?'canceled':""}`} key={index} >
+                                          <img src={studentInfo.profilePicture!=null?studentInfo.profilePicture:"/images/startPage/imageIcon.png"}></img>
 
                                           <div className="studentAttributeContainer">
                                               <div className="studentAttribute">
@@ -234,6 +234,13 @@ export function InstructorSchedule(){
 
                                                   </img>
                                                   <span>{t(studentInfo.level)} </span> 
+                                              </div>
+
+                                              <div className="studentAttribute">
+                                                  <img className="participantsIcon" src="/icons/lessonParams/numberOfParticipants.png"></img>
+                                                  {t("participants")} {studentInfo.participants}
+
+
                                               </div>
 
 
