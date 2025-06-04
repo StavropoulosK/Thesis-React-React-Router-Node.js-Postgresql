@@ -5,5 +5,9 @@
     "Winter sports":"Explore winter sports",
     "Ski":"Ski",
     "Snowboard":"Snowboard",
-    "Sit ski":"Sit ski"
+    "Sit ski":"Sit ski",
+
+    "thesisMsg":"This website is created as part of the thesis of the student of the University of Patras, Konstantinos Stavropoulos. Therefore, all lessons, instructors etc. are not real and they are imaginary. Also the payments are fake.",
+    "ok":"Ok",
+    "close":"Close"
 }

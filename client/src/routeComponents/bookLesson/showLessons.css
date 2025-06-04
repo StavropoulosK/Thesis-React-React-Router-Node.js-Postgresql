@@ -64,6 +64,8 @@ section.showLessons h4{
 
 .showLessons button.close img{
     width: 100%;
+    object-fit: contain;
+    min-width: 0.7rem;
 }
 
 .showLessons .lessonDetails .infoContainer .left{

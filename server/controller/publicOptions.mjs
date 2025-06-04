@@ -97,6 +97,7 @@ async function loginUser(req,res,next){
 }
 
 function logoutUser(req,res,next){
+  
     if (req.session) {
         req.session.destroy((err) => {
           if (err) {
@@ -107,6 +108,10 @@ function logoutUser(req,res,next){
           res.status(200).end();
         });
     } 
+    else{
+        return res.status(500).end();
+
+    }
 
 }
 

@@ -133,10 +133,8 @@ if (staticFileRegex.test(req.url)) {
 
 
 
-// na mi steli res.json enas controller
-// controller public options logoutUser
+
 // kinito
-// indexes
 // redis
 
 

@@ -3,10 +3,11 @@ import "./index.css"
 
 
 import {Reviews} from "../../reusableComponents/reviews/reviews.jsx"
+import MiddleScreenPopup from "../../reusableComponents/middleScreenPopup/middleScreenPopup.jsx";
 
 import { useOutletContext } from "react-router-dom";
 
-import {memo} from "react"
+import {memo,useState} from "react"
 
 import { useTranslation } from "react-i18next";
 
@@ -48,13 +49,13 @@ export const Index=memo(()=>{
 
     const {  onReservationClick,setSelectedSport } = useOutletContext();
 
-
+    const [showPopUp,setShowPopUp]= useState(true)
     return(
         <> 
 
             <section className="index">
 
-
+                {showPopUp && <MiddleScreenPopup  message={t("thesisMsg")} onConfirm={()=>{setShowPopUp(false)}} onClose={()=>{setShowPopUp(false)}} namespace="index" ></MiddleScreenPopup>}
 
 
 

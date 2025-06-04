@@ -3,6 +3,7 @@ import TopBar from "../../reusableComponents/topBar/TopBar";
 import { useLocation,redirect,useNavigate,useLoaderData,Form,useNavigation,useActionData  } from 'react-router-dom';
 import { useTranslation } from "react-i18next";
 import { useState, useRef} from "react";
+import MiddleScreenPopup from "../../reusableComponents/middleScreenPopup/middleScreenPopup.jsx";
 
 
 export async function paymentLoader({request,params}){
@@ -99,6 +100,7 @@ export function Payment(){
         expirationDate: "",
         cvv:"",
     });
+    const [showPopUp,setShowPopUp]= useState(true)
 
     const [paymentDone,setPaymentDone]=useState(false)
 
@@ -352,7 +354,8 @@ export function Payment(){
         <>
               <TopBar completed={4}></TopBar>
 
-              
+              {showPopUp && <MiddleScreenPopup  message={t("thesisMsg")} onConfirm={()=>{setShowPopUp(false)}} onClose={()=>{setShowPopUp(false)}} namespace="payment" ></MiddleScreenPopup>}
+
 
               <section className="payment">
 

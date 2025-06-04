@@ -24,7 +24,11 @@
 
     "cvv":"Cvv",
 
-    "check_cart_failed":"Payment did not happen because a lesson you had in your cart is no longer available. Visit your cart to continue."
+    "check_cart_failed":"Payment did not happen because a lesson you had in your cart is no longer available. Visit your cart to continue.",
+
+    "thesisMsg":"This website is created as part of the thesis of the student of the University of Patras, Konstantinos Stavropoulos. Therefore, all lessons, instructors etc. are not real and they are imaginary. Also the payments are fake.",
+    "ok":"Ok",
+    "close":"Close"
 
 
 
