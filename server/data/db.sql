@@ -162,9 +162,63 @@ CREATE TABLE IF NOT EXISTS CART(
 create index if not exists user_email
 on "USER"(email);
 
-
 create index if not exists teaching_instructorID
 on TEACHING(instructorID);
+
+
+
+create index if not exists lesson_canceled
+on LESSON(canceled);
+
+create index if not exists lesson_date
+on LESSON("date");
+
+create index if not exists meetingPoint_instructorId
+on meetingpoint(instructorID);
+
+
+create index if not exists lesson_teachingID
+on LESSON(teachingID);
+
+create index if not exists reservationLesson_lessonID
+on reservation_lesson(lessonID);
+
+create index if not exists reservationLesson_reservationID
+on reservation_lesson(reservationID);
+
+create index if not exists reservationLesson_canceled
+on reservation_lesson(canceled);
+
+
+create index if not exists reservation_studentId
+on reservation(studentID);
+
+create index if not exists payment_reservationID
+on payment(reservationID);
+
+create index if not exists review_studentID
+on review(studentID);
+
+create index if not exists reviewLesson_reservID
+on review_lesson(reservID);
+
+create index if not exists teaching_params
+on teaching(resort,sport,dateStart,dateEnd,isAllDay);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

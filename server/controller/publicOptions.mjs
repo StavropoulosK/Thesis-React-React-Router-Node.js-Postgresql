@@ -872,7 +872,7 @@ async function getReviews(req,res,next){
 
         const { resort,sport,from,to,members,reviewsPage } = req.body; 
 
-        const finalReviews= formatReviews(await publicOptionsModel.getBookLessonRevies(resort, sport, reformatDateDB(from), reformatDateDB(to), members))
+        const finalReviews= formatReviews(await publicOptionsModel.getBookLessonReviwes(resort, sport, reformatDateDB(from), reformatDateDB(to), members))
         const maxPages=Math.ceil(finalReviews.length /4)
         
         const startIndex = (reviewsPage - 1) * reviewsPerPage;

@@ -1223,6 +1223,9 @@ async function postReview(req,res,next){
     const {stars,review,lessonIDS,instructorID} = req.body
 
     //review_success, review_failure
+
+    const lessonIDSFinal = lessonIDS.split(',').map(s => s.trim())
+
   
     const studentId= req.session.userID
     // lessonid 383 , reservlesid 57
@@ -1231,17 +1234,17 @@ async function postReview(req,res,next){
 
     }
 
-    // lessonIDS is an array with strings like '241 35' first is lessonID, second is reservationID 
+    // lessonIDSFinal is an array with strings like '241 35' first is lessonID, second is reservationID 
 
-    const lessonTuples = lessonIDS.map(pair => {
+    const lessonTuples = lessonIDSFinal.map(pair => {
       const [lesson_id, reservation_id] = pair.split(' ').map(Number);
       return `(${lesson_id}, ${reservation_id})`;
     });
 
-    const existingReviewID= await studentOptionsModel.getReviewID(lessonTuples)
-    const firstLesson = Number(lessonIDS[0].split(" ")[0])
-    const reservationID=Number(lessonIDS[0].split(" ")[1])
 
+    const existingReviewID= await studentOptionsModel.getReviewID(lessonTuples)
+    const firstLesson = Number(lessonIDSFinal[0].split(" ")[0])
+    const reservationID=Number(lessonIDSFinal[0].split(" ")[1])
 
     if(existingReviewID==-1){
         
@@ -1590,18 +1593,6 @@ async function renewCartLessonsExecution(studentId){
     return lessonIDSToRemove.length
 
 }
-
-
-  // piasimo private lesson
-  // piasimo theseon se group lesson (gia 4 atoma na mi fainetai)
-  // automati afairesi mathimaton apo to kalathi (allagi imerominiasa, piasimo)
-  // piasimo mathimatos apo kalathi prin apo pliromi
-  // kratisi omadikou mathimatos 2 fores, dio kritikes.
-  // 2 mathimata einai se diadoxikew imerominies kai apoteloun kanonika omada. pernai to ena mathima kritiki gia auto. pernai to alo mathima kritiki ksana.
-  // akirosi mathimatos
-  // kritikes 
-  // programma
-  // statistika
   
 
 export {getStudentProfileParams,updateStudentInfo,addLessonToCart,removeLessonsFromCart,payLessonsInCart,getCostOfLessonsInCart,

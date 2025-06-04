@@ -76,6 +76,10 @@ async function addLessonToCart(studentId,lessonIDs,participants,selectedLevel){
 // afairese auta ta mathimata apo to kalathi
 // pare ta mathimata pou einai sto kalathi
 
+// get lessons which should not be in cart (taken or date has passed)
+// remove these lessons from cart
+// get lessons in cart
+
 async function getTakenLessonsInCart(studentID){
     let client
     try {

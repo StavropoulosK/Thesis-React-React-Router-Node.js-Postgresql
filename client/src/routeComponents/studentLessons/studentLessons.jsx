@@ -19,9 +19,8 @@ export async function postReviewAction({request,params}){
 
     const stars = formData.get("stars");
     const review= formData.get("review")
-    const lessonIDS=formData.getAll("lessonIDS")
+    const lessonIDS=formData.get("lessonIDS")
     const instructorID=formData.get("instructorID")
-
 
     let message
 
@@ -281,6 +280,7 @@ export async function UpComingStudentLessonsAction({request,params}){
     const lessons = formData.getAll("lessons");
 
     let message
+    
 
     try {
 

@@ -221,8 +221,8 @@ async function bookLesson(resort, sport, from, to, members,lessonType,time,order
         ),
         TEACHING_OPTIONS AS(
             select teachingid, costPerHour, groupName as "groupName"
-            from (teaching natural join lesson l) left join (reservation_lesson r natural join reservation) on l.lessonID=r.lessonID
-            where l.canceled=false and (r.canceled=false or r.canceled is null) and ( ${lessonTypeCheck})
+            from (teaching natural join lesson l) left join (select * from reservation_lesson e where e.canceled=false or e.canceled is null ) r  on l.lessonID=r.lessonID
+            where l.canceled=false and ( ${lessonTypeCheck})
             and resort=$1 and sport=$2 and ${timeCheck} and l.date>=$3 and l.date<=$4
             group by l.lessonID, teachingid
             HAVING 
@@ -305,8 +305,8 @@ async function showLessons(resort,sport,from,to,members,instructorId,instruction
     try {
         const sql =`WITH AVAILABLE_LESSONS AS(
                     select teachingid, l.lessonid, "date", isallday, costPerHour, timeStart, timeEnd
-                    from (teaching natural join lesson l) left join (reservation_lesson r natural join reservation) on l.lessonID=r.lessonID
-                    where l.canceled=false and (r.canceled=false or r.canceled is null) and ( ${lessonTypeCheck})
+                    from (teaching natural join lesson l) left join (select * from reservation_lesson e where e.canceled=false or e.canceled is null ) r  on l.lessonID=r.lessonID
+                    where l.canceled=false and ( ${lessonTypeCheck})
                     and resort=$1 and sport=$2 and ${timeCheck} and l.date>=$3 and l.date<=$4 and instructorId=$6 and (${instructionIDCheck})
                     group by l.lessonID, teachingid
                     HAVING 
@@ -376,7 +376,7 @@ async function getLessonsMeetingPoints(uniqueTeachingIDs){
     }
 }
 
-async function getBookLessonRevies(resort, sport, from, to, members){
+async function getBookLessonReviwes(resort, sport, from, to, members){
     // according to user filters, the available group lessons and instructors are retrieved
 
 
@@ -389,8 +389,8 @@ async function getBookLessonRevies(resort, sport, from, to, members){
                 ),
                 TEACHING_OPTIONS AS(
                     select distinct teachingID
-                    from (teaching natural join lesson l) left join (reservation_lesson r natural join reservation) on l.lessonID=r.lessonID
-                    where l.canceled=false and (r.canceled=false or r.canceled is null)  
+                    from (teaching natural join lesson l) left join (select * from reservation_lesson e where e.canceled=false or e.canceled is null ) r  on l.lessonID=r.lessonID
+                    where l.canceled=false 
                     and resort=$1 and sport=$2  and l.date>=$3 and l.date<=$4
                     GROUP BY TEACHINGID
                     HAVING 
@@ -566,4 +566,4 @@ async function getInstructorReviews(instructorID){
 
 
 
-export {insertUser,checkEmailAlreadyUsed,authenticate,getProfileImage,getInstructorInfo,getUserEmail,bookLesson,showLessons,getLessonsMeetingPoints,getIndexReviews,getInstructorReviews,getBookLessonRevies}
+export {insertUser,checkEmailAlreadyUsed,authenticate,getProfileImage,getInstructorInfo,getUserEmail,bookLesson,showLessons,getLessonsMeetingPoints,getIndexReviews,getInstructorReviews,getBookLessonReviwes}

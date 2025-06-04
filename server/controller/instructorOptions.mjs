@@ -911,7 +911,6 @@ async function cancelInstructorLessons(req,res,next){
     try{
         const {lessonIDsArray}= req.body
 
-        
         const instrcutorId= req.session.userID
 
         if(!instrcutorId){

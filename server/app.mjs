@@ -127,23 +127,17 @@ if (staticFileRegex.test(req.url)) {
 
 
 
-
-
-
 // na megaloso to meeting point, na balo piasmena mathimata, taksinomimena ta mathimata, na fainetai i ora pou diarki to kathe matima, sto payment na dixno to farms (p.x. 4 4-paules gia to kodiko kartas )
 
 // tous aresan ta xromata, oti lei ola ta attributes sta lessons, tous fanikan ola poli apla.
 
 
 
-// elegxoi
-
 // na mi steli res.json enas controller
 // controller public options logoutUser
 // kinito
 // indexes
 // redis
-// emailjs
 
 
 
