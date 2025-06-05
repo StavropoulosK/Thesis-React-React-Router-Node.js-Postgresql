@@ -5,18 +5,18 @@ dotenv.config();
 
 const pool = new pg.Pool({
     // flyio
-    // user: 'postgres', ///username,x
-    // host: 'hoteldb.flycast',
-    // database: 'hoteldb',
-    // password: process.env.password, /// password,
-    // port: 5432
+    user: process.env.flyioUser, ///username,x
+    host: process.env.flyioHost,
+    database: process.env.flyioDatabase,
+    password: process.env.flyioPassword, /// password,
+    port: process.env.flyioPort
 
     // local
-    host:process.env.host,
-    user:process.env.user,
-    password:process.env.password,
-    port:process.env.port,
-    database:process.env.database
+    // host:process.env.host,
+    // user:process.env.user,
+    // password:process.env.password,
+    // port:process.env.dbPort,
+    // database:process.env.database
 })
 
 async function connect() {

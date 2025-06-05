@@ -6,6 +6,7 @@ import session from "express-session"
 import 'dotenv/config'
 
 
+
 import studentOptionsRouter from './routes/studentOptions.mjs'
 import publicOptionsRouter from './routes/publicOptions.mjs'
 import instructorOptionsRouter from './routes/instructorOptions.mjs'
@@ -15,9 +16,16 @@ import { errorHandler } from "./controller/errorHandler.mjs"
 const __filename=fileURLToPath(import.meta.url)
 const __dirname= dirname(__filename)
 
-const PORT= process.env.SERVERPORT || 3000
+const PORT= process.env.PORT || 3000
 
-const distPath= path.join (__dirname,'../client/dist')
+// works on localhost 
+// const distPath= path.join (__dirname,'../client/dist')
+
+// works on flyio or localhost 
+// for fly io the dist folder must be in the same folder where fly.toml file is. therefore we just copy dist from client into the server folder
+
+const distPath= path.join (__dirname,'./client/dist')
+
 
 const publicPath= path.join (__dirname,'./public')
 
@@ -43,8 +51,10 @@ app.use(session({
     }
 }))
 
+
 app.listen(PORT,()=>{
   console.log(`server listening on http://localhost:${PORT}`)
+
 })
 
 
@@ -64,7 +74,7 @@ const staticFileRegex = /\.(js|css|png|jpg|jpeg|gif|ico|json|woff|woff2|ttf|eot|
 // console.log('asassas')
 
 if (staticFileRegex.test(req.url)) {
-  console.log("### ",req.url)
+  // console.log("### ",req.url)
   res.status(404).send("File not found or invalid route!");
   return
 }

@@ -20,6 +20,10 @@
     margin-top: 2rem;
 }
 
+.allLessonContainer{
+    min-height: 340px;
+}
+
 .allLessonContainer .lessonContainer > img{
     height: 12rem;
     width: 12rem;

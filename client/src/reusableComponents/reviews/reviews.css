@@ -16,9 +16,9 @@ section.reviews h2{
     width: fit-content;
 }
 
-section.marginReviews{
+/* section.marginReviews{
     min-height: 400px;
-}
+} */
 
 article.reviewContainer{
     max-width:23rem;
