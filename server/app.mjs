@@ -91,16 +91,6 @@ if (staticFileRegex.test(req.url)) {
 
 
 
-// 
-// profil proponiti episkopisi kritikon kenos xoros deksia (ginetai dio grammes)
-
-
-
-// xionodromika proponitis kenos xoros deksia, titlos pio aristera kai pio mikros,megalitero x choselesson params , kritikes sto index kenos xoros, , ta atoma sto choselesson params na pianoun perisotero bottom xoro
-
-
-
-
 
 
 
@@ -141,12 +131,6 @@ if (staticFileRegex.test(req.url)) {
 // na megaloso to meeting point, na balo piasmena mathimata, taksinomimena ta mathimata, na fainetai i ora pou diarki to kathe matima, sto payment na dixno to farms (p.x. 4 4-paules gia to kodiko kartas )
 
 // tous aresan ta xromata, oti lei ola ta attributes sta lessons, tous fanikan ola poli apla.
-
-
-
-
-// kinito
-// redis
 
 
 

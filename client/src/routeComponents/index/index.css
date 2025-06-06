@@ -46,7 +46,7 @@ section.index .topPortion .textContainer{
 }
 
 section.index section.marginReviews{
-    min-height: 300px;
+    min-height: 200px;
 } 
 
 
@@ -280,6 +280,12 @@ section.index div.allSportsContainer{
         margin-bottom:0.7rem !important;
         font-size: 1.2rem !important;
     }
+
+    
+    section.index section.marginReviews{
+        min-height: 100px;
+    } 
+
 
 }
 
