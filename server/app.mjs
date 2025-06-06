@@ -122,8 +122,9 @@ if (staticFileRegex.test(req.url)) {
 
 
 
-
-
+// 4600 reusable components
+// 12000 route components
+// 4200 o server (xoris comments)
 
 
 

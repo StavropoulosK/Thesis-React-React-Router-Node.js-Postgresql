@@ -131,6 +131,11 @@
 
 }
 
+.bookLessonReviews section.marginReviews{
+    min-height: 200px;
+} 
+
+
 .allLessonContainer .lessonContainer .right .buttonContainer{
     display: flex;
     flex-direction: column;
@@ -540,6 +545,10 @@ section.allLessonContainer.loading article{
 @media (max-width:700px){
     .secondaryFilters .filterContainer{
         margin-right: 2rem;
+    }
+
+    .bookLessonReviews section.marginReviews{
+        min-height: 100px;
     }
 }
 

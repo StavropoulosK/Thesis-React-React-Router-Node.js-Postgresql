@@ -211,7 +211,10 @@ export function BookLesson(){
             </div>
 
             <AllLessonContainer setShowLessons={setShowLessons}/>
-            <Reviews></Reviews>
+            <section className="bookLessonReviews">
+                <Reviews></Reviews>
+
+            </section>
 
         </>
     )
