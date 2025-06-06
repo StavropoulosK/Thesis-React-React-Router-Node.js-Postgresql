@@ -23,7 +23,7 @@ section.showLessons{
 section.showLessons .windowContainer{
     overflow-y: auto;
     overflow-x: auto;
-    max-height: 500px;
+    height: 500px;
     max-width: 860px;
 }
 
@@ -483,7 +483,7 @@ section.showLessons h4{
 
   section.showLessons .windowContainer {
 
-    max-height: 300px;
+    height: 290px;
   }
 
   .showLessons .lessonDetails .imageOverlay.imageOverlay{
