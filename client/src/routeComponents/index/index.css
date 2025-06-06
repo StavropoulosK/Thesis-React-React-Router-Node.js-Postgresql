@@ -45,6 +45,10 @@ section.index .topPortion .textContainer{
     right:1rem;
 }
 
+section.index section.marginReviews{
+    min-height: 300px;
+} 
+
 
 section.index .topPortion .textContainer *{
     color:#0c3567;

@@ -91,11 +91,12 @@ if (staticFileRegex.test(req.url)) {
 
 
 
+// 
+// profil proponiti episkopisi kritikon kenos xoros deksia (ginetai dio grammes)
 
 
 
-
-
+// xionodromika proponitis kenos xoros deksia, titlos pio aristera kai pio mikros,megalitero x choselesson params , kritikes sto index kenos xoros, , ta atoma sto choselesson params na pianoun perisotero bottom xoro
 
 
 

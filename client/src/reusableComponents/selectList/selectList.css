@@ -20,7 +20,7 @@
 .selectList .optionsContainer.displayGrid{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1rem; /* Optional: adds space between items */
+    gap: 0.7rem; /* Optional: adds space between items */
 }
   
 
@@ -130,5 +130,11 @@
         width: 300px;
 
     }
+
+    .selectList .optionsContainer.displayGrid{
+
+      gap: 0.2rem; 
+  }
+    
 }
 

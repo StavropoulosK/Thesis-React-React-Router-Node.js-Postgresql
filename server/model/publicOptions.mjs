@@ -444,7 +444,8 @@ async function getIndexReviews(){
         return result.rows
  
     } catch (err) {
-        throw err;
+        console.error(err)
+        return []
     } finally {
         client.release();
 

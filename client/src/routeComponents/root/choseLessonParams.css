@@ -10,6 +10,7 @@ section article.choseLessonParams{
     display: flex;
     max-height: 90vh;
     max-width: 90vw;
+    min-height: fit-content;
     overflow-y: auto;
     /* overflow: hidden; */
     /* padding-right:2rem; */
@@ -45,9 +46,13 @@ section article.choseLessonParams .lessonParams button.close{
     float:right;
     position: relative;
     top:0.4rem;
-    right: 0.4rem;
+    right: 0.7rem;
     margin-left: auto;
     
+}
+
+section article.choseLessonParams .lessonParams button.close img{
+    width: 0.75rem !important;
 }
 
 section article.choseLessonParams .lessonParams button:hover{
@@ -76,7 +81,7 @@ section article.choseLessonParams .lessonParams form .dropdown:last-child img{
 }
 
 .choseLessonParams .dropdown:last-of-type .dropdown-menu{
-    max-height: 180px;
+    height: 180px;
 }
 
 #lessonParamsForm {
@@ -157,7 +162,7 @@ section article.choseLessonParams .lessonParams form .dropdown:last-child img{
 
     #lessonParamsForm {
 
-        min-height: 370px;
+        min-height: 380px;
     }
 
     .lessonParams button.finishLessonParams{
@@ -170,3 +175,10 @@ section article.choseLessonParams .lessonParams form .dropdown:last-child img{
 
 }
    
+@media (max-width:400px){
+    #lessonParamsForm {
+
+        min-height: 450px;
+    }
+
+}

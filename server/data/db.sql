@@ -150,6 +150,8 @@ CREATE TABLE IF NOT EXISTS REVIEW_LESSON(
 CREATE TABLE IF NOT EXISTS CART(
     studentID integer not null,
     lessonID integer not null,
+    participants integer not null,
+    lowestLevel varchar(30) not null,
     primary key(studentID,lessonID),
     FOREIGN KEY(studentID) references STUDENT(studentID)
         ON UPDATE CASCADE

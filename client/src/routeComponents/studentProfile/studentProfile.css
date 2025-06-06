@@ -307,4 +307,10 @@ section.studentProfile *{
       width: 13rem;
     }
 
+    .studentProfile .userInfo > img {
+      margin-left: auto;
+      margin-right: 0;
+
+    }
+
   }
