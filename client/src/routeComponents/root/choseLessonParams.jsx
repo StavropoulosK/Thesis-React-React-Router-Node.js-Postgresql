@@ -23,18 +23,18 @@ export default function ChoseLessonParams({onReservationClick,selectedSport,canc
 
     const location = useLocation();
 
-    useEffect(() => {
+    // useEffect(() => {
 
       
-      if(mount.current==true){
-        onReservationClick()
+    //   if(mount.current==true){
+    //     onReservationClick()
 
-      }
-      // This effect will run each time the URL path changes and at first load
-      mount.current=true
+    //   }
+    //   // This effect will run each time the URL path changes and at first load
+    //   mount.current=true
 
       
-    }, [location.pathname]);  // Depend on location.pathname to run on path changes
+    // }, [location.pathname]);  // Depend on location.pathname to run on path changes
     
 
 
@@ -194,8 +194,6 @@ export function Calendar({onclose,arrivalDate,setArrivalDate,departureDate,setDe
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const today = new Date();
     const {t} = useTranslation("choseLessonParams")
-
-
 
     const prevMonth = () => {
         // Prevent going to months before the current month

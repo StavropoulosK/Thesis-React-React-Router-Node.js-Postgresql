@@ -130,8 +130,6 @@ if (staticFileRegex.test(req.url)) {
 
 
 
-// tous aresan ta xromata, oti lei ola ta attributes sta lessons, tous fanikan ola poli apla.
-
 
 
 

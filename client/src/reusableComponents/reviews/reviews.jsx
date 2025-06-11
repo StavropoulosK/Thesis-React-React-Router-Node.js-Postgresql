@@ -15,6 +15,16 @@ import { useTranslation } from "react-i18next";
 
 // references   
 
+// frontend   0,1,2,3,4,5,7,8,11,12,14,13,15,16,17,18
+// server     9,10,  20, 21
+// db         19,22
+
+
+// ti menei
+// frontend    
+// server    
+// db         19,22
+
 // 0 react. oti exei gini render, an den alaksi den ksanaginetai render
 
 // 1 Suspense + React router await (Loading Asynchronous Data)        kanei render to component kai ta data otan katebastoun          a
@@ -39,8 +49,7 @@ import { useTranslation } from "react-i18next";
 
 // 5 server side rendering (normal handle-bars) client side rendering
 
-// 6 dynamic import vs static vs public 
-// https://vite.dev/guide/features
+// 6 nothing
 
 
 // 7 internationalization, ta arxia fortonoun otan xriazontai apo to stixio kai gia kathe glosa ksexorista          c
@@ -48,6 +57,8 @@ import { useTranslation } from "react-i18next";
 // https://tariqul-islam-rony.medium.com/internationalization-localization-with-react-js-65d6f6badd56
 
 // 8 vite config.
+
+
 
 // 9 restfull αρχιτεκτονικη
 
@@ -86,8 +97,9 @@ import { useTranslation } from "react-i18next";
 
 // 21 expressjs
 
-// 22 asfalia  (min anafero client hashing)
+// 22 asfalia  
 
+// 23 EmailJS
 
 
 

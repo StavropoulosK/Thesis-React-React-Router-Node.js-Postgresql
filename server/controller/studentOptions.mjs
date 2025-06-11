@@ -1190,10 +1190,10 @@ async function sendEmailRequest(req,res,next){
 
     }
 
-    const studentName= await studentOptionsModel.getStudentName(studentId)
 
+    const studentName= await studentOptionsModel.getStudentName(studentId)
    
-    emailjs.send(
+    await emailjs.send(
       'service_x3w1eap','easy_snow',{
               to_email: instructorEmail ,
               from_name: studentName,

@@ -260,6 +260,7 @@ async function bookLesson(resort, sport, from, to, members,lessonType,time,order
 }
 
 async function showLessons(resort,sport,from,to,members,instructorId,instructionID,typeOfLesson,time){
+    
     let client
 
     // console.log("aaa!! ",resort,sport,from,to,members,typeOfLesson,instructorId,instructionID,time)
@@ -422,6 +423,7 @@ async function getBookLessonReviwes(resort, sport, from, to, members){
 }
 
 async function getIndexReviews(){
+
     let client
     try{
         client = await connect();

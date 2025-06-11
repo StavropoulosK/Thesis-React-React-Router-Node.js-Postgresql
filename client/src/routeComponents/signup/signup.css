@@ -294,3 +294,18 @@ form > div {
 
   }
 }
+
+
+
+@media (max-width:450px){
+  .signup button.submit{
+    margin-top:1rem;
+    
+  }
+}
+
+@media(max-width:360px){
+  .signup div.errorContainer p.error{
+    font-size: 0.8rem;
+  }
+}
