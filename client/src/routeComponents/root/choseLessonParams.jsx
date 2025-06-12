@@ -353,7 +353,7 @@ function CalendarGrid({ currentMonth, days,children,position,onDateClick,isSelec
     const {t, i18n} = useTranslation("choseLessonParams")
     const currentLanguage = i18n.language;
 
-
+    
     return (
       <div className="calendar-grid-wrapper">
         <div className="calendarTop">
