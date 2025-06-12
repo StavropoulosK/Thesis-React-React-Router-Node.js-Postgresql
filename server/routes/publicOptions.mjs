@@ -13,6 +13,8 @@ router.route('/getInstructorInfo/:instructorId').get(publicOptions.getInstructor
 router.route('/showLessons').get(publicOptions.showLessons)
 router.route('/bookLesson').get(publicOptions.bookLesson)
 router.route('/reviews/:page').post(publicOptions.getReviews)
+router.route('/getDatesWithLessons').get(publicOptions.getDatesWithLessons)
+
 
 
 export default router

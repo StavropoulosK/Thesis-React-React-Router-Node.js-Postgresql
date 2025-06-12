@@ -6,6 +6,7 @@ import {redirect,useLoaderData,useSearchParams,useNavigation,Link} from "react-r
 import { Calendar } from "../root/choseLessonParams";
 import Dropdown from "../../reusableComponents/dropdown/dropdown";
 import useCloseOnOutsideClick from "./../../hooks/closeOnClickOutside.jsx"
+import { useFetchDatesWithLessons } from "../../hooks/fetchDatesWithLessons.jsx";
 
 
 import TopBar from "../../reusableComponents/topBar/TopBar";
@@ -331,12 +332,16 @@ const Menu= memo( ({resetInstructorName})=>{
     const [selectedActivity,setSelectedActivity]=useState(params.sport)
     const [selectedResort,setSelectedResort]=useState(params.resort)
 
+    const datesWithLessons= useFetchDatesWithLessons(selectedResort,selectedActivity,selectedNumberOfParticipants.split(" ")[0])
+
+
     
     const [lessonType,setLessonType]=useState(params.lessonType)
     const [time,setTime]=useState(params.time)
     const [orderBy,setOrderBy]=useState(params.orderBy || "Best reviews")
 
     const [searchParams, setSearchParams] = useSearchParams();
+
 
     const { t } = useTranslation("bookLesson");
     
@@ -362,12 +367,13 @@ const Menu= memo( ({resetInstructorName})=>{
                         icon={"/icons/lessonParams/pinIcon.png"}
                     />
 
-                    <CalendarContainer/>
+                    <CalendarContainer datesWithLessons={datesWithLessons} resetTime={()=>setTime("")} resetLessonType={()=>setLessonType("")}/>
 
                     <Dropdown namespace={"choseLessonParams"} selected={selectedActivity} setSelected={(value)=>{
                         if(value==selectedActivity){
                             return
                         }
+
                         setSelectedActivity(value)
                         setSearchParams((prev) => {
                             const params = new URLSearchParams(prev);
@@ -775,7 +781,7 @@ function Lesson({instructorLesson,setShowLessons}){
 }
 
 
-function CalendarContainer(){
+function CalendarContainer({datesWithLessons,resetTime,resetLessonType}){
     const params= useLoaderData().params 
 
     const [arrivalDay, arrivalMonth, arrivalYear] = params.from.split("-").map(Number);
@@ -829,6 +835,7 @@ function CalendarContainer(){
                 {isOpen &&
                  <Calendar
                     onclose={()=>setIsOpen(false)} 
+                    datesWithLessons={datesWithLessons}
                     arrivalDate={arrivalDate} 
                     setArrivalDate={setArrivalDate} 
                     departureDate={departureDate} 
@@ -836,12 +843,15 @@ function CalendarContainer(){
                     onOk={()=>{
                             setIsOpen(false)
                             if(arrivalDate&&departureDate){
-
+                                resetLessonType()
+                                resetTime()
                                 setSearchParams((prev) => {
                                     const params = new URLSearchParams(prev);
                                     params.set("from", formatDateForURL(arrivalDate));
                                     params.set("to", formatDateForURL(departureDate));
-                     
+                                    params.delete("lessonType");
+                                    params.delete("time");
+
                                     return params},{ replace: true,preventScrollReset:true  });
 
                             }

@@ -245,12 +245,42 @@ async function bookLesson(resort, sport, from, to, members,lessonType,time,order
             from TEACHING_OPTIONS teach natural join  INSTRUCTOR_INFO i
             where i."instructorName" ILIKE  ($6 || '%')) i
         group by i."typeOfLesson", i."instructorName",i."groupName",i."instructionID",i.experience, i.languages,i.description,i.image,i."instructorId",i."reviewScore",i."reviewCount"
-        order by ${orderByClause}
+        order by ${orderByClause} NULLS LAST
         LIMIT 4
         OFFSET (4 * ($7 - 1))`;
 
         client = await connect();
         const res = await client.query(sql, [resort, sport,from,to,members,instructorName,pageNumber]);
+        return res.rows
+    } catch (err) {
+        throw err;
+    } finally {
+        client.release(); 
+    }
+}
+
+async function getDatesWithLessons(resort, sport, members){
+    let client
+
+    const membersFinal= members!=""?Number(members):0
+
+    try {
+        const sql =`select distinct l."date"
+                    from (teaching natural join lesson l) left join (select * from reservation_lesson e where e.canceled=false) r  on l.lessonID=r.lessonID
+                    where l.canceled=false and resort LIKE ( $1 || '%') and sport LIKE ($2 || '%') 
+                    group by l.lessonID, l."date", lessonType, maxParticipants
+                    HAVING 
+                        CASE 
+                            WHEN lessonType = 'group' 
+                                THEN (maxParticipants - COALESCE(SUM(participantNumber), 0)) >= $3
+                            WHEN lessonType = 'private' 
+                                THEN ( SUM(participantNumber) IS NULL  and maxParticipants >= $3 )
+                            ELSE false
+                        END
+                    order by l."date" `;
+
+        client = await connect();
+        const res = await client.query(sql, [resort, sport, membersFinal]);
         return res.rows
     } catch (err) {
         throw err;
@@ -569,4 +599,4 @@ async function getInstructorReviews(instructorID){
 
 
 
-export {insertUser,checkEmailAlreadyUsed,authenticate,getProfileImage,getInstructorInfo,getUserEmail,bookLesson,showLessons,getLessonsMeetingPoints,getIndexReviews,getInstructorReviews,getBookLessonReviwes}
+export {insertUser,checkEmailAlreadyUsed,authenticate,getProfileImage,getInstructorInfo,getUserEmail,bookLesson,showLessons,getLessonsMeetingPoints,getIndexReviews,getInstructorReviews,getBookLessonReviwes,getDatesWithLessons}

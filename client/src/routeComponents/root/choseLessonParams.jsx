@@ -8,6 +8,7 @@ import { useState, useRef,useEffect } from "react";
 
 import useCloseOnOutsideClick from "./../../hooks/closeOnClickOutside.jsx"
 import Dropdown from "./../../reusableComponents/dropdown/dropdown.jsx"
+import { useFetchDatesWithLessons } from "../../hooks/fetchDatesWithLessons.jsx";
 
 import BlackBackGround from "../../reusableComponents/blackBackGround/blackBackGround.jsx";
 
@@ -84,8 +85,9 @@ function LessonParamsForm({selectedSport,onReservationClick}){
   const [selectedActivity,setSelectedActivity]=useState(selectedSport||'')
   const [selectedResort,setSelectedResort]=useState('')
 
-  const navigate = useNavigate(); // For programmatic navigation
+  const datesWithLessons= useFetchDatesWithLessons(selectedResort,selectedActivity,selectedNumberOfParticipants.split(" ")[0])
 
+  const navigate = useNavigate(); // For programmatic navigation
 
   const formatDate = (date) => {
     if (!date) return "";
@@ -120,15 +122,17 @@ function LessonParamsForm({selectedSport,onReservationClick}){
       return true
     }
   }
-
-
+  
+  
   return(
     <>
       <Form method="get" id="lessonParamsForm">
-          <Dropdown namespace={"choseLessonParams"} selected={selectedResort} setSelected={setSelectedResort} options={["Aniliou", "Vasilitsas", "Velouhiou", "Elatochoriou", "Kaimaktsalan", "Kalavryton", "Mainalou", "Parnassou", "Piliou", "Pisoderiou", "Falakrou", "3-5 Pigadia"]} text={"Resort"} icon={"/icons/lessonParams/pinIcon.png"}/>
-          <CalendarContainer namespace={"choseLessonParams"} arrivalDate={arrivalDate} setArrivalDate={setArrivalDate} departureDate={departureDate} setDepartureDate={setDepartureDate}/>
-          <Dropdown namespace={"choseLessonParams"} selected={selectedActivity} setSelected={setSelectedActivity} options={["Ski","Snowboard","Sit ski"]} text={"Sport"} icon={"/icons/lessonParams/ski.png"} selectedSport={selectedSport}/>
-          <Dropdown namespace={"choseLessonParams"} selected={selectedNumberOfParticipants} setSelected={setSelectedNumberOfParticipants} options={["1 member","2 members","3 members","4 members","5 members","6 members"]} text={"Participant number"} icon={"/icons/lessonParams/numberOfParticipants.png"}/>
+          <Dropdown namespace={"choseLessonParams"} selected={selectedResort} setSelected={(el)=>{setSelectedResort(el);setDepartureDate(null);setArrivalDate(null)}} options={["Aniliou", "Vasilitsas", "Velouhiou", "Elatochoriou", "Kaimaktsalan", "Kalavryton", "Mainalou", "Parnassou", "Piliou", "Pisoderiou", "Falakrou", "3-5 Pigadia"]} text={"Resort"} icon={"/icons/lessonParams/pinIcon.png"}/>
+          {/* <CalendarContainer datesWithLessons={datesWithLessons} namespace={"choseLessonParams"} arrivalDate={arrivalDate} setArrivalDate={setArrivalDate} departureDate={departureDate} setDepartureDate={setDepartureDate}/> */}
+          <Dropdown namespace={"choseLessonParams"} selected={selectedActivity} setSelected={(el)=>{setSelectedActivity(el);setDepartureDate(null);setArrivalDate(null)}} options={["Ski","Snowboard","Sit ski"]} text={"Sport"} icon={"/icons/lessonParams/ski.png"} selectedSport={selectedSport}/>
+          <Dropdown namespace={"choseLessonParams"} selected={selectedNumberOfParticipants} setSelected={(el)=>{setSelectedNumberOfParticipants(el);setDepartureDate(null);setArrivalDate(null)}} options={["1 member","2 members","3 members","4 members","5 members","6 members"]} text={"Participant number"} icon={"/icons/lessonParams/numberOfParticipants.png"}/>
+          <CalendarContainer datesWithLessons={datesWithLessons} namespace={"choseLessonParams"} arrivalDate={arrivalDate} setArrivalDate={setArrivalDate} departureDate={departureDate} setDepartureDate={setDepartureDate}/>
+
           <button type="submit" className={`finishLessonParams ${!checkAllFieldsSelected() ? 'disableSubmit' : ''}`} 
             onClick={(ev)=>{
                       ev.preventDefault()
@@ -147,7 +151,7 @@ function LessonParamsForm({selectedSport,onReservationClick}){
 }
 
 
-function CalendarContainer({arrivalDate,setArrivalDate,departureDate,setDepartureDate}){
+function CalendarContainer({arrivalDate,setArrivalDate,departureDate,setDepartureDate,datesWithLessons}){
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
 
@@ -173,7 +177,7 @@ function CalendarContainer({arrivalDate,setArrivalDate,departureDate,setDepartur
                     {(arrivalDate&&departureDate)?`${formatDate(arrivalDate)} - ${formatDate(departureDate)}`:t("Date")}
                 </button>
 
-                {isOpen && <Calendar onclose={()=>setIsOpen(false)} arrivalDate={arrivalDate} setArrivalDate={setArrivalDate} departureDate={departureDate} setDepartureDate={setDepartureDate} onOk={()=>setIsOpen(false)}/>}
+                {isOpen && <Calendar datesWithLessons={datesWithLessons} onclose={()=>setIsOpen(false)} arrivalDate={arrivalDate} setArrivalDate={setArrivalDate} departureDate={departureDate} setDepartureDate={setDepartureDate} onOk={()=>setIsOpen(false)}/>}
                 <input
                   type="hidden"
                   name="arrivalDate"
@@ -190,7 +194,7 @@ function CalendarContainer({arrivalDate,setArrivalDate,departureDate,setDepartur
 }
 
 
-export function Calendar({onclose,arrivalDate,setArrivalDate,departureDate,setDepartureDate,onOk}) {
+export function Calendar({onclose,arrivalDate,setArrivalDate,departureDate,setDepartureDate,onOk,datesWithLessons}) {
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const today = new Date();
     const {t} = useTranslation("choseLessonParams")
@@ -286,7 +290,7 @@ export function Calendar({onclose,arrivalDate,setArrivalDate,departureDate,setDe
           </div>
   
           <div className="calendar-grid-container">
-            <CalendarGrid currentMonth={currentMonth} days={daysCurrentMonth} position={'left'} onDateClick={handleDateClick} isSelected={isSelected}>
+            <CalendarGrid datesWithLessons={datesWithLessons} currentMonth={currentMonth} days={daysCurrentMonth} position={'left'} onDateClick={handleDateClick} isSelected={isSelected}>
               <button
                   onClick={prevMonth}
                   className="calendar-btn"
@@ -299,7 +303,7 @@ export function Calendar({onclose,arrivalDate,setArrivalDate,departureDate,setDe
                   ◀
               </button>
             </CalendarGrid>
-            <CalendarGrid currentMonth={new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1)} days={daysNextMonth} position={'right'}  onDateClick={handleDateClick} isSelected={isSelected}>
+            <CalendarGrid datesWithLessons={datesWithLessons} currentMonth={new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1)} days={daysNextMonth} position={'right'}  onDateClick={handleDateClick} isSelected={isSelected}>
               <button
                   onClick={nextMonth}
                   className="calendar-btn"
@@ -329,11 +333,26 @@ export function Calendar({onclose,arrivalDate,setArrivalDate,departureDate,setDe
   }
 
 
-function CalendarGrid({ currentMonth, days,children,position,onDateClick,isSelected }) {
+  function hasDateAvailableLessons(date, datesWithLessons) {
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // months are 0-indexed
+    const day = String(date.getDate()).padStart(2, '0');
+  
+    const formatted = `${year}/${month}/${day}`;
+    if(datesWithLessons.includes(formatted)){
+
+    }
+
+    return datesWithLessons.includes(formatted);
+  }
+
+
+function CalendarGrid({ currentMonth, days,children,position,onDateClick,isSelected,datesWithLessons }) {
     const today = new Date();
     const {t, i18n} = useTranslation("choseLessonParams")
-
     const currentLanguage = i18n.language;
+
 
     return (
       <div className="calendar-grid-wrapper">
@@ -370,14 +389,16 @@ function CalendarGrid({ currentMonth, days,children,position,onDateClick,isSelec
               day.getMonth() === today.getMonth() &&
               day.getDate() < today.getDate();
 
+            const hasAvailableLessons= hasDateAvailableLessons(day,datesWithLessons)
             return (
               <div
                 key={index}
-                onClick={(!isOutsideMonth&&!isBeforeToday)?()=>onDateClick(day):null}
+                onClick={(!isOutsideMonth&&!isBeforeToday && hasAvailableLessons)?()=>onDateClick(day):null}
                 className={`calendar-day 
                   ${isOutsideMonth ? "calendar-day-outside" : ""}
                   ${isBeforeToday ? "calendar-day-before" : ""}
                   ${isSelected(day) ? "calendar-day-selected" : ""} 
+                  ${(!hasAvailableLessons && !isBeforeToday && !isOutsideMonth) ? "calendar-day-before" : ""} 
                  `}
               >
                 <span>{day.getDate()}</span>

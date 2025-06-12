@@ -996,8 +996,32 @@ async function getInstructorInfo(req,res,next){
   }
 
 }
+
+async function getDatesWithLessons(req,res,next){
+  try{
+    const { resort, sport, members } = req.query;
+
+
+    // members is string
+
+    // console.log("!!! ",resort, sport, members,typeof resort, resort==="",members=="")
+
+    const datesWithLessonsTemp= await publicOptionsModel.getDatesWithLessons(resort, sport, members)
+
+    const datesWithLessons= datesWithLessonsTemp.map(obj=>obj.date)
+
+
+    // res.json({datesWithLessons:['2025/06/30','2025/06/25','2025/07/01']})
+    res.json({datesWithLessons:datesWithLessons})
+
+
+  }
+  catch(error){
+    next(error)
+  }
+}
   
 
  
 
-export {getHeaderParams,loginUser,logoutUser,signupUser, checkEmailIsUsedPoint,showLessons,bookLesson,getReviews,getInstructorInfo}
+export {getHeaderParams,loginUser,logoutUser,signupUser, checkEmailIsUsedPoint,showLessons,bookLesson,getReviews,getInstructorInfo,getDatesWithLessons}
