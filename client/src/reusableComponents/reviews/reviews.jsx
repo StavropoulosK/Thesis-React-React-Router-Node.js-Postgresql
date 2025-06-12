@@ -8,9 +8,6 @@ import { Await } from "react-router";
 
 import { useTranslation } from "react-i18next";
 
-// epanasxediasi
-
-// flags https://uxplanet.org/what-is-wrong-with-flag-icons-for-languages-according-to-ux-designers-ef7340423b82
 
 
 // references   
@@ -19,11 +16,6 @@ import { useTranslation } from "react-i18next";
 // server     9,10,  20, 21
 // db         19,22
 
-
-// ti menei
-// frontend    
-// server    
-// db         19,22
 
 // 0 react. oti exei gini render, an den alaksi den ksanaginetai render
 
