@@ -340,9 +340,6 @@ export function Calendar({onclose,arrivalDate,setArrivalDate,departureDate,setDe
     const day = String(date.getDate()).padStart(2, '0');
   
     const formatted = `${year}/${month}/${day}`;
-    if(datesWithLessons.includes(formatted)){
-
-    }
 
     return datesWithLessons.includes(formatted);
   }
