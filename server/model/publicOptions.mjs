@@ -113,7 +113,7 @@ async function getInstructorInfo(instructorId){
     let client
     try {
         const sql =`WITH REVIEWS_INSTRUCTOR AS(
-                        SELECT count(reviewStars) as starScore,instructorID, count(*) AS total_reviews
+                        SELECT sum(reviewStars) as starScore,instructorID, count(*) AS total_reviews
                         from review natural join review_lesson natural join lesson natural join teaching
                         where instructorID=$1
                         group by instructorID

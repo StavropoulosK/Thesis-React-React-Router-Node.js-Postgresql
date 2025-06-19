@@ -938,8 +938,9 @@ async function getInstructorInfo(req,res,next){
   const total_reviews=message.total_reviews
   const cancelationPolicy= message.cancelationpolicy
 
+
   if(total_reviews!=null && total_reviews!=0){
-    message.reviewStars= String(starScore/total_reviews)
+    message.reviewStars= (starScore / total_reviews).toFixed(1)
     message.reviewCount=total_reviews
   }
   else{

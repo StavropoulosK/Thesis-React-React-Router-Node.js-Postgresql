@@ -3,7 +3,9 @@ import path from 'path'
 import { fileURLToPath } from "url"
 import { dirname } from "path"
 import session from "express-session"
+import helmet from "helmet"
 import 'dotenv/config'
+
 
 
 
@@ -31,6 +33,27 @@ const publicPath= path.join (__dirname,'./public')
 
 
 const app=express()
+
+
+// In choselessonparams.jsx useeffect must be commented out during development (due to strict mode in react)
+
+
+//helmet increase header security https://blog.logrocket.com/using-helmet-node-js-secure-application/
+app.use(helmet())
+
+app.use(
+  helmet.contentSecurityPolicy({
+    useDefaults: true,
+    directives: {
+      // Allow fonts from self and Google Fonts
+      "font-src": ["'self'", "https://fonts.gstatic.com"],
+
+      // Allow styles from self and Google Fonts
+      "style-src": ["'self'", "https://fonts.googleapis.com"],
+    },
+  })
+);
+
 
 // app.use(express.static(publicPath))
 
@@ -91,8 +114,8 @@ if (staticFileRegex.test(req.url)) {
 
 
 
-
-
+// https://cybeready.com/helmet-content-security-policy/
+// https://blog.logrocket.com/using-helmet-node-js-secure-application/
 
 
 
