@@ -114,15 +114,6 @@ if (staticFileRegex.test(req.url)) {
 
 
 
-// https://cybeready.com/helmet-content-security-policy/
-// https://blog.logrocket.com/using-helmet-node-js-secure-application/
-
-
-
-
-
-
-
 
 
 
