@@ -435,6 +435,29 @@ async function getInstructorSchedule(instrcutorId,date){
     
 }
 
+async function getDatesWithLessons(instrcutorId){
+    let client
+    try{
+        client = await connect();
+
+        const sql=` select distinct lesson.date
+                    from teaching natural join lesson join reservation_lesson r on lesson.lessonID= r.lessonID
+                    where instructorID=$1 and TO_DATE(lesson.date, 'YYYY/MM/DD') >= CURRENT_DATE` 
+        
+        const result=await  client.query(sql, [instrcutorId])
+
+        return result.rows
+ 
+    } catch (err) {
+        throw err;
+    } finally {
+        client.release();
+
+    } 
+    
+}
+
+
 async function updateNote(instrcutorId,lessonID,note){
     let client
     try{
@@ -460,4 +483,4 @@ async function updateNote(instrcutorId,lessonID,note){
 }
 
 export {getInstructorProfileParams,updateInstructorInfo,saveImage,getMonthStatistics,getGeneralStatistics,createMeetingPoint,updateMeetingPoint,getMeetingPoints,deleteMeetingPoint,updateMeetingPointImage,getExistingTeachings,
-    createTeaching,profileParamsAreFilled,updateTeaching,cancelInstructorLessons,getInstructorSchedule,updateNote}
+    createTeaching,profileParamsAreFilled,updateTeaching,cancelInstructorLessons,getInstructorSchedule,updateNote,getDatesWithLessons}

@@ -261,13 +261,12 @@ async function bookLesson(resort, sport, from, to, members,lessonType,time,order
 
 async function getDatesWithLessons(resort, sport, members){
     let client
-
     const membersFinal= members!=""?Number(members):0
 
     try {
         const sql =`select distinct l."date"
                     from (teaching natural join lesson l) left join (select * from reservation_lesson e where e.canceled=false) r  on l.lessonID=r.lessonID
-                    where l.canceled=false and resort LIKE ( $1 || '%') and sport LIKE ($2 || '%') 
+                    where l.canceled=false and resort LIKE ( $1 || '%') and sport LIKE ($2 || '%') and TO_DATE(l."date", 'YYYY/MM/DD') >= CURRENT_DATE
                     group by l.lessonID, l."date", lessonType, maxParticipants
                     HAVING 
                         CASE 

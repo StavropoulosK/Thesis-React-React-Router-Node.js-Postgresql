@@ -22,7 +22,6 @@ const getFormattedDate=(givenDay)=>{
 
 export async function instructorScheduleLoader({request,params}){
     let data        
-
     const today = new Date();
 
 
@@ -54,6 +53,7 @@ export async function instructorScheduleLoader({request,params}){
         console.error('Error connecting to server', error);
         throw error;
     }
+    console.log("loader ",data)
 
     return data
 
@@ -115,15 +115,18 @@ export function InstructorSchedule(){
 
     const [showFull,setShowFull]=useState(false)
 
-    const { lessons } = fetcherLessons?.data?.lessons ? fetcherLessons.data : useLoaderData();
+    // const { lessons } = fetcherLessons?.data?.lessons ? fetcherLessons.data : useLoaderData();
 
+    const { lessons,datesWithLessons } = fetcherLessons?.data?.lessons ? fetcherLessons.data : useLoaderData();
+
+    console.log("!!!! ",lessons,datesWithLessons)
     return(
         <>
         
             <section className="instructorSchedule">
 
                 <h2>{t("schedule")}</h2>
-                <CalendarContainer selectedDate={selectedDate} setSelectedDate={(day)=>{setSelectedDate(day); fetcherLessons.load(`/instructorMenu/instructorSchedule?date=${encodeURIComponent(getFormattedDate(day))}`) }} />
+                <CalendarContainer selectedDate={selectedDate} setSelectedDate={(day)=>{setSelectedDate(day); fetcherLessons.load(`/instructorMenu/instructorSchedule?date=${encodeURIComponent(getFormattedDate(day))}`) }} datesWithLessons={datesWithLessons} showOnlySelectDates={true} />
 
                 <h4>{t("lessons")}</h4>
 
@@ -287,7 +290,7 @@ export function InstructorSchedule(){
     )
 }
 
-export function CalendarContainer({selectedDate,setSelectedDate}){
+export function CalendarContainer({selectedDate,setSelectedDate,datesWithLessons=[],showOnlySelectDates=false}){
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
 
@@ -313,18 +316,27 @@ export function CalendarContainer({selectedDate,setSelectedDate}){
                     {selectedDate?formatDate(selectedDate):t("selectDate")}
                 </button>
 
-                {isOpen && <CalendarGrid selectedDate={selectedDate} setSelectedDate={setSelectedDate}  onSelect={()=>setIsOpen(false)}/>}
+                {isOpen && <CalendarGrid selectedDate={selectedDate} setSelectedDate={setSelectedDate}  onSelect={()=>setIsOpen(false)} datesWithLessons={datesWithLessons} showOnlySelectDates={showOnlySelectDates}/>}
             </div>
         </>
     )
 }
 
 
+function hasDateAvailableLessons(date, datesWithLessons) {
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // months are 0-indexed
+  const day = String(date.getDate()).padStart(2, '0');
+
+  const formatted = `${year}/${month}/${day}`;
+
+  return datesWithLessons.includes(formatted);
+}
 
 
 
-
-function CalendarGrid({selectedDate,setSelectedDate,onSelect}) {
+function CalendarGrid({selectedDate,setSelectedDate,onSelect,datesWithLessons,showOnlySelectDates}) {
     const today = new Date();
     const { t, i18n } = useTranslation('choseLessonParams');
     const currentLanguage = i18n.language;
@@ -425,15 +437,23 @@ function CalendarGrid({selectedDate,setSelectedDate,onSelect}) {
               day.toDateString() === today.toDateString()
                 ? false
                 : day < today && !isOutsideMonth;
+
+            let hasAvailableLessons=true
+            if(showOnlySelectDates){
+              hasAvailableLessons= hasDateAvailableLessons(day,datesWithLessons)
+            }
+
   
             return (
               <div
                 key={index}
-                onClick={!isOutsideMonth && !isBeforeToday ? () => { onDateClick(day); onSelect()} : null}
+                onClick={!isOutsideMonth && !isBeforeToday && hasAvailableLessons ? () => { onDateClick(day); onSelect()} : null}
                 className={`calendar-day 
                   ${isOutsideMonth ? 'calendar-day-outside' : ''}
                   ${isBeforeToday ? 'calendar-day-before' : ''}
                   ${isSelected(day) ? 'calendar-day-selected' : ''}
+                  ${(!hasAvailableLessons && !isBeforeToday && !isOutsideMonth) ? "calendar-day-before" : ""} 
+
                 `}
               >
                 <span>{day.getDate()}</span>

@@ -475,7 +475,12 @@ async function getInstructorSchedule(req,res,next){
         const lessonsFinal = Array.from(lessonMap.values());
 
     // console.dir(lessonsFinal, { depth: null });
-    res.json({lessons:lessonsFinal})
+
+    const datesWithLessonsTemp= await instructorOptionsModel.getDatesWithLessons(instrcutorId)
+    const datesWithLessonsFinal= datesWithLessonsTemp.map(obj=>obj.date)
+
+    res.json({lessons:lessonsFinal,datesWithLessons:datesWithLessonsFinal})
+
     }
     catch(error){
         next(error)
