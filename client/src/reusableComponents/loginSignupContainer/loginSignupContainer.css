@@ -105,6 +105,14 @@ section.loginSignup .imageContainer img{
         margin-bottom: 2rem !important;
         font-size: 1.8rem !important;
     }
+
+
+}
+
+@media (max-width:790px) and (min-width:700px){
+    .loginSignup .formContainer > *{
+        bottom:-2rem;
+    }
 }
 
 
