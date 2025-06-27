@@ -150,7 +150,7 @@ export function Statistics(){
 
                 {!isLoading && <article className="chartContainer">
                     <Chart key={'1'+i18n.language} dataValues={[statsRef.profitPrivate,statsRef.profitGroup]} centerText={totalCost+"€"} labels={[t("revenue_private"),t("revenue_group")]} description={t("revenueText")+ displayDate} unit={"€"}/>
-                    <Chart key={'2'+i18n.language} dataValues={[statsRef.hoursGroup,statsRef.hoursPrivate]} centerText={totalHours+t("hour_unit")} labels={[t("group_hours"),t("private_hours")]} description={t("workText")+displayDate} unit={t("hour_unit")}/>
+                    <Chart key={'2'+i18n.language} dataValues={[statsRef.hoursPrivate,statsRef.hoursGroup]} centerText={totalHours+t("hour_unit")} labels={[t("private_hours"),t("group_hours")]} description={t("workText")+displayDate} unit={t("hour_unit")}/>
                     {totalReviews !=0 && <Chart key={'3'+i18n.language} dataValues={reviewDataValues} centerText={totalReviews} labels={reviewLabels} description={t("reviews")}/>}
 
                 </article>}
