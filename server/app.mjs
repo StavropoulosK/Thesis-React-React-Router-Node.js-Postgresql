@@ -75,7 +75,7 @@ app.use(session({
 }))
 
 
-app.listen(PORT,()=>{
+const server = app.listen(PORT,()=>{
   console.log(`server listening on http://localhost:${PORT}`)
 
 })
@@ -92,19 +92,38 @@ app.use(errorHandler)
 
 app.get('*',(req,res)=>{
 
-// xrisimopoioume client side routing. 
-const staticFileRegex = /\.(js|css|png|jpg|jpeg|gif|ico|json|woff|woff2|ttf|eot|svg)$/i;
-// console.log('asassas')
+  // xrisimopoioume client side routing. 
+  const staticFileRegex = /\.(js|css|png|jpg|jpeg|gif|ico|json|woff|woff2|ttf|eot|svg)$/i;
+  // console.log('asassas')
 
-if (staticFileRegex.test(req.url)) {
-  // console.log("### ",req.url)
-  res.status(404).send("File not found or invalid route!");
-  return
-}
+  if (staticFileRegex.test(req.url)) {
+    // console.log("### ",req.url)
+
+    res.status(404).send("File not found or invalid route!");
+    return
+  }
 
   res.sendFile('index.html',{root:distPath});
 
 })
+
+
+process.on('SIGTERM', () => {
+  console.info('SIGTERM signal received.');
+  console.log('Closing http server.');
+  server.close(() => {
+     console.log('Http server closed.');
+  });
+});
+
+//ctr c and fly io
+process.on('SIGINT', () => {
+  console.info('SIGINT signal received.');
+  console.log('Closing http server.');
+  server.close(() => {
+     console.log('Http server closed.');
+  });
+});
 
 
 

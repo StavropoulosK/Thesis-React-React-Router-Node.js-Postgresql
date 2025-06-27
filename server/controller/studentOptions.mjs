@@ -14,6 +14,7 @@ async function getStudentProfileParams(req,res,next){
 
      const studentId= req.session.userID
 
+
         if(!studentId){
             return res.status(401).end();
 
@@ -968,10 +969,13 @@ async function getUpComingStudentLessons(req,res,next){
 
     const studentId= req.session.userID
 
+
     if(!studentId){
         return res.status(401).end();
 
     }
+
+
     const lessons= groupStudentLessons (await studentOptionsModel.getUpComingStudentLessons(studentId))
 
 
@@ -1138,6 +1142,7 @@ async function getUpComingStudentLessons(req,res,next){
     res.json({upComingLessons:lessons,studentEmail:studentEmail})
   }
   catch(error){
+
     next(error)
   }
   

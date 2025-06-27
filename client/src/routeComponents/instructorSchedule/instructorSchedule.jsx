@@ -53,7 +53,6 @@ export async function instructorScheduleLoader({request,params}){
         console.error('Error connecting to server', error);
         throw error;
     }
-    console.log("loader ",data)
 
     return data
 
@@ -119,7 +118,6 @@ export function InstructorSchedule(){
 
     const { lessons,datesWithLessons } = fetcherLessons?.data?.lessons ? fetcherLessons.data : useLoaderData();
 
-    console.log("!!!! ",lessons,datesWithLessons)
     return(
         <>
         
