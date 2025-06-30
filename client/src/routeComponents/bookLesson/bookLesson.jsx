@@ -75,6 +75,7 @@ export async function bookLessonLoader({request,params}) {
 
 
     if(!resort || !sport || !from || !to || !members){
+        console.log("redirect")
         return redirect("/")
     }
 
@@ -106,8 +107,12 @@ export async function bookLessonLoader({request,params}) {
         const maxPages= lessons.maxPages
 
 
+
+
         if(maxPages!=0 && (pageNumber<1 || pageNumber>maxPages)){
             //redirect to page=1
+
+
             const url = new URL(request.url);
             const searchParams = url.searchParams;
 
@@ -119,6 +124,7 @@ export async function bookLessonLoader({request,params}) {
         }
 
         else if(maxPages==0 && pageNumber!=1  ){
+
             return redirect("/")
         }
 
@@ -247,6 +253,8 @@ function SearchInput({instructorName,setInstructorName}){
                 setTyping(false)
                 setSearchParams((prev) => {
                     const params = new URLSearchParams(prev);
+                    params.set("pageNumber", 1);
+
                     params.set("instructorName", instructorName);
                     return params},{ replace: true,preventScrollReset:true  });
 
@@ -307,7 +315,7 @@ function AllLessonContainer({setShowLessons}){
 
             </section>
 
-            { maxPages!=0 && <PageNavigation maxPages={maxPages} page={lessonPage} updateURL={(value)=>{
+            { maxPages!=0 && <PageNavigation key={lessonPage} maxPages={maxPages} page={lessonPage} updateURL={(value)=>{
                     setSearchParams((prev) => {
                         const params = new URLSearchParams(prev);
                         params.set("pageNumber", value);
@@ -358,6 +366,8 @@ const Menu= memo( ({resetInstructorName})=>{
                         setSelectedResort(value)
                         setSearchParams((prev) => {
                             const params = new URLSearchParams(prev);
+                            params.set("pageNumber", 1);
+
                             params.set("resort", value);
                             return params},{ replace: true,preventScrollReset:true  });
                          
@@ -377,6 +387,8 @@ const Menu= memo( ({resetInstructorName})=>{
                         setSelectedActivity(value)
                         setSearchParams((prev) => {
                             const params = new URLSearchParams(prev);
+                            params.set("pageNumber", 1);
+
                             params.set("sport", value);
                             return params},{ replace: true,preventScrollReset:true });
                          
@@ -393,6 +405,8 @@ const Menu= memo( ({resetInstructorName})=>{
                         setSelectedNumberOfParticipants(value)
                         setSearchParams((prev) => {
                             const params = new URLSearchParams(prev);
+                            params.set("pageNumber", 1);
+
                             params.set("members", value.split(" ")[0]);
                             return params},{ replace: true,preventScrollReset:true  });
                          
@@ -418,10 +432,14 @@ const Menu= memo( ({resetInstructorName})=>{
                                 const params = new URLSearchParams(prev);
                                 if (newValue === "") {
                                     // If the newValue is empty, remove the lessonType parameter
+                                    params.set("pageNumber", 1);
+
                                     params.delete("lessonType");
                                 }
                                 else {
                                     // Otherwise, update the lessonType parameter with the new value
+                                    params.set("pageNumber", 1);
+
                                     params.set("lessonType", newValue);
                                     }
                                 
@@ -446,10 +464,14 @@ const Menu= memo( ({resetInstructorName})=>{
                                 const params = new URLSearchParams(prev);
                                 if (newValue === "") {
                                     // If the newValue is empty, remove the lessonType parameter
+                                    params.set("pageNumber", 1);
+
                                     params.delete("lessonType");
                                 }
                                 else {
                                     // Otherwise, update the lessonType parameter with the new value
+                                    params.set("pageNumber", 1);
+
                                     params.set("lessonType", newValue);
                                     }
                                 
@@ -476,10 +498,14 @@ const Menu= memo( ({resetInstructorName})=>{
                                 const params = new URLSearchParams(prev);
                                 if (newValue === "") {
                                     // If the newValue is empty, remove the lessonType parameter
+                                    params.set("pageNumber", 1);
+
                                     params.delete("time");
                                 }
                                 else {
                                     // Otherwise, update the lessonType parameter with the new value
+                                    params.set("pageNumber", 1);
+
                                     params.set("time", newValue);
                                     }
                                 
@@ -503,10 +529,14 @@ const Menu= memo( ({resetInstructorName})=>{
                                 const params = new URLSearchParams(prev);
                                 if (newValue === "") {
                                     // If the newValue is empty, remove the lessonType parameter
+                                    params.set("pageNumber", 1);
+
                                     params.delete("time");
                                 }
                                 else {
                                     // Otherwise, update the lessonType parameter with the new value
+                                    params.set("pageNumber", 1);
+
                                     params.set("time", newValue);
                                     }
                                 
@@ -530,10 +560,14 @@ const Menu= memo( ({resetInstructorName})=>{
                                 const params = new URLSearchParams(prev);
                                 if (newValue === "") {
                                     // If the newValue is empty, remove the lessonType parameter
+                                    params.set("pageNumber", 1);
+
                                     params.delete("time");
                                 }
                                 else {
                                     // Otherwise, update the lessonType parameter with the new value
+                                    params.set("pageNumber", 1);
+
                                     params.set("time", newValue);
                                     }
                                 
@@ -564,6 +598,7 @@ const Menu= memo( ({resetInstructorName})=>{
                                 setSearchParams((prev) => {
                                     const params = new URLSearchParams(prev);
                                     params.set("orderBy", value);
+                                    params.set("pageNumber", 1);
 
                                     
 
@@ -619,6 +654,7 @@ function CancelBtn({setTime,setLessonType,resetInstructorName}){
                 setSearchParams((prev) => {
                     const params = new URLSearchParams(prev);
                     params.delete("time");
+                    params.set("pageNumber", 1);
                     params.delete("lessonType");
                     params.delete("instructorName")
                     return params;
@@ -849,6 +885,8 @@ function CalendarContainer({datesWithLessons,resetTime,resetLessonType}){
                                     const params = new URLSearchParams(prev);
                                     params.set("from", formatDateForURL(arrivalDate));
                                     params.set("to", formatDateForURL(departureDate));
+                                    params.set("pageNumber", 1);
+
                                     params.delete("lessonType");
                                     params.delete("time");
 
@@ -863,3 +901,6 @@ function CalendarContainer({datesWithLessons,resetTime,resetLessonType}){
         </>
     )
 }
+
+
+// 120
