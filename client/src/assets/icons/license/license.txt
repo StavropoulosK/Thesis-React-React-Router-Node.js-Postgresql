@@ -1,0 +1,3 @@
+Almost all icons are from iconify.
+
+Most icons use Apache 2.0 license or mit license.
